@@ -12,7 +12,7 @@ Created on Mon July 02 11:51:54 2018
     - Feature Type
 """
 
-from generalizingmaps import inverses
+from analyser import inverses
 
 INTERMEDIATE_RESULT_DICT = {}
 
@@ -197,11 +197,11 @@ def getCorrrctRelation_rcc8(sm_qcns, mm_qcns):
                         )
                         or
                          (
-                                obj2_sm == obj1_mm and
-                                obj1_sm == obj2_mm and
-                                featTyp_obj2_sm == featTyp_obj1_mm and
-                                featTyp_obj1_sm == featTyp_obj2_mm and
-                                inverses.get_rcc8_inv_rel(rel_sm) == rel_mm
+                                 obj2_sm == obj1_mm and
+                                 obj1_sm == obj2_mm and
+                                 featTyp_obj2_sm == featTyp_obj1_mm and
+                                 featTyp_obj1_sm == featTyp_obj2_mm and
+                                 inverses.get_rcc8_inv_rel(rel_sm) == rel_mm
                          )
                 ):
                     matchedRelations += 1

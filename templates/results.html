@@ -1,0 +1,167 @@
+<div id="summary_result_div" class="w3-card-4 w3-round" style="visibility: hidden ; position:absolute ; z-index:10000000">
+    <header class="w3-panel w3-round w3-teal" style="position: relative; padding: 0px;margin: 0px">
+        <h6 style="padding-top:5px;margin-left: 3px "><span><b> Result Summary</b></span>
+            <button id="close_bnt" aria-label="Close Account Info Modal Box" style="float: right"
+                    onclick="document.getElementById('summary_result_div').style.display='none'">&times;
+            </button>
+        </h6>
+    </header>
+    <div id = "allresults" style="position:relative" >
+            <div id="summaryResult" style="width: inherit;padding: 5px">
+                 <table class="table table-condensed text-center" style="font-size: 12px;font-family: Verdana">
+            <tr>
+                <td>
+                    <div><b>Completeness:</b></div>
+                </td>
+                <td id ="overAllCompleteness"><span>(%)</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            </tr>
+            <tr>
+                <td>
+                    <div><b>Correctness:</b>&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                </td>
+                <td>
+                    <div style="text-align: right">
+
+                        <span><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Precision:</b> <span id ="precision"></span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        <span><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Recall:</b> <span id ="recall"></span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        <span><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;F-Score:</b> <span id = "f_score"></span></span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div style="text-align: center;padding: 5px">
+            <a class="btn btn-outline-info btn-file btn-sm" data-toggle="collapse" data-target="#detailResult"
+               href=""><span
+                    class="fa fa-angle-double-down"></span></a>
+        </div>
+    </div>
+        <div id="detailResult" style="position:relative" class="collapse">
+
+            <div style="padding: 2px;text-align: right">
+                <a id="downloadResults" type="button" class="btn btn-outline-info btn-file btn-sm"
+                   onclick="downloadResults()">Download Results
+                </a>
+                <a id="exportAsCSV" type="button" class="btn btn-outline-info btn-file btn-sm" onclick="exportAsCSV()">
+                    Export CSV Results
+                </a>
+            </div>
+            <table id = "results_div" class="table table-condensed text-center" style="font-size: 11px;font-family: Verdana">
+                <thead>
+                <tr>
+                    <th><b>Completeness of Sketch Map:</b></th>
+                    <th></th>
+                    <th></th>
+                    <th ><b>ID:</b> <span id = "sketchMapID"></span></th>
+                </tr>
+                <tr class="success">
+                    <th>Spatial Features</th>
+                    <th>Features in Base map</th>
+                    <th>Drawn Features</th>
+                    <th>Completeness (%)</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Street segments</td>
+                    <td id ="toal_mm_streets"></td>
+                    <td id ="totalSketchedStreets"></td>
+                    <td id = "streetCompleteness"></td>
+                </tr>
+                <tr>
+                    <td>Landmarks</td>
+                    <td id = "total_mm_landmarks"></td>
+                    <td id = "totalSketchedLandmarks"></td>
+                    <td id = "landmarkCompleteness"></td>
+                </tr>
+                <tr>
+                    <td>Regions</td>
+                    <td id = "total_mm_cityblocks"></td>
+                    <td id = "totalSketchedCityblocks"></td>
+                    <td id = "cityblockCompleteness"></td>
+                </tr>
+
+                <tr>
+                    <td><b>Overall Completeness:</b></td>
+                    <td></td>
+                    <td></td>
+                    <td id = "overAllCompleteness1"><b></b></td>
+
+                </tr>
+                </tbody>
+            </table>
+            <div id ="correctness">
+            <table  class="table table-condensed text-center" style="font-size: 11px;font-family: Verdana">
+                <tr class="success">
+                    <td colspan="7" align="left"><b>Correctness of sketch map: </b></td>
+                </tr>
+                <tr>
+                    <th>Considered Qulitative Spatial Aspects</th>
+                    <th>Relations in Base Map</th>
+                    <th>Relation in Sketch Map</th>
+                    <th>Correct Relations</th>
+                    <th>Wrong Relations</th>
+                    <th>Missing Relations</th>
+                    <th>Accuracy Rate (%)</th>
+                </tr>
+
+                <tr>
+                    <td align="left">Topological Relations between Landmarks and Regions</td>
+                    <td id ="totalRCC11Relations_mm"></td>
+                    <td id = "totalRCC11Relations"></td>
+                    <td id = "correctRCC11Relations"></td>
+                    <td id = "wrongMatchedRCC11rels"></td>
+                    <td id = "missingRCC11rels"></td>
+                    <td id = "correctnessAccuracy_rcc11"></td>
+                </tr>
+                <tr>
+                    <td align="left">Linear Ordering of Landmarks along Street-segments</td>
+                    <td id = "total_lO_rels_mm"></td>
+                    <td id ="total_LO_rels_sm"></td>
+                    <td id = "matched_LO_rels"></td>
+                    <td id = "wrong_matched_LO_rels"></td>
+                    <td id = "missing_LO_rels"></td>
+                    <td id = "correctnessAccuracy_LO"></td>
+                </tr>
+                <tr>
+                    <td align="left">Left-Right Relations of Landmarks wrt. Street-segments</td>
+                    <td id = "total_LR_rels_mm"></td>
+                    <td id = "total_LR_rels_sm"></td>
+                    <td id = "matched_LR_rels"></td>
+                    <td id = "wrong_matched_LR_rels"></td>
+                    <td id = "missing_LR_rels"></td>
+                    <td id="correctnessAccuracy_LR"></td>
+                </tr>
+                <tr>
+                    <td align="left">Topological Relations between Street-segments and Regions/Landmarks</td>
+                    <td id = "total_DE9IM_rels_mm"></td>
+                    <td id = "total_DE9IM_rels_sm"></td>
+                    <td id = "matched_DE9IM_rels"></td>
+                    <td id = "wrong_matched_DE9IM_rels"></td>
+                    <td id = "missing_DE9IM_rels"></td>
+                    <td id = "correctnessAccuracy_DE9IM"></td>
+                </tr>
+                <tr>
+                    <td align="left">Connectivity of Street-segments</td>
+                    <td id = "total_streetTop_rels_mm"></td>
+                    <td id ="total_streetTop_rels_sm"></td>
+                    <td id = "matched_streetTop_rels"></td>
+                    <td id = "wrong_matched_streetTop_rels"></td>
+                    <td id = "missing_streetTop_rels"></td>
+                    <td id = "correctnessAccuracy_streetTop"></td>
+                </tr>
+                <tr>
+                    <td align="left">Relative Orientation of Connected Street-segments</td>
+                    <td id = "total_opra_rels_mm"></td>
+                    <td id = "total_opra_rels_sm"></td>
+                    <td id = "matched_opra_rels"></td>
+                    <td id = "wrong_matched_opra_rels"></td>
+                    <td id = "missing_opra_rels"></td>
+                    <td id = "correctnessAccuracy_opra"></td>
+                </tr>
+            </table>
+            </div>
+
+    </div>
+   </div>
+</div>
+

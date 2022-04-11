@@ -31,6 +31,7 @@ def get_cityblockCompleteness(totalSketchedCityblocks,total_mm_cityblocks):
 
 # get overall accuracy
 def get_overall_completness(landmarkCompleteness,streetCompleteness,cityblockCompleteness):
+    overAllCompleteness = 0.00
     if(landmarkCompleteness == 0 and streetCompleteness == 0 and cityblockCompleteness == 0):
         overAllCompleteness = 0.00
     elif(landmarkCompleteness !=0 and streetCompleteness !=0 and cityblockCompleteness == 0 ):

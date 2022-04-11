@@ -396,7 +396,7 @@ function drawRotated(img,degree) {
             self.AttachmentArray[idx].Orientation = orientation;
 
             handle(++i);
-            console.log("isojfi");
+
 
             $('#imgupload').hide();
           };

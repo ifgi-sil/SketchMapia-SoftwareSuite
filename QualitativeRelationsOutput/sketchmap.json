@@ -1,0 +1,175 @@
+{
+    "properties": {
+        "map_type": "sketch_map"
+    },
+    "constraint_collection": [
+        {
+            "constraints": [
+                {
+                    "obj 1": 3,
+                    "obj 2": 4,
+                    "relation": "dc"
+                }
+            ],
+            "relation_set": "RCC8",
+            "arity": 2
+        },
+        {
+            "constraints": [
+                {
+                    "obj 1": 0,
+                    "obj 2": 3,
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": 0,
+                    "obj 2": 4,
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": 1,
+                    "obj 2": 3,
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": 1,
+                    "obj 2": 4,
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": 2,
+                    "obj 2": 3,
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": 2,
+                    "obj 2": 4,
+                    "relation": "disjoint"
+                }
+            ],
+            "relation_set": "DE9IM",
+            "arity": 2
+        },
+        {
+            "constraints": [
+                {
+                    "obj 1": 0,
+                    "obj 2": 3,
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": 0,
+                    "obj 2": 4,
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": 1,
+                    "obj 2": 3,
+                    "relation": "left"
+                },
+                {
+                    "obj 1": 1,
+                    "obj 2": 4,
+                    "relation": "left"
+                },
+                {
+                    "obj 1": 2,
+                    "obj 2": 3,
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": 2,
+                    "obj 2": 4,
+                    "relation": "nonAdjacent"
+                }
+            ],
+            "relation_set": "leftRight",
+            "arity": 2
+        },
+        {
+            "constraints": [
+                {
+                    "obj 1": 0,
+                    "obj 2": 1,
+                    "relation": "right_of"
+                },
+                {
+                    "obj 1": 0,
+                    "obj 2": 2,
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": 1,
+                    "obj 2": 2,
+                    "relation": "left_of"
+                }
+            ],
+            "relation_set": "opra",
+            "arity": 2
+        },
+        {
+            "constraints": [
+                {
+                    "obj 1": 0,
+                    "obj 2": 1,
+                    "relation": "connected"
+                },
+                {
+                    "obj 1": 0,
+                    "obj 2": 2,
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": 1,
+                    "obj 2": 2,
+                    "relation": "connected"
+                }
+            ],
+            "relation_set": "streetTopology",
+            "arity": 2
+        },
+        {
+            "constraints": [
+                {
+                    "obj 1": 3,
+                    "obj 2": 4,
+                    "relation": "before"
+                }
+            ],
+            "relation_set": "linearOrdering",
+            "arity": 2
+        }
+    ],
+    "features": [
+        {
+            "id": 0,
+            "isRoute": "Yes",
+            "feat_type": null,
+            "geometry_type": "LineString"
+        },
+        {
+            "id": 1,
+            "isRoute": "Yes",
+            "feat_type": null,
+            "geometry_type": "LineString"
+        },
+        {
+            "id": 2,
+            "isRoute": "Yes",
+            "feat_type": null,
+            "geometry_type": "LineString"
+        },
+        {
+            "id": 3,
+            "isRoute": "Yes",
+            "feat_type": "Landmark",
+            "geometry_type": "Polygon"
+        },
+        {
+            "id": 4,
+            "isRoute": "Yes",
+            "feat_type": "Landmark",
+            "geometry_type": "Polygon"
+        }
+    ]
+}
