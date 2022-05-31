@@ -510,6 +510,11 @@ drawnItems.eachLayer(function(blayer){
 
     $('#saveSM').click(function(){
         sketchMap.pm.removeControls();
+        drawnItems.eachLayer(function(blayer){
+        if (!blayer.aligned ){
+          blayer.feature.properties.missing = true;
+        }
+        });
         allDrawnSketchItems[sketchMaptitle]=drawnSketchItems;
         allDrawnSketchItems["basemap"] = drawnItems;
         drawnSketchItems.setStyle({opacity:1});

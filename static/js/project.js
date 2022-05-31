@@ -86,7 +86,7 @@ httpRequest.setRequestHeader("content-Type","application/x-www-form-urlencoded")
                 if (httpRequest.readyState == 4 && httpRequest.status == 200)
                 {
 
-
+                var randomnum = 110111;
                 var wholeMapProc = JSON.parse(httpRequest.response);
                 var sketchMapProc=[];
                 var baseMapProc=[];
@@ -95,8 +95,15 @@ httpRequest.setRequestHeader("content-Type","application/x-www-form-urlencoded")
                     sketchMapProc.push(item);
                  }
                  else{
+
+                  if (item.properties.missing){
+                  item.properties.id = randomnum;
+                  }
+                   if (item.properties.SketchAlign){
                     item.properties.id = Object.values(JSON.parse(item.properties.SketchAlign))[0][0].replace(/\D/g,'');
-                    baseMapProc.push(item);
+                 }
+                  baseMapProc.push(item);
+                  randomnum = randomnum + 1;
                  }
                  });
 

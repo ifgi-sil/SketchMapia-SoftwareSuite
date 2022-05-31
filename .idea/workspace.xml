@@ -3,9 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="ddc94cae-33dc-48ab-ba60-fb9a8106a848" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/QualitativeRelationsOutput/basemap.json" beforeDir="false" afterPath="$PROJECT_DIR$/QualitativeRelationsOutput/basemap.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/QualitativeRelationsOutput/sketchmap.json" beforeDir="false" afterPath="$PROJECT_DIR$/QualitativeRelationsOutput/sketchmap.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/js/project.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/project.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/js/sketchmapeditor.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/sketchmapeditor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/generalizingmaps.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/generalizingmaps.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,8 +18,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/js/sketchmapeditor.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="103">
-              <caret line="365" column="67" selection-start-line="365" selection-start-column="49" selection-end-line="365" selection-end-column="67" />
+            <state relative-caret-position="171">
+              <caret line="514" column="51" selection-start-line="514" selection-start-column="51" selection-end-line="514" selection-end-column="51" />
             </state>
           </provider>
         </entry>
@@ -27,8 +27,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/static/js/project.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="103">
-              <caret line="108" column="29" selection-start-line="108" selection-start-column="16" selection-end-line="108" selection-end-column="29" />
+            <state relative-caret-position="222">
+              <caret line="105" column="44" selection-start-line="105" selection-start-column="44" selection-end-line="105" selection-end-column="44" />
             </state>
           </provider>
         </entry>
@@ -142,10 +142,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>style</find>
-      <find>console</find>
-      <find>kj</find>
-      <find>layergro</find>
       <find>geoJSON</find>
       <find>new</find>
       <find>map</find>
@@ -165,13 +161,17 @@
       <find>routeArray</find>
       <find>zip</find>
       <find>no gene</find>
-      <find>align</find>
       <find>id</find>
       <find>analyzeIn</find>
       <find>ana</find>
       <find>repla</find>
       <find>GenBaseMap</find>
       <find>ProcSketchMap</find>
+      <find>align</find>
+      <find>base</find>
+      <find>drawnItems</find>
+      <find>drawnIte</find>
+      <find>save</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -224,8 +224,8 @@
         <option value="$PROJECT_DIR$/analyser/completeness.py" />
         <option value="$PROJECT_DIR$/templates/results.html" />
         <option value="$PROJECT_DIR$/static/js/js-utils.js" />
-        <option value="$PROJECT_DIR$/static/js/sketchmapeditor.js" />
         <option value="$PROJECT_DIR$/templates/generalizingmaps.html" />
+        <option value="$PROJECT_DIR$/static/js/sketchmapeditor.js" />
         <option value="$PROJECT_DIR$/static/js/project.js" />
       </list>
     </option>
@@ -746,15 +746,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/static/js/sketchmapeditor.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="103">
-          <caret line="365" column="67" selection-start-line="365" selection-start-column="49" selection-end-line="365" selection-end-column="67" />
+        <state relative-caret-position="171">
+          <caret line="514" column="51" selection-start-line="514" selection-start-column="51" selection-end-line="514" selection-end-column="51" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/static/js/project.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="103">
-          <caret line="108" column="29" selection-start-line="108" selection-start-column="16" selection-end-line="108" selection-end-column="29" />
+        <state relative-caret-position="222">
+          <caret line="105" column="44" selection-start-line="105" selection-start-column="44" selection-end-line="105" selection-end-column="44" />
         </state>
       </provider>
     </entry>

@@ -4,20 +4,81 @@
     },
     "constraint_collection": [
         {
-            "constraints": [],
+            "constraints": [
+                {
+                    "obj 1": "7",
+                    "obj 2": "5",
+                    "relation": "dc"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "8",
+                    "relation": "dc"
+                },
+                {
+                    "obj 1": "5",
+                    "obj 2": "8",
+                    "relation": "dc"
+                }
+            ],
             "relation_set": "RCC8",
             "arity": 2
         },
         {
             "constraints": [
                 {
+                    "obj 1": "7",
+                    "obj 2": "1",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "4",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "6",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "0",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "2",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "3",
+                    "relation": "disjoint"
+                },
+                {
                     "obj 1": "1",
                     "obj 2": "5",
                     "relation": "disjoint"
                 },
                 {
+                    "obj 1": "1",
+                    "obj 2": "8",
+                    "relation": "disjoint"
+                },
+                {
                     "obj 1": "4",
                     "obj 2": "5",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "4",
+                    "obj 2": "8",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "5",
+                    "obj 2": "6",
                     "relation": "disjoint"
                 },
                 {
@@ -34,6 +95,26 @@
                     "obj 1": "5",
                     "obj 2": "3",
                     "relation": "disjoint"
+                },
+                {
+                    "obj 1": "6",
+                    "obj 2": "8",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "0",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "2",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "3",
+                    "relation": "disjoint"
                 }
             ],
             "relation_set": "DE9IM",
@@ -43,8 +124,23 @@
             "constraints": [
                 {
                     "obj 1": "0",
+                    "obj 2": "7",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "0",
                     "obj 2": "5",
-                    "relation": "left"
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "0",
+                    "obj 2": "8",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "2",
+                    "obj 2": "7",
+                    "relation": "right"
                 },
                 {
                     "obj 1": "2",
@@ -52,8 +148,23 @@
                     "relation": "left"
                 },
                 {
+                    "obj 1": "2",
+                    "obj 2": "8",
+                    "relation": "right"
+                },
+                {
+                    "obj 1": "3",
+                    "obj 2": "7",
+                    "relation": "nonAdjacent"
+                },
+                {
                     "obj 1": "3",
                     "obj 2": "5",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "3",
+                    "obj 2": "8",
                     "relation": "nonAdjacent"
                 }
             ],
@@ -69,33 +180,58 @@
                 },
                 {
                     "obj 1": "1",
-                    "obj 2": "0",
-                    "relation": "right_of"
-                },
-                {
-                    "obj 1": "1",
-                    "obj 2": "2",
-                    "relation": "right_of"
-                },
-                {
-                    "obj 1": "1",
-                    "obj 2": "3",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "4",
-                    "obj 2": "0",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "4",
-                    "obj 2": "2",
+                    "obj 2": "6",
                     "relation": "front_of"
                 },
                 {
+                    "obj 1": "1",
+                    "obj 2": "0",
+                    "relation": "right_of"
+                },
+                {
+                    "obj 1": "1",
+                    "obj 2": "2",
+                    "relation": "right_of"
+                },
+                {
+                    "obj 1": "1",
+                    "obj 2": "3",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "4",
+                    "obj 2": "6",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "4",
+                    "obj 2": "0",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "4",
+                    "obj 2": "2",
+                    "relation": "right_of"
+                },
+                {
                     "obj 1": "4",
                     "obj 2": "3",
-                    "relation": "left_of"
+                    "relation": "right_of"
+                },
+                {
+                    "obj 1": "6",
+                    "obj 2": "0",
+                    "relation": "right_of"
+                },
+                {
+                    "obj 1": "6",
+                    "obj 2": "2",
+                    "relation": "right_of"
+                },
+                {
+                    "obj 1": "6",
+                    "obj 2": "3",
+                    "relation": "nonAdjacent"
                 },
                 {
                     "obj 1": "0",
@@ -110,7 +246,7 @@
                 {
                     "obj 1": "2",
                     "obj 2": "3",
-                    "relation": "left_of"
+                    "relation": "front_of"
                 }
             ],
             "relation_set": "opra",
@@ -125,6 +261,11 @@
                 },
                 {
                     "obj 1": "1",
+                    "obj 2": "6",
+                    "relation": "connected"
+                },
+                {
+                    "obj 1": "1",
                     "obj 2": "0",
                     "relation": "connected"
                 },
@@ -136,6 +277,11 @@
                 {
                     "obj 1": "1",
                     "obj 2": "3",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "4",
+                    "obj 2": "6",
                     "relation": "disconnected"
                 },
                 {
@@ -152,6 +298,21 @@
                     "obj 1": "4",
                     "obj 2": "3",
                     "relation": "connected"
+                },
+                {
+                    "obj 1": "6",
+                    "obj 2": "0",
+                    "relation": "connected"
+                },
+                {
+                    "obj 1": "6",
+                    "obj 2": "2",
+                    "relation": "connected"
+                },
+                {
+                    "obj 1": "6",
+                    "obj 2": "3",
+                    "relation": "disconnected"
                 },
                 {
                     "obj 1": "0",
@@ -173,69 +334,115 @@
             "arity": 2
         },
         {
-            "constraints": [],
+            "constraints": [
+                {
+                    "obj 1": "7",
+                    "obj 2": "5",
+                    "relation": "overlaps"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "8",
+                    "relation": "before"
+                },
+                {
+                    "obj 1": "5",
+                    "obj 2": "8",
+                    "relation": "overlaps"
+                }
+            ],
             "relation_set": "linearOrdering",
             "arity": 2
         }
     ],
     "features": [
         {
-            "json": "{\"type\":\"Feature\",\"properties\":{\"id\":1,\"isRoute\":null,\"mapType\":\"Sketch\",\"feat_type\":null},\"geometry\":{\"type\":\"LineString\",\"coordinates\":[[364,250.605194],[458,282.611354]]}}",
-            "properties": "{\"id\":1,\"isRoute\":null,\"mapType\":\"Sketch\",\"feat_type\":null}",
-            "id": "1",
+            "properties": "{\"id\":7,\"isRoute\":null,\"mapType\":\"Sketch\",\"feat_type\":null}",
+            "id": "7",
             "isRoute": null,
             "feat_type": null,
-            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[364,250.605194],[458,282.611354]]}",
-            "mapType": "Sketch",
-            "geometry_type": "LineString"
-        },
-        {
-            "json": "{\"type\":\"Feature\",\"properties\":{\"id\":4,\"isRoute\":null,\"mapType\":\"Sketch\",\"feat_type\":null},\"geometry\":{\"type\":\"LineString\",\"coordinates\":[[484,114.579013],[496,26.562073]]}}",
-            "properties": "{\"id\":4,\"isRoute\":null,\"mapType\":\"Sketch\",\"feat_type\":null}",
-            "id": "4",
-            "isRoute": null,
-            "feat_type": null,
-            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[484,114.579013],[496,26.562073]]}",
-            "mapType": "Sketch",
-            "geometry_type": "LineString"
-        },
-        {
-            "json": "{\"type\":\"Feature\",\"properties\":{\"id\":5,\"isRoute\":null,\"mapType\":\"Sketch\",\"feat_type\":\"Landmark\"},\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[[[540,301.615012],[484,276.610199],[507,155.586906],[579,166.589024],[540,301.615012]]]}}",
-            "properties": "{\"id\":5,\"isRoute\":null,\"mapType\":\"Sketch\",\"feat_type\":\"Landmark\"}",
-            "id": "5",
-            "isRoute": null,
-            "feat_type": "Landmark",
-            "_geometry": "{\"type\":\"Polygon\",\"coordinates\":[[[540,301.615012],[484,276.610199],[507,155.586906],[579,166.589024],[540,301.615012]]]}",
+            "_direction": null,
+            "_geometry": "{\"type\":\"Point\",\"coordinates\":[341,337.621942]}",
             "mapType": "Sketch",
             "geometry_type": "Polygon"
         },
         {
-            "json": "{\"type\":\"Feature\",\"properties\":{\"id\":0,\"isRoute\":\"Yes\",\"mapType\":\"Sketch\",\"feat_type\":null},\"geometry\":{\"type\":\"LineString\",\"coordinates\":[[433,392.63253],[458,282.611354]]}}",
+            "properties": "{\"id\":1,\"isRoute\":null,\"mapType\":\"Sketch\",\"feat_type\":null}",
+            "id": "1",
+            "isRoute": null,
+            "feat_type": null,
+            "_direction": null,
+            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[206,417.637343],[407,397.633493]]}",
+            "mapType": "Sketch",
+            "geometry_type": "LineString"
+        },
+        {
+            "properties": "{\"id\":4,\"isRoute\":null,\"mapType\":\"Sketch\",\"feat_type\":null}",
+            "id": "4",
+            "isRoute": null,
+            "feat_type": null,
+            "_direction": null,
+            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[408,87.573816],[586,91.574586]]}",
+            "mapType": "Sketch",
+            "geometry_type": "LineString"
+        },
+        {
+            "properties": "{\"id\":5,\"isRoute\":null,\"mapType\":\"Sketch\",\"feat_type\":\"Landmark\"}",
+            "id": "5",
+            "isRoute": null,
+            "feat_type": "Landmark",
+            "_direction": null,
+            "_geometry": "{\"type\":\"Polygon\",\"coordinates\":[[[481,358.625985],[433,318.618285],[449,270.609044],[486,241.603462],[481,358.625985]]]}",
+            "mapType": "Sketch",
+            "geometry_type": "Polygon"
+        },
+        {
+            "properties": "{\"id\":6,\"isRoute\":null,\"mapType\":\"Sketch\",\"feat_type\":null}",
+            "id": "6",
+            "isRoute": null,
+            "feat_type": null,
+            "_direction": null,
+            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[407,397.633493],[571,391.632338]]}",
+            "mapType": "Sketch",
+            "geometry_type": "LineString"
+        },
+        {
+            "properties": "{\"id\":8,\"isRoute\":null,\"mapType\":\"Sketch\",\"feat_type\":\"Landmark\"}",
+            "id": "8",
+            "isRoute": null,
+            "feat_type": "Landmark",
+            "_direction": null,
+            "_geometry": "{\"type\":\"Polygon\",\"coordinates\":[[[356,247.604617],[269,237.602692],[269,178.591334],[339,185.592681],[356,247.604617]]]}",
+            "mapType": "Sketch",
+            "geometry_type": "Polygon"
+        },
+        {
             "properties": "{\"id\":0,\"isRoute\":\"Yes\",\"mapType\":\"Sketch\",\"feat_type\":null}",
             "id": "0",
             "isRoute": "Yes",
             "feat_type": null,
-            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[433,392.63253],[458,282.611354]]}",
+            "_direction": "same",
+            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[409,534.659866],[407,397.633493]]}",
             "mapType": "Sketch",
             "geometry_type": "LineString"
         },
         {
-            "json": "{\"type\":\"Feature\",\"properties\":{\"id\":2,\"isRoute\":\"Yes\",\"mapType\":\"Sketch\",\"feat_type\":null},\"geometry\":{\"type\":\"LineString\",\"coordinates\":[[458,282.611354],[484,114.579013]]}}",
             "properties": "{\"id\":2,\"isRoute\":\"Yes\",\"mapType\":\"Sketch\",\"feat_type\":null}",
             "id": "2",
             "isRoute": "Yes",
             "feat_type": null,
-            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[458,282.611354],[484,114.579013]]}",
+            "_direction": "same",
+            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[407,397.633493],[408,87.573816]]}",
             "mapType": "Sketch",
             "geometry_type": "LineString"
         },
         {
-            "json": "{\"type\":\"Feature\",\"properties\":{\"id\":3,\"isRoute\":\"Yes\",\"mapType\":\"Sketch\",\"feat_type\":null},\"geometry\":{\"type\":\"LineString\",\"coordinates\":[[484,114.579013],[568,130.582093]]}}",
             "properties": "{\"id\":3,\"isRoute\":\"Yes\",\"mapType\":\"Sketch\",\"feat_type\":null}",
             "id": "3",
             "isRoute": "Yes",
             "feat_type": null,
-            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[484,114.579013],[568,130.582093]]}",
+            "_direction": "same",
+            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[408,87.573816],[408,47.566115]]}",
             "mapType": "Sketch",
             "geometry_type": "LineString"
         }
