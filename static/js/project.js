@@ -1,16 +1,6 @@
 function uploadProject(){
-console.log("upload");
-
-
+    console.log("upload");
 }
-
-
-
-
-
-
-
-
 
 
 function downloadProject(){
@@ -74,14 +64,17 @@ function qualify_SM(callback) {
 
 
 function generalizeMap(baseMap,sketchMap){
-
-var url = "http://desktop-f25rpfv:8080/fmedatastreaming/GeneralizationPredict/junctiondetect.fmw?data=" + encodeURIComponent(JSON.stringify(JSON.stringify(datatobesent.toGeoJSON())));
+console.log(routeArray);
+console.log(sketchRouteArray);
+var lastBaseStreet = routeArray[routeArray.length - 1];
+var lastSketchStreet = sketchRouteArray[sketchRouteArray.length -1];
+var url = "http://desktop-f25rpfv:8080/fmedatastreaming/Generalization/generalizer.fmw?baseMap=" + encodeURIComponent(JSON.stringify(JSON.stringify(baseMap.toGeoJSON()))) + "&sketchMap=" + encodeURIComponent(JSON.stringify(JSON.stringify(sketchMap.toGeoJSON()))) + "&Alignment=" + encodeURIComponent(JSON.stringify(JSON.stringify(AlignmentArray))) + "&RouteSeq=" + encodeURIComponent(routeArray) + "&SketchRouteSeq=" + encodeURIComponent(sketchRouteArray) + "&lastsegment=" + encodeURIComponent(lastBaseStreet) + "&lastsketchsegment=" + encodeURIComponent(lastSketchStreet);
 var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/GeneralizationPredict/networkcalculator.fmw/parameters?fmetoken=47e241ca547e14ab6ea961aef083f8a4cbe6dfe3"
 
 
 var httpRequest = new XMLHttpRequest();
 httpRequest.open("GET", url, false);
-httpRequest.setRequestHeader("Authorization","fmetoken token=47e241ca547e14ab6ea961aef083f8a4cbe6dfe3")
+httpRequest.setRequestHeader("Authorization","fmetoken token=c1f02207ac3b1489be2c18ee26cefb643d646bce")
 httpRequest.setRequestHeader("Access-Control-Allow-Origin", "http://desktop-f25rpfv:8080");
 httpRequest.setRequestHeader("Accept","text/html");
 httpRequest.setRequestHeader("content-Type","application/x-www-form-urlencoded");
@@ -89,7 +82,16 @@ httpRequest.setRequestHeader("content-Type","application/x-www-form-urlencoded")
             {
                 if (httpRequest.readyState == 4 && httpRequest.status == 200)
                 {
-                console.log(httpRequest.response);
+
+                /*console.log(httpRequest.response);
+                var inflate = new Zlib.RawInflate(httpRequest.response);;
+                console.log(inflate);*/
+
+
+                var GenMap = L.geoJSON(JSON.parse(httpRequest.response));
+                layerGroupBasemap.addLayer(GenMap);
+                layerGroupBasemap.addLayer(baseMap);
+                layerGroupBasemap.addTo(map);
                 }
             }
             // send a request so we get a reply
