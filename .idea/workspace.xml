@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ddc94cae-33dc-48ab-ba60-fb9a8106a848" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/static/js/js-utils.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/QualitativeRelationsOutput/basemap.json" beforeDir="false" afterPath="$PROJECT_DIR$/QualitativeRelationsOutput/basemap.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/js/project.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/project.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/js/sketchmapeditor.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/sketchmapeditor.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/generalizingmaps.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/generalizingmaps.html" afterDir="false" />
@@ -20,8 +18,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/js/sketchmapeditor.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="71">
-              <caret line="81" lean-forward="true" selection-start-line="81" selection-end-line="81" />
+            <state relative-caret-position="103">
+              <caret line="365" column="67" selection-start-line="365" selection-start-column="49" selection-end-line="365" selection-end-column="67" />
             </state>
           </provider>
         </entry>
@@ -29,8 +27,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/static/js/project.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="90" column="64" selection-start-line="90" selection-start-column="64" selection-end-line="90" selection-end-column="64" />
+            <state relative-caret-position="103">
+              <caret line="108" column="29" selection-start-line="108" selection-start-column="16" selection-end-line="108" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -59,8 +57,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/generalizingmaps.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="74" column="61" lean-forward="true" selection-start-line="74" selection-start-column="61" selection-end-line="74" selection-end-column="61" />
+            <state relative-caret-position="104">
+              <caret line="105" column="55" selection-start-line="105" selection-start-column="55" selection-end-line="105" selection-end-column="55" />
               <folding>
                 <element signature="n#style#0;n#label#0;n#nav#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#label#1;n#nav#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -144,13 +142,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>routeA</find>
-      <find>color</find>
-      <find>isRoute</find>
-      <find>addClickBase</find>
-      <find>predictGenMultiLine</find>
-      <find>styleLay</find>
-      <find>hover</find>
       <find>style</find>
       <find>console</find>
       <find>kj</find>
@@ -165,7 +156,6 @@
       <find>layergroup</find>
       <find>control</find>
       <find>layer</find>
-      <find>align</find>
       <find>routeArr</find>
       <find>checkIfAlignedAlready</find>
       <find>sketchRoute</find>
@@ -174,6 +164,14 @@
       <find>slayer.id</find>
       <find>routeArray</find>
       <find>zip</find>
+      <find>no gene</find>
+      <find>align</find>
+      <find>id</find>
+      <find>analyzeIn</find>
+      <find>ana</find>
+      <find>repla</find>
+      <find>GenBaseMap</find>
+      <find>ProcSketchMap</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -225,8 +223,8 @@
         <option value="$PROJECT_DIR$/generalizingmaps/views.py" />
         <option value="$PROJECT_DIR$/analyser/completeness.py" />
         <option value="$PROJECT_DIR$/templates/results.html" />
-        <option value="$PROJECT_DIR$/static/js/sketchmapeditor.js" />
         <option value="$PROJECT_DIR$/static/js/js-utils.js" />
+        <option value="$PROJECT_DIR$/static/js/sketchmapeditor.js" />
         <option value="$PROJECT_DIR$/templates/generalizingmaps.html" />
         <option value="$PROJECT_DIR$/static/js/project.js" />
       </list>
@@ -416,12 +414,12 @@
     <frame x="-6" y="-6" width="1292" height="684" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49470899" visible="true" weight="0.19140625" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49470899" visible="true" weight="0.19140625" />
       <window_info id="Structure" order="1" sideWeight="0.505291" side_tool="true" weight="0.1836248" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.32871974" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.8070313" visible="true" weight="0.3217993" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.8070313" visible="true" weight="0.3217993" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49921876" weight="0.3993174" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -716,17 +714,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/sketchmapeditor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="71">
-          <caret line="81" lean-forward="true" selection-start-line="81" selection-end-line="81" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/generalizingmaps.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="74" column="61" lean-forward="true" selection-start-line="74" selection-start-column="61" selection-end-line="74" selection-end-column="61" />
+        <state relative-caret-position="104">
+          <caret line="105" column="55" selection-start-line="105" selection-start-column="55" selection-end-line="105" selection-end-column="55" />
           <folding>
             <element signature="n#style#0;n#label#0;n#nav#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#label#1;n#nav#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -753,10 +744,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/static/js/sketchmapeditor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="103">
+          <caret line="365" column="67" selection-start-line="365" selection-start-column="49" selection-end-line="365" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/static/js/project.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="90" column="64" selection-start-line="90" selection-start-column="64" selection-end-line="90" selection-end-column="64" />
+        <state relative-caret-position="103">
+          <caret line="108" column="29" selection-start-line="108" selection-start-column="16" selection-end-line="108" selection-end-column="29" />
         </state>
       </provider>
     </entry>

@@ -1,3 +1,6 @@
+var GenBaseMap;
+var ProcSketchMap;
+
 function uploadProject(){
     console.log("upload");
 }
@@ -19,7 +22,7 @@ function downloadProject(){
 }
 
 function qualify_MM(callback) {
-    MMGeoJsonData = drawnItems.toGeoJSON();
+    MMGeoJsonData = GenBaseMap.toGeoJSON();
     console.log("metric map jsondata:",MMGeoJsonData);
 
     $.ajax({
@@ -40,7 +43,7 @@ function qualify_MM(callback) {
 }
 
 function qualify_SM(callback) {
-    SMGeoJsonData = drawnSketchItems.toGeoJSON();
+    SMGeoJsonData = ProcSketchMap.toGeoJSON();
     console.log("SMGeoJsonData....:",SMGeoJsonData);
     // fileName = sketchFileName.split(".");
     // fileName = fName[0];
@@ -83,15 +86,27 @@ httpRequest.setRequestHeader("content-Type","application/x-www-form-urlencoded")
                 if (httpRequest.readyState == 4 && httpRequest.status == 200)
                 {
 
-                /*console.log(httpRequest.response);
-                var inflate = new Zlib.RawInflate(httpRequest.response);;
-                console.log(inflate);*/
 
+                var wholeMapProc = JSON.parse(httpRequest.response);
+                var sketchMapProc=[];
+                var baseMapProc=[];
+                 $.each(wholeMapProc.features, function(i, item) {
+                 if(item.properties.mapType == "Sketch"){
+                    sketchMapProc.push(item);
+                 }
+                 else{
+                    item.properties.id = Object.values(JSON.parse(item.properties.SketchAlign))[0][0].replace(/\D/g,'');
+                    baseMapProc.push(item);
+                 }
+                 });
 
-                var GenMap = L.geoJSON(JSON.parse(httpRequest.response));
-                layerGroupBasemap.addLayer(GenMap);
-                layerGroupBasemap.addLayer(baseMap);
-                layerGroupBasemap.addTo(map);
+                console.log(sketchMapProc);
+                console.log(baseMapProc);
+
+                GenBaseMap = L.geoJSON(baseMapProc);
+
+                layerGroupBasemap.addLayer(GenBaseMap);
+                ProcSketchMap = L.geoJSON(sketchMapProc);
                 }
             }
             // send a request so we get a reply
@@ -102,11 +117,23 @@ httpRequest.setRequestHeader("content-Type","application/x-www-form-urlencoded")
 }
 
 
+function onAnalyseButtonClick(){
+$.ajax({
+    url:   generalizeMap(drawnItems,drawnSketchItems),
+    success: function(){
+    analyzeInputMap();
+    }
+})
+
+
+}
+
+
 function analyzeInputMap(){
 
-  generalizeMap(drawnItems,drawnSketchItems);
 
-  /*
+
+
     //loc = document.getElementById("#sketchmapplaceholder");
     //createProcessingRing(loc);
 
@@ -208,7 +235,7 @@ function setResults_in_output_div(resp){
     $('#matched_opra_rels').text(resp.matched_opra_rels);
     $('#wrong_matched_opra_rels').text(resp.wrong_matched_opra_rels);
     $('#missing_opra_rels').text(resp.missing_opra_rels);
-    $('#correctnessAccuracy_opra').text(resp.correctnessAccuracy_opra);*/
+    $('#correctnessAccuracy_opra').text(resp.correctnessAccuracy_opra);
 
 
 

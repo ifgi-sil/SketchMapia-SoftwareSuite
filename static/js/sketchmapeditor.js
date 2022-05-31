@@ -309,12 +309,13 @@ drawnItems.eachLayer(function(blayer){
 
         sketchMap.on('pm:create', function (event) {
             var layer = event.layer;
-            layer.id= id;
+            layer.id= 'S' + id;
             var feature = layer.feature = layer.feature || {}; // Initialize feature
             feature.type = feature.type || "Feature"; // Initialize feature.type
             var props = feature.properties = feature.properties || {}; // Initialize feature.properties
             props.id = id;
             props.isRoute = null;
+            props.mapType = "Sketch";
              if(event.shape == "Polygon"){
     props.feat_type = "Landmark"
     }
@@ -362,7 +363,7 @@ drawnItems.eachLayer(function(blayer){
             drawnSketchItems.eachLayer(function(slayer){
                 if (alignSketchID.includes(slayer.id)){
                 console.log("kjdsfh");
-                sketchRouteArray.push(slayer.id);
+                sketchRouteArray.push((slayer.id).replace(/\D/g,''));
                 slayer.feature.properties.isRoute = "Yes";
             }
 
@@ -444,7 +445,7 @@ drawnItems.eachLayer(function(blayer){
                 case "Polygon":
                     switch (checkgroupalign(sketchtype,basetype)){
                         case "one-one":
-                            return "No generalisation";
+                            return "No generalization";
                             break;
                         case "one-many":
                             return "Amalgamation";
