@@ -100,9 +100,7 @@ $( "#loaded" ).prop( "disabled", false );
 
     drawnItems.eachLayer(function(blayer){
         blayer.on('click',function(e){
-         console.log(blayer.feature.properties.isRoute);
            if (!blayer.feature.properties.isRoute){
-              console.log("1");
               routeArray.push(blayer.id);
               blayer.feature.properties.isRoute = "Yes";
               blayer.setStyle({
@@ -362,7 +360,6 @@ drawnItems.eachLayer(function(blayer){
         if (blayer.feature.properties.isRoute == "Yes"){
             drawnSketchItems.eachLayer(function(slayer){
                 if (alignSketchID.includes(slayer.id)){
-                console.log("kjdsfh");
                 sketchRouteArray.push((slayer.id).replace(/\D/g,''));
                 slayer.feature.properties.isRoute = "Yes";
             }
@@ -387,10 +384,15 @@ drawnItems.eachLayer(function(blayer){
 
 
     function align(BID,SID,num,sketchtype,basetype){
+       var degreeOfGeneralization;
        var BaseAlign={};
        var SketchAlign={};
             BaseAlign[0]=BID;
             SketchAlign[0]=SID;
+       console.log(BID.length);
+       console.log(SID.length);
+       degreeOfGeneralization=(BID.length - SID.length)/BID.length;
+       console.log
        var genType;
        (async () => {
           genType = await predictGeneralization(sketchtype,basetype);
@@ -567,7 +569,6 @@ function styleLayers(){
 if (drawnSketchItems){
 
     drawnSketchItems.eachLayer(function(slayer){
-        console.log(slayer);
             if (slayer.selected){
                 slayer.setStyle({weight:8});
             }
@@ -621,7 +622,7 @@ var datatobesent = new L.geoJson();
 
 var returnValue;
 
-var url = "http://desktop-f25rpfv:8080/fmedatastreaming/Generalization/junctiondetect.fmw?data=" + encodeURIComponent(JSON.stringify(JSON.stringify(datatobesent.toGeoJSON())));
+var url = "http://192.168.1.37:8080/fmedatastreaming/Generalization/junctiondetect.fmw?data=" + encodeURIComponent(JSON.stringify(JSON.stringify(datatobesent.toGeoJSON())));
 var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/GeneralizationPredict/networkcalculator.fmw/parameters?fmetoken=47e241ca547e14ab6ea961aef083f8a4cbe6dfe3"
 
 
@@ -635,7 +636,6 @@ httpRequest.setRequestHeader("content-Type","application/x-www-form-urlencoded")
             {
                 if (httpRequest.readyState == 4 && httpRequest.status == 200)
                 {
-                console.log(httpRequest.response);
                  var responseArray = (httpRequest.response).split(/\r?\n/);
                  responseArray.pop();
                  var nodeArray = [];
@@ -650,7 +650,6 @@ httpRequest.setRequestHeader("content-Type","application/x-www-form-urlencoded")
                     var nodeCount = _.countBy(nodeArray);
                     if (!(Object.values(nodeCount)).includes(3)){
                     returnValue =  "OmissionMerge";
-                    console.log(returnValue);
                     }
                  }
                 }

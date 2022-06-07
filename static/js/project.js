@@ -71,7 +71,7 @@ console.log(routeArray);
 console.log(sketchRouteArray);
 var lastBaseStreet = routeArray[routeArray.length - 1];
 var lastSketchStreet = sketchRouteArray[sketchRouteArray.length -1];
-var url = "http://desktop-f25rpfv:8080/fmedatastreaming/Generalization/generalizer.fmw?baseMap=" + encodeURIComponent(JSON.stringify(JSON.stringify(baseMap.toGeoJSON()))) + "&sketchMap=" + encodeURIComponent(JSON.stringify(JSON.stringify(sketchMap.toGeoJSON()))) + "&Alignment=" + encodeURIComponent(JSON.stringify(JSON.stringify(AlignmentArray))) + "&RouteSeq=" + encodeURIComponent(routeArray) + "&SketchRouteSeq=" + encodeURIComponent(sketchRouteArray) + "&lastsegment=" + encodeURIComponent(lastBaseStreet) + "&lastsketchsegment=" + encodeURIComponent(lastSketchStreet);
+var url = "http://192.168.1.37:8080/fmedatastreaming/Generalization/generalizer.fmw?baseMap=" + encodeURIComponent(JSON.stringify(JSON.stringify(baseMap.toGeoJSON()))) + "&sketchMap=" + encodeURIComponent(JSON.stringify(JSON.stringify(sketchMap.toGeoJSON()))) + "&Alignment=" + encodeURIComponent(JSON.stringify(JSON.stringify(AlignmentArray))) + "&RouteSeq=" + encodeURIComponent(routeArray) + "&SketchRouteSeq=" + encodeURIComponent(sketchRouteArray) + "&lastsegment=" + encodeURIComponent(lastBaseStreet) + "&lastsketchsegment=" + encodeURIComponent(lastSketchStreet);
 var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/GeneralizationPredict/networkcalculator.fmw/parameters?fmetoken=47e241ca547e14ab6ea961aef083f8a4cbe6dfe3"
 
 
