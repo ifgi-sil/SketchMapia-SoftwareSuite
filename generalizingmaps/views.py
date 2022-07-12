@@ -76,6 +76,35 @@ def helpingfunction_fetchdata_unsimplified(latlng_array):
   #  openregions_gdf.to_file('static/geojson_files/openregions' + '.geojson', driver="GeoJSON", encoding="utf-8")
 
 
+def requestFME(request):
+    template = loader.get_template('../templates/generalizingmaps.html')
+    if request.is_ajax():
+        basedata = request.POST.get('basedata')
+        sketchdata = request.POST.get('sketchdata')
+
+        #response = requests.get('http://desktop-f25rpfv:8080/fmedatastreaming/Generalization/generalizer.fmw?', params=query)
+    USER_PROJ_DIR = "generalizedMap"
+    baseMapdata = json.loads(basedata)
+    sketchMapdata = json.loads(sketchdata)
+    try:
+        Inputbasepath = os.path.join(USER_PROJ_DIR,"inputbaseMap"+".json")
+        Inputsketchpath = os.path.join(USER_PROJ_DIR,"inputsketchMap"+".json")
+        if os.path.exists(Inputbasepath):
+            os.remove(Inputbasepath)
+        f = open(Inputbasepath, "a+")
+        f.write(json.dumps(baseMapdata,indent=4))
+        f.close()
+
+        if os.path.exists(Inputsketchpath):
+            os.remove(Inputsketchpath)
+        f = open(Inputsketchpath, "a+")
+        f.write(json.dumps(sketchMapdata,indent=4))
+        f.close()
+    except IOError:
+        print("Files written")
+    return HttpResponse(template.render({}, request))
+
+
 
 
 

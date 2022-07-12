@@ -1,9 +1,52 @@
 var GenBaseMap;
 var ProcSketchMap;
 
+
+
+
+
+
 function uploadProject(){
-    console.log("upload");
+     var fileList = document.getElementById('upload').files;
+    for (var i = 0; i < fileList.length; i++) {
+        renderGeoJsonFiles(fileList[i], map);
+    }
 }
+
+function renderGeoJsonFiles(file, map) {
+    var fileName = file.name;
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    if (fileName.includes('alignment')){
+    reader.onload = function () {
+        $.getJSON(reader.result, function (data) {
+          AlignmentArray = data;
+        });
+    }}
+
+    if (fileName.includes('basemap')){
+    reader.onload = function () {
+        $.getJSON(reader.result, function (data) {
+           allDrawnSketchItems["basemap"] = data;
+           drawnItems = L.geoJSON(data,{
+                      onEachFeature: function(feature,layer){
+                      }}).addTo(baseMap);
+
+        });
+    }}
+
+    if ( !(fileName.includes('basemap')) && !(fileName.includes('alignment'))){
+    reader.onload = function () {
+        $.getJSON(reader.result, function (data) {
+         sketchMaptitle = fileName.replace('.geojson','');
+         allDrawnSketchItems[sketchMaptitle] =  L.geoJSON(data,{
+                      onEachFeature: function(feature,layer){
+                      }});
+        });
+    }}
+}
+
+
 
 
 function downloadProject(){
@@ -11,8 +54,7 @@ function downloadProject(){
  var zip = new JSZip();
  zip.file("alignment.json",alignment);
  for (var key in allDrawnSketchItems) {
-    zip.file(key + ".geojson", JSON.stringify(allDrawnSketchItems[key].toGeoJSON()) );
-    console.log(key + ' is ' + allDrawnSketchItems[key]);
+    zip.file(key + ".geojson", JSON.stringify(allDrawnSketchItems[key].toGeoJSON()));
 }
      zip.generateAsync({type:"blob"})
         .then(function(content) {
@@ -66,21 +108,39 @@ function qualify_SM(callback) {
 
 
 
-function generalizeMap(baseMap,sketchMap){
-console.log(routeArray);
-console.log(sketchRouteArray);
+function generalizeMap(){
 var lastBaseStreet = routeArray[routeArray.length - 1];
+
+if (routeArray.length == 0){
+  drawnItems.eachLayer(function(blayer){
+           if (blayer.feature.properties.isRoute == "Yes"){
+              routeArray.push(blayer.feature.properties.id);
+  }
+ });
+}
+lastBaseStreet = routeArray[routeArray.length - 1];
 var lastSketchStreet = sketchRouteArray[sketchRouteArray.length -1];
-var url = "http://192.168.1.37:8080/fmedatastreaming/Generalization/generalizer.fmw?baseMap=" + encodeURIComponent(JSON.stringify(JSON.stringify(baseMap.toGeoJSON()))) + "&sketchMap=" + encodeURIComponent(JSON.stringify(JSON.stringify(sketchMap.toGeoJSON()))) + "&Alignment=" + encodeURIComponent(JSON.stringify(JSON.stringify(AlignmentArray))) + "&RouteSeq=" + encodeURIComponent(routeArray) + "&SketchRouteSeq=" + encodeURIComponent(sketchRouteArray) + "&lastsegment=" + encodeURIComponent(lastBaseStreet) + "&lastsketchsegment=" + encodeURIComponent(lastSketchStreet);
+
+var url = "http://desktop-f25rpfv:8080/fmedatastreaming/Generalization/generalizerFile.fmw?Alignment=" + encodeURIComponent(JSON.stringify(JSON.stringify(AlignmentArray))) + "&RouteSeq=" + encodeURIComponent(routeArray) + "&SketchRouteSeq=" + encodeURIComponent(sketchRouteArray) + "&lastsegment=" + encodeURIComponent(lastBaseStreet) + "&lastsketchsegment=" + encodeURIComponent(lastSketchStreet);
 var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/GeneralizationPredict/networkcalculator.fmw/parameters?fmetoken=47e241ca547e14ab6ea961aef083f8a4cbe6dfe3"
 
-
-var httpRequest = new XMLHttpRequest();
-httpRequest.open("GET", url, false);
-httpRequest.setRequestHeader("Authorization","fmetoken token=c1f02207ac3b1489be2c18ee26cefb643d646bce")
-httpRequest.setRequestHeader("Access-Control-Allow-Origin", "http://desktop-f25rpfv:8080");
-httpRequest.setRequestHeader("Accept","text/html");
-httpRequest.setRequestHeader("content-Type","application/x-www-form-urlencoded");
+ $.ajax({
+                headers: { "X-CSRFToken": $.cookie("csrftoken") },
+                url: 'requestFME/',
+                type: 'POST',
+                data: {
+                    basedata: JSON.stringify(drawnItems.toGeoJSON()),
+                    sketchdata: JSON.stringify(drawnSketchItems.toGeoJSON())
+                },
+                //contentType: 'text/plain',
+                success: function (resp) {
+                   console.log("Test done");
+                   var httpRequest = new XMLHttpRequest();
+                    httpRequest.open("GET", url, false);
+                    httpRequest.setRequestHeader("Authorization","fmetoken token=c1f02207ac3b1489be2c18ee26cefb643d646bce")
+                    httpRequest.setRequestHeader("Access-Control-Allow-Origin", "http://desktop-f25rpfv:8080");
+                    httpRequest.setRequestHeader("Accept","text/html");
+                    httpRequest.setRequestHeader("content-Type","multipart/form-data");
             httpRequest.onreadystatechange = function()
             {
                 if (httpRequest.readyState == 4 && httpRequest.status == 200)
@@ -107,33 +167,28 @@ httpRequest.setRequestHeader("content-Type","application/x-www-form-urlencoded")
                  }
                  });
 
-                console.log(sketchMapProc);
-                console.log(baseMapProc);
 
                 GenBaseMap = L.geoJSON(baseMapProc);
 
                 layerGroupBasemap.addLayer(GenBaseMap);
                 ProcSketchMap = L.geoJSON(sketchMapProc);
+                analyzeInputMap();
                 }
             }
             // send a request so we get a reply
             httpRequest.send();
 
+                }
+            });
 
+/*
 
-}
-
-
-function onAnalyseButtonClick(){
-$.ajax({
-    url:   generalizeMap(drawnItems,drawnSketchItems),
-    success: function(){
-    analyzeInputMap();
-    }
-})
-
+*/
 
 }
+
+
+
 
 
 function analyzeInputMap(){
@@ -183,6 +238,31 @@ function analyzeInputMap(){
 }
 
 function setResults_in_output_div(resp){
+
+ console.log(Object.values(AlignmentArray)[0]);
+ var amalgamation = "";
+ var collapse = "";
+ var omissionmerge = "";
+
+  for (var i=1 ; i < Object.values(AlignmentArray)[0].checkAlignnum; i++){
+  console.log(i)
+  if (Object.values(AlignmentArray)[0][i].genType == "Amalgamation"){
+   amalgamation = amalgamation + "    " + Object.values(AlignmentArray)[0][i].degreeOfGeneralization ;
+  }
+  if (Object.values(AlignmentArray)[0][i].genType == "OmissionMerge"){
+   omissionmerge = omissionmerge + "    " + Object.values(AlignmentArray)[0][i].degreeOfGeneralization ;
+  }
+  if (Object.values(AlignmentArray)[0][i].genType == "Collapse"){
+   collapse = collapse + "    " + Object.values(AlignmentArray)[0][i].degreeOfGeneralization ;
+  }
+
+
+  }
+
+    $('#Amalgamation').text(amalgamation);
+    $('#OmissionMerge').text(omissionmerge);
+    $('#Collapse').text(collapse);
+
     $('#overAllCompleteness').text(resp.overAllCompleteness+"%");
     $('#precision').text(resp.precision);
     $('#recall').text(resp.recall);

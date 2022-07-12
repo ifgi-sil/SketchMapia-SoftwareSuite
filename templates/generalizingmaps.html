@@ -103,7 +103,7 @@ integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNm
             <input id="aligned" type="checkbox" class="overflow-control-input" disabled>
             <span class="overflow-control-indicator" style="left:170px"></span>
         </label>
-    <button id ="Analyze" onclick="onAnalyseButtonClick()" class="btn btn-outline-secondary">Analyse</button>
+    <button id ="Analyze" onclick="generalizeMap()" class="btn btn-outline-secondary">Analyse</button>
 
 </nav>
 <!--/.Navbar-->
@@ -114,8 +114,12 @@ integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNm
         <p id="filemenu">File<i class="fas fa-angle-down" style="font-size:xx-small; margin-left:1rem"></i>
         <li id="filemenuoptions">
         <ul class="menu">New Project</ul>
-        <ul class="menu">Upload Project
-        <input id='importMM' type = "file" multiple="multiple" onChange="uploadProject()"  style = "display:none;"/>
+        <ul class="menu">
+            <li>
+                      <label for="upload" style=" border:0px ; z-index:1000; position:relative;">Upload Project</label>
+                      <input id='upload' type = "file" multiple="multiple" onChange="uploadProject()"  style = "display:none;"/>
+            </li>
+
         </ul>
         <ul class="menu" onclick ="downloadProject()">Download Project</ul>
         </li>

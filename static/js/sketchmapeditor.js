@@ -16,6 +16,8 @@ var bid=-1;
 var routeArray = [];
 var sketchRouteArray = [];
 var layerGroupBasemap = new L.LayerGroup();
+var baseMap;
+var drawnItems;
 
 
 
@@ -55,8 +57,7 @@ $("#imagemap").show();
     }
 }
 
-var baseMap;
-var drawnItems;
+
 
 function renderImageFile(file, location) {
     var reader = new FileReader();
@@ -101,7 +102,7 @@ $( "#loaded" ).prop( "disabled", false );
     drawnItems.eachLayer(function(blayer){
         blayer.on('click',function(e){
            if (!blayer.feature.properties.isRoute){
-              routeArray.push(blayer.id);
+              routeArray.push(blayer.feature.properties.id);
               blayer.feature.properties.isRoute = "Yes";
               blayer.setStyle({
                 color: 'red'   //or whatever style you wish to use;
@@ -109,7 +110,7 @@ $( "#loaded" ).prop( "disabled", false );
            }
            else if (blayer.feature.properties.isRoute == "Yes"){
                 routeArray= routeArray.filter(function(item) {
-                return item !== blayer.id;
+                return item !== blayer.feature.properties.id;
                 });
               blayer.feature.properties.isRoute = null ;
               blayer.setStyle({
@@ -145,8 +146,6 @@ cutPolygon:false
 baseMap.on('pm:create', function (event) {
     bid=bid+1;
     var layer = event.layer;
-    layer.otype = event.shape;
-    layer.id=bid;
     var feature = layer.feature = layer.feature || {}; // Initialize feature
     feature.type = feature.type || "Feature"; // Initialize feature.type
     var props = feature.properties = feature.properties || {}; // Initialize feature.properties
@@ -157,8 +156,9 @@ baseMap.on('pm:create', function (event) {
     }
     else{
     props.feat_type = null;}
-    layer.selected=false;
-    layer.aligned=false;
+    props.selected=false;
+    props.aligned=false;
+    props.otype = event.shape;
     drawnItems.addLayer(layer);
 });
 
@@ -202,7 +202,7 @@ drawnItems.eachLayer(function(blayer){
         blayer.off('click');
         });
 baseMap.removeControl(routeButton);
-addClickBase();
+    addClickBase();
 });
 
 
@@ -211,18 +211,18 @@ addClickBase();
 function addClickBase(){
 drawnItems.eachLayer(function(blayer){
         blayer.on('click',function(e){
-        if(blayer.selected==false){
-            blayer.selected=true;
-            alignBaseID.push(blayer.id);
-            baseOtypearray[blayer.id]=blayer.otype;
+        if(blayer.feature.properties.selected==false){
+            blayer.feature.properties.selected=true;
+            alignBaseID.push(blayer.feature.properties.id);
+            baseOtypearray[blayer.feature.properties.id]=blayer.feature.properties.otype;
             styleLayers();
         }
         else{
-            blayer.selected = false;
+            blayer.feature.properties.selected = false;
             alignBaseID= alignBaseID.filter(function(item) {
-                return item !== blayer.id;
+                return item !== blayer.feature.properties.id;
             })
-            delete baseOtypearray[blayer.id];
+            delete baseOtypearray[blayer.feature.properties.id];
             styleLayers();
         }
     });
@@ -263,8 +263,8 @@ drawnItems.eachLayer(function(blayer){
         drawnSketchItems = new L.geoJson().addTo(sketchMap);
         alignmentArraySingleMap={};
         drawnItems.eachLayer(function(blayer){
-            blayer.selected=false;
-            blayer.aligned=false;
+            blayer.feature.properties.selected=false;
+            blayer.feature.properties.aligned=false;
 
         });
         styleLayers();
@@ -307,11 +307,12 @@ drawnItems.eachLayer(function(blayer){
 
         sketchMap.on('pm:create', function (event) {
             var layer = event.layer;
-            layer.id= 'S' + id;
+
             var feature = layer.feature = layer.feature || {}; // Initialize feature
             feature.type = feature.type || "Feature"; // Initialize feature.type
             var props = feature.properties = feature.properties || {}; // Initialize feature.properties
             props.id = id;
+            props.sid= 'S' + id;
             props.isRoute = null;
             props.mapType = "Sketch";
              if(event.shape == "Polygon"){
@@ -319,33 +320,37 @@ drawnItems.eachLayer(function(blayer){
     }
     else{
     props.feat_type = null;}
-            layer.selected = false;
-            layer.aligned = false;
-            layer.otype = event.shape;
+            props.selected = false;
+            props.aligned = false;
+            props.otype = event.shape;
             drawnSketchItems.addLayer(layer);
             id=id+1;
 
-        layer.on('click', function (e) {
-        if(layer.selected==false){
-            layer.selected = true;
-            alignSketchID.push(layer.id);
-            sketchOtypearray[layer.id]=layer.otype;
+            layer.on('click', function (e) {
+        if(layer.feature.properties.selected==false){
+            layer.feature.properties.selected = true;
+            alignSketchID.push(layer.feature.properties.sid);
+            sketchOtypearray[layer.feature.properties.sid]=layer.feature.properties.otype;
             styleLayers();
             }
         else{
-            layer.selected = false;
+            layer.feature.properties.selected = false;
             alignSketchID= alignSketchID.filter(function(item) {
-                return item !== layer.id;
+                return item !== layer.feature.properties.sid;
             });
-            delete sketchOtypearray[layer.id];
+            delete sketchOtypearray[layer.feature.properties.sid];
             styleLayers();
         }
         });
+
+
 
      });
 
 
     $( "#editmenuoptions" ).slideToggle(500);
+
+
     });
 
 
@@ -353,14 +358,14 @@ drawnItems.eachLayer(function(blayer){
     $('#alignbutton').click(function(){
         checkIfAlignedAlready(alignSketchID);
         drawnItems.eachLayer(function(blayer){
-        if (alignBaseID.includes(blayer.id)){
-        blayer.aligned = true;
-        blayer.selected = false;
+        if (alignBaseID.includes(blayer.feature.properties.id)){
+        blayer.feature.properties.aligned = true;
+        blayer.feature.properties.selected = false;
         styleLayers();
         if (blayer.feature.properties.isRoute == "Yes"){
             drawnSketchItems.eachLayer(function(slayer){
-                if (alignSketchID.includes(slayer.id)){
-                sketchRouteArray.push((slayer.id).replace(/\D/g,''));
+                if (alignSketchID.includes(slayer.feature.properties.sid)){
+                sketchRouteArray.push((slayer.feature.properties.sid).replace(/\D/g,''));
                 slayer.feature.properties.isRoute = "Yes";
             }
 
@@ -369,9 +374,9 @@ drawnItems.eachLayer(function(blayer){
         }
         });
         drawnSketchItems.eachLayer(function(slayer){
-        if (alignSketchID.includes(slayer.id)){
-        slayer.aligned = true;
-        slayer.selected = false;
+        if (alignSketchID.includes(slayer.feature.properties.sid)){
+        slayer.feature.properties.aligned = true;
+        slayer.feature.properties.selected = false;
         styleLayers();
         }
         });
@@ -392,11 +397,11 @@ drawnItems.eachLayer(function(blayer){
        console.log(BID.length);
        console.log(SID.length);
        degreeOfGeneralization=(BID.length - SID.length)/BID.length;
-       console.log
+       console.log(degreeOfGeneralization);
        var genType;
        (async () => {
           genType = await predictGeneralization(sketchtype,basetype);
-          alignmentArraySingleMap[num]={BaseAlign,SketchAlign,genType};
+          alignmentArraySingleMap[num]={BaseAlign,SketchAlign,genType,degreeOfGeneralization};
         })()
 
        alignBaseID=[];
@@ -411,11 +416,12 @@ drawnItems.eachLayer(function(blayer){
     drawnSketchItems.eachLayer(function(slayer){
     slayer.on('mouseover', function() {
     $.each(alignmentArraySingleMap, function(i, item) {
-    if((alignmentArraySingleMap[i].SketchAlign != null) && (alignmentArraySingleMap[i].SketchAlign[0]).includes(slayer.id)){
+    if((alignmentArraySingleMap[i].SketchAlign != null) && (alignmentArraySingleMap[i].SketchAlign[0]).includes(slayer.feature.properties.sid)){
 
     hoverarray.push(alignmentArraySingleMap[i].BaseAlign[0]);
     hoverarray.push(alignmentArraySingleMap[i].SketchAlign[0]);
     }
+
     changestyleOnHover(hoverarray);
     });
     });
@@ -490,7 +496,7 @@ drawnItems.eachLayer(function(blayer){
     Array=Array.flat();
      drawnItems.eachLayer(function(blayer){
      for (i in Array){
-        if (blayer.id==Array[i]){
+        if (blayer.feature.properties.id==Array[i]){
                 blayer.setStyle({
             color: 'blue'   //or whatever style you wish to use;
         });
@@ -500,7 +506,7 @@ drawnItems.eachLayer(function(blayer){
      });
      drawnSketchItems.eachLayer(function(slayer){
      for (i in Array){
-        if (slayer.id==Array[i]){
+        if (slayer.feature.properties.sid==Array[i]){
             slayer.setStyle({
             color: 'blue'   //or whatever style you wish to use;
         });
@@ -513,7 +519,7 @@ drawnItems.eachLayer(function(blayer){
     $('#saveSM').click(function(){
         sketchMap.pm.removeControls();
         drawnItems.eachLayer(function(blayer){
-        if (!blayer.aligned ){
+        if (!blayer.feature.properties.aligned ){
           blayer.feature.properties.missing = true;
         }
         });
@@ -534,24 +540,25 @@ drawnItems.eachLayer(function(blayer){
 function restoreBaseAlignment(alignmentArraySingleMap){
 
 drawnItems.eachLayer(function(blayer){
-    blayer.aligned = false;
-    blayer.selected = false;
+    blayer.feature.properties.aligned = false;
+    blayer.feature.properties.selected = false;
     $.each(alignmentArraySingleMap, function(i, item) {
-        if(alignmentArraySingleMap[i].BaseAlign != null && (alignmentArraySingleMap[i].BaseAlign[0]).includes(blayer.id)){
-            blayer.aligned=true;
+        if(alignmentArraySingleMap[i].BaseAlign != null && (alignmentArraySingleMap[i].BaseAlign[0]).includes(blayer.feature.properties.id)){
+            blayer.feature.properties.aligned=true;
         }
     });
 })
 
+hoverfunction();
 }
 
 function checkIfAlignedAlready(alignSketchID){
 drawnSketchItems.eachLayer(function(slayer){
 $.each(alignmentArraySingleMap, function(i, item) {
-    if(alignSketchID.includes(slayer.id) && (alignmentArraySingleMap[i].SketchAlign != null) && (alignmentArraySingleMap[i].SketchAlign[0]).includes(slayer.id)){
+    if(alignSketchID.includes(slayer.feature.properties.sid) && (alignmentArraySingleMap[i].SketchAlign != null) && (alignmentArraySingleMap[i].SketchAlign[0]).includes(slayer.feature.properties.sid)){
      drawnItems.eachLayer(function(blayer){
-     if((alignmentArraySingleMap[i].BaseAlign != null) && (alignmentArraySingleMap[i].BaseAlign[0]).includes(blayer.id)){
-        blayer.aligned=false;
+     if((alignmentArraySingleMap[i].BaseAlign != null) && (alignmentArraySingleMap[i].BaseAlign[0]).includes(blayer.feature.properties.id)){
+        blayer.feature.properties.aligned=false;
      }
      });
      delete alignmentArraySingleMap[Object.keys(alignmentArraySingleMap)[i-1]];
@@ -569,19 +576,19 @@ function styleLayers(){
 if (drawnSketchItems){
 
     drawnSketchItems.eachLayer(function(slayer){
-            if (slayer.selected){
+            if (slayer.feature.properties.selected){
                 slayer.setStyle({weight:8});
             }
-            if (!slayer.selected && !slayer.aligned && !slayer.feature.properties.isRoute){
+            if (!slayer.feature.properties.selected && !slayer.feature.properties.aligned && !slayer.feature.properties.isRoute){
                 slayer.setStyle({opacity:0.7,weight: 5,color: "#e8913a",dashArray: [5, 5]});
             }
-            if (!slayer.selected && slayer.aligned && !slayer.feature.properties.isRoute){
+            if (!slayer.feature.properties.selected && slayer.feature.properties.aligned && !slayer.feature.properties.isRoute){
                 slayer.setStyle({opacity:0.7,weight: 5,color: "#e8913a",dashArray: null});
             }
-            if (!slayer.selected && !slayer.aligned && slayer.feature.properties.isRoute=="Yes"){
+            if (!slayer.feature.properties.selected && !slayer.feature.properties.aligned && slayer.feature.properties.isRoute=="Yes"){
                 slayer.setStyle({opacity:0.7,weight: 5,color: "red",dashArray: [5, 5]});
             }
-            if(!slayer.selected && slayer.aligned && slayer.feature.properties.isRoute=="Yes"){
+            if(!slayer.feature.properties.selected && slayer.feature.properties.aligned && slayer.feature.properties.isRoute=="Yes"){
                 slayer.setStyle({opacity:0.7,weight: 5,color: "red",dashArray: null,});
             }
 
@@ -591,19 +598,19 @@ if (drawnSketchItems){
 if (drawnItems){
     drawnItems.eachLayer(function(blayer){
 
-         if (blayer.selected){
+         if (blayer.feature.properties.selected){
                 blayer.setStyle({weight:8});
             }
-            if (!blayer.selected && !blayer.aligned && !blayer.feature.properties.isRoute){
+            if (!blayer.feature.properties.selected && !blayer.feature.properties.aligned && !blayer.feature.properties.isRoute){
                 blayer.setStyle({opacity:0.7,weight: 5,color: "#e8913a",dashArray: [5, 5]});
             }
-            if (!blayer.selected && blayer.aligned && !blayer.feature.properties.isRoute){
+            if (!blayer.feature.properties.selected && blayer.feature.properties.aligned && !blayer.feature.properties.isRoute){
                 blayer.setStyle({opacity:0.7,weight: 5,color: "#e8913a",dashArray: null});
             }
-            if (!blayer.selected && !blayer.aligned && blayer.feature.properties.isRoute=="Yes"){
+            if (!blayer.feature.properties.selected && !blayer.feature.properties.aligned && blayer.feature.properties.isRoute=="Yes"){
                 blayer.setStyle({opacity:0.7,weight: 5,color: "red",dashArray: [5, 5]});
             }
-            if(!blayer.selected && blayer.aligned && blayer.feature.properties.isRoute=="Yes"){
+            if(!blayer.feature.properties.selected && blayer.feature.properties.aligned && blayer.feature.properties.isRoute=="Yes"){
                 blayer.setStyle({opacity:0.7,weight: 5,color: "red",dashArray: null,});
             }
      });
@@ -615,14 +622,14 @@ if (drawnItems){
 function predictGenSingleLine(sketchtype,basetype){
 var datatobesent = new L.geoJson();
  drawnItems.eachLayer(function(blayer){
-    if((Object.keys(basetype).map(Number)).includes(blayer.id)){
+    if((Object.keys(basetype).map(Number)).includes(blayer.feature.properties.id)){
        datatobesent.addData(blayer.toGeoJSON());
     }
 });
 
 var returnValue;
 
-var url = "http://192.168.1.37:8080/fmedatastreaming/Generalization/junctiondetect.fmw?data=" + encodeURIComponent(JSON.stringify(JSON.stringify(datatobesent.toGeoJSON())));
+var url = "http://desktop-f25rpfv:8080/fmedatastreaming/Generalization/junctiondetect.fmw?data=" + encodeURIComponent(JSON.stringify(JSON.stringify(datatobesent.toGeoJSON())));
 var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/GeneralizationPredict/networkcalculator.fmw/parameters?fmetoken=47e241ca547e14ab6ea961aef083f8a4cbe6dfe3"
 
 
