@@ -137,6 +137,7 @@ position: 'topleft',
 drawCircle: false,
 drawMarker: false,
 drawRectangle:false,
+drawText: false,
 drawCircleMarker:true,
 dragMode:false,
 rotateMode:false,
@@ -152,10 +153,11 @@ baseMap.on('pm:create', function (event) {
     props.id = bid;
     props.isRoute = null;
     if(event.shape == "Polygon"){
-    props.feat_type = "Landmark"
+        props.feat_type = "Landmark"
     }
     else{
-    props.feat_type = null;}
+        props.feat_type = null;
+    }
     props.selected=false;
     props.aligned=false;
     props.otype = event.shape;
@@ -163,7 +165,9 @@ baseMap.on('pm:create', function (event) {
 });
 
 
+
 baseMap.pm.setGlobalOptions({
+  continueDrawing : true,
   pathOptions:{
     opacity:0.7,
     dashArray: [5, 5],
@@ -180,6 +184,12 @@ baseMap.pm.setGlobalOptions({
   }
 
 });
+
+const actions = [];
+baseMap.pm.Toolbar.changeActionsOfControl('Polygon', actions);
+baseMap.pm.Toolbar.changeActionsOfControl('Polyline', actions);
+baseMap.pm.Toolbar.changeActionsOfControl('CircleMarker', actions);
+
 $( "#editmenuoptions" ).slideToggle(500);
 
 drawnItems.eachLayer(function(blayer){
@@ -282,11 +292,13 @@ drawnItems.eachLayer(function(blayer){
             drawRectangle:false,
             drawMarker:false,
             drawCircleMarker:true,
+            drawText:false,
             dragMode:false,
             rotateMode:false,
             cutPolygon:false
     });
     sketchMap.pm.setGlobalOptions({
+            continueDrawing: true,
             pathOptions:{
                 opacity:0.7,
                 weight: 5,
@@ -304,6 +316,10 @@ drawnItems.eachLayer(function(blayer){
             }
         });
 
+const sketchActions = [];
+sketchMap.pm.Toolbar.changeActionsOfControl('Polygon', sketchActions);
+sketchMap.pm.Toolbar.changeActionsOfControl('Polyline', sketchActions);
+sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
 
         sketchMap.on('pm:create', function (event) {
             var layer = event.layer;
@@ -394,14 +410,13 @@ drawnItems.eachLayer(function(blayer){
        var SketchAlign={};
             BaseAlign[0]=BID;
             SketchAlign[0]=SID;
-       console.log(BID.length);
-       console.log(SID.length);
        degreeOfGeneralization=(BID.length - SID.length)/BID.length;
-       console.log(degreeOfGeneralization);
        var genType;
        (async () => {
           genType = await predictGeneralization(sketchtype,basetype);
+          if(genType!= "Generalization Not possible") {
           alignmentArraySingleMap[num]={BaseAlign,SketchAlign,genType,degreeOfGeneralization};
+          }
         })()
 
        alignBaseID=[];
@@ -446,7 +461,7 @@ drawnItems.eachLayer(function(blayer){
                             return predictGenSingleLine(sketchtype,basetype);
                             break;
                         case "many-many":
-                            return predictGenMultiLine(sketchtype,basetype);
+                            return "Abstraction to show existence";
                             break;
                     }
                     break;
@@ -471,6 +486,7 @@ drawnItems.eachLayer(function(blayer){
         }
         else{
         alert("Error Cannot Align :Basemap feature type is different from sketchmap feature type");
+        return "Generalization Not possible"
         }
     }
 
@@ -629,14 +645,14 @@ var datatobesent = new L.geoJson();
 
 var returnValue;
 
-var url = "http://desktop-f25rpfv:8080/fmedatastreaming/Generalization/junctiondetect.fmw?data=" + encodeURIComponent(JSON.stringify(JSON.stringify(datatobesent.toGeoJSON())));
+var url = "http://localhost:80/fmedatastreaming/sketchMapia/junctiondetect.fmw?data=" + encodeURIComponent(JSON.stringify(JSON.stringify(datatobesent.toGeoJSON())));
 var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/GeneralizationPredict/networkcalculator.fmw/parameters?fmetoken=47e241ca547e14ab6ea961aef083f8a4cbe6dfe3"
 
 
 var httpRequest = new XMLHttpRequest();
 httpRequest.open("GET", url, false);
-httpRequest.setRequestHeader("Authorization","fmetoken token=c1f02207ac3b1489be2c18ee26cefb643d646bce")
-httpRequest.setRequestHeader("Access-Control-Allow-Origin", "http://desktop-f25rpfv:8080");
+httpRequest.setRequestHeader("Authorization","fmetoken token=f334fd1f73b3782bd463598970a4709df01b4a09")
+httpRequest.setRequestHeader("Access-Control-Allow-Origin", "http://localhost:80");
 httpRequest.setRequestHeader("Accept","text/html");
 httpRequest.setRequestHeader("content-Type","application/x-www-form-urlencoded");
             httpRequest.onreadystatechange = function()

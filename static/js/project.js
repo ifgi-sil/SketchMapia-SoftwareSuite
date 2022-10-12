@@ -109,6 +109,7 @@ function qualify_SM(callback) {
 
 
 function generalizeMap(){
+console.log(AlignmentArray);
 var lastBaseStreet = routeArray[routeArray.length - 1];
 
 if (routeArray.length == 0){
@@ -121,7 +122,8 @@ if (routeArray.length == 0){
 lastBaseStreet = routeArray[routeArray.length - 1];
 var lastSketchStreet = sketchRouteArray[sketchRouteArray.length -1];
 
-var url = "http://desktop-f25rpfv:8080/fmedatastreaming/Generalization/generalizerFile.fmw?Alignment=" + encodeURIComponent(JSON.stringify(JSON.stringify(AlignmentArray))) + "&RouteSeq=" + encodeURIComponent(routeArray) + "&SketchRouteSeq=" + encodeURIComponent(sketchRouteArray) + "&lastsegment=" + encodeURIComponent(lastBaseStreet) + "&lastsketchsegment=" + encodeURIComponent(lastSketchStreet);
+
+var url = "http://localhost:80/fmedatastreaming/sketchMapia/generalizerFile.fmw?Alignment=" + encodeURIComponent(JSON.stringify(JSON.stringify(AlignmentArray))) + "&RouteSeq=" + encodeURIComponent(routeArray) + "&SketchRouteSeq=" + encodeURIComponent(sketchRouteArray) + "&lastsegment=" + encodeURIComponent(lastBaseStreet) + "&lastsketchsegment=" + encodeURIComponent(lastSketchStreet);
 var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/GeneralizationPredict/networkcalculator.fmw/parameters?fmetoken=47e241ca547e14ab6ea961aef083f8a4cbe6dfe3"
 
  $.ajax({
@@ -137,8 +139,8 @@ var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/Generalization
                    console.log("Test done");
                    var httpRequest = new XMLHttpRequest();
                     httpRequest.open("GET", url, false);
-                    httpRequest.setRequestHeader("Authorization","fmetoken token=c1f02207ac3b1489be2c18ee26cefb643d646bce")
-                    httpRequest.setRequestHeader("Access-Control-Allow-Origin", "http://desktop-f25rpfv:8080");
+                    httpRequest.setRequestHeader("Authorization","fmetoken token=f334fd1f73b3782bd463598970a4709df01b4a09")
+                    httpRequest.setRequestHeader("Access-Control-Allow-Origin", "http://localhost:80");
                     httpRequest.setRequestHeader("Accept","text/html");
                     httpRequest.setRequestHeader("content-Type","multipart/form-data");
             httpRequest.onreadystatechange = function()
