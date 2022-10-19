@@ -1,0 +1,2789 @@
+#! <?xml version="1.0" encoding="UTF-8" ?>
+#! <TRANSFORMER
+# TRANSFORMER_BEGIN "Extract End Points",4,Geometries,b7745e2c-bcb3-4a4d-933b-2745ab7d58c9,"Linked by Default",No,NO_PARALLELISM,,No,18590,YES,No,2or3
+# <h1>Extract End Points</h1>
+# <ul>
+# <li>
+# <p>Takes input features and extracts the first and last vertices of the geometry. </p>
+# </li>
+# <li>
+# <p>Creates new point features for each end vertex with the original attributes from the base feature.</p>
+# </li>
+# </ul>
+# <h2>Optional Parameters</h2>
+# <p><strong><em>Buffer</em></strong></p>
+# <p>Buffer created points by changing the buffer value above 0. <em>Defaults: 0</em></p>
+# <p><strong><em>Extract Original Geometry</em></strong></p>
+# <p>Extract original geometry to be able to reinstate original geometry from point data in later transformations using GeometryReplacer.  <em>Defaults: On</em></p>
+# TRANSFORMER_END
+#!   ATTR_TYPE_ENCODING="SDF"
+#!   BLOCKED_LOOPING="No"
+#!   CATEGORY="Geometries"
+#!   DESCRIPTION="&lt;h1&gt;Extract End Points&lt;/h1&gt;&#10;&lt;ul&gt;&#10;&lt;li&gt;&#10;&lt;p&gt;Takes input features and extracts the first and last vertices of the geometry. &lt;/p&gt;&#10;&lt;/li&gt;&#10;&lt;li&gt;&#10;&lt;p&gt;Creates new point features for each end vertex with the original attributes from the base feature.&lt;/p&gt;&#10;&lt;/li&gt;&#10;&lt;/ul&gt;&#10;&lt;h2&gt;Optional Parameters&lt;/h2&gt;&#10;&lt;p&gt;&lt;strong&gt;&lt;em&gt;Buffer&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;&#10;&lt;p&gt;Buffer created points by changing the buffer value above 0. &lt;em&gt;Defaults: 0&lt;/em&gt;&lt;/p&gt;&#10;&lt;p&gt;&lt;strong&gt;&lt;em&gt;Extract Original Geometry&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;&#10;&lt;p&gt;Extract original geometry to be able to reinstate original geometry from point data in later transformations using GeometryReplacer.  &lt;em&gt;Defaults: On&lt;/em&gt;&lt;/p&gt;"
+#!   DOC_EXTENTS="8770 893"
+#!   DOC_TOP_LEFT="150 15"
+#!   EXPLICIT_BOOKMARK_ORDER="false"
+#!   FME_BUILD_NUM="18590"
+#!   FME_DOCUMENT_GUID="b7745e2c-bcb3-4a4d-933b-2745ab7d58c9"
+#!   FME_DOCUMENT_PRIORGUID=""
+#!   FME_LINKED_TRANSFORMER_VERSION="4"
+#!   FME_PROCESS_COUNT="NO_PARALLELISM"
+#!   FME_PROCESS_GROUPS_ORDERED="No"
+#!   FME_PROCESS_GROUP_BY=""
+#!   FME_SERVER_SERVICES=""
+#!   FMX_ATTRIBUTE_PROPOGATION_MODE="AUTO"
+#!   FMX_INSERT_MODE="Linked by Default"
+#!   HISTORY="3&lt;solidus&gt;4&lt;solidus&gt;20,ua58140,Initial&lt;space&gt;version&lt;space&gt;created,5&lt;solidus&gt;29&lt;solidus&gt;20,ua58140,Added&lt;space&gt;extraction&lt;space&gt;of&lt;space&gt;original&lt;space&gt;geometry&lt;space&gt;as&lt;space&gt;an&lt;space&gt;optional&lt;space&gt;parameter.&lt;space&gt;Updated&lt;space&gt;overview."
+#!   ITERATION_COUNT_ATTR=""
+#!   LAST_SAVE_BUILD="FME(R) 2018.1.2.0 (20190225 - Build 18590 - WIN64)"
+#!   LAST_SAVE_DATE="2020-05-29T08:39:37"
+#!   MARKDOWN_DESCRIPTION="#Extract End Points&#10;&#10;- Takes input features and extracts the first and last vertices of the geometry. &#10;&#10;- Creates new point features for each end vertex with the original attributes from the base feature.&#10;&#10;&#10;##Optional Parameters&#10;&#10;**_Buffer_**&#10;&#10;Buffer created points by changing the buffer value above 0. _Defaults: 0_&#10;&#10;**_Extract Original Geometry_**&#10;&#10;Extract original geometry to be able to reinstate original geometry from point data in later transformations using GeometryReplacer.  _Defaults: On_"
+#!   MARKDOWN_USAGE=""
+#!   MAX_LOOP_ITERATIONS=""
+#!   PASSWORD=""
+#!   PYTHON_COMPATIBILITY="2or3"
+#!   SHOW_ANNOTATIONS="true"
+#!   SHOW_INFO_NODES="true"
+#!   TITLE="Extract End Points"
+#!   USAGE=""
+#!   USE_MARKDOWN="YES"
+#!   VIEW_POSITION="-214.123 2366.92"
+#!   WARN_INVALID_XFORM_PARAM="Yes"
+#!   WORKSPACE_VERSION="1"
+#!   XFORM_DEPRECATED="No"
+#!   ZOOM_SCALE="54"
+#! >
+#! <DATASETS>
+#! </DATASETS>
+#! <DATA_TYPES>
+#! </DATA_TYPES>
+#! <GEOM_TYPES>
+#! </GEOM_TYPES>
+#! <FEATURE_TYPES>
+#! </FEATURE_TYPES>
+#! <FMESERVER>
+#! </FMESERVER>
+#! <GLOBAL_PARAMETERS>
+#! <GLOBAL_PARAMETER
+#!   GUI_LINE="GUI RANGE_SLIDER_OR_ATTR Buffer &quot;RANGE:[,]&quot; Buffer (ft.):"
+#!   DEFAULT_VALUE="0"
+#!   IS_STAND_ALONE="true"
+#! />
+#! <GLOBAL_PARAMETER
+#!   GUI_LINE="GUI CHOICE_OR_ATTR BufferUnit Feet%Meters%Miles%Kilometers Buffer Distance Unit:"
+#!   DEFAULT_VALUE="Feet"
+#!   IS_STAND_ALONE="true"
+#! />
+#! <GLOBAL_PARAMETER
+#!   GUI_LINE="GUI OPTIONAL CHOICE_OR_ATTR ExtractGeometry Yes%No Extract Original Geometry:"
+#!   DEFAULT_VALUE="Yes"
+#!   IS_STAND_ALONE="true"
+#! />
+#! </GLOBAL_PARAMETERS>
+#! <COMMENTS>
+#! </COMMENTS>
+#! <CONSTANTS>
+#! </CONSTANTS>
+#! <BOOKMARKS>
+#! <BOOKMARK
+#!   IDENTIFIER="15"
+#!   NAME="Extract Endpoint Vertices"
+#!   DESCRIPTION="&lt;html&gt;&lt;body&gt;&lt;/body&gt;&lt;/html&gt;"
+#!   TOP_LEFT="2617.675219559213 908"
+#!   ORDER="500000000000034.13"
+#!   BOTTOM_RIGHT="4948.6752195592126 195"
+#!   BOUNDING_RECT="2617.675219559213 908 2331 713"
+#!   STICKY="true"
+#!   COLOUR="0.16078431372549021,0.83137254901960789,0.16470588235294117"
+#!   CONTENTS="11 2 5 9 12 7 6 10 8 "
+#! >
+#! </BOOKMARK>
+#! <BOOKMARK
+#!   IDENTIFIER="43"
+#!   NAME="Extract Original Geometry Option"
+#!   DESCRIPTION=""
+#!   TOP_LEFT="1114 770.5"
+#!   ORDER="500000000000041.13"
+#!   BOTTOM_RIGHT="2474 350.5"
+#!   BOUNDING_RECT="1114 770.5 1360 420"
+#!   STICKY="true"
+#!   COLOUR="0.12549019607843137,0.59215686274509804,0.87450980392156863"
+#!   CONTENTS="39 20 41 "
+#! >
+#! </BOOKMARK>
+#! <BOOKMARK
+#!   IDENTIFIER="44"
+#!   NAME="Buffer Points Option"
+#!   DESCRIPTION=""
+#!   TOP_LEFT="5250 900"
+#!   ORDER="500000000000042.13"
+#!   BOTTOM_RIGHT="7265 15"
+#!   BOUNDING_RECT="5250 900 2015 885"
+#!   STICKY="true"
+#!   COLOUR="0.92549019607843142,0.67450980392156867,0.49019607843137253"
+#!   CONTENTS="35 36 4 26 34 29 33 3 32 37 "
+#! >
+#! </BOOKMARK>
+#! <BOOKMARK
+#!   IDENTIFIER="54"
+#!   NAME="Attribute Cleanup and Output"
+#!   DESCRIPTION=""
+#!   TOP_LEFT="7500 750"
+#!   ORDER="500000000000049.13"
+#!   BOTTOM_RIGHT="8920 148"
+#!   BOUNDING_RECT="7500 750 1420 602"
+#!   STICKY="true"
+#!   COLOUR="0.25490196078431371,0.38039215686274508,0.38039215686274508"
+#!   CONTENTS="45 21 49 "
+#! >
+#! </BOOKMARK>
+#! </BOOKMARKS>
+#! <TRANSFORMERS>
+#! <TRANSFORMER
+#!   IDENTIFIER="2"
+#!   TYPE="CoordinateExtractor"
+#!   VERSION="2"
+#!   POSITION="2768.6721679374996 552.5"
+#!   BOUNDING_RECT="2768.6721679374996 552.5 625.00625006250084 71"
+#!   ORDER="500000000000001"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_PARM PARM_NAME="ALL_ATTRIBUTES_GROUP" PARM_VALUE="FME_DISCLOSURE_OPEN"/>
+#!     <XFORM_PARM PARM_NAME="IND" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="INDEX_ATTRIBUTES_GROUP" PARM_VALUE="FME_DISCLOSURE_CLOSED"/>
+#!     <XFORM_PARM PARM_NAME="LIST_NAME" PARM_VALUE="_indices"/>
+#!     <XFORM_PARM PARM_NAME="MODE" PARM_VALUE="All Coordinates"/>
+#!     <XFORM_PARM PARM_NAME="MODE_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="CoordinateExtractor"/>
+#!     <XFORM_PARM PARM_NAME="X_ATTR" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="Y_ATTR" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="Z_ATTR" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="Z_DEFAULT" PARM_VALUE=""/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="3"
+#!   TYPE="VertexCreator"
+#!   VERSION="2"
+#!   POSITION="5358 570.5"
+#!   BOUNDING_RECT="5358 570.5 -1 -1"
+#!   ORDER="500000000000002"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="&lt;REJECTED&gt;"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="fme_rejection_code" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_PARM PARM_NAME="INDEX" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="MODE_NAME" PARM_VALUE="Add Point"/>
+#!     <XFORM_PARM PARM_NAME="PARAMETER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="VertexCreator_2"/>
+#!     <XFORM_PARM PARM_NAME="XVAL" PARM_VALUE="@Value(x)"/>
+#!     <XFORM_PARM PARM_NAME="YVAL" PARM_VALUE="@Value(y)"/>
+#!     <XFORM_PARM PARM_NAME="ZVAL" PARM_VALUE=""/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="4"
+#!   TYPE="VertexCreator"
+#!   VERSION="2"
+#!   POSITION="5358 277.5"
+#!   BOUNDING_RECT="5358 277.5 -1 -1"
+#!   ORDER="500000000000002"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="&lt;REJECTED&gt;"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="fme_rejection_code" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_PARM PARM_NAME="INDEX" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="MODE_NAME" PARM_VALUE="Add Point"/>
+#!     <XFORM_PARM PARM_NAME="PARAMETER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="VertexCreator"/>
+#!     <XFORM_PARM PARM_NAME="XVAL" PARM_VALUE="@Value(x)"/>
+#!     <XFORM_PARM PARM_NAME="YVAL" PARM_VALUE="@Value(y)"/>
+#!     <XFORM_PARM PARM_NAME="ZVAL" PARM_VALUE=""/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="5"
+#!   TYPE="ListIndexer"
+#!   VERSION="2"
+#!   POSITION="3696.67529296875 436.5"
+#!   BOUNDING_RECT="3696.67529296875 436.5 -1 -1"
+#!   ORDER="500000000000007"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="&lt;REJECTED&gt;"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="fme_rejection_code" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_PARM PARM_NAME="INDEX" PARM_VALUE="@Evaluate(@NumElements(_indices{})-1)"/>
+#!     <XFORM_PARM PARM_NAME="LIST_ATTR" PARM_VALUE="_indices{}"/>
+#!     <XFORM_PARM PARM_NAME="PARAMETERS_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="PREFIX" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="Get_End_Point"/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="6"
+#!   TYPE="ListIndexer"
+#!   VERSION="2"
+#!   POSITION="3696.67529296875 729.5"
+#!   BOUNDING_RECT="3696.67529296875 729.5 -1 -1"
+#!   ORDER="500000000000007"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="&lt;REJECTED&gt;"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="fme_rejection_code" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_PARM PARM_NAME="INDEX" PARM_VALUE="@Evaluate(0)"/>
+#!     <XFORM_PARM PARM_NAME="LIST_ATTR" PARM_VALUE="_indices{}"/>
+#!     <XFORM_PARM PARM_NAME="PARAMETERS_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="PREFIX" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="Get_Start_Point"/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="7"
+#!   TYPE="GeometryRemover"
+#!   VERSION="0"
+#!   POSITION="4386.67529296875 406.5"
+#!   BOUNDING_RECT="4386.67529296875 406.5 -1 -1"
+#!   ORDER="500000000000009"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="GeometryRemover_2"/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="8"
+#!   TYPE="GeometryRemover"
+#!   VERSION="0"
+#!   POSITION="4386.67529296875 699.5"
+#!   BOUNDING_RECT="4386.67529296875 699.5 -1 -1"
+#!   ORDER="500000000000009"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="GeometryRemover"/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="20"
+#!   TYPE="GeometryExtractor"
+#!   VERSION="14"
+#!   POSITION="1890.069956138158 642.08026317105282"
+#!   BOUNDING_RECT="1890.069956138158 642.08026317105282 -1 -1"
+#!   ORDER="500000000000035.13"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="&lt;REJECTED&gt;"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="fme_rejection_code" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_PARM PARM_NAME="ATTR" PARM_VALUE="Original_Geometry"/>
+#!     <XFORM_PARM PARM_NAME="ELLIPSOID_NAME" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="GEOHASH_GROUP" PARM_VALUE="FME_DISCLOSURE_CLOSED"/>
+#!     <XFORM_PARM PARM_NAME="GEOHASH_PRECISION_DISPLAY" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="ISO6709_FORMAT_CHOICE" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="ISO6709_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="ISO6709_MAX_DECIMAL_PLACES" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="JSON_GROUP" PARM_VALUE="FME_DISCLOSURE_CLOSED"/>
+#!     <XFORM_PARM PARM_NAME="JSON_MAX_DIGITS" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="KIND_LONG" PARM_VALUE="FME Binary"/>
+#!     <XFORM_PARM PARM_NAME="LETTERING" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="LEVELS_ATTR" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="MGRS_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="MSSQL_FORMAT_CHOICE" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="MSSQL_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="OGCVERSION" PARM_VALUE="1.2"/>
+#!     <XFORM_PARM PARM_NAME="OGC_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="OGC_WKT_PRECISION_DISPLAY" PARM_VALUE="64-bit"/>
+#!     <XFORM_PARM PARM_NAME="OGEOSMS_URL_PREFIX" PARM_VALUE="http://maps.google.com/?q="/>
+#!     <XFORM_PARM PARM_NAME="OMIT_NAMESPACES_DISPLAY" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="PARAMETERS_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="POLYLINE_GROUP" PARM_VALUE="FME_DISCLOSURE_CLOSED"/>
+#!     <XFORM_PARM PARM_NAME="PRECISION" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="PREFER_POLYGON_OVER_SURFACE" PARM_VALUE="No"/>
+#!     <XFORM_PARM PARM_NAME="REMOVE_GEOMETRY" PARM_VALUE="No"/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="GeometryExtractor"/>
+#!     <XFORM_PARM PARM_NAME="XML_GROUP" PARM_VALUE="FME_DISCLOSURE_CLOSED"/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="26"
+#!   TYPE="GeographicBufferer"
+#!   VERSION="4"
+#!   POSITION="6732.5 329.5"
+#!   BOUNDING_RECT="6732.5 329.5 -1 -1"
+#!   ORDER="500000000000036.13"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="Output"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="&lt;Rejected&gt;"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="fme_rejection_code" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_PARM PARM_NAME="ANGLE" PARM_VALUE="22.5"/>
+#!     <XFORM_PARM PARM_NAME="BufferDist" PARM_VALUE="$(Buffer)"/>
+#!     <XFORM_PARM PARM_NAME="BufferUnit" PARM_VALUE="$(BufferUnit)"/>
+#!     <XFORM_PARM PARM_NAME="CAP_STYLE" PARM_VALUE="Round"/>
+#!     <XFORM_PARM PARM_NAME="CORNER_STYLE" PARM_VALUE="Round"/>
+#!     <XFORM_PARM PARM_NAME="MITER_LIMIT" PARM_VALUE="1"/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="GeographicBufferer"/>
+#!     <XFORM_PARM PARM_NAME="__COMPOUND_PARAMETERS" PARM_VALUE=""/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="29"
+#!   TYPE="GeographicBufferer"
+#!   VERSION="4"
+#!   POSITION="6732.5 708.5"
+#!   BOUNDING_RECT="6732.5 708.5 -1 -1"
+#!   ORDER="500000000000036.13"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="Output"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="&lt;Rejected&gt;"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="fme_rejection_code" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_PARM PARM_NAME="ANGLE" PARM_VALUE="22.5"/>
+#!     <XFORM_PARM PARM_NAME="BufferDist" PARM_VALUE="$(Buffer)"/>
+#!     <XFORM_PARM PARM_NAME="BufferUnit" PARM_VALUE="$(BufferUnit)"/>
+#!     <XFORM_PARM PARM_NAME="CAP_STYLE" PARM_VALUE="Round"/>
+#!     <XFORM_PARM PARM_NAME="CORNER_STYLE" PARM_VALUE="Round"/>
+#!     <XFORM_PARM PARM_NAME="MITER_LIMIT" PARM_VALUE="1"/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="GeographicBufferer_2"/>
+#!     <XFORM_PARM PARM_NAME="__COMPOUND_PARAMETERS" PARM_VALUE=""/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="32"
+#!   TYPE="Tester"
+#!   VERSION="2"
+#!   POSITION="6048 277.5"
+#!   BOUNDING_RECT="6048 277.5 -1 -1"
+#!   ORDER="500000000000038.13"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="PASSED"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="FAILED"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_PARM PARM_NAME="BOOL_OP" PARM_VALUE="OR"/>
+#!     <XFORM_PARM PARM_NAME="COMPOSITE_TEST" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="TEST_CLAUSE" PARM_VALUE="TEST $(Buffer) = 0"/>
+#!     <XFORM_PARM PARM_NAME="TEST_CLAUSE_GRP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="Tester"/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="35"
+#!   TYPE="Tester"
+#!   VERSION="2"
+#!   POSITION="6048 570.5"
+#!   BOUNDING_RECT="6048 570.5 -1 -1"
+#!   ORDER="500000000000038.13"
+#!   PARMS_EDITED="false"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="PASSED"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="FAILED"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_PARM PARM_NAME="BOOL_OP" PARM_VALUE="OR"/>
+#!     <XFORM_PARM PARM_NAME="COMPOSITE_TEST" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="TEST_CLAUSE" PARM_VALUE="TEST $(Buffer) = 0"/>
+#!     <XFORM_PARM PARM_NAME="TEST_CLAUSE_GRP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="Tester_2"/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="39"
+#!   TYPE="Tester"
+#!   VERSION="2"
+#!   POSITION="1200 600"
+#!   BOUNDING_RECT="1200 600 -1 -1"
+#!   ORDER="500000000000040.13"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="PASSED"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <OUTPUT_FEAT NAME="FAILED"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_PARM PARM_NAME="BOOL_OP" PARM_VALUE="OR"/>
+#!     <XFORM_PARM PARM_NAME="COMPOSITE_TEST" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="TEST_CLAUSE" PARM_VALUE="TEST $(ExtractGeometry) = Yes"/>
+#!     <XFORM_PARM PARM_NAME="TEST_CLAUSE_GRP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="Tester_3"/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="47"
+#!   TYPE="Junction"
+#!   VERSION="0"
+#!   POSITION="7350 407.12112982078474"
+#!   BOUNDING_RECT="7350 407.12112982078474 -1 -1"
+#!   ORDER="500000000000045.13"
+#!   PARMS_EDITED="false"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="Output"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="Junction"/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="45"
+#!   TYPE="AttributeManager"
+#!   VERSION="2"
+#!   POSITION="7608 450.5"
+#!   BOUNDING_RECT="7608 450.5 -1 -1"
+#!   ORDER="500000000000048.13"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="point_x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="point_y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="point_z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_PARM PARM_NAME="ATTRIBUTE_GRP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="ATTRIBUTE_HANDLING" PARM_VALUE="FME_DISCLOSURE_CLOSED"/>
+#!     <XFORM_PARM PARM_NAME="ATTR_TABLE" PARM_VALUE="Original_Geometry Original_Geometry  NO_OP _indices&lt;opencurly&gt;&lt;closecurly&gt;.x _indices&lt;opencurly&gt;&lt;closecurly&gt;.x  REMOVE _indices&lt;opencurly&gt;&lt;closecurly&gt;.y _indices&lt;opencurly&gt;&lt;closecurly&gt;.y  REMOVE _indices&lt;opencurly&gt;&lt;closecurly&gt;.z _indices&lt;opencurly&gt;&lt;closecurly&gt;.z  REMOVE x point_x  RENAME_SET_VALUE y point_y  RENAME_SET_VALUE z point_z  RENAME_SET_VALUE"/>
+#!     <XFORM_PARM PARM_NAME="MULTI_FEATURE_MODE" PARM_VALUE="NO"/>
+#!     <XFORM_PARM PARM_NAME="NULL_ATTR_MODE_DISPLAY" PARM_VALUE="No Substitution"/>
+#!     <XFORM_PARM PARM_NAME="NULL_ATTR_VALUE" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="NUM_PRIOR_FEATURES" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="NUM_SUBSEQUENT_FEATURES" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="AttributeManager"/>
+#! </TRANSFORMER>
+#! </TRANSFORMERS>
+#! <SUBDOCUMENT_IOS>
+#! <SUBDOCUMENT_IO
+#!   IDENTIFIER="16"
+#!   NAME="Input_Features"
+#!   POSITION="150 600"
+#!   BOUNDING_RECT="150 600 688.015625 71"
+#!   COLLAPSED="true"
+#!   PUBLISHED="true"
+#!   IS_SOURCE="true"
+#!   ATTR_MODE="0"
+#! >
+#! </SUBDOCUMENT_IO>
+#! <SUBDOCUMENT_IO
+#!   IDENTIFIER="21"
+#!   NAME="Point_Output"
+#!   POSITION="8306.9999999999982 543.75"
+#!   BOUNDING_RECT="8306.9999999999982 543.75 -1 -1"
+#!   COLLAPSED="false"
+#!   IS_SOURCE="false"
+#!   ATTR_MODE="0"
+#! >
+#! </SUBDOCUMENT_IO>
+#! </SUBDOCUMENT_IOS>
+#! <FEAT_LINKS>
+#! <FEAT_LINK
+#!   IDENTIFIER="40"
+#!   SOURCE_NODE="16"
+#!   TARGET_NODE="39"
+#!   SOURCE_PORT_DESC="0"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="9"
+#!   SOURCE_NODE="2"
+#!   TARGET_NODE="5"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="10"
+#!   SOURCE_NODE="2"
+#!   TARGET_NODE="6"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="1"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="36"
+#!   SOURCE_NODE="3"
+#!   TARGET_NODE="35"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="33"
+#!   SOURCE_NODE="4"
+#!   TARGET_NODE="32"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="11"
+#!   SOURCE_NODE="5"
+#!   TARGET_NODE="7"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="12"
+#!   SOURCE_NODE="6"
+#!   TARGET_NODE="8"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="13"
+#!   SOURCE_NODE="7"
+#!   TARGET_NODE="3"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="14"
+#!   SOURCE_NODE="8"
+#!   TARGET_NODE="4"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="46"
+#!   SOURCE_NODE="20"
+#!   TARGET_NODE="2"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="51"
+#!   SOURCE_NODE="26"
+#!   TARGET_NODE="47"
+#!   SOURCE_PORT_DESC="fo 0 Output"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="50"
+#!   SOURCE_NODE="29"
+#!   TARGET_NODE="47"
+#!   SOURCE_PORT_DESC="fo 0 Output"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="53"
+#!   SOURCE_NODE="32"
+#!   TARGET_NODE="47"
+#!   SOURCE_PORT_DESC="fo 0 PASSED"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="52"
+#!   SOURCE_NODE="35"
+#!   TARGET_NODE="47"
+#!   SOURCE_PORT_DESC="fo 0 PASSED"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="41"
+#!   SOURCE_NODE="39"
+#!   TARGET_NODE="20"
+#!   SOURCE_PORT_DESC="fo 0 PASSED"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="49"
+#!   SOURCE_NODE="45"
+#!   TARGET_NODE="21"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="0"
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="48"
+#!   SOURCE_NODE="47"
+#!   TARGET_NODE="45"
+#!   SOURCE_PORT_DESC="fo 0 Output"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="34"
+#!   SOURCE_NODE="32"
+#!   TARGET_NODE="26"
+#!   SOURCE_PORT_DESC="fo 1 FAILED"
+#!   TARGET_PORT_DESC="fi 0 Input"
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="37"
+#!   SOURCE_NODE="35"
+#!   TARGET_NODE="29"
+#!   SOURCE_PORT_DESC="fo 1 FAILED"
+#!   TARGET_PORT_DESC="fi 0 Input"
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="42"
+#!   SOURCE_NODE="39"
+#!   TARGET_NODE="2"
+#!   SOURCE_PORT_DESC="fo 1 FAILED"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! </FEAT_LINKS>
+#! <BREAKPOINTS>
+#! </BREAKPOINTS>
+#! <ATTR_LINKS>
+#! </ATTR_LINKS>
+#! <SUBDOCUMENTS>
+#! </SUBDOCUMENTS>
+#! <LOOKUP_TABLES>
+#! </LOOKUP_TABLES>
+#! </TRANSFORMER>
+
+FME_PYTHON_VERSION 2or3
+DEFAULT_MACRO $(Extract_End_Points_WORKSPACE_NAME)_Buffer 0
+DEFAULT_MACRO $(Extract_End_Points_WORKSPACE_NAME)_BufferUnit Feet
+DEFAULT_MACRO $(Extract_End_Points_WORKSPACE_NAME)_ExtractGeometry Yes
+#! START_HEADER
+#! END_HEADER
+
+DEFAULT_MACRO WB_CURRENT_CONTEXT
+DEFAULT_MACRO Extract_End_Points_WORKSPACE_NAME ""
+INCLUDE [puts {MACRO WB_OLD_CONTEXT_$(Extract_End_Points_WORKSPACE_NAME) $(WB_CURRENT_CONTEXT)};          puts {MACRO WB_CURRENT_CONTEXT $(Extract_End_Points_WORKSPACE_NAME)}]
+FACTORY_DEF * TeeFactory   FACTORY_NAME "$(Extract_End_Points_WORKSPACE_NAME)_Input_Features1590766777 Input Splitter"   INPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Input_Features"   OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Input_Features"
+# -------------------------------------------------------------------------
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_Tester_3    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Input_Features"    TEST @EvaluateExpression(FDIV,STRING_ENCODED,$($(Extract_End_Points_WORKSPACE_NAME)_ExtractGeometry$encode),$(Extract_End_Points_WORKSPACE_NAME)_Tester_3) = Yes ENCODED    BOOLEAN_OPERATOR OR    OUTPUT PASSED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Tester_3_PASSED"    OUTPUT FAILED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Tester_3_FAILED"
+# -------------------------------------------------------------------------
+# First determine which function we are going to be using -- we can do
+# this statically at parse time for efficiency sake
+MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function
+INCLUDE [ if {{fmebinary} == {fmebinary} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @Geometry(TO_ATTRIBUTE_BINARY,"Original_Geometry") }           } elseif {{fmebinary} == {fmehex} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @Geometry(TO_ATTRIBUTE_BINARY_HEX,"Original_Geometry") }           } elseif {{fmebinary} == {fmexml} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @Geometry(TO_ATTRIBUTE,"Original_Geometry") }           } elseif {{fmebinary} == {polyline} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @Geometry(TO_ATTRIBUTE_POLYLINE,"Original_Geometry",<Unused>) }           } elseif {{fmebinary} == {wkt} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @OGCGeometry(to_attribute,fmebinary,"Original_Geometry",1.2,FLOAT_64) }           } elseif {{fmebinary} == {wkb} ||                     {fmebinary} == {wkbhex} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @OGCGeometry(to_attribute,fmebinary,"Original_Geometry",1.2) }           } elseif {{fmebinary} == {GEOJSON} ||                     {fmebinary} == {ESRIJSON} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @JSONGeometry(TO_ATTRIBUTE,fmebinary,"Original_Geometry",<Unused>) }           } elseif {{fmebinary} == {KML} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @KMLGeometry(TO_ATTRIBUTE,"Original_Geometry",<Unused>) }           } elseif {{fmebinary} == {GEORSS_SIMPLE} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @GeoRSSGeometry(TO_ATTRIBUTE,fmebinary,"Original_Geometry",<Unused>) }           } elseif {{fmebinary} == {GML_2.1.2} ||                     {fmebinary} == {GML_3.1.1} ||                     {fmebinary} == {GML_3.2.1} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @GMLGeometry(TO_ATTRIBUTE,fmebinary,"Original_Geometry",<Unused>,NO) }           } elseif {{fmebinary} == {geohash} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @GeoHash(TO_ATTRIBUTE,"Original_Geometry",<Unused>) }           } elseif {{fmebinary} == {ogeosms} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @OGCGeometry(to_attribute,fmebinary,"Original_Geometry",http://maps.google.com/?q=) }           } elseif {{fmebinary} == {geosms} ||                     {fmebinary} == {geo}    } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @OGCGeometry(to_attribute,fmebinary,"Original_Geometry") }           } elseif {{fmebinary} == {mgrs} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @SupplyAttributes(Original_Geometry, @MGRS(TO_MGRS, <Unused>, <Unused>, "<Unused>")) }           } elseif {{fmebinary} == {mssql} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @SerializeGeometry(to_attribute,fmebinary,"Original_Geometry","<Unused>")}           } elseif {{fmebinary} == {iso6709} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @GeographicPoint(TO_ATTRIBUTE,"Original_Geometry","<Unused>","<Unused>")}           } elseif {{fmebinary} == {qlikmaps} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @Geometry(TO_ATTRIBUTE_QLIKMAPS_POLYLINE,"Original_Geometry",<Unused>) }           }         ]
+# Next determine if we should remove the geometry and also do this once at parse time
+# By default, the macro has nothing, meaning we do not remove. If we want to remove, then we'll set the macro to do so
+MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_GeometryRemoveFunction
+INCLUDE [ if {{No} == {Yes} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_GeometryRemoveFunction @RemoveGeometry() }           }         ]
+FACTORY_DEF * TeeFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Tester_3_PASSED"    OUTPUT FEATURE_TYPE ___TOREJECTOR___         @RenameAttributes(FME_STRICT,___fme_rejection_code___,fme_rejection_code)         $($(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function)         $($(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_GeometryRemoveFunction)
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Rejector    INPUT FEATURE_TYPE ___TOREJECTOR___    TEST @Value(fme_rejection_code) != ""    OUTPUT FAILED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_OUTPUT"       @RenameAttributes(FME_STRICT,fme_rejection_code,___fme_rejection_code___)
+# -------------------------------------------------------------------------
+FACTORY_DEF * TestFactory    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Tester_3_FAILED"    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_OUTPUT"    TEST "All Coordinates" == "All Coordinates"    OUTPUT PASSED FEATURE_TYPE $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_PASSED    OUTPUT FAILED FEATURE_TYPE $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_FAILED
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_PASSED    INPUT FEATURE_TYPE $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_PASSED    TEST @Dimension() == 2    OUTPUT PASSED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT"         @ZValue("")         @Coordinate(x,ALL,"_indices"{}.x,FLATTEN_AGGREGATE,YES)         @Coordinate(y,ALL,"_indices"{}.y,FLATTEN_AGGREGATE,NO)         @Coordinate(z,ALL,"_indices"{}.z,FLATTEN_AGGREGATE,NO)         @Dimension(2)    OUTPUT FAILED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT"         @Coordinate(x,ALL,"_indices"{}.x,FLATTEN_AGGREGATE,YES)         @Coordinate(y,ALL,"_indices"{}.y,FLATTEN_AGGREGATE,NO)         @Coordinate(z,ALL,"_indices"{}.z,FLATTEN_AGGREGATE,NO)
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_FAILED    INPUT FEATURE_TYPE $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_FAILED    TEST @Dimension() == 2    OUTPUT PASSED FEATURE_TYPE $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_FAILED_PASSED    OUTPUT FAILED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT"
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_FAILED_PASSED    INPUT FEATURE_TYPE $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_FAILED_PASSED    TEST "" == ""    OUTPUT PASSED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT"    OUTPUT FAILED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT"
+FACTORY_DEF * TeeFactory   FACTORY_NAME "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor OUTPUT Splitter"   INPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT"   OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT_0_apAN4nCBiVs="   OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT_1_l52pxYTWUEs="
+# -------------------------------------------------------------------------
+Tcl2 proc $(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_indexer {index numElements prefix} {    if {$index < 0 } {       set index [expr $numElements + $index];    };    regsub \"{}\" {_indices{}} \"{$index}\" listWithIndex;    regsub \"{}\" {_indices{}} {} listBase;    set complexListExp "$listWithIndex\.";    set prefixLength [expr [string length $complexListExp]-1];    set prefix [FME_DecodeText $prefix];    foreach attr [FME_AttributeNames] {      set newAttr {};      if {$attr == $listWithIndex} {        set newAttr $listBase;      } elseif {[string first $complexListExp $attr] == 0} {        set newAttr [string replace $attr 0 $prefixLength];      };      if {$newAttr != {}} {          if {$prefix != {} } {            set newAttr $prefix$newAttr;          };          if {[string first {fme_} $newAttr] != 0} {              set first [string first {fme_} $newAttr];              lappend attrsToCopy $newAttr $attr;          };      };    };    if {[info exists attrsToCopy] && [llength $attrsToCopy] > 0} {      eval FME_Execute CopyAttributes $attrsToCopy;    }; }
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_IntTester    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT_1_l52pxYTWUEs="    TEST "@EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen>0<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point)" TYPE INT ENCODED    OUTPUT PASSED FEATURE_TYPE __toOutput__
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_ListIndexer    INPUT FEATURE_TYPE __toOutput__    TEST "@EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen>0<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point)" >= 0    OUTPUT PASSED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_OUTPUT" @Tcl2("$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_indexer @EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen>0<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point) 0 {}")    OUTPUT FAILED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_OUTPUT" @Tcl2("$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_indexer @EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen>0<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point) @NumElements(_indices{})  {}")
+# -------------------------------------------------------------------------
+FACTORY_DEF * TeeFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_GeometryRemover    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_OUTPUT"    OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeometryRemover_OUTPUT"         @RemoveGeometry()
+# -------------------------------------------------------------------------
+FACTORY_DEF * VertexCreatorFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_VertexCreator    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeometryRemover_OUTPUT"    MODE ADD    INDEX "<Unused>"    CONTINUE_ON_ERROR YES    XVAL "@EvaluateExpression(FDIV,FLOAT,<at>Value<openparen>x<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator)"    YVAL "@EvaluateExpression(FDIV,FLOAT,<at>Value<openparen>y<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator)"    OUTPUT OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator_OUTPUT"
+# -------------------------------------------------------------------------
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_Tester    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator_OUTPUT"    TEST @EvaluateExpression(FDIV,STRING_ENCODED,$($(Extract_End_Points_WORKSPACE_NAME)_Buffer$encode),$(Extract_End_Points_WORKSPACE_NAME)_Tester) = 0 ENCODED    BOOLEAN_OPERATOR OR    OUTPUT PASSED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Tester_PASSED"    OUTPUT FAILED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Tester_FAILED"
+# -------------------------------------------------------------------------
+FACTORY_DEF * TeeFactory   FACTORY_NAME "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer Input Input Collector"   INPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Tester_FAILED"   OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_Input"
+MACRO GeographicBufferer_WORKSPACE_NAME $(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_XFORMER_NAME $(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_TRANSFORMER_GROUP 
+MACRO $(GeographicBufferer_WORKSPACE_NAME)___COMPOUND_PARAMETERS 
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_BufferUnit $($(Extract_End_Points_WORKSPACE_NAME)_BufferUnit)
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_BufferDist $($(Extract_End_Points_WORKSPACE_NAME)_Buffer)
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_CAP_STYLE Round
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_CORNER_STYLE Round
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_ANGLE 22.5
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_MITER_LIMIT 1
+INCLUDE_BUILTIN_CUSTOM_TRANSFORMER_VER GeographicBufferer:4
+FACTORY_DEF * TeeFactory   FACTORY_NAME "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer Output Output Renamer/Nuker"   INPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_Output"   OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_Output"
+FACTORY_DEF * TeeFactory   FACTORY_NAME "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer <Rejected> Output Renamer/Nuker"   INPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_<Rejected>"
+# -------------------------------------------------------------------------
+Tcl2 proc $(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_indexer {index numElements prefix} {    if {$index < 0 } {       set index [expr $numElements + $index];    };    regsub \"{}\" {_indices{}} \"{$index}\" listWithIndex;    regsub \"{}\" {_indices{}} {} listBase;    set complexListExp "$listWithIndex\.";    set prefixLength [expr [string length $complexListExp]-1];    set prefix [FME_DecodeText $prefix];    foreach attr [FME_AttributeNames] {      set newAttr {};      if {$attr == $listWithIndex} {        set newAttr $listBase;      } elseif {[string first $complexListExp $attr] == 0} {        set newAttr [string replace $attr 0 $prefixLength];      };      if {$newAttr != {}} {          if {$prefix != {} } {            set newAttr $prefix$newAttr;          };          if {[string first {fme_} $newAttr] != 0} {              set first [string first {fme_} $newAttr];              lappend attrsToCopy $newAttr $attr;          };      };    };    if {[info exists attrsToCopy] && [llength $attrsToCopy] > 0} {      eval FME_Execute CopyAttributes $attrsToCopy;    }; }
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_IntTester    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT_0_apAN4nCBiVs="    TEST "@EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen><at>NumElements<openparen>_indices<opencurly><closecurly><closeparen>-1<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point)" TYPE INT ENCODED    OUTPUT PASSED FEATURE_TYPE __toOutput__
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_ListIndexer    INPUT FEATURE_TYPE __toOutput__    TEST "@EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen><at>NumElements<openparen>_indices<opencurly><closecurly><closeparen>-1<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point)" >= 0    OUTPUT PASSED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_OUTPUT" @Tcl2("$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_indexer @EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen><at>NumElements<openparen>_indices<opencurly><closecurly><closeparen>-1<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point) 0 {}")    OUTPUT FAILED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_OUTPUT" @Tcl2("$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_indexer @EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen><at>NumElements<openparen>_indices<opencurly><closecurly><closeparen>-1<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point) @NumElements(_indices{})  {}")
+# -------------------------------------------------------------------------
+FACTORY_DEF * TeeFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_GeometryRemover_2    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_OUTPUT"    OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeometryRemover_2_OUTPUT"         @RemoveGeometry()
+# -------------------------------------------------------------------------
+FACTORY_DEF * VertexCreatorFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_VertexCreator_2    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeometryRemover_2_OUTPUT"    MODE ADD    INDEX "<Unused>"    CONTINUE_ON_ERROR YES    XVAL "@EvaluateExpression(FDIV,FLOAT,<at>Value<openparen>x<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator_2)"    YVAL "@EvaluateExpression(FDIV,FLOAT,<at>Value<openparen>y<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator_2)"    OUTPUT OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator_2_OUTPUT"
+# -------------------------------------------------------------------------
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_Tester_2    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator_2_OUTPUT"    TEST @EvaluateExpression(FDIV,STRING_ENCODED,$($(Extract_End_Points_WORKSPACE_NAME)_Buffer$encode),$(Extract_End_Points_WORKSPACE_NAME)_Tester_2) = 0 ENCODED    BOOLEAN_OPERATOR OR    OUTPUT PASSED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Tester_2_PASSED"    OUTPUT FAILED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Tester_2_FAILED"
+# -------------------------------------------------------------------------
+FACTORY_DEF * TeeFactory   FACTORY_NAME "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_2 Input Input Collector"   INPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Tester_2_FAILED"   OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_2_Input"
+MACRO GeographicBufferer_WORKSPACE_NAME $(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_2
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_XFORMER_NAME $(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_2
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_TRANSFORMER_GROUP 
+MACRO $(GeographicBufferer_WORKSPACE_NAME)___COMPOUND_PARAMETERS 
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_BufferUnit $($(Extract_End_Points_WORKSPACE_NAME)_BufferUnit)
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_BufferDist $($(Extract_End_Points_WORKSPACE_NAME)_Buffer)
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_CAP_STYLE Round
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_CORNER_STYLE Round
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_ANGLE 22.5
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_MITER_LIMIT 1
+INCLUDE_BUILTIN_CUSTOM_TRANSFORMER_VER GeographicBufferer:4
+FACTORY_DEF * TeeFactory   FACTORY_NAME "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_2 Output Output Renamer/Nuker"   INPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_2_Output"   OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_2_Output"
+FACTORY_DEF * TeeFactory   FACTORY_NAME "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_2 <Rejected> Output Renamer/Nuker"   INPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_2_<Rejected>"
+# -------------------------------------------------------------------------
+FACTORY_DEF * TeeFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_Junction    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_2_Output"    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_Output"    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Tester_2_PASSED"    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Tester_PASSED"    OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Junction_Output"
+# -------------------------------------------------------------------------
+FACTORY_DEF {*} AttrSetFactory    COMMAND_PARM_EVALUATION SINGLE_PASS    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_AttributeManager    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Junction_Output"    MULTI_FEATURE_MODE NO     NULL_ATTR_MODE NO_OP     ATTRSET_CREATE_DIRECTIVES _PROPAGATE_MISSING_FDIV    ACTION_COLUMN 3    DEF_VAL_COLUMN 2    ATTR_ACTION { "_indices<opencurly><closecurly>.x" "_indices<opencurly><closecurly>.x" "" "REMOVE" }      ATTR_ACTION { "_indices<opencurly><closecurly>.y" "_indices<opencurly><closecurly>.y" "" "REMOVE" }      ATTR_ACTION { "_indices<opencurly><closecurly>.z" "_indices<opencurly><closecurly>.z" "" "REMOVE" }      ATTR_ACTION { "x" "point_x" "" "RENAME_SET_VALUE" }      ATTR_ACTION { "y" "point_y" "" "RENAME_SET_VALUE" }      ATTR_ACTION { "z" "point_z" "" "RENAME_SET_VALUE" }    OUTPUT OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_AttributeManager_OUTPUT"
+FACTORY_DEF * TeeFactory   FACTORY_NAME "$(Extract_End_Points_WORKSPACE_NAME)_Point_Output1590766777 Output Collector"   INPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_AttributeManager_OUTPUT"   OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Point_Output"
+INCLUDE [puts {MACRO WB_CURRENT_CONTEXT $(WB_OLD_CONTEXT_$(Extract_End_Points_WORKSPACE_NAME))}]
+#! <?xml version="1.0" encoding="UTF-8" ?>
+#! <TRANSFORMER
+# TRANSFORMER_BEGIN "Extract End Points",3,Geometries,0c573edc-5fe3-4851-926e-65887efeace8,"Linked by Default",No,NO_PARALLELISM,,No,18590,YES,No,2or3
+# <h3>Extract End Points</h3>
+# <ul>
+# <li>
+# <p>Takes input features and extracts the first and last vertices of the geometry. </p>
+# </li>
+# <li>
+# <p>Creates new point features for each end vertex with the original attributes from the base feature.</p>
+# </li>
+# <li>
+# <p>Optionally buffer created points by changing the buffer value above 0. </p>
+# </li>
+# </ul>
+# TRANSFORMER_END
+#!   ATTR_TYPE_ENCODING="SDF"
+#!   BLOCKED_LOOPING="No"
+#!   CATEGORY="Geometries"
+#!   DESCRIPTION="&lt;h3&gt;Extract End Points&lt;/h3&gt;&#10;&lt;ul&gt;&#10;&lt;li&gt;&#10;&lt;p&gt;Takes input features and extracts the first and last vertices of the geometry. &lt;/p&gt;&#10;&lt;/li&gt;&#10;&lt;li&gt;&#10;&lt;p&gt;Creates new point features for each end vertex with the original attributes from the base feature.&lt;/p&gt;&#10;&lt;/li&gt;&#10;&lt;li&gt;&#10;&lt;p&gt;Optionally buffer created points by changing the buffer value above 0. &lt;/p&gt;&#10;&lt;/li&gt;&#10;&lt;/ul&gt;"
+#!   DOC_EXTENTS="6450 1143.62"
+#!   DOC_TOP_LEFT="-2400 -1254.62"
+#!   EXPLICIT_BOOKMARK_ORDER="false"
+#!   FME_BUILD_NUM="18590"
+#!   FME_DOCUMENT_GUID="0c573edc-5fe3-4851-926e-65887efeace8"
+#!   FME_DOCUMENT_PRIORGUID="7bae341a-0178-4f67-83c0-2d15b255cbd5,67cf24a8-2386-4912-b8fc-9fe7813f009a,2be2b1eb-c58f-4cf4-aaca-cdef7eb9f64a,8ce322df-757d-4b8f-ac09-7dfed3420156,0d7edeef-2ec6-4578-a10e-b8a200b32a5e,a34b4d35-baf8-483b-82ab-36bf8feccede"
+#!   FME_LINKED_TRANSFORMER_VERSION="3"
+#!   FME_PROCESS_COUNT="NO_PARALLELISM"
+#!   FME_PROCESS_GROUPS_ORDERED="No"
+#!   FME_PROCESS_GROUP_BY=""
+#!   FME_SERVER_SERVICES=""
+#!   FMX_ATTRIBUTE_PROPOGATION_MODE="AUTO"
+#!   FMX_INSERT_MODE="Linked by Default"
+#!   HISTORY="3&lt;solidus&gt;4&lt;solidus&gt;20,ua58140,Initial&lt;space&gt;version&lt;space&gt;created"
+#!   ITERATION_COUNT_ATTR=""
+#!   LAST_SAVE_BUILD="FME(R) 2018.1.2.0 (20190225 - Build 18590 - WIN64)"
+#!   LAST_SAVE_DATE="2020-05-14T11:51:54"
+#!   MARKDOWN_DESCRIPTION="###Extract End Points&#10;&#10;- Takes input features and extracts the first and last vertices of the geometry. &#10;&#10;- Creates new point features for each end vertex with the original attributes from the base feature.&#10;&#10;- Optionally buffer created points by changing the buffer value above 0. "
+#!   MARKDOWN_USAGE=""
+#!   MAX_LOOP_ITERATIONS=""
+#!   PASSWORD=""
+#!   PYTHON_COMPATIBILITY="2or3"
+#!   SHOW_ANNOTATIONS="true"
+#!   SHOW_INFO_NODES="true"
+#!   TITLE="Extract End Points"
+#!   USAGE=""
+#!   USE_MARKDOWN="YES"
+#!   VIEW_POSITION="-2530.41 976.572"
+#!   WARN_INVALID_XFORM_PARAM="Yes"
+#!   WORKSPACE_VERSION="1"
+#!   XFORM_DEPRECATED="No"
+#!   ZOOM_SCALE="72"
+#! >
+#! <DATASETS>
+#! </DATASETS>
+#! <DATA_TYPES>
+#! </DATA_TYPES>
+#! <GEOM_TYPES>
+#! </GEOM_TYPES>
+#! <FEATURE_TYPES>
+#! </FEATURE_TYPES>
+#! <FMESERVER>
+#! </FMESERVER>
+#! <GLOBAL_PARAMETERS>
+#! <GLOBAL_PARAMETER
+#!   GUI_LINE="GUI RANGE_SLIDER_OR_ATTR Buffer &quot;RANGE:[,]&quot; Buffer (ft.):"
+#!   DEFAULT_VALUE="0"
+#!   IS_STAND_ALONE="true"
+#! />
+#! <GLOBAL_PARAMETER
+#!   GUI_LINE="GUI CHOICE_OR_ATTR BufferUnit Feet%Meters%Miles%Kilometers Buffer Distance Unit:"
+#!   DEFAULT_VALUE="Feet"
+#!   IS_STAND_ALONE="true"
+#! />
+#! </GLOBAL_PARAMETERS>
+#! <COMMENTS>
+#! </COMMENTS>
+#! <CONSTANTS>
+#! </CONSTANTS>
+#! <BOOKMARKS>
+#! <BOOKMARK
+#!   IDENTIFIER="15"
+#!   NAME="Extract Endpoint Vertices"
+#!   DESCRIPTION="&lt;html&gt;&lt;body&gt;&lt;/body&gt;&lt;/html&gt;"
+#!   TOP_LEFT="-988 -111.00000000000045"
+#!   ORDER="500000000000034.13"
+#!   BOTTOM_RIGHT="3893.7889378893788 -1053.1355313553136"
+#!   BOUNDING_RECT="-988 -111.00000000000045 4881.7889378893788 942.13553135531311"
+#!   STICKY="true"
+#!   COLOUR="0.16078431372549021,0.83137254901960789,0.16470588235294117"
+#!   CONTENTS="26 11 14 5 13 6 3 2 33 35 12 37 8 36 9 4 7 34 32 29 10 "
+#! >
+#! </BOOKMARK>
+#! </BOOKMARKS>
+#! <TRANSFORMERS>
+#! <TRANSFORMER
+#!   IDENTIFIER="2"
+#!   TYPE="CoordinateExtractor"
+#!   VERSION="2"
+#!   POSITION="-922 -431.5"
+#!   BOUNDING_RECT="-922 -431.5 625.00625006250084 71"
+#!   ORDER="500000000000001"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_PARM PARM_NAME="ALL_ATTRIBUTES_GROUP" PARM_VALUE="FME_DISCLOSURE_OPEN"/>
+#!     <XFORM_PARM PARM_NAME="IND" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="INDEX_ATTRIBUTES_GROUP" PARM_VALUE="FME_DISCLOSURE_CLOSED"/>
+#!     <XFORM_PARM PARM_NAME="LIST_NAME" PARM_VALUE="_indices"/>
+#!     <XFORM_PARM PARM_NAME="MODE" PARM_VALUE="All Coordinates"/>
+#!     <XFORM_PARM PARM_NAME="MODE_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="CoordinateExtractor"/>
+#!     <XFORM_PARM PARM_NAME="X_ATTR" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="Y_ATTR" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="Z_ATTR" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="Z_DEFAULT" PARM_VALUE=""/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="3"
+#!   TYPE="VertexCreator"
+#!   VERSION="2"
+#!   POSITION="1386.0031250312504 -617.49999999999977"
+#!   BOUNDING_RECT="1386.0031250312504 -617.49999999999977 -1 -1"
+#!   ORDER="500000000000002"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="&lt;REJECTED&gt;"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="fme_rejection_code" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_PARM PARM_NAME="INDEX" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="MODE_NAME" PARM_VALUE="Add Point"/>
+#!     <XFORM_PARM PARM_NAME="PARAMETER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="VertexCreator_2"/>
+#!     <XFORM_PARM PARM_NAME="XVAL" PARM_VALUE="@Value(x)"/>
+#!     <XFORM_PARM PARM_NAME="YVAL" PARM_VALUE="@Value(y)"/>
+#!     <XFORM_PARM PARM_NAME="ZVAL" PARM_VALUE=""/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="4"
+#!   TYPE="VertexCreator"
+#!   VERSION="2"
+#!   POSITION="1386.0031250312504 -324.50000000000045"
+#!   BOUNDING_RECT="1386.0031250312504 -324.50000000000045 -1 -1"
+#!   ORDER="500000000000002"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="&lt;REJECTED&gt;"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="fme_rejection_code" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_PARM PARM_NAME="INDEX" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="MODE_NAME" PARM_VALUE="Add Point"/>
+#!     <XFORM_PARM PARM_NAME="PARAMETER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="VertexCreator"/>
+#!     <XFORM_PARM PARM_NAME="XVAL" PARM_VALUE="@Value(x)"/>
+#!     <XFORM_PARM PARM_NAME="YVAL" PARM_VALUE="@Value(y)"/>
+#!     <XFORM_PARM PARM_NAME="ZVAL" PARM_VALUE=""/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="5"
+#!   TYPE="ListIndexer"
+#!   VERSION="2"
+#!   POSITION="6.0031250312504199 -617.49999999999977"
+#!   BOUNDING_RECT="6.0031250312504199 -617.49999999999977 -1 -1"
+#!   ORDER="500000000000007"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="&lt;REJECTED&gt;"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="fme_rejection_code" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_PARM PARM_NAME="INDEX" PARM_VALUE="@Evaluate(@NumElements(_indices{})-1)"/>
+#!     <XFORM_PARM PARM_NAME="LIST_ATTR" PARM_VALUE="_indices{}"/>
+#!     <XFORM_PARM PARM_NAME="PARAMETERS_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="PREFIX" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="Get_End_Point"/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="6"
+#!   TYPE="ListIndexer"
+#!   VERSION="2"
+#!   POSITION="6.0031250312504199 -324.50000000000045"
+#!   BOUNDING_RECT="6.0031250312504199 -324.50000000000045 -1 -1"
+#!   ORDER="500000000000007"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="&lt;REJECTED&gt;"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="fme_rejection_code" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_PARM PARM_NAME="INDEX" PARM_VALUE="@Evaluate(0)"/>
+#!     <XFORM_PARM PARM_NAME="LIST_ATTR" PARM_VALUE="_indices{}"/>
+#!     <XFORM_PARM PARM_NAME="PARAMETERS_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="PREFIX" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="Get_Start_Point"/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="7"
+#!   TYPE="GeometryRemover"
+#!   VERSION="0"
+#!   POSITION="696.00312503125042 -647.49999999999977"
+#!   BOUNDING_RECT="696.00312503125042 -647.49999999999977 -1 -1"
+#!   ORDER="500000000000009"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="GeometryRemover_2"/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="8"
+#!   TYPE="GeometryRemover"
+#!   VERSION="0"
+#!   POSITION="696.00312503125042 -354.50000000000045"
+#!   BOUNDING_RECT="696.00312503125042 -354.50000000000045 -1 -1"
+#!   ORDER="500000000000009"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="GeometryRemover"/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="20"
+#!   TYPE="GeometryExtractor"
+#!   VERSION="14"
+#!   POSITION="-1500.0150001500012 -437.50437504375043"
+#!   BOUNDING_RECT="-1500.0150001500012 -437.50437504375043 -1 -1"
+#!   ORDER="500000000000035.13"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="&lt;REJECTED&gt;"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="fme_rejection_code" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_PARM PARM_NAME="ATTR" PARM_VALUE="Original_Geometry"/>
+#!     <XFORM_PARM PARM_NAME="ELLIPSOID_NAME" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="GEOHASH_GROUP" PARM_VALUE="FME_DISCLOSURE_CLOSED"/>
+#!     <XFORM_PARM PARM_NAME="GEOHASH_PRECISION_DISPLAY" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="ISO6709_FORMAT_CHOICE" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="ISO6709_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="ISO6709_MAX_DECIMAL_PLACES" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="JSON_GROUP" PARM_VALUE="FME_DISCLOSURE_CLOSED"/>
+#!     <XFORM_PARM PARM_NAME="JSON_MAX_DIGITS" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="KIND_LONG" PARM_VALUE="FME Binary"/>
+#!     <XFORM_PARM PARM_NAME="LETTERING" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="LEVELS_ATTR" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="MGRS_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="MSSQL_FORMAT_CHOICE" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="MSSQL_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="OGCVERSION" PARM_VALUE="1.2"/>
+#!     <XFORM_PARM PARM_NAME="OGC_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="OGC_WKT_PRECISION_DISPLAY" PARM_VALUE="64-bit"/>
+#!     <XFORM_PARM PARM_NAME="OGEOSMS_URL_PREFIX" PARM_VALUE="http://maps.google.com/?q="/>
+#!     <XFORM_PARM PARM_NAME="OMIT_NAMESPACES_DISPLAY" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="PARAMETERS_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="POLYLINE_GROUP" PARM_VALUE="FME_DISCLOSURE_CLOSED"/>
+#!     <XFORM_PARM PARM_NAME="PRECISION" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="PREFER_POLYGON_OVER_SURFACE" PARM_VALUE="No"/>
+#!     <XFORM_PARM PARM_NAME="REMOVE_GEOMETRY" PARM_VALUE="No"/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="GeometryExtractor"/>
+#!     <XFORM_PARM PARM_NAME="XML_GROUP" PARM_VALUE="FME_DISCLOSURE_CLOSED"/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="26"
+#!   TYPE="GeographicBufferer"
+#!   VERSION="4"
+#!   POSITION="2700 -300"
+#!   BOUNDING_RECT="2700 -300 -1 -1"
+#!   ORDER="500000000000036.13"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="Output"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="&lt;Rejected&gt;"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="fme_rejection_code" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_PARM PARM_NAME="ANGLE" PARM_VALUE="22.5"/>
+#!     <XFORM_PARM PARM_NAME="BufferDist" PARM_VALUE="$(Buffer)"/>
+#!     <XFORM_PARM PARM_NAME="BufferUnit" PARM_VALUE="$(BufferUnit)"/>
+#!     <XFORM_PARM PARM_NAME="CAP_STYLE" PARM_VALUE="Round"/>
+#!     <XFORM_PARM PARM_NAME="CORNER_STYLE" PARM_VALUE="Round"/>
+#!     <XFORM_PARM PARM_NAME="MITER_LIMIT" PARM_VALUE="1"/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="GeographicBufferer"/>
+#!     <XFORM_PARM PARM_NAME="__COMPOUND_PARAMETERS" PARM_VALUE=""/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="29"
+#!   TYPE="GeographicBufferer"
+#!   VERSION="4"
+#!   POSITION="2637.5023750237506 -750"
+#!   BOUNDING_RECT="2637.5023750237506 -750 -1 -1"
+#!   ORDER="500000000000036.13"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="Output"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="&lt;Rejected&gt;"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="fme_rejection_code" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_PARM PARM_NAME="ANGLE" PARM_VALUE="22.5"/>
+#!     <XFORM_PARM PARM_NAME="BufferDist" PARM_VALUE="$(Buffer)"/>
+#!     <XFORM_PARM PARM_NAME="BufferUnit" PARM_VALUE="$(BufferUnit)"/>
+#!     <XFORM_PARM PARM_NAME="CAP_STYLE" PARM_VALUE="Round"/>
+#!     <XFORM_PARM PARM_NAME="CORNER_STYLE" PARM_VALUE="Round"/>
+#!     <XFORM_PARM PARM_NAME="MITER_LIMIT" PARM_VALUE="1"/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="GeographicBufferer_2"/>
+#!     <XFORM_PARM PARM_NAME="__COMPOUND_PARAMETERS" PARM_VALUE=""/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="32"
+#!   TYPE="Tester"
+#!   VERSION="2"
+#!   POSITION="1962.519625196252 -421.879218792188"
+#!   BOUNDING_RECT="1962.519625196252 -421.879218792188 -1 -1"
+#!   ORDER="500000000000038.13"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="PASSED"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="FAILED"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_PARM PARM_NAME="BOOL_OP" PARM_VALUE="OR"/>
+#!     <XFORM_PARM PARM_NAME="COMPOSITE_TEST" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="TEST_CLAUSE" PARM_VALUE="TEST $(Buffer) = 0"/>
+#!     <XFORM_PARM PARM_NAME="TEST_CLAUSE_GRP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="Tester"/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="35"
+#!   TYPE="Tester"
+#!   VERSION="2"
+#!   POSITION="2068.7702928718795 -728.13250731226663"
+#!   BOUNDING_RECT="2068.7702928718795 -728.13250731226663 -1 -1"
+#!   ORDER="500000000000038.13"
+#!   PARMS_EDITED="false"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="PASSED"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="FAILED"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_PARM PARM_NAME="BOOL_OP" PARM_VALUE="OR"/>
+#!     <XFORM_PARM PARM_NAME="COMPOSITE_TEST" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="TEST_CLAUSE" PARM_VALUE="TEST $(Buffer) = 0"/>
+#!     <XFORM_PARM PARM_NAME="TEST_CLAUSE_GRP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="Tester_2"/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="39"
+#!   TYPE="Logger"
+#!   VERSION="4"
+#!   POSITION="3208.8636597477089 -1254.6159722708337"
+#!   BOUNDING_RECT="3208.8636597477089 -1254.6159722708337 -1 -1"
+#!   ORDER="500000000000039.13"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="LOGGED"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="fme_rejection_code" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="Original_Geometry" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_PARM PARM_NAME="FEATURE_TYPE" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="LOG_FEATURE" PARM_VALUE="LOG_ONLY"/>
+#!     <XFORM_PARM PARM_NAME="MAXCOORDS" PARM_VALUE="20"/>
+#!     <XFORM_PARM PARM_NAME="MAXFEATS" PARM_VALUE="20"/>
+#!     <XFORM_PARM PARM_NAME="MESSAGE" PARM_VALUE="&lt;at&gt;Value&lt;openparen&gt;fme_rejection_code&lt;closeparen&gt;"/>
+#!     <XFORM_PARM PARM_NAME="MSG_GRP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="PARAMETERS_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="SEVERITY" PARM_VALUE="INFO"/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="GeographicBufferer_2__Rejected_"/>
+#! </TRANSFORMER>
+#! </TRANSFORMERS>
+#! <SUBDOCUMENT_IOS>
+#! <SUBDOCUMENT_IO
+#!   IDENTIFIER="16"
+#!   NAME="Input_Features"
+#!   POSITION="-2400 -450"
+#!   BOUNDING_RECT="-2400 -450 688.015625 71"
+#!   COLLAPSED="true"
+#!   PUBLISHED="true"
+#!   IS_SOURCE="true"
+#!   ATTR_MODE="0"
+#! >
+#! </SUBDOCUMENT_IO>
+#! <SUBDOCUMENT_IO
+#!   IDENTIFIER="21"
+#!   NAME="Point_Output"
+#!   POSITION="4050 -600"
+#!   BOUNDING_RECT="4050 -600 -1 -1"
+#!   COLLAPSED="true"
+#!   IS_SOURCE="false"
+#!   ATTR_MODE="0"
+#! >
+#! </SUBDOCUMENT_IO>
+#! </SUBDOCUMENT_IOS>
+#! <FEAT_LINKS>
+#! <FEAT_LINK
+#!   IDENTIFIER="22"
+#!   SOURCE_NODE="16"
+#!   TARGET_NODE="20"
+#!   SOURCE_PORT_DESC="0"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="9"
+#!   SOURCE_NODE="2"
+#!   TARGET_NODE="5"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="10"
+#!   SOURCE_NODE="2"
+#!   TARGET_NODE="6"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="1"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="36"
+#!   SOURCE_NODE="3"
+#!   TARGET_NODE="35"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="33"
+#!   SOURCE_NODE="4"
+#!   TARGET_NODE="32"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="11"
+#!   SOURCE_NODE="5"
+#!   TARGET_NODE="7"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="12"
+#!   SOURCE_NODE="6"
+#!   TARGET_NODE="8"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="13"
+#!   SOURCE_NODE="7"
+#!   TARGET_NODE="3"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="14"
+#!   SOURCE_NODE="8"
+#!   TARGET_NODE="4"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="25"
+#!   SOURCE_NODE="20"
+#!   TARGET_NODE="2"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="28"
+#!   SOURCE_NODE="26"
+#!   TARGET_NODE="21"
+#!   SOURCE_PORT_DESC="fo 0 Output"
+#!   TARGET_PORT_DESC="0"
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="31"
+#!   SOURCE_NODE="29"
+#!   TARGET_NODE="21"
+#!   SOURCE_PORT_DESC="fo 0 Output"
+#!   TARGET_PORT_DESC="0"
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="30"
+#!   SOURCE_NODE="32"
+#!   TARGET_NODE="21"
+#!   SOURCE_PORT_DESC="fo 0 PASSED"
+#!   TARGET_PORT_DESC="0"
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="38"
+#!   SOURCE_NODE="35"
+#!   TARGET_NODE="21"
+#!   SOURCE_PORT_DESC="fo 0 PASSED"
+#!   TARGET_PORT_DESC="0"
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="41"
+#!   SOURCE_NODE="26"
+#!   TARGET_NODE="39"
+#!   SOURCE_PORT_DESC="fo 1 &lt;lt&gt;Rejected&lt;gt&gt;"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="40"
+#!   SOURCE_NODE="29"
+#!   TARGET_NODE="39"
+#!   SOURCE_PORT_DESC="fo 1 &lt;lt&gt;Rejected&lt;gt&gt;"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="34"
+#!   SOURCE_NODE="32"
+#!   TARGET_NODE="26"
+#!   SOURCE_PORT_DESC="fo 1 FAILED"
+#!   TARGET_PORT_DESC="fi 0 Input"
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="37"
+#!   SOURCE_NODE="35"
+#!   TARGET_NODE="29"
+#!   SOURCE_PORT_DESC="fo 1 FAILED"
+#!   TARGET_PORT_DESC="fi 0 Input"
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! </FEAT_LINKS>
+#! <BREAKPOINTS>
+#! </BREAKPOINTS>
+#! <ATTR_LINKS>
+#! </ATTR_LINKS>
+#! <SUBDOCUMENTS>
+#! </SUBDOCUMENTS>
+#! <LOOKUP_TABLES>
+#! </LOOKUP_TABLES>
+#! </TRANSFORMER>
+
+FME_PYTHON_VERSION 2or3
+DEFAULT_MACRO $(Extract_End_Points_WORKSPACE_NAME)_Buffer 0
+DEFAULT_MACRO $(Extract_End_Points_WORKSPACE_NAME)_BufferUnit Feet
+#! START_HEADER
+#! END_HEADER
+
+DEFAULT_MACRO WB_CURRENT_CONTEXT
+DEFAULT_MACRO Extract_End_Points_WORKSPACE_NAME ""
+INCLUDE [puts {MACRO WB_OLD_CONTEXT_$(Extract_End_Points_WORKSPACE_NAME) $(WB_CURRENT_CONTEXT)};          puts {MACRO WB_CURRENT_CONTEXT $(Extract_End_Points_WORKSPACE_NAME)}]
+FACTORY_DEF * TeeFactory   FACTORY_NAME "$(Extract_End_Points_WORKSPACE_NAME)_Input_Features1589482314 Input Splitter"   INPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Input_Features"   OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Input_Features"
+# -------------------------------------------------------------------------
+# First determine which function we are going to be using -- we can do
+# this statically at parse time for efficiency sake
+MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function
+INCLUDE [ if {{fmebinary} == {fmebinary} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @Geometry(TO_ATTRIBUTE_BINARY,"Original_Geometry") }           } elseif {{fmebinary} == {fmehex} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @Geometry(TO_ATTRIBUTE_BINARY_HEX,"Original_Geometry") }           } elseif {{fmebinary} == {fmexml} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @Geometry(TO_ATTRIBUTE,"Original_Geometry") }           } elseif {{fmebinary} == {polyline} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @Geometry(TO_ATTRIBUTE_POLYLINE,"Original_Geometry",<Unused>) }           } elseif {{fmebinary} == {wkt} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @OGCGeometry(to_attribute,fmebinary,"Original_Geometry",1.2,FLOAT_64) }           } elseif {{fmebinary} == {wkb} ||                     {fmebinary} == {wkbhex} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @OGCGeometry(to_attribute,fmebinary,"Original_Geometry",1.2) }           } elseif {{fmebinary} == {GEOJSON} ||                     {fmebinary} == {ESRIJSON} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @JSONGeometry(TO_ATTRIBUTE,fmebinary,"Original_Geometry",<Unused>) }           } elseif {{fmebinary} == {KML} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @KMLGeometry(TO_ATTRIBUTE,"Original_Geometry",<Unused>) }           } elseif {{fmebinary} == {GEORSS_SIMPLE} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @GeoRSSGeometry(TO_ATTRIBUTE,fmebinary,"Original_Geometry",<Unused>) }           } elseif {{fmebinary} == {GML_2.1.2} ||                     {fmebinary} == {GML_3.1.1} ||                     {fmebinary} == {GML_3.2.1} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @GMLGeometry(TO_ATTRIBUTE,fmebinary,"Original_Geometry",<Unused>,NO) }           } elseif {{fmebinary} == {geohash} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @GeoHash(TO_ATTRIBUTE,"Original_Geometry",<Unused>) }           } elseif {{fmebinary} == {ogeosms} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @OGCGeometry(to_attribute,fmebinary,"Original_Geometry",http://maps.google.com/?q=) }           } elseif {{fmebinary} == {geosms} ||                     {fmebinary} == {geo}    } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @OGCGeometry(to_attribute,fmebinary,"Original_Geometry") }           } elseif {{fmebinary} == {mgrs} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @SupplyAttributes(Original_Geometry, @MGRS(TO_MGRS, <Unused>, <Unused>, "<Unused>")) }           } elseif {{fmebinary} == {mssql} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @SerializeGeometry(to_attribute,fmebinary,"Original_Geometry","<Unused>")}           } elseif {{fmebinary} == {iso6709} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @GeographicPoint(TO_ATTRIBUTE,"Original_Geometry","<Unused>","<Unused>")}           } elseif {{fmebinary} == {qlikmaps} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function @Geometry(TO_ATTRIBUTE_QLIKMAPS_POLYLINE,"Original_Geometry",<Unused>) }           }         ]
+# Next determine if we should remove the geometry and also do this once at parse time
+# By default, the macro has nothing, meaning we do not remove. If we want to remove, then we'll set the macro to do so
+MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_GeometryRemoveFunction
+INCLUDE [ if {{No} == {Yes} } {               puts {MACRO $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_GeometryRemoveFunction @RemoveGeometry() }           }         ]
+FACTORY_DEF * TeeFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Input_Features"    OUTPUT FEATURE_TYPE ___TOREJECTOR___         @RenameAttributes(FME_STRICT,___fme_rejection_code___,fme_rejection_code)         $($(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Function)         $($(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_GeometryRemoveFunction)
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_Rejector    INPUT FEATURE_TYPE ___TOREJECTOR___    TEST @Value(fme_rejection_code) != ""    OUTPUT FAILED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_OUTPUT"       @RenameAttributes(FME_STRICT,fme_rejection_code,___fme_rejection_code___)
+# -------------------------------------------------------------------------
+FACTORY_DEF * TestFactory    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeometryExtractor_OUTPUT"    TEST "All Coordinates" == "All Coordinates"    OUTPUT PASSED FEATURE_TYPE $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_PASSED    OUTPUT FAILED FEATURE_TYPE $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_FAILED
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_PASSED    INPUT FEATURE_TYPE $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_PASSED    TEST @Dimension() == 2    OUTPUT PASSED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT"         @ZValue("")         @Coordinate(x,ALL,"_indices"{}.x,FLATTEN_AGGREGATE,YES)         @Coordinate(y,ALL,"_indices"{}.y,FLATTEN_AGGREGATE,NO)         @Coordinate(z,ALL,"_indices"{}.z,FLATTEN_AGGREGATE,NO)         @Dimension(2)    OUTPUT FAILED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT"         @Coordinate(x,ALL,"_indices"{}.x,FLATTEN_AGGREGATE,YES)         @Coordinate(y,ALL,"_indices"{}.y,FLATTEN_AGGREGATE,NO)         @Coordinate(z,ALL,"_indices"{}.z,FLATTEN_AGGREGATE,NO)
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_FAILED    INPUT FEATURE_TYPE $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_FAILED    TEST @Dimension() == 2    OUTPUT PASSED FEATURE_TYPE $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_FAILED_PASSED    OUTPUT FAILED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT"
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_FAILED_PASSED    INPUT FEATURE_TYPE $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_FAILED_PASSED    TEST "" == ""    OUTPUT PASSED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT"    OUTPUT FAILED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT"
+FACTORY_DEF * TeeFactory   FACTORY_NAME "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor OUTPUT Splitter"   INPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT"   OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT_0_apAN4nCBiVs="   OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT_1_l52pxYTWUEs="
+# -------------------------------------------------------------------------
+Tcl2 proc $(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_indexer {index numElements prefix} {    if {$index < 0 } {       set index [expr $numElements + $index];    };    regsub \"{}\" {_indices{}} \"{$index}\" listWithIndex;    regsub \"{}\" {_indices{}} {} listBase;    set complexListExp "$listWithIndex\.";    set prefixLength [expr [string length $complexListExp]-1];    set prefix [FME_DecodeText $prefix];    foreach attr [FME_AttributeNames] {      set newAttr {};      if {$attr == $listWithIndex} {        set newAttr $listBase;      } elseif {[string first $complexListExp $attr] == 0} {        set newAttr [string replace $attr 0 $prefixLength];      };      if {$newAttr != {}} {          if {$prefix != {} } {            set newAttr $prefix$newAttr;          };          if {[string first {fme_} $newAttr] != 0} {              set first [string first {fme_} $newAttr];              lappend attrsToCopy $newAttr $attr;          };      };    };    if {[info exists attrsToCopy] && [llength $attrsToCopy] > 0} {      eval FME_Execute CopyAttributes $attrsToCopy;    }; }
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_IntTester    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT_1_l52pxYTWUEs="    TEST "@EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen>0<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point)" TYPE INT ENCODED    OUTPUT PASSED FEATURE_TYPE __toOutput__
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_ListIndexer    INPUT FEATURE_TYPE __toOutput__    TEST "@EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen>0<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point)" >= 0    OUTPUT PASSED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_OUTPUT" @Tcl2("$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_indexer @EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen>0<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point) 0 {}")    OUTPUT FAILED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_OUTPUT" @Tcl2("$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_indexer @EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen>0<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point) @NumElements(_indices{})  {}")
+# -------------------------------------------------------------------------
+FACTORY_DEF * TeeFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_GeometryRemover    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_OUTPUT"    OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeometryRemover_OUTPUT"         @RemoveGeometry()
+# -------------------------------------------------------------------------
+FACTORY_DEF * VertexCreatorFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_VertexCreator    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeometryRemover_OUTPUT"    MODE ADD    INDEX "<Unused>"    CONTINUE_ON_ERROR YES    XVAL "@EvaluateExpression(FDIV,FLOAT,<at>Value<openparen>x<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator)"    YVAL "@EvaluateExpression(FDIV,FLOAT,<at>Value<openparen>y<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator)"    OUTPUT OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator_OUTPUT"
+# -------------------------------------------------------------------------
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_Tester    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator_OUTPUT"    TEST @EvaluateExpression(FDIV,STRING_ENCODED,$($(Extract_End_Points_WORKSPACE_NAME)_Buffer$encode),$(Extract_End_Points_WORKSPACE_NAME)_Tester) = 0 ENCODED    BOOLEAN_OPERATOR OR    OUTPUT PASSED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Tester_PASSED"    OUTPUT FAILED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Tester_FAILED"
+# -------------------------------------------------------------------------
+FACTORY_DEF * TeeFactory   FACTORY_NAME "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer Input Input Collector"   INPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Tester_FAILED"   OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_Input"
+MACRO GeographicBufferer_WORKSPACE_NAME $(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_XFORMER_NAME $(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_TRANSFORMER_GROUP 
+MACRO $(GeographicBufferer_WORKSPACE_NAME)___COMPOUND_PARAMETERS 
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_BufferUnit $($(Extract_End_Points_WORKSPACE_NAME)_BufferUnit)
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_BufferDist $($(Extract_End_Points_WORKSPACE_NAME)_Buffer)
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_CAP_STYLE Round
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_CORNER_STYLE Round
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_ANGLE 22.5
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_MITER_LIMIT 1
+INCLUDE_BUILTIN_CUSTOM_TRANSFORMER_VER GeographicBufferer:4
+FACTORY_DEF * TeeFactory   FACTORY_NAME "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer Output Output Renamer/Nuker"   INPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_Output"   OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_Output"
+FACTORY_DEF * TeeFactory   FACTORY_NAME "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer <Rejected> Output Renamer/Nuker"   INPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_<Rejected>"   OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_<Rejected>"
+# -------------------------------------------------------------------------
+Tcl2 proc $(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_indexer {index numElements prefix} {    if {$index < 0 } {       set index [expr $numElements + $index];    };    regsub \"{}\" {_indices{}} \"{$index}\" listWithIndex;    regsub \"{}\" {_indices{}} {} listBase;    set complexListExp "$listWithIndex\.";    set prefixLength [expr [string length $complexListExp]-1];    set prefix [FME_DecodeText $prefix];    foreach attr [FME_AttributeNames] {      set newAttr {};      if {$attr == $listWithIndex} {        set newAttr $listBase;      } elseif {[string first $complexListExp $attr] == 0} {        set newAttr [string replace $attr 0 $prefixLength];      };      if {$newAttr != {}} {          if {$prefix != {} } {            set newAttr $prefix$newAttr;          };          if {[string first {fme_} $newAttr] != 0} {              set first [string first {fme_} $newAttr];              lappend attrsToCopy $newAttr $attr;          };      };    };    if {[info exists attrsToCopy] && [llength $attrsToCopy] > 0} {      eval FME_Execute CopyAttributes $attrsToCopy;    }; }
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_IntTester    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT_0_apAN4nCBiVs="    TEST "@EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen><at>NumElements<openparen>_indices<opencurly><closecurly><closeparen>-1<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point)" TYPE INT ENCODED    OUTPUT PASSED FEATURE_TYPE __toOutput__
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_ListIndexer    INPUT FEATURE_TYPE __toOutput__    TEST "@EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen><at>NumElements<openparen>_indices<opencurly><closecurly><closeparen>-1<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point)" >= 0    OUTPUT PASSED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_OUTPUT" @Tcl2("$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_indexer @EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen><at>NumElements<openparen>_indices<opencurly><closecurly><closeparen>-1<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point) 0 {}")    OUTPUT FAILED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_OUTPUT" @Tcl2("$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_indexer @EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen><at>NumElements<openparen>_indices<opencurly><closecurly><closeparen>-1<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point) @NumElements(_indices{})  {}")
+# -------------------------------------------------------------------------
+FACTORY_DEF * TeeFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_GeometryRemover_2    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_OUTPUT"    OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeometryRemover_2_OUTPUT"         @RemoveGeometry()
+# -------------------------------------------------------------------------
+FACTORY_DEF * VertexCreatorFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_VertexCreator_2    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeometryRemover_2_OUTPUT"    MODE ADD    INDEX "<Unused>"    CONTINUE_ON_ERROR YES    XVAL "@EvaluateExpression(FDIV,FLOAT,<at>Value<openparen>x<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator_2)"    YVAL "@EvaluateExpression(FDIV,FLOAT,<at>Value<openparen>y<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator_2)"    OUTPUT OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator_2_OUTPUT"
+# -------------------------------------------------------------------------
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_Tester_2    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator_2_OUTPUT"    TEST @EvaluateExpression(FDIV,STRING_ENCODED,$($(Extract_End_Points_WORKSPACE_NAME)_Buffer$encode),$(Extract_End_Points_WORKSPACE_NAME)_Tester_2) = 0 ENCODED    BOOLEAN_OPERATOR OR    OUTPUT PASSED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Tester_2_PASSED"    OUTPUT FAILED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Tester_2_FAILED"
+# -------------------------------------------------------------------------
+FACTORY_DEF * TeeFactory   FACTORY_NAME "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_2 Input Input Collector"   INPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Tester_2_FAILED"   OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_2_Input"
+MACRO GeographicBufferer_WORKSPACE_NAME $(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_2
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_XFORMER_NAME $(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_2
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_TRANSFORMER_GROUP 
+MACRO $(GeographicBufferer_WORKSPACE_NAME)___COMPOUND_PARAMETERS 
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_BufferUnit $($(Extract_End_Points_WORKSPACE_NAME)_BufferUnit)
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_BufferDist $($(Extract_End_Points_WORKSPACE_NAME)_Buffer)
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_CAP_STYLE Round
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_CORNER_STYLE Round
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_ANGLE 22.5
+MACRO $(GeographicBufferer_WORKSPACE_NAME)_MITER_LIMIT 1
+INCLUDE_BUILTIN_CUSTOM_TRANSFORMER_VER GeographicBufferer:4
+FACTORY_DEF * TeeFactory   FACTORY_NAME "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_2 Output Output Renamer/Nuker"   INPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_2_Output"   OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_2_Output"
+FACTORY_DEF * TeeFactory   FACTORY_NAME "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_2 <Rejected> Output Renamer/Nuker"   INPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_2_<Rejected>"   OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_2_<Rejected>"
+# -------------------------------------------------------------------------
+FACTORY_DEF * TeeFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_2__Rejected__Logger    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_2_<Rejected>"    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_<Rejected>"    OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_2__Rejected__LOGGED"                  @Log(ENCODED, "<dollar><openparen>Extract_End_Points_WORKSPACE_NAME<closeparen>_GeographicBufferer_2__Rejected_:<space>@EvaluateExpression(FDIV,STRING_ENCODED,<at>Value<openparen>fme_rejection_code<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_2__Rejected_)","20","20","",INFO,LOG_ONLY,$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_2__Rejected__60678d5d_e253_449d_8ef3_597888a0d8bc0)
+FACTORY_DEF * TeeFactory   FACTORY_NAME "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_2__Rejected_ LOGGED Transformer Output Nuker"   INPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_2__Rejected__LOGGED"
+FACTORY_DEF * TeeFactory   FACTORY_NAME "$(Extract_End_Points_WORKSPACE_NAME)_Point_Output1589482314 Output Collector"   INPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_Output"   INPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeographicBufferer_2_Output"   INPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Tester_PASSED"   INPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Tester_2_PASSED"   OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Point_Output"
+INCLUDE [puts {MACRO WB_CURRENT_CONTEXT $(WB_OLD_CONTEXT_$(Extract_End_Points_WORKSPACE_NAME))}]
+#! <?xml version="1.0" encoding="UTF-8" ?>
+#! <TRANSFORMER
+# TRANSFORMER_BEGIN "Extract End Points",2,Geometries,9274a340-ef83-4262-93e8-1c05efe45b51,"Linked by Default",No,NO_PARALLELISM,,No,18590,YES,No,2or3
+# <h3>Extract End Points</h3>
+# <ul>
+# <li>
+# <p>Takes input features and extracts the first and last vertices of the geometry. </p>
+# </li>
+# <li>
+# <p>Creates new point features for each end vertex with the original attributes from the base feature.</p>
+# </li>
+# </ul>
+# TRANSFORMER_END
+#!   ATTR_TYPE_ENCODING="SDF"
+#!   BLOCKED_LOOPING="No"
+#!   CATEGORY="Geometries"
+#!   DESCRIPTION="&lt;h3&gt;Extract End Points&lt;/h3&gt;&#10;&lt;ul&gt;&#10;&lt;li&gt;&#10;&lt;p&gt;Takes input features and extracts the first and last vertices of the geometry. &lt;/p&gt;&#10;&lt;/li&gt;&#10;&lt;li&gt;&#10;&lt;p&gt;Creates new point features for each end vertex with the original attributes from the base feature.&lt;/p&gt;&#10;&lt;/li&gt;&#10;&lt;/ul&gt;"
+#!   DOC_EXTENTS="3900 788.31"
+#!   DOC_TOP_LEFT="-1800 -899.31"
+#!   EXPLICIT_BOOKMARK_ORDER="false"
+#!   FME_BUILD_NUM="18590"
+#!   FME_DOCUMENT_GUID="9274a340-ef83-4262-93e8-1c05efe45b51"
+#!   FME_DOCUMENT_PRIORGUID=""
+#!   FME_LINKED_TRANSFORMER_VERSION="2"
+#!   FME_PROCESS_COUNT="NO_PARALLELISM"
+#!   FME_PROCESS_GROUPS_ORDERED="No"
+#!   FME_PROCESS_GROUP_BY=""
+#!   FME_SERVER_SERVICES=""
+#!   FMX_ATTRIBUTE_PROPOGATION_MODE="AUTO"
+#!   FMX_INSERT_MODE="Linked by Default"
+#!   HISTORY=""
+#!   ITERATION_COUNT_ATTR=""
+#!   LAST_SAVE_BUILD="FME(R) 2018.1.2.0 (20190225 - Build 18590 - WIN64)"
+#!   LAST_SAVE_DATE="2020-03-04T09:36:01"
+#!   MARKDOWN_DESCRIPTION="###Extract End Points&#10;&#10;- Takes input features and extracts the first and last vertices of the geometry. &#10;&#10;- Creates new point features for each end vertex with the original attributes from the base feature."
+#!   MARKDOWN_USAGE=""
+#!   MAX_LOOP_ITERATIONS=""
+#!   PASSWORD=""
+#!   PYTHON_COMPATIBILITY="2or3"
+#!   SHOW_ANNOTATIONS="true"
+#!   SHOW_INFO_NODES="true"
+#!   TITLE="Extract End Points"
+#!   USAGE=""
+#!   USE_MARKDOWN="YES"
+#!   VIEW_POSITION="-3877.12 1862.52"
+#!   WARN_INVALID_XFORM_PARAM="Yes"
+#!   WORKSPACE_VERSION="1"
+#!   XFORM_DEPRECATED="No"
+#!   ZOOM_SCALE="100"
+#! >
+#! <DATASETS>
+#! </DATASETS>
+#! <DATA_TYPES>
+#! </DATA_TYPES>
+#! <GEOM_TYPES>
+#! </GEOM_TYPES>
+#! <FEATURE_TYPES>
+#! </FEATURE_TYPES>
+#! <FMESERVER>
+#! </FMESERVER>
+#! <GLOBAL_PARAMETERS>
+#! </GLOBAL_PARAMETERS>
+#! <COMMENTS>
+#! </COMMENTS>
+#! <CONSTANTS>
+#! </CONSTANTS>
+#! <BOOKMARKS>
+#! <BOOKMARK
+#!   IDENTIFIER="15"
+#!   NAME="Extract Endpoint Vertices"
+#!   DESCRIPTION="&lt;html&gt;&lt;body&gt;&lt;/body&gt;&lt;/html&gt;"
+#!   TOP_LEFT="-988 -111.00000000000045"
+#!   ORDER="500000000000034.13"
+#!   BOTTOM_RIGHT="1874.0031250312504 -899.30996367934699"
+#!   BOUNDING_RECT="-988 -111.00000000000045 2862.0031250312504 788.30996367934654"
+#!   STICKY="true"
+#!   COLOUR="0.16078431372549021,0.83137254901960789,0.16470588235294117"
+#!   CONTENTS="3 12 10 8 11 13 4 14 7 9 2 6 5 "
+#! >
+#! </BOOKMARK>
+#! </BOOKMARKS>
+#! <TRANSFORMERS>
+#! <TRANSFORMER
+#!   IDENTIFIER="2"
+#!   TYPE="CoordinateExtractor"
+#!   VERSION="2"
+#!   POSITION="-922 -431.5"
+#!   BOUNDING_RECT="-922 -431.5 625.00625006250084 71"
+#!   ORDER="500000000000001"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_PARM PARM_NAME="ALL_ATTRIBUTES_GROUP" PARM_VALUE="FME_DISCLOSURE_OPEN"/>
+#!     <XFORM_PARM PARM_NAME="IND" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="INDEX_ATTRIBUTES_GROUP" PARM_VALUE="FME_DISCLOSURE_CLOSED"/>
+#!     <XFORM_PARM PARM_NAME="LIST_NAME" PARM_VALUE="_indices"/>
+#!     <XFORM_PARM PARM_NAME="MODE" PARM_VALUE="All Coordinates"/>
+#!     <XFORM_PARM PARM_NAME="MODE_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="CoordinateExtractor"/>
+#!     <XFORM_PARM PARM_NAME="X_ATTR" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="Y_ATTR" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="Z_ATTR" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="Z_DEFAULT" PARM_VALUE=""/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="3"
+#!   TYPE="VertexCreator"
+#!   VERSION="2"
+#!   POSITION="1386.0031250312504 -617.49999999999977"
+#!   BOUNDING_RECT="1386.0031250312504 -617.49999999999977 -1 -1"
+#!   ORDER="500000000000002"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="&lt;REJECTED&gt;"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="fme_rejection_code" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_PARM PARM_NAME="INDEX" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="MODE_NAME" PARM_VALUE="Add Point"/>
+#!     <XFORM_PARM PARM_NAME="PARAMETER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="VertexCreator_2"/>
+#!     <XFORM_PARM PARM_NAME="XVAL" PARM_VALUE="@Value(x)"/>
+#!     <XFORM_PARM PARM_NAME="YVAL" PARM_VALUE="@Value(y)"/>
+#!     <XFORM_PARM PARM_NAME="ZVAL" PARM_VALUE=""/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="4"
+#!   TYPE="VertexCreator"
+#!   VERSION="2"
+#!   POSITION="1386.0031250312504 -324.50000000000045"
+#!   BOUNDING_RECT="1386.0031250312504 -324.50000000000045 -1 -1"
+#!   ORDER="500000000000002"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="&lt;REJECTED&gt;"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="fme_rejection_code" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_PARM PARM_NAME="INDEX" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="MODE_NAME" PARM_VALUE="Add Point"/>
+#!     <XFORM_PARM PARM_NAME="PARAMETER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="VertexCreator"/>
+#!     <XFORM_PARM PARM_NAME="XVAL" PARM_VALUE="@Value(x)"/>
+#!     <XFORM_PARM PARM_NAME="YVAL" PARM_VALUE="@Value(y)"/>
+#!     <XFORM_PARM PARM_NAME="ZVAL" PARM_VALUE=""/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="5"
+#!   TYPE="ListIndexer"
+#!   VERSION="2"
+#!   POSITION="6.0031250312504199 -617.49999999999977"
+#!   BOUNDING_RECT="6.0031250312504199 -617.49999999999977 -1 -1"
+#!   ORDER="500000000000007"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="&lt;REJECTED&gt;"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="fme_rejection_code" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_PARM PARM_NAME="INDEX" PARM_VALUE="@Evaluate(@NumElements(_indices{})-1)"/>
+#!     <XFORM_PARM PARM_NAME="LIST_ATTR" PARM_VALUE="_indices{}"/>
+#!     <XFORM_PARM PARM_NAME="PARAMETERS_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="PREFIX" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="Get_End_Point"/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="6"
+#!   TYPE="ListIndexer"
+#!   VERSION="2"
+#!   POSITION="6.0031250312504199 -324.50000000000045"
+#!   BOUNDING_RECT="6.0031250312504199 -324.50000000000045 -1 -1"
+#!   ORDER="500000000000007"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="&lt;REJECTED&gt;"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="fme_rejection_code" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_PARM PARM_NAME="INDEX" PARM_VALUE="@Evaluate(0)"/>
+#!     <XFORM_PARM PARM_NAME="LIST_ATTR" PARM_VALUE="_indices{}"/>
+#!     <XFORM_PARM PARM_NAME="PARAMETERS_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="PREFIX" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="Get_Start_Point"/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="7"
+#!   TYPE="GeometryRemover"
+#!   VERSION="0"
+#!   POSITION="696.00312503125042 -647.49999999999977"
+#!   BOUNDING_RECT="696.00312503125042 -647.49999999999977 -1 -1"
+#!   ORDER="500000000000009"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="GeometryRemover_2"/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="8"
+#!   TYPE="GeometryRemover"
+#!   VERSION="0"
+#!   POSITION="696.00312503125042 -354.50000000000045"
+#!   BOUNDING_RECT="696.00312503125042 -354.50000000000045 -1 -1"
+#!   ORDER="500000000000009"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="GeometryRemover"/>
+#! </TRANSFORMER>
+#! </TRANSFORMERS>
+#! <SUBDOCUMENT_IOS>
+#! <SUBDOCUMENT_IO
+#!   IDENTIFIER="16"
+#!   NAME="Input_Features"
+#!   POSITION="-1800 -397.91614582812502"
+#!   BOUNDING_RECT="-1800 -397.91614582812502 688.015625 71"
+#!   COLLAPSED="true"
+#!   PUBLISHED="true"
+#!   IS_SOURCE="true"
+#!   ATTR_MODE="0"
+#! >
+#! </SUBDOCUMENT_IO>
+#! <SUBDOCUMENT_IO
+#!   IDENTIFIER="21"
+#!   NAME="Point_Output"
+#!   POSITION="2100 -558.33891672250047"
+#!   BOUNDING_RECT="2100 -558.33891672250047 -1 -1"
+#!   COLLAPSED="true"
+#!   IS_SOURCE="false"
+#!   ATTR_MODE="0"
+#! >
+#! </SUBDOCUMENT_IO>
+#! </SUBDOCUMENT_IOS>
+#! <FEAT_LINKS>
+#! <FEAT_LINK
+#!   IDENTIFIER="17"
+#!   SOURCE_NODE="16"
+#!   TARGET_NODE="2"
+#!   SOURCE_PORT_DESC="0"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="9"
+#!   SOURCE_NODE="2"
+#!   TARGET_NODE="5"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="10"
+#!   SOURCE_NODE="2"
+#!   TARGET_NODE="6"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="1"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="24"
+#!   SOURCE_NODE="3"
+#!   TARGET_NODE="21"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="0"
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="23"
+#!   SOURCE_NODE="4"
+#!   TARGET_NODE="21"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="0"
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="11"
+#!   SOURCE_NODE="5"
+#!   TARGET_NODE="7"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="12"
+#!   SOURCE_NODE="6"
+#!   TARGET_NODE="8"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="13"
+#!   SOURCE_NODE="7"
+#!   TARGET_NODE="3"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="14"
+#!   SOURCE_NODE="8"
+#!   TARGET_NODE="4"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! </FEAT_LINKS>
+#! <BREAKPOINTS>
+#! </BREAKPOINTS>
+#! <ATTR_LINKS>
+#! </ATTR_LINKS>
+#! <SUBDOCUMENTS>
+#! </SUBDOCUMENTS>
+#! <LOOKUP_TABLES>
+#! </LOOKUP_TABLES>
+#! </TRANSFORMER>
+
+#! START_HEADER
+#! END_HEADER
+
+DEFAULT_MACRO WB_CURRENT_CONTEXT
+DEFAULT_MACRO Extract_End_Points_WORKSPACE_NAME ""
+INCLUDE [puts {MACRO WB_OLD_CONTEXT_$(Extract_End_Points_WORKSPACE_NAME) $(WB_CURRENT_CONTEXT)};          puts {MACRO WB_CURRENT_CONTEXT $(Extract_End_Points_WORKSPACE_NAME)}]
+FACTORY_DEF * TeeFactory   FACTORY_NAME "$(Extract_End_Points_WORKSPACE_NAME)_Input_Features1583339761 Input Splitter"   INPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Input_Features"   OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Input_Features"
+# -------------------------------------------------------------------------
+FACTORY_DEF * TestFactory    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Input_Features"    TEST "All Coordinates" == "All Coordinates"    OUTPUT PASSED FEATURE_TYPE $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_PASSED    OUTPUT FAILED FEATURE_TYPE $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_FAILED
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_PASSED    INPUT FEATURE_TYPE $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_PASSED    TEST @Dimension() == 2    OUTPUT PASSED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT"         @ZValue("")         @Coordinate(x,ALL,"_indices"{}.x,FLATTEN_AGGREGATE,YES)         @Coordinate(y,ALL,"_indices"{}.y,FLATTEN_AGGREGATE,NO)         @Coordinate(z,ALL,"_indices"{}.z,FLATTEN_AGGREGATE,NO)         @Dimension(2)    OUTPUT FAILED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT"         @Coordinate(x,ALL,"_indices"{}.x,FLATTEN_AGGREGATE,YES)         @Coordinate(y,ALL,"_indices"{}.y,FLATTEN_AGGREGATE,NO)         @Coordinate(z,ALL,"_indices"{}.z,FLATTEN_AGGREGATE,NO)
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_FAILED    INPUT FEATURE_TYPE $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_FAILED    TEST @Dimension() == 2    OUTPUT PASSED FEATURE_TYPE $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_FAILED_PASSED    OUTPUT FAILED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT"
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_FAILED_PASSED    INPUT FEATURE_TYPE $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_FAILED_PASSED    TEST "" == ""    OUTPUT PASSED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT"    OUTPUT FAILED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT"
+FACTORY_DEF * TeeFactory   FACTORY_NAME "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor OUTPUT Splitter"   INPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT"   OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT_0_apAN4nCBiVs="   OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT_1_l52pxYTWUEs="
+# -------------------------------------------------------------------------
+Tcl2 proc $(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_indexer {index numElements prefix} {    if {$index < 0 } {       set index [expr $numElements + $index];    };    regsub \"{}\" {_indices{}} \"{$index}\" listWithIndex;    regsub \"{}\" {_indices{}} {} listBase;    set complexListExp "$listWithIndex\.";    set prefixLength [expr [string length $complexListExp]-1];    set prefix [FME_DecodeText $prefix];    foreach attr [FME_AttributeNames] {      set newAttr {};      if {$attr == $listWithIndex} {        set newAttr $listBase;      } elseif {[string first $complexListExp $attr] == 0} {        set newAttr [string replace $attr 0 $prefixLength];      };      if {$newAttr != {}} {          if {$prefix != {} } {            set newAttr $prefix$newAttr;          };          if {[string first {fme_} $newAttr] != 0} {              set first [string first {fme_} $newAttr];              lappend attrsToCopy $newAttr $attr;          };      };    };    if {[info exists attrsToCopy] && [llength $attrsToCopy] > 0} {      eval FME_Execute CopyAttributes $attrsToCopy;    }; }
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_IntTester    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT_1_l52pxYTWUEs="    TEST "@EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen>0<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point)" TYPE INT ENCODED    OUTPUT PASSED FEATURE_TYPE __toOutput__
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_ListIndexer    INPUT FEATURE_TYPE __toOutput__    TEST "@EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen>0<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point)" >= 0    OUTPUT PASSED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_OUTPUT" @Tcl2("$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_indexer @EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen>0<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point) 0 {}")    OUTPUT FAILED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_OUTPUT" @Tcl2("$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_indexer @EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen>0<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point) @NumElements(_indices{})  {}")
+# -------------------------------------------------------------------------
+FACTORY_DEF * TeeFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_GeometryRemover    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_OUTPUT"    OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeometryRemover_OUTPUT"         @RemoveGeometry()
+# -------------------------------------------------------------------------
+FACTORY_DEF * VertexCreatorFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_VertexCreator    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeometryRemover_OUTPUT"    MODE ADD    INDEX "<Unused>"    CONTINUE_ON_ERROR YES    XVAL "@EvaluateExpression(FDIV,FLOAT,<at>Value<openparen>x<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator)"    YVAL "@EvaluateExpression(FDIV,FLOAT,<at>Value<openparen>y<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator)"    OUTPUT OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator_OUTPUT"
+# -------------------------------------------------------------------------
+Tcl2 proc $(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_indexer {index numElements prefix} {    if {$index < 0 } {       set index [expr $numElements + $index];    };    regsub \"{}\" {_indices{}} \"{$index}\" listWithIndex;    regsub \"{}\" {_indices{}} {} listBase;    set complexListExp "$listWithIndex\.";    set prefixLength [expr [string length $complexListExp]-1];    set prefix [FME_DecodeText $prefix];    foreach attr [FME_AttributeNames] {      set newAttr {};      if {$attr == $listWithIndex} {        set newAttr $listBase;      } elseif {[string first $complexListExp $attr] == 0} {        set newAttr [string replace $attr 0 $prefixLength];      };      if {$newAttr != {}} {          if {$prefix != {} } {            set newAttr $prefix$newAttr;          };          if {[string first {fme_} $newAttr] != 0} {              set first [string first {fme_} $newAttr];              lappend attrsToCopy $newAttr $attr;          };      };    };    if {[info exists attrsToCopy] && [llength $attrsToCopy] > 0} {      eval FME_Execute CopyAttributes $attrsToCopy;    }; }
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_IntTester    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT_0_apAN4nCBiVs="    TEST "@EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen><at>NumElements<openparen>_indices<opencurly><closecurly><closeparen>-1<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point)" TYPE INT ENCODED    OUTPUT PASSED FEATURE_TYPE __toOutput__
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_ListIndexer    INPUT FEATURE_TYPE __toOutput__    TEST "@EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen><at>NumElements<openparen>_indices<opencurly><closecurly><closeparen>-1<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point)" >= 0    OUTPUT PASSED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_OUTPUT" @Tcl2("$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_indexer @EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen><at>NumElements<openparen>_indices<opencurly><closecurly><closeparen>-1<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point) 0 {}")    OUTPUT FAILED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_OUTPUT" @Tcl2("$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_indexer @EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen><at>NumElements<openparen>_indices<opencurly><closecurly><closeparen>-1<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point) @NumElements(_indices{})  {}")
+# -------------------------------------------------------------------------
+FACTORY_DEF * TeeFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_GeometryRemover_2    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_OUTPUT"    OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeometryRemover_2_OUTPUT"         @RemoveGeometry()
+# -------------------------------------------------------------------------
+FACTORY_DEF * VertexCreatorFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_VertexCreator_2    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeometryRemover_2_OUTPUT"    MODE ADD    INDEX "<Unused>"    CONTINUE_ON_ERROR YES    XVAL "@EvaluateExpression(FDIV,FLOAT,<at>Value<openparen>x<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator_2)"    YVAL "@EvaluateExpression(FDIV,FLOAT,<at>Value<openparen>y<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator_2)"    OUTPUT OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator_2_OUTPUT"
+FACTORY_DEF * TeeFactory   FACTORY_NAME "$(Extract_End_Points_WORKSPACE_NAME)_Point_Output1583339761 Output Collector"   INPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator_2_OUTPUT"   INPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator_OUTPUT"   OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Point_Output"
+INCLUDE [puts {MACRO WB_CURRENT_CONTEXT $(WB_OLD_CONTEXT_$(Extract_End_Points_WORKSPACE_NAME))}]
+#! <?xml version="1.0" encoding="UTF-8" ?>
+#! <TRANSFORMER
+# TRANSFORMER_BEGIN "Extract End Points",1,Geometries,3070dd0d-11fe-4b86-9d19-2009af7a4e50,"Linked by Default",No,NO_PARALLELISM,,No,18590,YES,No,2or3
+# <h3>Extract End Points</h3>
+# <ul>
+# <li>
+# <p>Takes input features and extracts the first and last vertices of the geometry. </p>
+# </li>
+# <li>
+# <p>Creates new point features for each end vertex with the original attributes from the base feature.</p>
+# </li>
+# </ul>
+# TRANSFORMER_END
+#!   ATTR_TYPE_ENCODING="SDF"
+#!   BLOCKED_LOOPING="No"
+#!   CATEGORY="Geometries"
+#!   DESCRIPTION="&lt;h3&gt;Extract End Points&lt;/h3&gt;&#10;&lt;ul&gt;&#10;&lt;li&gt;&#10;&lt;p&gt;Takes input features and extracts the first and last vertices of the geometry. &lt;/p&gt;&#10;&lt;/li&gt;&#10;&lt;li&gt;&#10;&lt;p&gt;Creates new point features for each end vertex with the original attributes from the base feature.&lt;/p&gt;&#10;&lt;/li&gt;&#10;&lt;/ul&gt;"
+#!   DOC_EXTENTS="3900 788.31"
+#!   DOC_TOP_LEFT="-1800 -899.31"
+#!   EXPLICIT_BOOKMARK_ORDER="false"
+#!   FME_BUILD_NUM="18590"
+#!   FME_DOCUMENT_GUID="3070dd0d-11fe-4b86-9d19-2009af7a4e50"
+#!   FME_DOCUMENT_PRIORGUID="177068c5-081e-4780-9a37-30fe19e0893f"
+#!   FME_LINKED_TRANSFORMER_VERSION="1"
+#!   FME_PROCESS_COUNT="NO_PARALLELISM"
+#!   FME_PROCESS_GROUPS_ORDERED="No"
+#!   FME_PROCESS_GROUP_BY=""
+#!   FME_SERVER_SERVICES=""
+#!   FMX_ATTRIBUTE_PROPOGATION_MODE="AUTO"
+#!   FMX_INSERT_MODE="Linked by Default"
+#!   HISTORY=""
+#!   ITERATION_COUNT_ATTR=""
+#!   LAST_SAVE_BUILD="FME(R) 2018.1.2.0 (20190225 - Build 18590 - WIN64)"
+#!   LAST_SAVE_DATE="2020-03-04T09:34:01"
+#!   MARKDOWN_DESCRIPTION="###Extract End Points&#10;&#10;- Takes input features and extracts the first and last vertices of the geometry. &#10;&#10;- Creates new point features for each end vertex with the original attributes from the base feature."
+#!   MARKDOWN_USAGE=""
+#!   MAX_LOOP_ITERATIONS=""
+#!   PASSWORD=""
+#!   PYTHON_COMPATIBILITY="2or3"
+#!   SHOW_ANNOTATIONS="true"
+#!   SHOW_INFO_NODES="true"
+#!   TITLE="Extract End Points"
+#!   USAGE=""
+#!   USE_MARKDOWN="YES"
+#!   VIEW_POSITION="-3479.2 1372.93"
+#!   WARN_INVALID_XFORM_PARAM="Yes"
+#!   WORKSPACE_VERSION="1"
+#!   XFORM_DEPRECATED="No"
+#!   ZOOM_SCALE="100"
+#! >
+#! <DATASETS>
+#! </DATASETS>
+#! <DATA_TYPES>
+#! </DATA_TYPES>
+#! <GEOM_TYPES>
+#! </GEOM_TYPES>
+#! <FEATURE_TYPES>
+#! </FEATURE_TYPES>
+#! <FMESERVER>
+#! </FMESERVER>
+#! <GLOBAL_PARAMETERS>
+#! </GLOBAL_PARAMETERS>
+#! <COMMENTS>
+#! </COMMENTS>
+#! <CONSTANTS>
+#! </CONSTANTS>
+#! <BOOKMARKS>
+#! <BOOKMARK
+#!   IDENTIFIER="15"
+#!   NAME="Extract Endpoint Vertices"
+#!   DESCRIPTION="&lt;html&gt;&lt;body&gt;&lt;/body&gt;&lt;/html&gt;"
+#!   TOP_LEFT="-988 -111.00000000000045"
+#!   ORDER="500000000000034.13"
+#!   BOTTOM_RIGHT="1874.0031250312504 -899.30996367934699"
+#!   BOUNDING_RECT="-988 -111.00000000000045 2862.0031250312504 788.30996367934654"
+#!   STICKY="true"
+#!   COLOUR="0.16078431372549021,0.83137254901960789,0.16470588235294117"
+#!   CONTENTS="13 3 12 7 4 2 9 10 11 5 14 6 8 "
+#! >
+#! </BOOKMARK>
+#! </BOOKMARKS>
+#! <TRANSFORMERS>
+#! <TRANSFORMER
+#!   IDENTIFIER="2"
+#!   TYPE="CoordinateExtractor"
+#!   VERSION="2"
+#!   POSITION="-922 -431.5"
+#!   BOUNDING_RECT="-922 -431.5 625.00625006250084 71"
+#!   ORDER="500000000000001"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_PARM PARM_NAME="ALL_ATTRIBUTES_GROUP" PARM_VALUE="FME_DISCLOSURE_OPEN"/>
+#!     <XFORM_PARM PARM_NAME="IND" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="INDEX_ATTRIBUTES_GROUP" PARM_VALUE="FME_DISCLOSURE_CLOSED"/>
+#!     <XFORM_PARM PARM_NAME="LIST_NAME" PARM_VALUE="_indices"/>
+#!     <XFORM_PARM PARM_NAME="MODE" PARM_VALUE="All Coordinates"/>
+#!     <XFORM_PARM PARM_NAME="MODE_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="CoordinateExtractor"/>
+#!     <XFORM_PARM PARM_NAME="X_ATTR" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="Y_ATTR" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="Z_ATTR" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="Z_DEFAULT" PARM_VALUE=""/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="3"
+#!   TYPE="VertexCreator"
+#!   VERSION="2"
+#!   POSITION="1386.0031250312504 -617.49999999999977"
+#!   BOUNDING_RECT="1386.0031250312504 -617.49999999999977 -1 -1"
+#!   ORDER="500000000000002"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="&lt;REJECTED&gt;"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="fme_rejection_code" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_PARM PARM_NAME="INDEX" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="MODE_NAME" PARM_VALUE="Add Point"/>
+#!     <XFORM_PARM PARM_NAME="PARAMETER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="VertexCreator_2"/>
+#!     <XFORM_PARM PARM_NAME="XVAL" PARM_VALUE="@Value(x)"/>
+#!     <XFORM_PARM PARM_NAME="YVAL" PARM_VALUE="@Value(y)"/>
+#!     <XFORM_PARM PARM_NAME="ZVAL" PARM_VALUE=""/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="4"
+#!   TYPE="VertexCreator"
+#!   VERSION="2"
+#!   POSITION="1386.0031250312504 -324.50000000000045"
+#!   BOUNDING_RECT="1386.0031250312504 -324.50000000000045 -1 -1"
+#!   ORDER="500000000000002"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="&lt;REJECTED&gt;"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="fme_rejection_code" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_PARM PARM_NAME="INDEX" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="MODE_NAME" PARM_VALUE="Add Point"/>
+#!     <XFORM_PARM PARM_NAME="PARAMETER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="VertexCreator"/>
+#!     <XFORM_PARM PARM_NAME="XVAL" PARM_VALUE="@Value(x)"/>
+#!     <XFORM_PARM PARM_NAME="YVAL" PARM_VALUE="@Value(y)"/>
+#!     <XFORM_PARM PARM_NAME="ZVAL" PARM_VALUE=""/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="5"
+#!   TYPE="ListIndexer"
+#!   VERSION="2"
+#!   POSITION="6.0031250312504199 -617.49999999999977"
+#!   BOUNDING_RECT="6.0031250312504199 -617.49999999999977 -1 -1"
+#!   ORDER="500000000000007"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="&lt;REJECTED&gt;"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="fme_rejection_code" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_PARM PARM_NAME="INDEX" PARM_VALUE="@Evaluate(@NumElements(_indices{})-1)"/>
+#!     <XFORM_PARM PARM_NAME="LIST_ATTR" PARM_VALUE="_indices{}"/>
+#!     <XFORM_PARM PARM_NAME="PARAMETERS_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="PREFIX" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="Get_End_Point"/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="6"
+#!   TYPE="ListIndexer"
+#!   VERSION="2"
+#!   POSITION="6.0031250312504199 -324.50000000000045"
+#!   BOUNDING_RECT="6.0031250312504199 -324.50000000000045 -1 -1"
+#!   ORDER="500000000000007"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="&lt;REJECTED&gt;"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="fme_rejection_code" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_PARM PARM_NAME="INDEX" PARM_VALUE="@Evaluate(0)"/>
+#!     <XFORM_PARM PARM_NAME="LIST_ATTR" PARM_VALUE="_indices{}"/>
+#!     <XFORM_PARM PARM_NAME="PARAMETERS_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="PREFIX" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="Get_Start_Point"/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="7"
+#!   TYPE="GeometryRemover"
+#!   VERSION="0"
+#!   POSITION="696.00312503125042 -647.49999999999977"
+#!   BOUNDING_RECT="696.00312503125042 -647.49999999999977 -1 -1"
+#!   ORDER="500000000000009"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="GeometryRemover_2"/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="8"
+#!   TYPE="GeometryRemover"
+#!   VERSION="0"
+#!   POSITION="696.00312503125042 -354.50000000000045"
+#!   BOUNDING_RECT="696.00312503125042 -354.50000000000045 -1 -1"
+#!   ORDER="500000000000009"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="18590"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_indices{}.z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="x" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="y" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="z" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="GeometryRemover"/>
+#! </TRANSFORMER>
+#! </TRANSFORMERS>
+#! <SUBDOCUMENT_IOS>
+#! <SUBDOCUMENT_IO
+#!   IDENTIFIER="16"
+#!   NAME="CoordinateExtractor_3_Input"
+#!   POSITION="-1800 -397.91614582812502"
+#!   BOUNDING_RECT="-1800 -397.91614582812502 688.015625 71"
+#!   COLLAPSED="true"
+#!   PUBLISHED="true"
+#!   IS_SOURCE="true"
+#!   ATTR_MODE="0"
+#! >
+#! </SUBDOCUMENT_IO>
+#! <SUBDOCUMENT_IO
+#!   IDENTIFIER="21"
+#!   NAME="Point_Output"
+#!   POSITION="2100 -558.33891672250047"
+#!   BOUNDING_RECT="2100 -558.33891672250047 -1 -1"
+#!   COLLAPSED="true"
+#!   IS_SOURCE="false"
+#!   ATTR_MODE="0"
+#! >
+#! </SUBDOCUMENT_IO>
+#! </SUBDOCUMENT_IOS>
+#! <FEAT_LINKS>
+#! <FEAT_LINK
+#!   IDENTIFIER="17"
+#!   SOURCE_NODE="16"
+#!   TARGET_NODE="2"
+#!   SOURCE_PORT_DESC="0"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="9"
+#!   SOURCE_NODE="2"
+#!   TARGET_NODE="5"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="10"
+#!   SOURCE_NODE="2"
+#!   TARGET_NODE="6"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="1"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="24"
+#!   SOURCE_NODE="3"
+#!   TARGET_NODE="21"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="0"
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="23"
+#!   SOURCE_NODE="4"
+#!   TARGET_NODE="21"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="0"
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="11"
+#!   SOURCE_NODE="5"
+#!   TARGET_NODE="7"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="12"
+#!   SOURCE_NODE="6"
+#!   TARGET_NODE="8"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="13"
+#!   SOURCE_NODE="7"
+#!   TARGET_NODE="3"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="14"
+#!   SOURCE_NODE="8"
+#!   TARGET_NODE="4"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   EXTRA_POINTS=""
+#! />
+#! </FEAT_LINKS>
+#! <BREAKPOINTS>
+#! </BREAKPOINTS>
+#! <ATTR_LINKS>
+#! </ATTR_LINKS>
+#! <SUBDOCUMENTS>
+#! </SUBDOCUMENTS>
+#! <LOOKUP_TABLES>
+#! </LOOKUP_TABLES>
+#! </TRANSFORMER>
+
+#! START_HEADER
+#! END_HEADER
+
+DEFAULT_MACRO WB_CURRENT_CONTEXT
+DEFAULT_MACRO Extract_End_Points_WORKSPACE_NAME ""
+INCLUDE [puts {MACRO WB_OLD_CONTEXT_$(Extract_End_Points_WORKSPACE_NAME) $(WB_CURRENT_CONTEXT)};          puts {MACRO WB_CURRENT_CONTEXT $(Extract_End_Points_WORKSPACE_NAME)}]
+FACTORY_DEF * TeeFactory   FACTORY_NAME "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_3_Input1583339641 Input Splitter"   INPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_3_Input"   OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_3_Input"
+# -------------------------------------------------------------------------
+FACTORY_DEF * TestFactory    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_3_Input"    TEST "All Coordinates" == "All Coordinates"    OUTPUT PASSED FEATURE_TYPE $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_PASSED    OUTPUT FAILED FEATURE_TYPE $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_FAILED
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_PASSED    INPUT FEATURE_TYPE $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_PASSED    TEST @Dimension() == 2    OUTPUT PASSED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT"         @ZValue("")         @Coordinate(x,ALL,"_indices"{}.x,FLATTEN_AGGREGATE,YES)         @Coordinate(y,ALL,"_indices"{}.y,FLATTEN_AGGREGATE,NO)         @Coordinate(z,ALL,"_indices"{}.z,FLATTEN_AGGREGATE,NO)         @Dimension(2)    OUTPUT FAILED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT"         @Coordinate(x,ALL,"_indices"{}.x,FLATTEN_AGGREGATE,YES)         @Coordinate(y,ALL,"_indices"{}.y,FLATTEN_AGGREGATE,NO)         @Coordinate(z,ALL,"_indices"{}.z,FLATTEN_AGGREGATE,NO)
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_FAILED    INPUT FEATURE_TYPE $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_FAILED    TEST @Dimension() == 2    OUTPUT PASSED FEATURE_TYPE $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_FAILED_PASSED    OUTPUT FAILED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT"
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_FAILED_PASSED    INPUT FEATURE_TYPE $(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_FAILED_PASSED    TEST "" == ""    OUTPUT PASSED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT"    OUTPUT FAILED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT"
+FACTORY_DEF * TeeFactory   FACTORY_NAME "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor OUTPUT Splitter"   INPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT"   OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT_0_apAN4nCBiVs="   OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT_1_l52pxYTWUEs="
+# -------------------------------------------------------------------------
+Tcl2 proc $(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_indexer {index numElements prefix} {    if {$index < 0 } {       set index [expr $numElements + $index];    };    regsub \"{}\" {_indices{}} \"{$index}\" listWithIndex;    regsub \"{}\" {_indices{}} {} listBase;    set complexListExp "$listWithIndex\.";    set prefixLength [expr [string length $complexListExp]-1];    set prefix [FME_DecodeText $prefix];    foreach attr [FME_AttributeNames] {      set newAttr {};      if {$attr == $listWithIndex} {        set newAttr $listBase;      } elseif {[string first $complexListExp $attr] == 0} {        set newAttr [string replace $attr 0 $prefixLength];      };      if {$newAttr != {}} {          if {$prefix != {} } {            set newAttr $prefix$newAttr;          };          if {[string first {fme_} $newAttr] != 0} {              set first [string first {fme_} $newAttr];              lappend attrsToCopy $newAttr $attr;          };      };    };    if {[info exists attrsToCopy] && [llength $attrsToCopy] > 0} {      eval FME_Execute CopyAttributes $attrsToCopy;    }; }
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_IntTester    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT_1_l52pxYTWUEs="    TEST "@EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen>0<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point)" TYPE INT ENCODED    OUTPUT PASSED FEATURE_TYPE __toOutput__
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_ListIndexer    INPUT FEATURE_TYPE __toOutput__    TEST "@EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen>0<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point)" >= 0    OUTPUT PASSED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_OUTPUT" @Tcl2("$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_indexer @EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen>0<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point) 0 {}")    OUTPUT FAILED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_OUTPUT" @Tcl2("$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_indexer @EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen>0<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point) @NumElements(_indices{})  {}")
+# -------------------------------------------------------------------------
+FACTORY_DEF * TeeFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_GeometryRemover    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Get_Start_Point_OUTPUT"    OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeometryRemover_OUTPUT"         @RemoveGeometry()
+# -------------------------------------------------------------------------
+FACTORY_DEF * VertexCreatorFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_VertexCreator    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeometryRemover_OUTPUT"    MODE ADD    INDEX "<Unused>"    CONTINUE_ON_ERROR YES    XVAL "@EvaluateExpression(FDIV,FLOAT,<at>Value<openparen>x<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator)"    YVAL "@EvaluateExpression(FDIV,FLOAT,<at>Value<openparen>y<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator)"    OUTPUT OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator_OUTPUT"
+# -------------------------------------------------------------------------
+Tcl2 proc $(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_indexer {index numElements prefix} {    if {$index < 0 } {       set index [expr $numElements + $index];    };    regsub \"{}\" {_indices{}} \"{$index}\" listWithIndex;    regsub \"{}\" {_indices{}} {} listBase;    set complexListExp "$listWithIndex\.";    set prefixLength [expr [string length $complexListExp]-1];    set prefix [FME_DecodeText $prefix];    foreach attr [FME_AttributeNames] {      set newAttr {};      if {$attr == $listWithIndex} {        set newAttr $listBase;      } elseif {[string first $complexListExp $attr] == 0} {        set newAttr [string replace $attr 0 $prefixLength];      };      if {$newAttr != {}} {          if {$prefix != {} } {            set newAttr $prefix$newAttr;          };          if {[string first {fme_} $newAttr] != 0} {              set first [string first {fme_} $newAttr];              lappend attrsToCopy $newAttr $attr;          };      };    };    if {[info exists attrsToCopy] && [llength $attrsToCopy] > 0} {      eval FME_Execute CopyAttributes $attrsToCopy;    }; }
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_IntTester    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_CoordinateExtractor_OUTPUT_0_apAN4nCBiVs="    TEST "@EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen><at>NumElements<openparen>_indices<opencurly><closecurly><closeparen>-1<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point)" TYPE INT ENCODED    OUTPUT PASSED FEATURE_TYPE __toOutput__
+FACTORY_DEF * TestFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_ListIndexer    INPUT FEATURE_TYPE __toOutput__    TEST "@EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen><at>NumElements<openparen>_indices<opencurly><closecurly><closeparen>-1<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point)" >= 0    OUTPUT PASSED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_OUTPUT" @Tcl2("$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_indexer @EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen><at>NumElements<openparen>_indices<opencurly><closecurly><closeparen>-1<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point) 0 {}")    OUTPUT FAILED FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_OUTPUT" @Tcl2("$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_indexer @EvaluateExpression(FDIV,FLOAT,<at>Evaluate<openparen><at>NumElements<openparen>_indices<opencurly><closecurly><closeparen>-1<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point) @NumElements(_indices{})  {}")
+# -------------------------------------------------------------------------
+FACTORY_DEF * TeeFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_GeometryRemover_2    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Get_End_Point_OUTPUT"    OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeometryRemover_2_OUTPUT"         @RemoveGeometry()
+# -------------------------------------------------------------------------
+FACTORY_DEF * VertexCreatorFactory    FACTORY_NAME $(Extract_End_Points_WORKSPACE_NAME)_VertexCreator_2    INPUT  FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_GeometryRemover_2_OUTPUT"    MODE ADD    INDEX "<Unused>"    CONTINUE_ON_ERROR YES    XVAL "@EvaluateExpression(FDIV,FLOAT,<at>Value<openparen>x<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator_2)"    YVAL "@EvaluateExpression(FDIV,FLOAT,<at>Value<openparen>y<closeparen>,$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator_2)"    OUTPUT OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator_2_OUTPUT"
+FACTORY_DEF * TeeFactory   FACTORY_NAME "$(Extract_End_Points_WORKSPACE_NAME)_Point_Output1583339641 Output Collector"   INPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator_OUTPUT"   INPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_VertexCreator_2_OUTPUT"   OUTPUT FEATURE_TYPE "$(Extract_End_Points_WORKSPACE_NAME)_Point_Output"
+INCLUDE [puts {MACRO WB_CURRENT_CONTEXT $(WB_OLD_CONTEXT_$(Extract_End_Points_WORKSPACE_NAME))}]
+
+
+
+
+
+
+
+
+
