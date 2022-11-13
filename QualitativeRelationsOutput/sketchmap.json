@@ -4,96 +4,25 @@
     },
     "constraint_collection": [
         {
-            "constraints": [
-                {
-                    "obj 1": "9",
-                    "obj 2": "8",
-                    "relation": "dc"
-                }
-            ],
+            "constraints": [],
             "relation_set": "RCC8",
             "arity": 2
         },
         {
             "constraints": [
                 {
-                    "obj 1": "9",
-                    "obj 2": "0",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "9",
-                    "obj 2": "1",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "9",
-                    "obj 2": "2",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "9",
+                    "obj 1": "0",
                     "obj 2": "3",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "9",
-                    "obj 2": "4",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "9",
-                    "obj 2": "5",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "9",
-                    "obj 2": "6",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "9",
-                    "obj 2": "7",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "0",
-                    "obj 2": "8",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "1",
-                    "obj 2": "8",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "2",
-                    "obj 2": "8",
+                    "obj 1": "3",
+                    "obj 2": "1",
                     "relation": "disjoint"
                 },
                 {
                     "obj 1": "3",
-                    "obj 2": "8",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "4",
-                    "obj 2": "8",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "5",
-                    "obj 2": "8",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "6",
-                    "obj 2": "8",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "7",
-                    "obj 2": "8",
+                    "obj 2": "2",
                     "relation": "disjoint"
                 }
             ],
@@ -103,34 +32,14 @@
         {
             "constraints": [
                 {
-                    "obj 1": "0",
-                    "obj 2": "9",
+                    "obj 1": "1",
+                    "obj 2": "3",
                     "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "0",
-                    "obj 2": "8",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "3",
-                    "obj 2": "9",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "3",
-                    "obj 2": "8",
-                    "relation": "left"
-                },
-                {
-                    "obj 1": "6",
-                    "obj 2": "9",
-                    "relation": "left"
-                },
-                {
-                    "obj 1": "6",
-                    "obj 2": "8",
-                    "relation": "left"
+                    "obj 1": "2",
+                    "obj 2": "3",
+                    "relation": "right"
                 }
             ],
             "relation_set": "leftRight",
@@ -141,142 +50,17 @@
                 {
                     "obj 1": "0",
                     "obj 2": "1",
-                    "relation": "right_of"
+                    "relation": "none"
                 },
                 {
                     "obj 1": "0",
                     "obj 2": "2",
-                    "relation": "right_of"
-                },
-                {
-                    "obj 1": "0",
-                    "obj 2": "3",
-                    "relation": "front_of"
-                },
-                {
-                    "obj 1": "0",
-                    "obj 2": "4",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "0",
-                    "obj 2": "5",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "0",
-                    "obj 2": "6",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "0",
-                    "obj 2": "7",
-                    "relation": "nonAdjacent"
+                    "relation": "left_of"
                 },
                 {
                     "obj 1": "1",
                     "obj 2": "2",
-                    "relation": "front_of"
-                },
-                {
-                    "obj 1": "1",
-                    "obj 2": "3",
-                    "relation": "left_of"
-                },
-                {
-                    "obj 1": "1",
-                    "obj 2": "4",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "1",
-                    "obj 2": "5",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "1",
-                    "obj 2": "6",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "1",
-                    "obj 2": "7",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "2",
-                    "obj 2": "3",
-                    "relation": "left_of"
-                },
-                {
-                    "obj 1": "2",
-                    "obj 2": "4",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "2",
-                    "obj 2": "5",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "2",
-                    "obj 2": "6",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "2",
-                    "obj 2": "7",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "3",
-                    "obj 2": "4",
                     "relation": "right_of"
-                },
-                {
-                    "obj 1": "3",
-                    "obj 2": "5",
-                    "relation": "right_of"
-                },
-                {
-                    "obj 1": "3",
-                    "obj 2": "6",
-                    "relation": "front_of"
-                },
-                {
-                    "obj 1": "3",
-                    "obj 2": "7",
-                    "relation": "half_right"
-                },
-                {
-                    "obj 1": "4",
-                    "obj 2": "5",
-                    "relation": "front_of"
-                },
-                {
-                    "obj 1": "4",
-                    "obj 2": "6",
-                    "relation": "left_of"
-                },
-                {
-                    "obj 1": "4",
-                    "obj 2": "7",
-                    "relation": "half_left"
-                },
-                {
-                    "obj 1": "5",
-                    "obj 2": "6",
-                    "relation": "left_of"
-                },
-                {
-                    "obj 1": "5",
-                    "obj 2": "7",
-                    "relation": "half_left"
-                },
-                {
-                    "obj 1": "6",
-                    "obj 2": "7",
-                    "relation": "half_right"
                 }
             ],
             "relation_set": "opra",
@@ -295,133 +79,8 @@
                     "relation": "connected"
                 },
                 {
-                    "obj 1": "0",
-                    "obj 2": "3",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "0",
-                    "obj 2": "4",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "0",
-                    "obj 2": "5",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "0",
-                    "obj 2": "6",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "0",
-                    "obj 2": "7",
-                    "relation": "disconnected"
-                },
-                {
                     "obj 1": "1",
                     "obj 2": "2",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "1",
-                    "obj 2": "3",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "1",
-                    "obj 2": "4",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "1",
-                    "obj 2": "5",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "1",
-                    "obj 2": "6",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "1",
-                    "obj 2": "7",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "2",
-                    "obj 2": "3",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "2",
-                    "obj 2": "4",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "2",
-                    "obj 2": "5",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "2",
-                    "obj 2": "6",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "2",
-                    "obj 2": "7",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "3",
-                    "obj 2": "4",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "3",
-                    "obj 2": "5",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "3",
-                    "obj 2": "6",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "3",
-                    "obj 2": "7",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "4",
-                    "obj 2": "5",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "4",
-                    "obj 2": "6",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "4",
-                    "obj 2": "7",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "5",
-                    "obj 2": "6",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "5",
-                    "obj 2": "7",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "6",
-                    "obj 2": "7",
                     "relation": "connected"
                 }
             ],
@@ -429,97 +88,47 @@
             "arity": 2
         },
         {
-            "constraints": [
-                {
-                    "obj 1": "9",
-                    "obj 2": "8",
-                    "relation": "after"
-                }
-            ],
+            "constraints": [],
             "relation_set": "linearOrdering",
             "arity": 2
         }
     ],
     "features": [
         {
-            "id": "9",
-            "isRoute": null,
-            "feat_type": null,
-            "_geometry": "{\"type\":\"Point\",\"coordinates\":[631,374.629065]}",
-            "mapType": "Sketch",
-            "geometry_type": "Polygon"
-        },
-        {
             "id": "0",
-            "isRoute": "Yes",
-            "feat_type": null,
-            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[202,309.616552],[344,311.616937]]}",
-            "mapType": "Sketch",
-            "geometry_type": "LineString"
-        },
-        {
-            "id": "1",
             "isRoute": null,
             "feat_type": null,
-            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[346,452.644081],[344,311.616937]]}",
-            "mapType": "Sketch",
-            "geometry_type": "LineString"
-        },
-        {
-            "id": "2",
-            "isRoute": null,
-            "feat_type": null,
-            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[344,311.616937],[347,168.589409]]}",
+            "_direction": null,
+            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[235,395.966504],[236,231.934933]]}",
             "mapType": "Sketch",
             "geometry_type": "LineString"
         },
         {
             "id": "3",
-            "isRoute": "Yes",
-            "feat_type": null,
-            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[344,311.616937],[571,314.617515]]}",
-            "mapType": "Sketch",
-            "geometry_type": "LineString"
-        },
-        {
-            "id": "4",
-            "isRoute": null,
-            "feat_type": null,
-            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[568,441.641963],[571,314.617515]]}",
-            "mapType": "Sketch",
-            "geometry_type": "LineString"
-        },
-        {
-            "id": "5",
-            "isRoute": null,
-            "feat_type": null,
-            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[571,314.617515],[575,165.588831]]}",
-            "mapType": "Sketch",
-            "geometry_type": "LineString"
-        },
-        {
-            "id": "6",
-            "isRoute": "Yes",
-            "feat_type": null,
-            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[571,314.617515],[702,316.6179]]}",
-            "mapType": "Sketch",
-            "geometry_type": "LineString"
-        },
-        {
-            "id": "7",
-            "isRoute": null,
-            "feat_type": null,
-            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[571,314.617515],[657,184.592489]]}",
-            "mapType": "Sketch",
-            "geometry_type": "LineString"
-        },
-        {
-            "id": "8",
             "isRoute": null,
             "feat_type": "Landmark",
-            "_geometry": "{\"type\":\"Polygon\",\"coordinates\":[[[528,416.63715],[433,414.636765],[437,340.62252],[530,339.622327],[528,416.63715]]]}",
+            "_direction": null,
+            "_geometry": "{\"type\":\"Polygon\",\"coordinates\":[[[522,211.931083],[283,203.929543],[286,63.902592],[520,81.906057],[522,211.931083]]]}",
             "mapType": "Sketch",
             "geometry_type": "Polygon"
+        },
+        {
+            "id": "1",
+            "isRoute": "Yes",
+            "feat_type": null,
+            "_direction": "opposite",
+            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[237,93.908367],[236,231.934933]]}",
+            "mapType": "Sketch",
+            "geometry_type": "LineString"
+        },
+        {
+            "id": "2",
+            "isRoute": "Yes",
+            "feat_type": null,
+            "_direction": "same",
+            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[236,231.934933],[487,242.93705]]}",
+            "mapType": "Sketch",
+            "geometry_type": "LineString"
         }
     ]
 }

@@ -27,10 +27,14 @@ function renderGeoJsonFiles(file, map) {
     if (fileName.includes('basemap')){
     reader.onload = function () {
         $.getJSON(reader.result, function (data) {
-           allDrawnSketchItems["basemap"] = data;
-           drawnItems = L.geoJSON(data,{
-                      onEachFeature: function(feature,layer){
-                      }}).addTo(baseMap);
+           drawnItems = L.geoJSON(data);
+           drawnItems.addTo(layerGroupBasemap);
+           allDrawnSketchItems["basemap"] = drawnItems;
+            styleLayers();
+
+           if (addedClickBase == false){
+                addClickBase();
+           }
 
         });
     }}
@@ -39,9 +43,21 @@ function renderGeoJsonFiles(file, map) {
     reader.onload = function () {
         $.getJSON(reader.result, function (data) {
          sketchMaptitle = fileName.replace('.geojson','');
-         allDrawnSketchItems[sketchMaptitle] =  L.geoJSON(data,{
-                      onEachFeature: function(feature,layer){
-                      }});
+         drawnSketchItems =  L.geoJSON(data);
+
+          styleLayers();
+           if (addedClickSketch == false){
+                drawnSketchItems.eachLayer(function(slayer){
+                slayer.off('click');
+            });
+            drawnSketchItems.eachLayer(function(slayer){
+                 slayer.on('click', function (e) {
+                    console.log(e.target);
+                    clickFunctionforSketch(e.target);
+                });
+            });
+            }
+            allDrawnSketchItems[sketchMaptitle]=drawnSketchItems;
         });
     }}
 }
@@ -109,6 +125,21 @@ function qualify_SM(callback) {
 
 
 function generalizeMap(){
+        console.log ("checkalign", checkAlignnum);
+         drawnItems.eachLayer(function(blayer){
+        if (!blayer.feature.properties.aligned ){
+            blayer.feature.properties.missing = true;
+        }
+        });
+        allDrawnSketchItems[sketchMaptitle]=drawnSketchItems;
+        allDrawnSketchItems["basemap"] = drawnItems;
+        drawnSketchItems.setStyle({opacity:1});
+        AlignmentArray[sketchMaptitle]=alignmentArraySingleMap;
+        AlignmentArray[sketchMaptitle].id = id;
+        AlignmentArray[sketchMaptitle].bid = bid;
+        AlignmentArray[sketchMaptitle].checkAlignnum = checkAlignnum;
+
+
 console.log(AlignmentArray);
 var lastBaseStreet = routeArray[routeArray.length - 1];
 
@@ -171,8 +202,26 @@ var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/Generalization
 
 
                 GenBaseMap = L.geoJSON(baseMapProc);
+                GenBaseMap.eachLayer(function(glayer){
 
-                layerGroupBasemap.addLayer(GenBaseMap);
+
+            if (!glayer.feature.properties.selected && glayer.feature.properties.missing == "Yes" && !glayer.feature.properties.isRoute){
+                glayer.setStyle({opacity:0.7,weight: 5,color: "#e8913a",dashArray: [5, 5]});
+            }
+            if (!glayer.feature.properties.selected && !glayer.feature.properties.missing && !glayer.feature.properties.isRoute){
+                glayer.setStyle({opacity:0.7,weight: 5,color: "#e8913a",dashArray: null});
+            }
+            if (!glayer.feature.properties.selected && glayer.feature.properties.missing == "Yes" && glayer.feature.properties.isRoute=="Yes"){
+                glayer.setStyle({opacity:0.7,weight: 5,color: "red",dashArray: [5, 5]});
+            }
+            if(!glayer.feature.properties.selected && !glayer.feature.properties.missing && glayer.feature.properties.isRoute=="Yes"){
+                glayer.setStyle({opacity:0.7,weight: 5,color: "red",dashArray: null,});
+            }
+     });
+                GenBaseMap.addTo(layerGroupBasemapGen);
+
+
+                console.log(baseMapProc);
                 ProcSketchMap = L.geoJSON(sketchMapProc);
                 analyzeInputMap();
                 }
@@ -194,8 +243,6 @@ var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/Generalization
 
 
 function analyzeInputMap(){
-
-
 
 
     //loc = document.getElementById("#sketchmapplaceholder");

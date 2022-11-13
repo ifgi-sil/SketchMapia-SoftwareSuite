@@ -16,8 +16,11 @@ var bid=-1;
 var routeArray = [];
 var sketchRouteArray = [];
 var layerGroupBasemap = new L.LayerGroup();
+var layerGroupBasemapGen = new L.LayerGroup();
 var baseMap;
 var drawnItems;
+var addedClickBase = false;
+var addedClickSketch = false;
 
 
 
@@ -49,6 +52,7 @@ $( "#editmenu" ).click(function() {
 
 
 function loadFromImage(){
+addedClickBase = false;
 var imageList = document.getElementById('fromfile').files;
 $("#loadbasemap").hide();
 $("#imagemap").show();
@@ -84,13 +88,24 @@ function renderImageFile(file, location) {
         var BMLoaded = new L.imageOverlay(image.src,bounds);
         BMLoaded.addTo(baseMap);
         baseMap.fitBounds(bounds);
-        drawnItems = new L.geoJson().addTo(baseMap);
+        drawnItems = new L.geoJson();
         layerGroupBasemap.addTo(baseMap);
+        layerGroupBasemapGen.addTo(baseMap);
+        drawnItems.addTo(layerGroupBasemap);
+        var layerControl = new L.Control.Layers(null, {
+    'Base Map': layerGroupBasemap,
+    'Generalized Map': layerGroupBasemapGen
+    }).addTo(baseMap);
+
+
+
 
     }
 
 $( "#loaded" ).prop( "checked", true );
 $( "#loaded" ).prop( "disabled", false );
+
+
 
 
 
@@ -127,10 +142,13 @@ $( "#loaded" ).prop( "disabled", false );
 
 
 
-
-
 var drawBM = document.getElementById('drawBM');
 $('#drawBM').click(function(){
+
+
+drawnItems.setStyle({pmIgnore: false});
+drawnItems.options.pmIgnore = false; // If the layer is a LayerGroup / FeatureGroup / GeoJSON this line is needed too
+L.PM.reInitLayer(drawnItems);
 
 baseMap.pm.addControls({
 position: 'topleft',
@@ -164,6 +182,15 @@ baseMap.on('pm:create', function (event) {
     drawnItems.addLayer(layer);
 });
 
+baseMap.on('pm:remove', function (e) {
+    console.log("removed",e.layer.feature.properties.id);
+    drawnItems.removeLayer(e.layer);
+    drawnItems.eachLayer(function(blayer){
+        console.log(blayer);
+        });
+
+});
+
 
 
 baseMap.pm.setGlobalOptions({
@@ -195,6 +222,7 @@ $( "#editmenuoptions" ).slideToggle(500);
 drawnItems.eachLayer(function(blayer){
         blayer.off('click');
         });
+addedClickBase = false;
 routeButton.addTo(baseMap);
 });
 
@@ -204,6 +232,7 @@ routeButton.addTo(baseMap);
 $("#saveBM").click(function(){
 $( "#marked" ).prop( "checked", true );
 $( "#marked" ).prop( "disabled", false );
+baseMap.pm.disableDraw();
 baseMap.pm.removeControls();
 drawnItems.setStyle({opacity:1});
 
@@ -212,7 +241,6 @@ drawnItems.eachLayer(function(blayer){
         blayer.off('click');
         });
 baseMap.removeControl(routeButton);
-    addClickBase();
 });
 
 
@@ -237,11 +265,15 @@ drawnItems.eachLayer(function(blayer){
         }
     });
     });
+
+    addedClickBase = true;
 }
 
 
    $('.thumbnail').click(function(e){
+   addedClickSketch = false;
 
+     $('#slider').prop('checked', true);
 
         if (sketchMap != null) {
             sketchMap.remove();
@@ -265,7 +297,9 @@ drawnItems.eachLayer(function(blayer){
         drawnSketchItems.addTo(sketchMap);
         alignmentArraySingleMap=AlignmentArray[sketchMaptitle];
         id=AlignmentArray[sketchMaptitle].id+1;
-        checkAlignnum = AlignmentArray[sketchMaptitle].checkAlignnum+1;
+        bid = AlignmentArray[sketchMaptitle].bid +1;
+        checkAlignnum = AlignmentArray[sketchMaptitle].checkAlignnum;
+        console.log ("checkalign", checkAlignnum);
         restoreBaseAlignment(alignmentArraySingleMap);
         styleLayers();
         }
@@ -286,6 +320,25 @@ drawnItems.eachLayer(function(blayer){
 
 
     $('#drawSM').click(function(){
+
+    if (addedClickBase == false){
+           addClickBase();
+    }
+
+
+    if (addedClickSketch == false){
+        drawnSketchItems.eachLayer(function(slayer){
+        slayer.off('click');
+        });
+         drawnSketchItems.eachLayer(function(slayer){
+                 slayer.on('click', function (e) {
+                    console.log(e.target);
+                    clickFunctionforSketch(e.target);
+                });
+            });
+
+
+    }
         sketchMap.pm.addControls({
             position: 'topleft',
             drawCircle: false,
@@ -298,7 +351,7 @@ drawnItems.eachLayer(function(blayer){
             cutPolygon:false
     });
     sketchMap.pm.setGlobalOptions({
-            continueDrawing: true,
+            continueDrawing: false,
             pathOptions:{
                 opacity:0.7,
                 weight: 5,
@@ -321,6 +374,13 @@ sketchMap.pm.Toolbar.changeActionsOfControl('Polygon', sketchActions);
 sketchMap.pm.Toolbar.changeActionsOfControl('Polyline', sketchActions);
 sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
 
+          sketchMap.on('pm:drawstart', function (e) {
+            console.log(e);
+            drawnSketchItems.eachLayer(function(slayer){
+                slayer.off('click');
+            });
+        });
+
         sketchMap.on('pm:create', function (event) {
             var layer = event.layer;
 
@@ -341,9 +401,30 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
             props.otype = event.shape;
             drawnSketchItems.addLayer(layer);
             id=id+1;
+     });
 
-            layer.on('click', function (e) {
-        if(layer.feature.properties.selected==false){
+       sketchMap.on('pm:drawend', function (e) {
+            console.log(e);
+            drawnSketchItems.eachLayer(function(slayer){
+                 slayer.on('click', function (e) {
+                    console.log(e.target);
+                    clickFunctionforSketch(e.target);
+                });
+            });
+        });
+
+
+
+
+    $( "#editmenuoptions" ).slideToggle(500);
+
+
+    });
+
+
+
+    function clickFunctionforSketch(layer){
+         if(layer.feature.properties.selected==false){
             layer.feature.properties.selected = true;
             alignSketchID.push(layer.feature.properties.sid);
             sketchOtypearray[layer.feature.properties.sid]=layer.feature.properties.otype;
@@ -357,17 +438,10 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
             delete sketchOtypearray[layer.feature.properties.sid];
             styleLayers();
         }
-        });
 
+    addedClickSketch = true;
 
-
-     });
-
-
-    $( "#editmenuoptions" ).slideToggle(500);
-
-
-    });
+    }
 
 
 
@@ -375,6 +449,7 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
         checkIfAlignedAlready(alignSketchID);
         drawnItems.eachLayer(function(blayer){
         if (alignBaseID.includes(blayer.feature.properties.id)){
+        console.log("checkalign");
         blayer.feature.properties.aligned = true;
         blayer.feature.properties.selected = false;
         styleLayers();
@@ -533,22 +608,17 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
     }
 
     $('#saveSM').click(function(){
-        sketchMap.pm.removeControls();
-        drawnItems.eachLayer(function(blayer){
-        if (!blayer.feature.properties.aligned ){
-          blayer.feature.properties.missing = true;
-        }
+     sketchMap.pm.removeControls();
+
+     drawnSketchItems.eachLayer(function(slayer){
+        slayer.off('click');
         });
-        allDrawnSketchItems[sketchMaptitle]=drawnSketchItems;
-        allDrawnSketchItems["basemap"] = drawnItems;
-        drawnSketchItems.setStyle({opacity:1});
-        $( "#editmenuoptions" ).slideToggle(500);
-        AlignmentArray[sketchMaptitle]=alignmentArraySingleMap;
-        AlignmentArray[sketchMaptitle].id = id;
-        AlignmentArray[sketchMaptitle].checkAlignnum = checkAlignnum;
-        drawnItems.eachLayer(function(blayer){
+     drawnItems.eachLayer(function(blayer){
         blayer.off('click');
         });
+     addedClickBase = false;
+     addedClickSketch = false;
+      $( "#editmenuoptions" ).slideToggle(500);
 
     });
 
@@ -593,7 +663,7 @@ if (drawnSketchItems){
 
     drawnSketchItems.eachLayer(function(slayer){
             if (slayer.feature.properties.selected){
-                slayer.setStyle({weight:8});
+                slayer.setStyle({weight:12});
             }
             if (!slayer.feature.properties.selected && !slayer.feature.properties.aligned && !slayer.feature.properties.isRoute){
                 slayer.setStyle({opacity:0.7,weight: 5,color: "#e8913a",dashArray: [5, 5]});
@@ -615,7 +685,7 @@ if (drawnItems){
     drawnItems.eachLayer(function(blayer){
 
          if (blayer.feature.properties.selected){
-                blayer.setStyle({weight:8});
+                blayer.setStyle({weight:12});
             }
             if (!blayer.feature.properties.selected && !blayer.feature.properties.aligned && !blayer.feature.properties.isRoute){
                 blayer.setStyle({opacity:0.7,weight: 5,color: "#e8913a",dashArray: [5, 5]});
@@ -645,7 +715,7 @@ var datatobesent = new L.geoJson();
 
 var returnValue;
 
-var url = "http://localhost:80/fmedatastreaming/sketchMapia/junctiondetect.fmw?data=" + encodeURIComponent(JSON.stringify(JSON.stringify(datatobesent.toGeoJSON())));
+var url = ""http://localhost:80/fmedatastreaming/sketchMapia/generalizerFile.fmw?data=" + encodeURIComponent(JSON.stringify(JSON.stringify(datatobesent.toGeoJSON())));
 var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/GeneralizationPredict/networkcalculator.fmw/parameters?fmetoken=47e241ca547e14ab6ea961aef083f8a4cbe6dfe3"
 
 
