@@ -6,8 +6,8 @@
         {
             "constraints": [
                 {
-                    "obj 1": 110111,
-                    "obj 2": "3",
+                    "obj 1": "3",
+                    "obj 2": "4",
                     "relation": "dc"
                 }
             ],
@@ -17,33 +17,13 @@
         {
             "constraints": [
                 {
-                    "obj 1": 110111,
-                    "obj 2": 110113,
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": 110111,
-                    "obj 2": "2",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": 110111,
-                    "obj 2": "1",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": 110111,
-                    "obj 2": "0",
-                    "relation": "disjoint"
-                },
-                {
                     "obj 1": "3",
                     "obj 2": 110113,
                     "relation": "disjoint"
                 },
                 {
                     "obj 1": "3",
-                    "obj 2": "2",
+                    "obj 2": 110114,
                     "relation": "disjoint"
                 },
                 {
@@ -54,6 +34,36 @@
                 {
                     "obj 1": "3",
                     "obj 2": "0",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "3",
+                    "obj 2": "2",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "4",
+                    "obj 2": 110113,
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "4",
+                    "obj 2": 110114,
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "4",
+                    "obj 2": "1",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "4",
+                    "obj 2": "0",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "4",
+                    "obj 2": "2",
                     "relation": "disjoint"
                 }
             ],
@@ -63,24 +73,24 @@
         {
             "constraints": [
                 {
-                    "obj 1": "2",
-                    "obj 2": 110111,
+                    "obj 1": "1",
+                    "obj 2": "3",
                     "relation": "right"
                 },
                 {
-                    "obj 1": "2",
-                    "obj 2": "3",
-                    "relation": "left"
-                },
-                {
                     "obj 1": "1",
-                    "obj 2": 110111,
+                    "obj 2": "4",
                     "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "1",
+                    "obj 1": "0",
                     "obj 2": "3",
-                    "relation": "right"
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "0",
+                    "obj 2": "4",
+                    "relation": "nonAdjacent"
                 }
             ],
             "relation_set": "leftRight",
@@ -90,8 +100,8 @@
             "constraints": [
                 {
                     "obj 1": 110113,
-                    "obj 2": "2",
-                    "relation": "nonAdjacent"
+                    "obj 2": 110114,
+                    "relation": "right_of"
                 },
                 {
                     "obj 1": 110113,
@@ -104,18 +114,38 @@
                     "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "2",
-                    "obj 2": "1",
-                    "relation": "right_of"
+                    "obj 1": 110113,
+                    "obj 2": "2",
+                    "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "2",
+                    "obj 1": 110114,
+                    "obj 2": "1",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": 110114,
+                    "obj 2": "0",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": 110114,
+                    "obj 2": "2",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "1",
                     "obj 2": "0",
                     "relation": "right_of"
                 },
                 {
                     "obj 1": "1",
-                    "obj 2": "0",
+                    "obj 2": "2",
+                    "relation": "right_of"
+                },
+                {
+                    "obj 1": "0",
+                    "obj 2": "2",
                     "relation": "front_of"
                 }
             ],
@@ -126,13 +156,13 @@
             "constraints": [
                 {
                     "obj 1": 110113,
-                    "obj 2": "2",
+                    "obj 2": 110114,
                     "relation": "connected"
                 },
                 {
                     "obj 1": 110113,
                     "obj 2": "1",
-                    "relation": "disconnected"
+                    "relation": "connected"
                 },
                 {
                     "obj 1": 110113,
@@ -140,18 +170,38 @@
                     "relation": "disconnected"
                 },
                 {
-                    "obj 1": "2",
+                    "obj 1": 110113,
+                    "obj 2": "2",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": 110114,
                     "obj 2": "1",
                     "relation": "connected"
                 },
                 {
-                    "obj 1": "2",
+                    "obj 1": 110114,
+                    "obj 2": "0",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": 110114,
+                    "obj 2": "2",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "1",
                     "obj 2": "0",
                     "relation": "connected"
                 },
                 {
                     "obj 1": "1",
-                    "obj 2": "0",
+                    "obj 2": "2",
+                    "relation": "connected"
+                },
+                {
+                    "obj 1": "0",
+                    "obj 2": "2",
                     "relation": "connected"
                 }
             ],
@@ -159,34 +209,34 @@
             "arity": 2
         },
         {
-            "constraints": [
-                {
-                    "obj 1": 110111,
-                    "obj 2": "3",
-                    "relation": "overlaps"
-                }
-            ],
+            "constraints": [],
             "relation_set": "linearOrdering",
             "arity": 2
         }
     ],
     "features": [
         {
-            "id": 110111,
-            "isRoute": null,
-            "feat_type": "Landmark",
-            "missing": "Yes",
-            "geometry_type": "Polygon"
-        },
-        {
-            "BaseAlign": "{\"0\":[4,6,7,5]}",
-            "SketchAlign": "{\"0\":[\"S3\"]}",
-            "genType": "Amalgamation",
             "id": "3",
             "isRoute": null,
             "feat_type": "Landmark",
             "_direction": null,
-            "_geometry": "{\"type\":\"Polygon\",\"coordinates\":[[[166.5,289.770566],[192,221.757475],[216,163.74631],[250,136.241016],[329,173.248139],[387,224.257957],[310.5,309.774416],[252,349.28202],[207,324.777304],[166.5,289.770566]]]}",
+            "_geometry": "{\"type\":\"Polygon\",\"coordinates\":[[[354,405.545174],[394,318.528426],[491,347.534009],[460,414.546907],[434,444.552682],[354,405.545174]]]}",
+            "BaseAlign": "{\"0\":[6,7]}",
+            "SketchAlign": "{\"0\":[\"S3\"]}",
+            "genType": "Amalgamation",
+            "otype": "Polygon",
+            "geometry_type": "Polygon"
+        },
+        {
+            "id": "4",
+            "isRoute": null,
+            "feat_type": "Landmark",
+            "_direction": null,
+            "_geometry": "{\"type\":\"Polygon\",\"coordinates\":[[[383.8351084,177.3857541],[383.8351084,175.3857541],[381.8351084,175.3857541],[381.8351084,177.3857541],[383.8351084,177.3857541]]]}",
+            "BaseAlign": "{\"0\":[8]}",
+            "SketchAlign": "{\"0\":[\"S4\"]}",
+            "genType": "Collapse",
+            "otype": "Polygon",
             "geometry_type": "Polygon"
         },
         {
@@ -194,39 +244,51 @@
             "isRoute": null,
             "feat_type": null,
             "missing": "Yes",
+            "otype": "Line",
             "geometry_type": "LineString"
         },
         {
-            "BaseAlign": "{\"0\":[1,2]}",
-            "SketchAlign": "{\"0\":[\"S2\"]}",
-            "genType": "OmissionMerge",
-            "id": "2",
-            "isRoute": "Yes",
+            "id": 110114,
+            "isRoute": null,
             "feat_type": null,
-            "_direction": "same",
-            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[565,65.50186],[465,183.524576],[260,399.566158]]}",
+            "missing": "Yes",
+            "otype": "Line",
             "geometry_type": "LineString"
         },
         {
-            "BaseAlign": "{\"0\":[0]}",
-            "SketchAlign": "{\"0\":[\"S1\"]}",
-            "genType": "No generalization",
             "id": "1",
             "isRoute": "Yes",
             "feat_type": null,
             "_direction": "same",
-            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[149,300.547099],[260,399.566158]]}",
+            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[489,198.505326],[405,253.538052],[291,419.570008]]}",
+            "BaseAlign": "{\"0\":[2,5]}",
+            "SketchAlign": "{\"0\":[\"S1\"]}",
+            "genType": "OmissionMerge",
+            "otype": "Line",
             "geometry_type": "LineString"
         },
         {
-            "BaseAlign": "{\"0\":[3]}",
+            "id": "0",
+            "isRoute": "Yes",
+            "feat_type": null,
+            "_direction": "same",
+            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[182,329.552682],[291,419.570008]]}",
+            "BaseAlign": "{\"0\":[1]}",
             "SketchAlign": "{\"0\":[\"S0\"]}",
             "genType": "No generalization",
-            "id": "0",
+            "otype": "Line",
+            "geometry_type": "LineString"
+        },
+        {
+            "id": "2",
             "isRoute": null,
             "feat_type": null,
             "_direction": null,
-            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[260,399.566158],[415,528.590991]]}",
+            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[291,419.570008],[413,495.584638]]}",
+            "BaseAlign": "{\"0\":[0]}",
+            "SketchAlign": "{\"0\":[\"S2\"]}",
+            "genType": "No generalization",
+            "otype": "Line",
             "geometry_type": "LineString"
         }
     ]

@@ -27,6 +27,8 @@ function renderGeoJsonFiles(file, map) {
     if (fileName.includes('basemap')){
     reader.onload = function () {
         $.getJSON(reader.result, function (data) {
+         bid = data.features[ Object.keys(data.features).sort().pop()].properties.id;
+          console.log(data, "data", typeof(data),bid);
            drawnItems = L.geoJSON(data);
            drawnItems.addTo(layerGroupBasemap);
            allDrawnSketchItems["basemap"] = drawnItems;
@@ -42,8 +44,11 @@ function renderGeoJsonFiles(file, map) {
     if ( !(fileName.includes('basemap')) && !(fileName.includes('alignment'))){
     reader.onload = function () {
         $.getJSON(reader.result, function (data) {
+        console.log("djhsdkfj");
+          id = data.features[ Object.keys(data.features).sort().pop()].properties.id;
          sketchMaptitle = fileName.replace('.geojson','');
          drawnSketchItems =  L.geoJSON(data);
+
 
           styleLayers();
            if (addedClickSketch == false){
@@ -66,9 +71,13 @@ function renderGeoJsonFiles(file, map) {
 
 
 function downloadProject(){
- var alignment = JSON.stringify(AlignmentArray);
+
  var zip = new JSZip();
+
+
+ var alignment = JSON.stringify(AlignmentArray);
  zip.file("alignment.json",alignment);
+
  for (var key in allDrawnSketchItems) {
     zip.file(key + ".geojson", JSON.stringify(allDrawnSketchItems[key].toGeoJSON()));
 }
@@ -130,13 +139,11 @@ function generalizeMap(){
         if (!blayer.feature.properties.aligned ){
             blayer.feature.properties.missing = true;
         }
+        else
+        {delete blayer.feature.properties.missing; }
         });
-        allDrawnSketchItems[sketchMaptitle]=drawnSketchItems;
-        allDrawnSketchItems["basemap"] = drawnItems;
         drawnSketchItems.setStyle({opacity:1});
         AlignmentArray[sketchMaptitle]=alignmentArraySingleMap;
-        AlignmentArray[sketchMaptitle].id = id;
-        AlignmentArray[sketchMaptitle].bid = bid;
         AlignmentArray[sketchMaptitle].checkAlignnum = checkAlignnum;
 
 
@@ -185,6 +192,10 @@ var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/Generalization
                 var baseMapProc=[];
                  $.each(wholeMapProc.features, function(i, item) {
                  if(item.properties.mapType == "Sketch"){
+                    if(item.properties.otype == "CircleMarker"){
+                        item.properties.feat_type="Landmark";
+                        }
+
                     sketchMapProc.push(item);
                  }
                  else{
@@ -199,6 +210,10 @@ var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/Generalization
                   randomnum = randomnum + 1;
                  }
                  });
+
+                if (GenBaseMap != null) {
+                    layerGroupBasemapGen.removeLayer(GenBaseMap);
+                 }
 
 
                 GenBaseMap = L.geoJSON(baseMapProc);
@@ -293,7 +308,7 @@ function setResults_in_output_div(resp){
  var collapse = "";
  var omissionmerge = "";
 
-  for (var i=1 ; i < Object.values(AlignmentArray)[0].checkAlignnum; i++){
+  for (var i in Object.values(AlignmentArray)[0]){
   console.log(i)
   if (Object.values(AlignmentArray)[0][i].genType == "Amalgamation"){
    amalgamation = amalgamation + "    " + Object.values(AlignmentArray)[0][i].degreeOfGeneralization ;
@@ -304,7 +319,6 @@ function setResults_in_output_div(resp){
   if (Object.values(AlignmentArray)[0][i].genType == "Collapse"){
    collapse = collapse + "    " + Object.values(AlignmentArray)[0][i].degreeOfGeneralization ;
   }
-
 
   }
 

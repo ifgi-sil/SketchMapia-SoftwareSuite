@@ -4,25 +4,46 @@
     },
     "constraint_collection": [
         {
-            "constraints": [],
+            "constraints": [
+                {
+                    "obj 1": "4",
+                    "obj 2": "3",
+                    "relation": "dc"
+                }
+            ],
             "relation_set": "RCC8",
             "arity": 2
         },
         {
             "constraints": [
                 {
-                    "obj 1": "0",
+                    "obj 1": "4",
+                    "obj 2": "2",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "4",
+                    "obj 2": "0",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "4",
+                    "obj 2": "1",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "2",
                     "obj 2": "3",
                     "relation": "disjoint"
                 },
                 {
                     "obj 1": "3",
-                    "obj 2": "1",
+                    "obj 2": "0",
                     "relation": "disjoint"
                 },
                 {
                     "obj 1": "3",
-                    "obj 2": "2",
+                    "obj 2": "1",
                     "relation": "disjoint"
                 }
             ],
@@ -32,14 +53,24 @@
         {
             "constraints": [
                 {
-                    "obj 1": "1",
-                    "obj 2": "3",
+                    "obj 1": "0",
+                    "obj 2": "4",
                     "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "2",
+                    "obj 1": "0",
                     "obj 2": "3",
                     "relation": "right"
+                },
+                {
+                    "obj 1": "1",
+                    "obj 2": "4",
+                    "relation": "right"
+                },
+                {
+                    "obj 1": "1",
+                    "obj 2": "3",
+                    "relation": "left"
                 }
             ],
             "relation_set": "leftRight",
@@ -48,18 +79,18 @@
         {
             "constraints": [
                 {
+                    "obj 1": "2",
+                    "obj 2": "0",
+                    "relation": "front_of"
+                },
+                {
+                    "obj 1": "2",
+                    "obj 2": "1",
+                    "relation": "right_of"
+                },
+                {
                     "obj 1": "0",
                     "obj 2": "1",
-                    "relation": "none"
-                },
-                {
-                    "obj 1": "0",
-                    "obj 2": "2",
-                    "relation": "left_of"
-                },
-                {
-                    "obj 1": "1",
-                    "obj 2": "2",
                     "relation": "right_of"
                 }
             ],
@@ -69,18 +100,18 @@
         {
             "constraints": [
                 {
-                    "obj 1": "0",
+                    "obj 1": "2",
+                    "obj 2": "0",
+                    "relation": "connected"
+                },
+                {
+                    "obj 1": "2",
                     "obj 2": "1",
                     "relation": "connected"
                 },
                 {
                     "obj 1": "0",
-                    "obj 2": "2",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "1",
-                    "obj 2": "2",
+                    "obj 2": "1",
                     "relation": "connected"
                 }
             ],
@@ -88,46 +119,66 @@
             "arity": 2
         },
         {
-            "constraints": [],
+            "constraints": [
+                {
+                    "obj 1": "4",
+                    "obj 2": "3",
+                    "relation": "after"
+                }
+            ],
             "relation_set": "linearOrdering",
             "arity": 2
         }
     ],
     "features": [
         {
-            "id": "0",
+            "id": "4",
             "isRoute": null,
+            "mapType": "Sketch",
+            "feat_type": "Landmark",
+            "_direction": null,
+            "_geometry": "{\"type\":\"Point\",\"coordinates\":[373,242.603654]}",
+            "otype": "CircleMarker",
+            "geometry_type": "Polygon"
+        },
+        {
+            "id": "2",
+            "isRoute": null,
+            "mapType": "Sketch",
             "feat_type": null,
             "_direction": null,
-            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[235,395.966504],[236,231.934933]]}",
-            "mapType": "Sketch",
+            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[383,494.652166],[540,528.658711]]}",
+            "otype": "Line",
             "geometry_type": "LineString"
         },
         {
             "id": "3",
             "isRoute": null,
+            "mapType": "Sketch",
             "feat_type": "Landmark",
             "_direction": null,
-            "_geometry": "{\"type\":\"Polygon\",\"coordinates\":[[[522,211.931083],[283,203.929543],[286,63.902592],[520,81.906057],[522,211.931083]]]}",
-            "mapType": "Sketch",
+            "_geometry": "{\"type\":\"Polygon\",\"coordinates\":[[[511,470.647546],[425,455.644658],[454,341.622712],[511,350.624445],[511,470.647546]]]}",
+            "otype": "Polygon",
             "geometry_type": "Polygon"
+        },
+        {
+            "id": "0",
+            "isRoute": "Yes",
+            "mapType": "Sketch",
+            "feat_type": null,
+            "_direction": "same",
+            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[246,449.643503],[383,494.652166]]}",
+            "otype": "Line",
+            "geometry_type": "LineString"
         },
         {
             "id": "1",
             "isRoute": "Yes",
-            "feat_type": null,
-            "_direction": "opposite",
-            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[237,93.908367],[236,231.934933]]}",
             "mapType": "Sketch",
-            "geometry_type": "LineString"
-        },
-        {
-            "id": "2",
-            "isRoute": "Yes",
             "feat_type": null,
             "_direction": "same",
-            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[236,231.934933],[487,242.93705]]}",
-            "mapType": "Sketch",
+            "_geometry": "{\"type\":\"LineString\",\"coordinates\":[[383,494.652166],[446,222.599804]]}",
+            "otype": "Line",
             "geometry_type": "LineString"
         }
     ]

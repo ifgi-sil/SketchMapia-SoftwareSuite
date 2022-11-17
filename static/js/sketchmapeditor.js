@@ -11,7 +11,7 @@ var allDrawnSketchItems={};
 var AlignmentArray = {};
 var checkAlignnum;
 var alignmentArraySingleMap={};
-var id=0;
+var id=-1;
 var bid=-1;
 var routeArray = [];
 var sketchRouteArray = [];
@@ -183,12 +183,7 @@ baseMap.on('pm:create', function (event) {
 });
 
 baseMap.on('pm:remove', function (e) {
-    console.log("removed",e.layer.feature.properties.id);
     drawnItems.removeLayer(e.layer);
-    drawnItems.eachLayer(function(blayer){
-        console.log(blayer);
-        });
-
 });
 
 
@@ -230,6 +225,14 @@ routeButton.addTo(baseMap);
 
 
 $("#saveBM").click(function(){
+drawnItems.eachLayer(function(blayer){
+        blayer.off('click');
+});
+
+if (addedClickBase == false){
+console.log("check");
+addClickBase();
+}
 $( "#marked" ).prop( "checked", true );
 $( "#marked" ).prop( "disabled", false );
 baseMap.pm.disableDraw();
@@ -237,16 +240,16 @@ baseMap.pm.removeControls();
 drawnItems.setStyle({opacity:1});
 
 $( "#editmenuoptions" ).slideToggle(500);
-drawnItems.eachLayer(function(blayer){
-        blayer.off('click');
-        });
 baseMap.removeControl(routeButton);
+
+allDrawnSketchItems["basemap"] = drawnItems;
 });
 
 
 
 
 function addClickBase(){
+console.log("added");
 drawnItems.eachLayer(function(blayer){
         blayer.on('click',function(e){
         if(blayer.feature.properties.selected==false){
@@ -277,7 +280,6 @@ drawnItems.eachLayer(function(blayer){
 
         if (sketchMap != null) {
             sketchMap.remove();
-            addClickBase();
         }
         var image = new Image();
         image.src = $(e.target).attr('src');
@@ -296,8 +298,6 @@ drawnItems.eachLayer(function(blayer){
         drawnSketchItems=allDrawnSketchItems[sketchMaptitle];
         drawnSketchItems.addTo(sketchMap);
         alignmentArraySingleMap=AlignmentArray[sketchMaptitle];
-        id=AlignmentArray[sketchMaptitle].id+1;
-        bid = AlignmentArray[sketchMaptitle].bid +1;
         checkAlignnum = AlignmentArray[sketchMaptitle].checkAlignnum;
         console.log ("checkalign", checkAlignnum);
         restoreBaseAlignment(alignmentArraySingleMap);
@@ -312,9 +312,12 @@ drawnItems.eachLayer(function(blayer){
 
         });
         styleLayers();
-        id = 0;
+        id = -1;
         checkAlignnum = 1;
         }
+
+
+
    });
 
 
@@ -327,12 +330,13 @@ drawnItems.eachLayer(function(blayer){
 
 
     if (addedClickSketch == false){
+
+       console.log("off and on sketchadded");
         drawnSketchItems.eachLayer(function(slayer){
         slayer.off('click');
         });
          drawnSketchItems.eachLayer(function(slayer){
                  slayer.on('click', function (e) {
-                    console.log(e.target);
                     clickFunctionforSketch(e.target);
                 });
             });
@@ -375,13 +379,14 @@ sketchMap.pm.Toolbar.changeActionsOfControl('Polyline', sketchActions);
 sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
 
           sketchMap.on('pm:drawstart', function (e) {
-            console.log(e);
+            console.log("drawstart sketchadded");
             drawnSketchItems.eachLayer(function(slayer){
                 slayer.off('click');
             });
         });
 
         sketchMap.on('pm:create', function (event) {
+                       id=id+1;
             var layer = event.layer;
 
             var feature = layer.feature = layer.feature || {}; // Initialize feature
@@ -400,17 +405,24 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
             props.aligned = false;
             props.otype = event.shape;
             drawnSketchItems.addLayer(layer);
-            id=id+1;
      });
 
+
        sketchMap.on('pm:drawend', function (e) {
-            console.log(e);
+                console.log("drawend sketchadded");
+
             drawnSketchItems.eachLayer(function(slayer){
                  slayer.on('click', function (e) {
-                    console.log(e.target);
                     clickFunctionforSketch(e.target);
                 });
             });
+        });
+
+        sketchMap.on('pm:remove', function (e) {
+            console.log(e.layer)
+            checkIfAlignedAlready([e.layer.feature.properties.sid]);
+            alignSketchID = [];
+            drawnSketchItems.removeLayer(e.layer);
         });
 
 
@@ -424,6 +436,7 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
 
 
     function clickFunctionforSketch(layer){
+      console.log("sketchadded");
          if(layer.feature.properties.selected==false){
             layer.feature.properties.selected = true;
             alignSketchID.push(layer.feature.properties.sid);
@@ -447,6 +460,7 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
 
     $('#alignbutton').click(function(){
         checkIfAlignedAlready(alignSketchID);
+        console.log(alignSketchID);
         drawnItems.eachLayer(function(blayer){
         if (alignBaseID.includes(blayer.feature.properties.id)){
         console.log("checkalign");
@@ -501,8 +515,8 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
        hoverfunction();
     }
     var hoverarray = [];
-    function hoverfunction(){
 
+    function hoverfunction(){
     drawnSketchItems.eachLayer(function(slayer){
     slayer.on('mouseover', function() {
     $.each(alignmentArraySingleMap, function(i, item) {
@@ -613,12 +627,19 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
      drawnSketchItems.eachLayer(function(slayer){
         slayer.off('click');
         });
+      console.log("skecthremoved");
      drawnItems.eachLayer(function(blayer){
         blayer.off('click');
         });
      addedClickBase = false;
      addedClickSketch = false;
+
+     sketchMap.off('pm:drawstart');
+     sketchMap.off('pm:drawend');
+     sketchMap.off('pm:create');
       $( "#editmenuoptions" ).slideToggle(500);
+
+     allDrawnSketchItems[sketchMaptitle]=drawnSketchItems;
 
     });
 
@@ -639,14 +660,17 @@ hoverfunction();
 }
 
 function checkIfAlignedAlready(alignSketchID){
+console.log("removed",alignSketchID);
 drawnSketchItems.eachLayer(function(slayer){
 $.each(alignmentArraySingleMap, function(i, item) {
     if(alignSketchID.includes(slayer.feature.properties.sid) && (alignmentArraySingleMap[i].SketchAlign != null) && (alignmentArraySingleMap[i].SketchAlign[0]).includes(slayer.feature.properties.sid)){
+        console.log("inside", alignSketchID,slayer.feature.properties.sid,alignmentArraySingleMap[i].SketchAlign, alignmentArraySingleMap[i].SketchAlign[0]);
      drawnItems.eachLayer(function(blayer){
      if((alignmentArraySingleMap[i].BaseAlign != null) && (alignmentArraySingleMap[i].BaseAlign[0]).includes(blayer.feature.properties.id)){
         blayer.feature.properties.aligned=false;
      }
      });
+
      delete alignmentArraySingleMap[Object.keys(alignmentArraySingleMap)[i-1]];
      styleLayers();
     }
@@ -715,7 +739,7 @@ var datatobesent = new L.geoJson();
 
 var returnValue;
 
-var url = ""http://localhost:80/fmedatastreaming/sketchMapia/generalizerFile.fmw?data=" + encodeURIComponent(JSON.stringify(JSON.stringify(datatobesent.toGeoJSON())));
+var url = "http://localhost:80/fmedatastreaming/sketchMapia/junctiondetect.fmw?data=" + encodeURIComponent(JSON.stringify(JSON.stringify(datatobesent.toGeoJSON())));
 var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/GeneralizationPredict/networkcalculator.fmw/parameters?fmetoken=47e241ca547e14ab6ea961aef083f8a4cbe6dfe3"
 
 
