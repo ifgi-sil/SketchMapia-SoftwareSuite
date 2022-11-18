@@ -29,8 +29,7 @@ function renderGeoJsonFiles(file, map) {
         $.getJSON(reader.result, function (data) {
          var bidArray = Object.values(data.features).map((item) => item.properties.id);
          bid = Math.max.apply(Math, bidArray);
-         console.log(bid, typeof (bidArray), bidArray);
-          console.log(data, "data", typeof(data),bid);
+
            drawnItems = L.geoJSON(data);
            drawnItems.addTo(layerGroupBasemap);
            allDrawnSketchItems["basemap"] = drawnItems;
@@ -46,7 +45,8 @@ function renderGeoJsonFiles(file, map) {
     if ( !(fileName.includes('basemap')) && !(fileName.includes('alignment'))){
     reader.onload = function () {
         $.getJSON(reader.result, function (data) {
-          id = data.features[ Object.keys(data.features).sort().pop()].properties.id;
+         var idArray = Object.values(data.features).map((item) => item.properties.id);
+         id = Math.max.apply(Math, idArray);
          sketchMaptitle = fileName.replace('.geojson','');
          drawnSketchItems =  L.geoJSON(data,{
           pointToLayer: function (feature, latlng) {

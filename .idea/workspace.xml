@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ddc94cae-33dc-48ab-ba60-fb9a8106a848" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/generalizedMap/inputbaseMap.json" beforeDir="false" afterPath="$PROJECT_DIR$/generalizedMap/inputbaseMap.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generalizedMap/inputsketchMap.json" beforeDir="false" afterPath="$PROJECT_DIR$/generalizedMap/inputsketchMap.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/js/project.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/project.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/sketchmapeditor.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/sketchmapeditor.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,11 +12,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/static/js/project.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="84">
-              <caret line="168" column="59" selection-start-line="168" selection-start-column="48" selection-end-line="168" selection-end-column="59" />
+            <state relative-caret-position="152">
+              <caret line="48" column="44" selection-start-line="48" selection-start-column="44" selection-end-line="48" selection-end-column="44" />
             </state>
           </provider>
         </entry>
@@ -33,11 +30,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/js/sketchmapeditor.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="101">
-              <caret line="734" column="37" selection-start-line="734" selection-start-column="37" selection-end-line="734" selection-end-column="37" />
+            <state relative-caret-position="50">
+              <caret line="731" column="16" lean-forward="true" selection-start-line="731" selection-start-column="16" selection-end-line="731" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -139,8 +136,8 @@
         <option value="$PROJECT_DIR$/static/css/leaflet.geomann.css" />
         <option value="$PROJECT_DIR$/static/css/leaflet-geoman.css" />
         <option value="$PROJECT_DIR$/templates/generalizingmaps.html" />
-        <option value="$PROJECT_DIR$/static/js/project.js" />
         <option value="$PROJECT_DIR$/static/js/sketchmapeditor.js" />
+        <option value="$PROJECT_DIR$/static/js/project.js" />
       </list>
     </option>
   </component>
@@ -683,17 +680,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/project.js">
+    <entry file="file://$PROJECT_DIR$/static/js/sketchmapeditor.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="168" column="59" selection-start-line="168" selection-start-column="48" selection-end-line="168" selection-end-column="59" />
+        <state relative-caret-position="50">
+          <caret line="731" column="16" lean-forward="true" selection-start-line="731" selection-start-column="16" selection-end-line="731" selection-end-column="16" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/sketchmapeditor.js">
+    <entry file="file://$PROJECT_DIR$/static/js/project.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="101">
-          <caret line="734" column="37" selection-start-line="734" selection-start-column="37" selection-end-line="734" selection-end-column="37" />
+        <state relative-caret-position="152">
+          <caret line="48" column="44" selection-start-line="48" selection-start-column="44" selection-end-line="48" selection-end-column="44" />
         </state>
       </provider>
     </entry>
