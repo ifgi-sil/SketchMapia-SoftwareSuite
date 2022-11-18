@@ -6,7 +6,7 @@
             "properties": {
                 "id": 0,
                 "sid": "S0",
-                "isRoute": "Yes",
+                "isRoute": null,
                 "mapType": "Sketch",
                 "feat_type": null,
                 "selected": false,
@@ -18,11 +18,11 @@
                 "coordinates": [
                     [
                         246,
-                        449.643503
+                        337.955338
                     ],
                     [
-                        383,
-                        494.652166
+                        420,
+                        336.955146
                     ]
                 ]
             }
@@ -32,7 +32,7 @@
             "properties": {
                 "id": 1,
                 "sid": "S1",
-                "isRoute": "Yes",
+                "isRoute": null,
                 "mapType": "Sketch",
                 "feat_type": null,
                 "selected": false,
@@ -43,12 +43,12 @@
                 "type": "LineString",
                 "coordinates": [
                     [
-                        383,
-                        494.652166
+                        420,
+                        336.955146
                     ],
                     [
-                        446,
-                        222.599804
+                        413,
+                        163.921842
                     ]
                 ]
             }
@@ -69,12 +69,12 @@
                 "type": "LineString",
                 "coordinates": [
                     [
-                        383,
-                        494.652166
+                        423,
+                        516.989797
                     ],
                     [
-                        540,
-                        528.658711
+                        420,
+                        336.955146
                     ]
                 ]
             }
@@ -84,6 +84,32 @@
             "properties": {
                 "id": 3,
                 "sid": "S3",
+                "isRoute": null,
+                "mapType": "Sketch",
+                "feat_type": null,
+                "selected": false,
+                "aligned": true,
+                "otype": "Line"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        420,
+                        336.955146
+                    ],
+                    [
+                        614,
+                        332.954376
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 4,
+                "sid": "S4",
                 "isRoute": null,
                 "mapType": "Sketch",
                 "feat_type": "Landmark",
@@ -96,46 +122,26 @@
                 "coordinates": [
                     [
                         [
-                            511,
-                            470.647546
+                            498,
+                            301.948408
                         ],
                         [
-                            425,
-                            455.644658
+                            451,
+                            302.948601
                         ],
                         [
-                            454,
-                            341.622712
+                            443,
+                            212.931275
                         ],
                         [
-                            511,
-                            350.624445
+                            487,
+                            212.931275
                         ],
                         [
-                            511,
-                            470.647546
+                            498,
+                            301.948408
                         ]
                     ]
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "id": 4,
-                "sid": "S4",
-                "isRoute": null,
-                "mapType": "Sketch",
-                "feat_type": null,
-                "selected": false,
-                "aligned": true,
-                "otype": "CircleMarker"
-            },
-            "geometry": {
-                "type": "Point",
-                "coordinates": [
-                    373,
-                    242.603654
                 ]
             }
         }

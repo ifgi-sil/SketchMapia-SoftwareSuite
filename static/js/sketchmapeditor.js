@@ -179,6 +179,7 @@ baseMap.on('pm:create', function (event) {
     props.selected=false;
     props.aligned=false;
     props.otype = event.shape;
+    console.log(layer);
     drawnItems.addLayer(layer);
 });
 
@@ -230,7 +231,6 @@ drawnItems.eachLayer(function(blayer){
 });
 
 if (addedClickBase == false){
-console.log("check");
 addClickBase();
 }
 $( "#marked" ).prop( "checked", true );
@@ -249,7 +249,6 @@ allDrawnSketchItems["basemap"] = drawnItems;
 
 
 function addClickBase(){
-console.log("added");
 drawnItems.eachLayer(function(blayer){
         blayer.on('click',function(e){
         if(blayer.feature.properties.selected==false){
@@ -330,8 +329,6 @@ drawnItems.eachLayer(function(blayer){
 
 
     if (addedClickSketch == false){
-
-       console.log("off and on sketchadded");
         drawnSketchItems.eachLayer(function(slayer){
         slayer.off('click');
         });
@@ -379,7 +376,6 @@ sketchMap.pm.Toolbar.changeActionsOfControl('Polyline', sketchActions);
 sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
 
           sketchMap.on('pm:drawstart', function (e) {
-            console.log("drawstart sketchadded");
             drawnSketchItems.eachLayer(function(slayer){
                 slayer.off('click');
             });
@@ -405,12 +401,11 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
             props.aligned = false;
             props.otype = event.shape;
             drawnSketchItems.addLayer(layer);
+            console.log("sketch", layer);
      });
 
 
        sketchMap.on('pm:drawend', function (e) {
-                console.log("drawend sketchadded");
-
             drawnSketchItems.eachLayer(function(slayer){
                  slayer.on('click', function (e) {
                     clickFunctionforSketch(e.target);
@@ -419,7 +414,6 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
         });
 
         sketchMap.on('pm:remove', function (e) {
-            console.log(e.layer)
             checkIfAlignedAlready([e.layer.feature.properties.sid]);
             alignSketchID = [];
             drawnSketchItems.removeLayer(e.layer);
@@ -436,7 +430,6 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
 
 
     function clickFunctionforSketch(layer){
-      console.log("sketchadded");
          if(layer.feature.properties.selected==false){
             layer.feature.properties.selected = true;
             alignSketchID.push(layer.feature.properties.sid);
@@ -460,7 +453,6 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
 
     $('#alignbutton').click(function(){
         checkIfAlignedAlready(alignSketchID);
-        console.log(alignSketchID);
         drawnItems.eachLayer(function(blayer){
         if (alignBaseID.includes(blayer.feature.properties.id)){
         console.log("checkalign");
@@ -507,7 +499,7 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
           alignmentArraySingleMap[num]={BaseAlign,SketchAlign,genType,degreeOfGeneralization};
           }
         })()
-
+       console.log("alignment", alignmentArraySingleMap);
        alignBaseID=[];
        alignSketchID=[];
        sketchOtypearray = {};
@@ -627,7 +619,7 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
      drawnSketchItems.eachLayer(function(slayer){
         slayer.off('click');
         });
-      console.log("skecthremoved");
+
      drawnItems.eachLayer(function(blayer){
         blayer.off('click');
         });

@@ -27,7 +27,9 @@ function renderGeoJsonFiles(file, map) {
     if (fileName.includes('basemap')){
     reader.onload = function () {
         $.getJSON(reader.result, function (data) {
-         bid = data.features[ Object.keys(data.features).sort().pop()].properties.id;
+         var bidArray = Object.values(data.features).map((item) => item.properties.id);
+         bid = Math.max.apply(Math, bidArray);
+         console.log(bid, typeof (bidArray), bidArray);
           console.log(data, "data", typeof(data),bid);
            drawnItems = L.geoJSON(data);
            drawnItems.addTo(layerGroupBasemap);
@@ -44,10 +46,13 @@ function renderGeoJsonFiles(file, map) {
     if ( !(fileName.includes('basemap')) && !(fileName.includes('alignment'))){
     reader.onload = function () {
         $.getJSON(reader.result, function (data) {
-        console.log("djhsdkfj");
           id = data.features[ Object.keys(data.features).sort().pop()].properties.id;
          sketchMaptitle = fileName.replace('.geojson','');
-         drawnSketchItems =  L.geoJSON(data);
+         drawnSketchItems =  L.geoJSON(data,{
+          pointToLayer: function (feature, latlng) {
+                return L.circleMarker(latlng);
+          }
+         });
 
 
           styleLayers();
@@ -216,7 +221,12 @@ var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/Generalization
                  }
 
 
-                GenBaseMap = L.geoJSON(baseMapProc);
+                GenBaseMap = L.geoJSON(baseMapProc, {
+    filter: function(feature, layer) {
+        if (feature.geometry.type == "Point")
+            return false;
+    }
+    });
                 GenBaseMap.eachLayer(function(glayer){
 
 
