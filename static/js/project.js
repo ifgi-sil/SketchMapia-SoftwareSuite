@@ -221,12 +221,7 @@ var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/Generalization
                  }
 
 
-                GenBaseMap = L.geoJSON(baseMapProc, {
-    filter: function(feature, layer) {
-        if (feature.geometry.type == "Point")
-            return false;
-    }
-    });
+                GenBaseMap = L.geoJSON(baseMapProc);
                 GenBaseMap.eachLayer(function(glayer){
 
 
