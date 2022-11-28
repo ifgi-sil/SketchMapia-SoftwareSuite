@@ -1,6 +1,9 @@
 var GenBaseMap;
 var ProcSketchMap;
-
+var StreetGroup;
+var BuildingGroup;
+var extraFeaturesCount = 0;
+var missingFeaturesCount = 0
 
 
 
@@ -62,7 +65,6 @@ function renderGeoJsonFiles(file, map) {
             });
             drawnSketchItems.eachLayer(function(slayer){
                  slayer.on('click', function (e) {
-                    console.log(e.target);
                     clickFunctionforSketch(e.target);
                 });
             });
@@ -95,7 +97,19 @@ function downloadProject(){
 
 function qualify_MM(callback) {
     MMGeoJsonData = GenBaseMap.toGeoJSON();
+    var count = 0;
+    var MMGeoJsonDataFiltered = {};
+    MMGeoJsonDataFiltered.type = "FeatureCollection";
+    MMGeoJsonDataFiltered.features = [];
+    for (var i in MMGeoJsonData.features){
+        var group = MMGeoJsonData.features[i].properties.group;
+        if(group != "Yes"){
+            MMGeoJsonDataFiltered.features[count]=MMGeoJsonData.features[i];
+            count = count + 1;
+        }
+    }
     console.log("metric map jsondata:",MMGeoJsonData);
+    console.log("metric map jsondata filtered:",MMGeoJsonDataFiltered);
 
     $.ajax({
         headers: { "X-CSRFToken": $.cookie("csrftoken") },
@@ -104,7 +118,7 @@ function qualify_MM(callback) {
         data:
             {
                 metricFileName: "basemap",
-                MMGeoJsonData: JSON.stringify(MMGeoJsonData)
+                MMGeoJsonData: JSON.stringify(MMGeoJsonDataFiltered)
             },
         //contentType: 'application/json',
         success: function (resp) {
@@ -116,9 +130,43 @@ function qualify_MM(callback) {
 
 function qualify_SM(callback) {
     SMGeoJsonData = ProcSketchMap.toGeoJSON();
+    var count = 0;
+    var SMGeoJsonDataFiltered = {};
+    var streetGroupIdÁrray = [];
+    var buildingGroupIdArray = [];
+    missingFeaturesCount = 0;
+    extraFeaturesCount = 0;
+
+    SMGeoJsonDataFiltered.type = "FeatureCollection";
+    SMGeoJsonDataFiltered.features = [];
+    for (var i in SMGeoJsonData.features){
+        var group = SMGeoJsonData.features[i].properties.group;
+        var alignBoolean = SMGeoJsonData.features[i].properties.aligned;
+        if(group != "Yes" && alignBoolean == true){
+            SMGeoJsonDataFiltered.features[count]= SMGeoJsonData.features[i];
+            count = count + 1;
+        }
+        else{
+           if(group == "Yes"){
+            if(SMGeoJsonData.features[i].properties.otype == "Line"){
+                streetGroupIdÁrray.push(SMGeoJsonData.features[i].properties.groupID);
+            }
+            if(SMGeoJsonData.features[i].properties.otype == "Polygon"){
+                buildingGroupIdArray.push(SMGeoJsonData.features[i].properties.groupID);
+            }
+           }
+        }
+
+        if(alignBoolean == false){
+             extraFeaturesCount = extraFeaturesCount + 1;
+        }
+    }
     console.log("SMGeoJsonData....:",SMGeoJsonData);
+    console.log("ExtraFeatures...", extraFeaturesCount);
     // fileName = sketchFileName.split(".");
     // fileName = fName[0];
+    StreetGroup = new Set(streetGroupIdÁrray);
+    BuildingGroup = new Set(buildingGroupIdArray);
 
     $.ajax({
         headers: { "X-CSRFToken": $.cookie("csrftoken") },
@@ -126,7 +174,7 @@ function qualify_SM(callback) {
         type: 'POST',
         data: {
             sketchFileName:"sketchmap",
-            SMGeoJsonData: JSON.stringify(SMGeoJsonData)
+            SMGeoJsonData: JSON.stringify(SMGeoJsonDataFiltered)
         },
         //dataType: 'json',
         success: function (resp) {
@@ -136,13 +184,84 @@ function qualify_SM(callback) {
     });
 }
 
+var GenHoverArray = [];
+
+function Genhoverfunction(){
+    drawnSketchItems.eachLayer(function(slayer){
+    slayer.on('mouseover', function() {
+    if(slayer.feature.properties.group != true){
+    GenHoverArray.push(slayer.feature.properties.id);
+    GenchangestyleOnHover(GenHoverArray,slayer.feature.properties.group);
+    }
+    else
+    {
+    GenHoverArray.push(slayer.feature.properties.groupID);
+    GenchangestyleOnHover(GenHoverArray,slayer.feature.properties.group);
+    }
+    });
+    slayer.on('mouseout', function() {
+    GenHoverArray=[];
+    GenStyleLayers();
+    });
+    });
+    }
+
+function GenchangestyleOnHover(Array,BooleanGroup){
+    Array=Array.flat();
+    if (BooleanGroup != true){
+     GenBaseMap.eachLayer(function(glayer){
+     for (i in Array){
+        if (glayer.feature.properties.id==Array[i]){
+                glayer.setStyle({
+            color: 'blue'   //or whatever style you wish to use;
+        });
+        }
+    }
+
+     });
+     drawnSketchItems.eachLayer(function(slayer){
+     for (i in Array){
+        if (slayer.feature.properties.sid==Array[i]){
+            slayer.setStyle({
+            color: 'blue'   //or whatever style you wish to use;
+        });
+        }
+    }
+   });
+   }
+   else {
+
+     GenBaseMap.eachLayer(function(glayer){
+     for (i in Array){
+        if (glayer.feature.properties.groupID==Array[i]){
+                glayer.setStyle({
+            color: 'blue'   //or whatever style you wish to use;
+        });
+        }
+    }
+
+     });
+     drawnSketchItems.eachLayer(function(slayer){
+     for (i in Array){
+        if (slayer.feature.properties.groupID==Array[i]){
+            slayer.setStyle({
+            color: 'blue'   //or whatever style you wish to use;
+        });
+        }
+    }
+   });
+
+
+   }
+
+    }
 
 
 function generalizeMap(){
-        console.log ("checkalign", checkAlignnum);
          drawnItems.eachLayer(function(blayer){
         if (!blayer.feature.properties.aligned ){
             blayer.feature.properties.missing = true;
+            missingFeaturesCount = missingFeaturesCount + 1;
         }
         else
         {delete blayer.feature.properties.missing; }
@@ -152,21 +271,26 @@ function generalizeMap(){
         AlignmentArray[sketchMaptitle].checkAlignnum = checkAlignnum;
 
 
-console.log(AlignmentArray);
-var lastBaseStreet = routeArray[routeArray.length - 1];
 
-if (routeArray.length == 0){
   drawnItems.eachLayer(function(blayer){
            if (blayer.feature.properties.isRoute == "Yes"){
               routeArray.push(blayer.feature.properties.id);
   }
  });
-}
-lastBaseStreet = routeArray[routeArray.length - 1];
+
+
+var lastBaseStreet = routeArray[routeArray.length - 1];
+
+drawnSketchItems.eachLayer(function(slayer){
+           if (slayer.feature.properties.isRoute == "Yes"){
+              sketchRouteArray.push(slayer.feature.properties.id);
+  }
+ });
+
 var lastSketchStreet = sketchRouteArray[sketchRouteArray.length -1];
 
 
-var url = "http://localhost:80/fmedatastreaming/sketchMapia/generalizerFile.fmw?Alignment=" + encodeURIComponent(JSON.stringify(JSON.stringify(AlignmentArray))) + "&RouteSeq=" + encodeURIComponent(routeArray) + "&SketchRouteSeq=" + encodeURIComponent(sketchRouteArray) + "&lastsegment=" + encodeURIComponent(lastBaseStreet) + "&lastsketchsegment=" + encodeURIComponent(lastSketchStreet);
+var url = "http://localhost:8080/fmedatastreaming/Generalization/generalizerFile.fmw?Alignment=" + encodeURIComponent(JSON.stringify(JSON.stringify(AlignmentArray))) + "&RouteSeq=" + encodeURIComponent(routeArray) + "&SketchRouteSeq=" + encodeURIComponent(sketchRouteArray) + "&lastsegment=" + encodeURIComponent(lastBaseStreet) + "&lastsketchsegment=" + encodeURIComponent(lastSketchStreet);
 var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/GeneralizationPredict/networkcalculator.fmw/parameters?fmetoken=47e241ca547e14ab6ea961aef083f8a4cbe6dfe3"
 
  $.ajax({
@@ -182,8 +306,8 @@ var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/Generalization
                    console.log("Test done");
                    var httpRequest = new XMLHttpRequest();
                     httpRequest.open("GET", url, false);
-                    httpRequest.setRequestHeader("Authorization","fmetoken token=f334fd1f73b3782bd463598970a4709df01b4a09")
-                    httpRequest.setRequestHeader("Access-Control-Allow-Origin", "http://localhost:80");
+                    httpRequest.setRequestHeader("Authorization","fmetoken token=81387a82c039e953b7a6e8447fa33169379f93d5")
+                    httpRequest.setRequestHeader("Access-Control-Allow-Origin", "http://localhost:8080");
                     httpRequest.setRequestHeader("Accept","text/html");
                     httpRequest.setRequestHeader("content-Type","multipart/form-data");
             httpRequest.onreadystatechange = function()
@@ -197,6 +321,7 @@ var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/Generalization
                 var baseMapProc=[];
                  $.each(wholeMapProc.features, function(i, item) {
                  if(item.properties.mapType == "Sketch"){
+                      item.properties.id = item.properties.id.toString();
                     if(item.properties.otype == "CircleMarker"){
                         item.properties.feat_type="Landmark";
                         }
@@ -209,7 +334,13 @@ var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/Generalization
                   item.properties.id = randomnum;
                   }
                    if (item.properties.SketchAlign){
-                    item.properties.id = Object.values(JSON.parse(item.properties.SketchAlign))[0][0].replace(/\D/g,'');
+
+                   if((JSON.parse(item.properties.SketchAlign)).toString() === item.properties.SketchAlign){
+                        item.properties.id=item.properties.SketchAlign
+                   }
+                   else{
+                        item.properties.id = Object.values(JSON.parse(item.properties.SketchAlign))[0][0].replace(/\D/g,'');
+                    }
                  }
                   baseMapProc.push(item);
                   randomnum = randomnum + 1;
@@ -222,26 +353,9 @@ var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/Generalization
 
 
                 GenBaseMap = L.geoJSON(baseMapProc);
-                GenBaseMap.eachLayer(function(glayer){
-
-
-            if (!glayer.feature.properties.selected && glayer.feature.properties.missing == "Yes" && !glayer.feature.properties.isRoute){
-                glayer.setStyle({opacity:0.7,weight: 5,color: "#e8913a",dashArray: [5, 5]});
-            }
-            if (!glayer.feature.properties.selected && !glayer.feature.properties.missing && !glayer.feature.properties.isRoute){
-                glayer.setStyle({opacity:0.7,weight: 5,color: "#e8913a",dashArray: null});
-            }
-            if (!glayer.feature.properties.selected && glayer.feature.properties.missing == "Yes" && glayer.feature.properties.isRoute=="Yes"){
-                glayer.setStyle({opacity:0.7,weight: 5,color: "red",dashArray: [5, 5]});
-            }
-            if(!glayer.feature.properties.selected && !glayer.feature.properties.missing && glayer.feature.properties.isRoute=="Yes"){
-                glayer.setStyle({opacity:0.7,weight: 5,color: "red",dashArray: null,});
-            }
-     });
+                GenStyleLayers();
+                Genhoverfunction();
                 GenBaseMap.addTo(layerGroupBasemapGen);
-
-
-                console.log(baseMapProc);
                 ProcSketchMap = L.geoJSON(sketchMapProc);
                 analyzeInputMap();
                 }
@@ -259,7 +373,24 @@ var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/Generalization
 }
 
 
+function GenStyleLayers(){
 
+GenBaseMap.eachLayer(function(glayer){
+            if (!glayer.feature.properties.selected && glayer.feature.properties.missing == true && !glayer.feature.properties.isRoute){
+                glayer.setStyle({opacity:0.7,weight: 5,color: "#e8913a",dashArray: [5, 5]});
+            }
+            if (!glayer.feature.properties.selected && !glayer.feature.properties.missing && !glayer.feature.properties.isRoute){
+                glayer.setStyle({opacity:0.7,weight: 5,color: "#e8913a",dashArray: null});
+            }
+            if (!glayer.feature.properties.selected && glayer.feature.properties.missing == true && glayer.feature.properties.isRoute=="Yes"){
+                glayer.setStyle({opacity:0.7,weight: 5,color: "red",dashArray: [5, 5]});
+            }
+            if(!glayer.feature.properties.selected && !glayer.feature.properties.missing && glayer.feature.properties.isRoute=="Yes"){
+                glayer.setStyle({opacity:0.7,weight: 5,color: "red",dashArray: null,});
+            }
+     });
+
+}
 
 
 function analyzeInputMap(){
@@ -286,7 +417,6 @@ function analyzeInputMap(){
                 },
                 //contentType: 'text/plain',
                 success: function (resp) {
-                    console.log(resp);
                     setResults_in_output_div(resp);
                     $('#summary_result_div').prop("style", "visibility: visible; position:absolute ; z-index:10000000; background-color: white");
                     //$('#summary_result_div').refresh();
@@ -307,14 +437,11 @@ function analyzeInputMap(){
 }
 
 function setResults_in_output_div(resp){
-
- console.log(Object.values(AlignmentArray)[0]);
  var amalgamation = "";
  var collapse = "";
  var omissionmerge = "";
 
   for (var i in Object.values(AlignmentArray)[0]){
-  console.log(i)
   if (Object.values(AlignmentArray)[0][i].genType == "Amalgamation"){
    amalgamation = amalgamation + "    " + Object.values(AlignmentArray)[0][i].degreeOfGeneralization ;
   }
@@ -339,14 +466,14 @@ function setResults_in_output_div(resp){
 
     $('#toal_mm_streets').text(resp.toal_mm_streets);
     $('#totalSketchedStreets').text(resp.totalSketchedStreets);
-    $('#streetCompleteness').text(resp.streetCompleteness);
+    $('#streetCompleteness').text(resp.streetCompleteness + "-- Group:" + StreetGroup.size );
 
     $('#total_mm_landmarks').text(resp.total_mm_landmarks);
     $('#totalSketchedLandmarks').text(resp.totalSketchedLandmarks);
-    $('#landmarkCompleteness').text(resp.landmarkCompleteness);
+    $('#landmarkCompleteness').text(resp.landmarkCompleteness + "-- Group:" + BuildingGroup.size);
 
-    $('#total_mm_cityblocks').text(resp.total_mm_cityblocks);
-    $('#totalSketchedCityblocks').text(resp.totalSketchedCityblocks);
+    $('#total_mm_cityblocks').text(missingFeaturesCount);
+    $('#totalSketchedCityblocks').text( extraFeaturesCount );
     $('#cityblockCompleteness').text(resp.cityblockCompleteness);
     $('#overAllCompleteness1').text(resp.overAllCompleteness);
 

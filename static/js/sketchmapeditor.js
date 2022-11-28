@@ -117,16 +117,12 @@ $( "#loaded" ).prop( "disabled", false );
     drawnItems.eachLayer(function(blayer){
         blayer.on('click',function(e){
            if (!blayer.feature.properties.isRoute){
-              routeArray.push(blayer.feature.properties.id);
               blayer.feature.properties.isRoute = "Yes";
               blayer.setStyle({
                 color: 'red'   //or whatever style you wish to use;
             });
            }
            else if (blayer.feature.properties.isRoute == "Yes"){
-                routeArray= routeArray.filter(function(item) {
-                return item !== blayer.feature.properties.id;
-                });
               blayer.feature.properties.isRoute = null ;
               blayer.setStyle({
                 color: '#e8913a'   //or whatever style you wish to use;
@@ -179,7 +175,6 @@ baseMap.on('pm:create', function (event) {
     props.selected=false;
     props.aligned=false;
     props.otype = event.shape;
-    console.log(layer);
     drawnItems.addLayer(layer);
 });
 
@@ -298,7 +293,6 @@ drawnItems.eachLayer(function(blayer){
         drawnSketchItems.addTo(sketchMap);
         alignmentArraySingleMap=AlignmentArray[sketchMaptitle];
         checkAlignnum = AlignmentArray[sketchMaptitle].checkAlignnum;
-        console.log ("checkalign", checkAlignnum);
         restoreBaseAlignment(alignmentArraySingleMap);
         styleLayers();
         }
@@ -391,7 +385,6 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
             props.id = id;
             props.sid= 'S' + id;
             props.isRoute = null;
-            props.mapType = "Sketch";
              if(event.shape == "Polygon"){
     props.feat_type = "Landmark"
     }
@@ -401,7 +394,6 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
             props.aligned = false;
             props.otype = event.shape;
             drawnSketchItems.addLayer(layer);
-            console.log("sketch", layer);
      });
 
 
@@ -455,16 +447,14 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
         checkIfAlignedAlready(alignSketchID);
         drawnItems.eachLayer(function(blayer){
         if (alignBaseID.includes(blayer.feature.properties.id)){
-        console.log("checkalign");
         blayer.feature.properties.aligned = true;
         blayer.feature.properties.selected = false;
         styleLayers();
         if (blayer.feature.properties.isRoute == "Yes"){
             drawnSketchItems.eachLayer(function(slayer){
                 if (alignSketchID.includes(slayer.feature.properties.sid)){
-                sketchRouteArray.push((slayer.feature.properties.sid).replace(/\D/g,''));
                 slayer.feature.properties.isRoute = "Yes";
-            }
+              }
 
             });
         }
@@ -498,8 +488,23 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
           if(genType!= "Generalization Not possible") {
           alignmentArraySingleMap[num]={BaseAlign,SketchAlign,genType,degreeOfGeneralization};
           }
+          if(genType == "Abstraction to show existence"){
+                drawnItems.eachLayer(function(blayer){
+                       if(BID.includes(blayer.feature.properties.id)){
+                            blayer.feature.properties.group = true;
+                            blayer.feature.properties.groupID = num;
+                       }
+                });
+
+                drawnSketchItems.eachLayer(function(slayer){
+                       if(SID.includes(slayer.feature.properties.sid)){
+                            slayer.feature.properties.group = true;
+                            slayer.feature.properties.groupID = num;
+                       }
+                });
+             }
         })()
-       console.log("alignment", alignmentArraySingleMap);
+
        alignBaseID=[];
        alignSketchID=[];
        sketchOtypearray = {};
@@ -656,7 +661,6 @@ console.log("removed",alignSketchID);
 drawnSketchItems.eachLayer(function(slayer){
 $.each(alignmentArraySingleMap, function(i, item) {
     if(alignSketchID.includes(slayer.feature.properties.sid) && (alignmentArraySingleMap[i].SketchAlign != null) && (alignmentArraySingleMap[i].SketchAlign[0]).includes(slayer.feature.properties.sid)){
-        console.log("inside", alignSketchID,slayer.feature.properties.sid,alignmentArraySingleMap[i].SketchAlign, alignmentArraySingleMap[i].SketchAlign[0]);
      drawnItems.eachLayer(function(blayer){
      if((alignmentArraySingleMap[i].BaseAlign != null) && (alignmentArraySingleMap[i].BaseAlign[0]).includes(blayer.feature.properties.id)){
         blayer.feature.properties.aligned=false;
@@ -731,14 +735,14 @@ var datatobesent = new L.geoJson();
 
 var returnValue;
 
-var url = "http://localhost:80/fmedatastreaming/sketchMapia/junctiondetect.fmw?data=" + encodeURIComponent(JSON.stringify(JSON.stringify(datatobesent.toGeoJSON())));
+var url = "http://localhost:8080/fmedatastreaming/Generalization/junctiondetect.fmw?data=" + encodeURIComponent(JSON.stringify(JSON.stringify(datatobesent.toGeoJSON())));
 var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/GeneralizationPredict/networkcalculator.fmw/parameters?fmetoken=47e241ca547e14ab6ea961aef083f8a4cbe6dfe3"
 
 
 var httpRequest = new XMLHttpRequest();
 httpRequest.open("GET", url, false);
-httpRequest.setRequestHeader("Authorization","fmetoken token=f334fd1f73b3782bd463598970a4709df01b4a09")
-httpRequest.setRequestHeader("Access-Control-Allow-Origin", "http://localhost:80");
+httpRequest.setRequestHeader("Authorization","fmetoken token=81387a82c039e953b7a6e8447fa33169379f93d5")
+httpRequest.setRequestHeader("Access-Control-Allow-Origin", "http://localhost:8080");
 httpRequest.setRequestHeader("Accept","text/html");
 httpRequest.setRequestHeader("content-Type","application/x-www-form-urlencoded");
             httpRequest.onreadystatechange = function()
