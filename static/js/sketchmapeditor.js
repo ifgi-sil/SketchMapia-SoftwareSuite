@@ -13,15 +13,13 @@ var checkAlignnum;
 var alignmentArraySingleMap={};
 var id=-1;
 var bid=-1;
-var routeArray = [];
-var sketchRouteArray = [];
 var layerGroupBasemap = new L.LayerGroup();
 var layerGroupBasemapGen = new L.LayerGroup();
 var baseMap;
 var drawnItems;
 var addedClickBase = false;
 var addedClickSketch = false;
-
+var routeOrder = 0;
 
 
 $(function() {
@@ -118,15 +116,19 @@ $( "#loaded" ).prop( "disabled", false );
         blayer.on('click',function(e){
            if (!blayer.feature.properties.isRoute){
               blayer.feature.properties.isRoute = "Yes";
+              blayer.feature.properties.RouteSeqOrder = routeOrder + 1;
               blayer.setStyle({
                 color: 'red'   //or whatever style you wish to use;
             });
+            routeOrder = routeOrder + 1;
            }
            else if (blayer.feature.properties.isRoute == "Yes"){
               blayer.feature.properties.isRoute = null ;
+              delete blayer.feature.properties.RouteSeqOrder;
               blayer.setStyle({
                 color: '#e8913a'   //or whatever style you wish to use;
             });
+            routeOrder = routeOrder - 1;
            }
 
         });
@@ -454,6 +456,7 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
             drawnSketchItems.eachLayer(function(slayer){
                 if (alignSketchID.includes(slayer.feature.properties.sid)){
                 slayer.feature.properties.isRoute = "Yes";
+                slayer.feature.properties.SketchRouteSeqOrder = blayer.feature.properties.RouteSeqOrder;
               }
 
             });

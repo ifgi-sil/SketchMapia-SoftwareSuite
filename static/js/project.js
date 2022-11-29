@@ -4,6 +4,8 @@ var StreetGroup;
 var BuildingGroup;
 var extraFeaturesCount = 0;
 var missingFeaturesCount = 0
+var routeArray = [];
+var sketchRouteArray = [];
 
 
 
@@ -31,6 +33,8 @@ function renderGeoJsonFiles(file, map) {
     reader.onload = function () {
         $.getJSON(reader.result, function (data) {
          var bidArray = Object.values(data.features).map((item) => item.properties.id);
+         var RouteSeqOrderArray = Object.values(data.features).map((item) => item.properties.RouteSeqOrder);
+         routeOrder = Math.max.apply(Math,RouteSeqOrderArray);
          bid = Math.max.apply(Math, bidArray);
 
            drawnItems = L.geoJSON(data);
@@ -134,8 +138,7 @@ function qualify_SM(callback) {
     var SMGeoJsonDataFiltered = {};
     var streetGroupIdÁrray = [];
     var buildingGroupIdArray = [];
-    missingFeaturesCount = 0;
-    extraFeaturesCount = 0;
+
 
     SMGeoJsonDataFiltered.type = "FeatureCollection";
     SMGeoJsonDataFiltered.features = [];
@@ -258,6 +261,10 @@ function GenchangestyleOnHover(Array,BooleanGroup){
 
 
 function generalizeMap(){
+routeArray = [];
+sketchRouteArray = [];
+missingFeaturesCount = 0;
+extraFeaturesCount = 0;
          drawnItems.eachLayer(function(blayer){
         if (!blayer.feature.properties.aligned ){
             blayer.feature.properties.missing = true;
@@ -271,26 +278,46 @@ function generalizeMap(){
         AlignmentArray[sketchMaptitle].checkAlignnum = checkAlignnum;
 
 
-
   drawnItems.eachLayer(function(blayer){
            if (blayer.feature.properties.isRoute == "Yes"){
-              routeArray.push(blayer.feature.properties.id);
+              routeArray.push(blayer.feature.properties);
   }
  });
 
 
-var lastBaseStreet = routeArray[routeArray.length - 1];
+var byrouteorder = routeArray.slice(0);
+    byrouteorder.sort(function(a,b) {
+        return a.RouteSeqOrder - b.RouteSeqOrder;
+    });
+
+  console.log(typeof(byrouteorder), byrouteorder);
+
+
 
 drawnSketchItems.eachLayer(function(slayer){
            if (slayer.feature.properties.isRoute == "Yes"){
-              sketchRouteArray.push(slayer.feature.properties.id);
+              sketchRouteArray.push(slayer.feature.properties);
   }
  });
 
-var lastSketchStreet = sketchRouteArray[sketchRouteArray.length -1];
+var bysketchrouteorder = sketchRouteArray.slice(0);
+    bysketchrouteorder.sort(function(a,b) {
+        return a.SketchRouteSeqOrder - b.SketchRouteSeqOrder;
+    });
 
+var routeIDArray = [];
+var sketchIDArray = [];
+for (var i in byrouteorder){
+routeIDArray.push(byrouteorder[i].id);
+}
 
-var url = "http://localhost:8080/fmedatastreaming/Generalization/generalizerFile.fmw?Alignment=" + encodeURIComponent(JSON.stringify(JSON.stringify(AlignmentArray))) + "&RouteSeq=" + encodeURIComponent(routeArray) + "&SketchRouteSeq=" + encodeURIComponent(sketchRouteArray) + "&lastsegment=" + encodeURIComponent(lastBaseStreet) + "&lastsketchsegment=" + encodeURIComponent(lastSketchStreet);
+for (var i in bysketchrouteorder){
+sketchIDArray.push(bysketchrouteorder[i].id);
+}
+var lastSketchStreet = sketchIDArray[sketchIDArray.length -1];
+var lastBaseStreet = routeIDArray[routeIDArray.length - 1];
+
+var url = "http://localhost:8080/fmedatastreaming/Generalization/generalizerFile.fmw?Alignment=" + encodeURIComponent(JSON.stringify(JSON.stringify(AlignmentArray))) + "&RouteSeq=" + encodeURIComponent(routeIDArray) + "&SketchRouteSeq=" + encodeURIComponent(sketchIDArray) + "&lastsegment=" + encodeURIComponent(lastBaseStreet) + "&lastsketchsegment=" + encodeURIComponent(lastSketchStreet);
 var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/GeneralizationPredict/networkcalculator.fmw/parameters?fmetoken=47e241ca547e14ab6ea961aef083f8a4cbe6dfe3"
 
  $.ajax({
