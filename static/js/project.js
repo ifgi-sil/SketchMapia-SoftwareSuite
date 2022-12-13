@@ -273,9 +273,7 @@ extraFeaturesCount = 0;
         else
         {delete blayer.feature.properties.missing; }
         });
-        drawnSketchItems.setStyle({opacity:1});
-        AlignmentArray[sketchMaptitle]=alignmentArraySingleMap;
-        AlignmentArray[sketchMaptitle].checkAlignnum = checkAlignnum;
+
 
 
   drawnItems.eachLayer(function(blayer){
@@ -317,6 +315,9 @@ sketchIDArray.push(bysketchrouteorder[i].id);
 var lastSketchStreet = sketchIDArray[sketchIDArray.length -1];
 var lastBaseStreet = routeIDArray[routeIDArray.length - 1];
 
+      AlignmentArray[sketchMaptitle]=alignmentArraySingleMap;
+      AlignmentArray[sketchMaptitle].checkAlignnum = checkAlignnum;
+
 var url = "http://localhost:8080/fmedatastreaming/Generalization/generalizerFile.fmw?Alignment=" + encodeURIComponent(JSON.stringify(JSON.stringify(AlignmentArray))) + "&RouteSeq=" + encodeURIComponent(routeIDArray) + "&SketchRouteSeq=" + encodeURIComponent(sketchIDArray) + "&lastsegment=" + encodeURIComponent(lastBaseStreet) + "&lastsketchsegment=" + encodeURIComponent(lastSketchStreet);
 var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/GeneralizationPredict/networkcalculator.fmw/parameters?fmetoken=47e241ca547e14ab6ea961aef083f8a4cbe6dfe3"
 
@@ -356,7 +357,7 @@ var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/Generalization
                     sketchMapProc.push(item);
                  }
                  else{
-
+                    console.log("item", item);
                   if (item.properties.missing){
                   item.properties.id = randomnum;
                   }

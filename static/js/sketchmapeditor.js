@@ -293,8 +293,38 @@ drawnItems.eachLayer(function(blayer){
         if(allDrawnSketchItems.hasOwnProperty(sketchMaptitle)){
         drawnSketchItems=allDrawnSketchItems[sketchMaptitle];
         drawnSketchItems.addTo(sketchMap);
-        alignmentArraySingleMap=AlignmentArray[sketchMaptitle];
-        checkAlignnum = AlignmentArray[sketchMaptitle].checkAlignnum;
+        if (Object.keys(AlignmentArray).length == 0){
+            checkAlignnum = 1;
+            alignmentArraySingleMap={};
+            drawnSketchItems.eachLayer(function(slayer){
+             slayer.feature.properties.selected = false;
+             slayer.feature.properties.aligned = false;
+             slayer.feature.properties.isRoute = null;
+             if (slayer.feature.properties.group){
+                delete slayer.feature.properties.group;
+                delete slayer.feature.properties.groupID;
+             }
+             });
+            drawnItems.eachLayer(function(blayer){
+            blayer.feature.properties.selected=false;
+            blayer.feature.properties.aligned=false;
+              if (blayer.feature.properties.group){
+                delete blayer.feature.properties.group;
+                delete blayer.feature.properties.groupID;
+             }
+             if (blayer.feature.properties.missing){
+                delete blayer.feature.properties.missing;
+             }
+
+        });
+        styleLayers();
+        id = -1;
+        }
+        else{
+            checkAlignnum = AlignmentArray[sketchMaptitle].checkAlignnum;
+            alignmentArraySingleMap=AlignmentArray[sketchMaptitle];
+        }
+
         restoreBaseAlignment(alignmentArraySingleMap);
         styleLayers();
         }
@@ -304,15 +334,18 @@ drawnItems.eachLayer(function(blayer){
         drawnItems.eachLayer(function(blayer){
             blayer.feature.properties.selected=false;
             blayer.feature.properties.aligned=false;
-
+            if (blayer.feature.properties.missing){
+                delete blayer.feature.properties.missing;
+            }
+            if (blayer.feature.properties.group){
+                delete blayer.feature.properties.group;
+                delete blayer.feature.properties.groupID;
+             }
         });
         styleLayers();
         id = -1;
         checkAlignnum = 1;
         }
-
-
-
    });
 
 
@@ -640,6 +673,9 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
       $( "#editmenuoptions" ).slideToggle(500);
 
      allDrawnSketchItems[sketchMaptitle]=drawnSketchItems;
+      drawnSketchItems.setStyle({opacity:1});
+      AlignmentArray[sketchMaptitle]=alignmentArraySingleMap;
+      AlignmentArray[sketchMaptitle].checkAlignnum = checkAlignnum;
 
     });
 
