@@ -327,7 +327,9 @@ var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/Generalization
                 type: 'POST',
                 data: {
                     basedata: JSON.stringify(drawnItems.toGeoJSON()),
-                    sketchdata: JSON.stringify(drawnSketchItems.toGeoJSON())
+                    sketchdata: JSON.stringify(drawnSketchItems.toGeoJSON()),
+                    aligndata: JSON.stringify(AlignmentArray),
+                    routedata: JSON.stringify(routeArray)
                 },
                 //contentType: 'text/plain',
                 success: function (resp) {

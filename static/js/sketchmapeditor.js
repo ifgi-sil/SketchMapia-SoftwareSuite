@@ -766,6 +766,7 @@ if (drawnItems){
 
 function predictGenSingleLine(sketchtype,basetype){
 var datatobesent = new L.geoJson();
+console.log(datatobesent)
  drawnItems.eachLayer(function(blayer){
     if((Object.keys(basetype).map(Number)).includes(blayer.feature.properties.id)){
        datatobesent.addData(blayer.toGeoJSON());
