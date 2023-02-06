@@ -82,6 +82,58 @@ def helpingfunction_fetchdata_unsimplified(latlng_array):
   #  openregions_gdf = openregions_gdf[['geometry', 'osmid', 'element_type']]
   #  openregions_gdf.to_file('static/geojson_files/openregions' + '.geojson', driver="GeoJSON", encoding="utf-8")
 
+def routedirection(routedata):
+    # Network flow
+    # if request.is_ajax():
+    #     routedata = request.POST.get('routedata')
+    print(routedata)
+    nf_id = []
+    for data in routedata:
+        nf_id.append(data["id"])
+    USER_PROJ_DIR = "generalizedMap"
+    Inputbasepath = os.path.join(USER_PROJ_DIR,"inputbaseMap"+".json")
+    f = open(Inputbasepath)
+    data_ip = json.load(f)
+    ls=[]
+    for i in data_ip['features']:
+        geo = i['geometry']
+        properties = i['properties']
+        id = properties['id']
+        for x in nf_id:
+            # for y in x:
+            if x == id :
+                type = geo['type']
+                coor = geo['coordinates']
+                ls.append(coor)
+            else:
+                continue
+
+    def joinSegments( s ):
+        if s[0][0] == s[1][0] or s[0][0] == s[1][-1]:
+            s[0].reverse()
+        c = s[0][:]
+        for x in s[1:]:
+            if x[-1] == c[-1]:
+                x.reverse()
+            c += x
+        return c
+
+    res = joinSegments(ls)
+
+    def split_list(Input_list, n):
+        for i in range(0, len(Input_list), n):
+            yield Input_list[i:i + n]
+    n = 2
+    val=split_list(res, n)
+    co_or=list(val)
+
+    f_out=dict(zip(nf_id[0], co_or))
+
+    # breakpoint()
+    print(f_out)
+    return(f_out)
+
+# routedirection()
 
 def requestFME(request):
     template = loader.get_template('../templates/generalizingmaps.html')
@@ -89,7 +141,8 @@ def requestFME(request):
         basedata = request.POST.get('basedata')
         sketchdata = request.POST.get('sketchdata')
         aligndata = request.POST.get('aligndata')
-
+        routedata = request.POST.get('routedata')
+        # print(routedata)
         #response = requests.get('http://desktop-f25rpfv:8080/fmedatastreaming/Generalization/generalizer.fmw?', params=query)
     USER_PROJ_DIR = "generalizedMap"
     baseMapdata = json.loads(basedata)
@@ -118,6 +171,7 @@ def requestFME(request):
         f.close()
     except IOError:
         print("Files written")
+    routedirection(routedata)
     return HttpResponse(template.render({}, request))
 
 def spatial_transformation ():
@@ -266,52 +320,6 @@ def spatial_transformation ():
 
 # spatial_transformation()
 
-def routedirection(request):
-    # Network flow
-    if request.is_ajax():
-        routedata = request.POST.get('routedata')
-        print(routedata)
-    # nf_id = [[7,8,9]]
-    # ls=[]
-    # for i in data_ip['features']:
-    #     geo = i['geometry']
-    #     properties = i['properties']
-    #     id = properties['id']
-    #     for x in nf_id:
-    #         for y in x:
-    #             if y == id :
-    #                 type = geo['type']
-    #                 coor = geo['coordinates']
-    #                 ls.append(coor)
-    #             else:
-    #                 continue
-
-    # def joinSegments( s ):
-    #     if s[0][0] == s[1][0] or s[0][0] == s[1][-1]:
-    #         s[0].reverse()
-    #     c = s[0][:]
-    #     for x in s[1:]:
-    #         if x[-1] == c[-1]:
-    #             x.reverse()
-    #         c += x
-    #     return c
-
-    # res = joinSegments(ls)
-
-    # def split_list(Input_list, n):
-    #     for i in range(0, len(Input_list), n):
-    #         yield Input_list[i:i + n]
-    # n = 2
-    # val=split_list(res, n)
-    # co_or=list(val)
-
-    # f_out=dict(zip(nf_id[0], co_or))
-
-    # # breakpoint()
-    # print(f_out)
-    return
-
-# routedirection()
 
 def omission_deadendstreets(request):
     template = loader.get_template('../templates/generalizingmaps.html')
@@ -587,3 +595,7 @@ def analyzeInputMap(request):
                            "precision": round(precision, 2),
                            "recall": round(recall, 2),
                            "f_score": round(f_score, 2)}), content_type="application/json")
+
+
+
+spatial_transformation()

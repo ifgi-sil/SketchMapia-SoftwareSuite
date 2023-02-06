@@ -1,0 +1,173 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            194.057394,
+                            181.65151
+                        ],
+                        [
+                            165.048902,
+                            241.641042
+                        ],
+                        [
+                            224.066179,
+                            293.631971
+                        ],
+                        [
+                            289.085212,
+                            340.623771
+                        ],
+                        [
+                            369.108638,
+                            258.638076
+                        ],
+                        [
+                            330.097218,
+                            219.64488
+                        ],
+                        [
+                            194.057394,
+                            181.65151
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "genType": "Amalgamation"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            123.036603,
+                            0.0
+                        ],
+                        [
+                            28.008785,
+                            133.659884
+                        ],
+                        [
+                            116.034553,
+                            221.644531
+                        ],
+                        [
+                            294.086676,
+                            211.646276
+                        ],
+                        [
+                            348.102489,
+                            138.659011
+                        ],
+                        [
+                            255.075256,
+                            66.671572
+                        ],
+                        [
+                            123.036603,
+                            0.0
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "genType": "Amalgamation"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    435.375884,
+                    61.744427
+                ]
+            },
+            "properties": {
+                "genType": "Collapse"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        60.018155,
+                        231.642787
+                    ],
+                    [
+                        261.077013,
+                        403.61278
+                    ]
+                ]
+            },
+            "properties": {
+                "genType": "No generalization"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        426.125329,
+                        535.589752
+                    ],
+                    [
+                        261.077013,
+                        403.61278
+                    ]
+                ]
+            },
+            "properties": {
+                "genType": "No generalization"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        261.077013,
+                        403.61278
+                    ],
+                    [
+                        465.13675,
+                        185.650812
+                    ],
+                    [
+                        551.161933,
+                        273.63546
+                    ],
+                    [
+                        506.148755,
+                        333.624992
+                    ],
+                    [
+                        480.141142,
+                        376.617491
+                    ],
+                    [
+                        453.133236,
+                        456.603534
+                    ]
+                ]
+            },
+            "properties": {
+                "genType": "No generalization"
+            }
+        }
+    ]
+}

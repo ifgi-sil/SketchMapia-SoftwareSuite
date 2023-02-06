@@ -3,16 +3,17 @@
         "1": {
             "BaseAlign": {
                 "0": [
-                    7
+                    3,
+                    4
                 ]
             },
             "SketchAlign": {
                 "0": [
-                    "S5"
+                    "S3"
                 ]
             },
-            "genType": "Collapse",
-            "degreeOfGeneralization": 0
+            "genType": "Amalgamation",
+            "degreeOfGeneralization": 0.5
         },
         "2": {
             "BaseAlign": {
@@ -32,33 +33,18 @@
         "3": {
             "BaseAlign": {
                 "0": [
-                    3,
-                    4
+                    7
                 ]
             },
             "SketchAlign": {
                 "0": [
-                    "S3"
+                    "S6"
                 ]
             },
-            "genType": "Amalgamation",
-            "degreeOfGeneralization": 0.5
-        },
-        "4": {
-            "BaseAlign": {
-                "0": [
-                    2
-                ]
-            },
-            "SketchAlign": {
-                "0": [
-                    "S2"
-                ]
-            },
-            "genType": "No generalization",
+            "genType": "Collapse",
             "degreeOfGeneralization": 0
         },
-        "5": {
+        "4": {
             "BaseAlign": {
                 "0": [
                     1
@@ -72,7 +58,7 @@
             "genType": "No generalization",
             "degreeOfGeneralization": 0
         },
-        "6": {
+        "5": {
             "BaseAlign": {
                 "0": [
                     0
@@ -81,6 +67,20 @@
             "SketchAlign": {
                 "0": [
                     "S0"
+                ]
+            },
+            "genType": "No generalization",
+            "degreeOfGeneralization": 0
+        },
+        "6": {
+            "BaseAlign": {
+                "0": [
+                    2
+                ]
+            },
+            "SketchAlign": {
+                "0": [
+                    "S2"
                 ]
             },
             "genType": "No generalization",
