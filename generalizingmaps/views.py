@@ -84,12 +84,16 @@ def helpingfunction_fetchdata_unsimplified(latlng_array):
 
 def routedirection(routedata):
     # Network flow
-    # if request.is_ajax():
-    #     routedata = request.POST.get('routedata')
-    print(routedata)
-    nf_id = []
-    for data in routedata:
-        nf_id.append(data["id"])
+    # print(routedata)
+    r_data = json.loads(str(routedata))
+    # print(r_data)
+    nf_ids = []
+    for data in r_data:
+        nf_ids.append(data["id"])
+        
+    nf_id=[nf_ids]
+    print(nf_id)
+
     USER_PROJ_DIR = "generalizedMap"
     Inputbasepath = os.path.join(USER_PROJ_DIR,"inputbaseMap"+".json")
     f = open(Inputbasepath)
@@ -118,6 +122,7 @@ def routedirection(routedata):
             c += x
         return c
 
+    # breakpoint()
     res = joinSegments(ls)
 
     def split_list(Input_list, n):
@@ -133,7 +138,6 @@ def routedirection(routedata):
     print(f_out)
     return(f_out)
 
-# routedirection()
 
 def requestFME(request):
     template = loader.get_template('../templates/generalizingmaps.html')
@@ -171,10 +175,11 @@ def requestFME(request):
         f.close()
     except IOError:
         print("Files written")
-    routedirection(routedata)
+    # routedirection(routedata)
+    spatial_transformation()
     return HttpResponse(template.render({}, request))
 
-def spatial_transformation ():
+def spatial_transformation():
     USER_PROJ_DIR = "generalizedMap"
     Inputbasepath = os.path.join(USER_PROJ_DIR,"inputbaseMap"+".json")
     Inputaligndata =  os.path.join(USER_PROJ_DIR,"alignment"+".json")
@@ -185,8 +190,8 @@ def spatial_transformation ():
     data = json.load(h)
     amal_ids = []
     ng_ids = []
-    om_ids=[]
     c_ids =[]
+    om_ids=[]
     for k,v in data.items():
         for val,val1 in v.items():
             key = 'genType'
@@ -198,7 +203,7 @@ def spatial_transformation ():
                     ng_id = val1['BaseAlign']['0']
                     ng_ids.append(ng_id)
 
-                if val1[key]== "Omission_merge":
+                if val1[key]== "OmissionMerge":
                     om_id = val1['BaseAlign']['0']
                     om_ids.append(om_id)
 
@@ -209,7 +214,7 @@ def spatial_transformation ():
             except (KeyError,TypeError) as error:
                 continue
     h.close()
-    
+
     data_ip = json.load(f)
     poly = []
     line = []
@@ -288,10 +293,10 @@ def spatial_transformation ():
 
     # omission_merge
     # for x in line:
-        # multi_line = geometry.MultiLineString(line)
-        # merged_line = ops.linemerge(multi_line)
-        # g1_o = shapely.wkt.loads(str(merged_line))
-        # features.append(Feature(geometry=g1_o, properties={"genType": "Omission_merge"}))
+    multi_line = geometry.MultiLineString(line)
+    merged_line = ops.linemerge(multi_line)
+    g1_o = shapely.wkt.loads(str(merged_line))
+    features.append(Feature(geometry=g1_o, properties={"genType": "OmissionMerge"}))
 
     # collapse
     for x in point_res:
@@ -306,9 +311,6 @@ def spatial_transformation ():
         features.append(Feature(geometry=g1_n, properties={"genType": "No generalization"}))
 
     feature_collection = FeatureCollection(features)
-    
-    # with open('outputbaseMap.json', 'w') as f:
-    #     dump(feature_collection, f)
 
     outputbasepath =  os.path.join(USER_PROJ_DIR,"outputbaseMap"+".json")
     if os.path.exists(outputbasepath):
@@ -317,8 +319,6 @@ def spatial_transformation ():
     f.write(json.dumps(feature_collection,indent=4))
     f.close()
     return
-
-# spatial_transformation()
 
 
 def omission_deadendstreets(request):
@@ -598,4 +598,3 @@ def analyzeInputMap(request):
 
 
 
-spatial_transformation()

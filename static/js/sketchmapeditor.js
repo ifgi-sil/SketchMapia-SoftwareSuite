@@ -764,51 +764,99 @@ if (drawnItems){
 
 
 
-function predictGenSingleLine(sketchtype,basetype){
-var datatobesent = new L.geoJson();
-console.log(datatobesent)
- drawnItems.eachLayer(function(blayer){
-    if((Object.keys(basetype).map(Number)).includes(blayer.feature.properties.id)){
-       datatobesent.addData(blayer.toGeoJSON());
+// function predictGenSingleLine(sketchtype,basetype){
+// var datatobesent = new L.geoJson();
+// $.ajax({
+//         headers: { "X-CSRFToken": $.cookie("csrftoken") },
+//         url: 'omission_merge/',
+//         type: 'POST',
+//         data: {
+//             omdata: JSON.stringify(basetype)
+//         }
+//         });
+//  drawnItems.eachLayer(function(blayer){
+//     if((Object.keys(basetype).map(Number)).includes(blayer.feature.properties.id)){
+//        datatobesent.addData(blayer.toGeoJSON());
+//     }
+// });
+
+// var returnValue;
+
+// var url = "http://localhost:8080/fmedatastreaming/Generalization/junctiondetect.fmw?data=" + encodeURIComponent(JSON.stringify(JSON.stringify(datatobesent.toGeoJSON())));
+// var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/GeneralizationPredict/networkcalculator.fmw/parameters?fmetoken=47e241ca547e14ab6ea961aef083f8a4cbe6dfe3"
+
+
+// var httpRequest = new XMLHttpRequest();
+// httpRequest.open("GET", url, false);
+// httpRequest.setRequestHeader("Authorization","fmetoken token=81387a82c039e953b7a6e8447fa33169379f93d5")
+// httpRequest.setRequestHeader("Access-Control-Allow-Origin", "http://localhost:8080");
+// httpRequest.setRequestHeader("Accept","text/html");
+// httpRequest.setRequestHeader("content-Type","application/x-www-form-urlencoded");
+//             httpRequest.onreadystatechange = function()
+//             {
+//                 if (httpRequest.readyState == 4 && httpRequest.status == 200)
+//                 {
+//                  var responseArray = (httpRequest.response).split(/\r?\n/);
+//                  responseArray.pop();
+//                  var nodeArray = [];
+//                   $.each(responseArray, function(i, item) {
+//                         nodeArray.push(Object.values(JSON.parse(responseArray[i])));
+//                   });
+//                  nodeArray = _.flatten(nodeArray,true);
+//                  if (new Set(nodeArray).size == nodeArray.length){
+//                     alert("Generalization Not possible");
+//                  }
+//                  else{
+//                     var nodeCount = _.countBy(nodeArray);
+//                     if (!(Object.values(nodeCount)).includes(3)){
+//                     returnValue =  "OmissionMerge";
+//                     }
+//                  }
+//                 }
+//             }
+//             // send a request so we get a reply
+//             httpRequest.send();
+
+//  return returnValue;
+// }
+
+function predictGenSingleLine(sketchtype, basetype) {
+    var datatobesent = new L.geoJson();
+    drawnItems.eachLayer(function(blayer) {
+      if ((Object.keys(basetype).map(Number)).includes(blayer.feature.properties.id)) {
+        datatobesent.addData(blayer.toGeoJSON());
+      }
+    });
+    var coordinates = [];
+    for (var i = 0; i < datatobesent.toGeoJSON().features.length; i++) {
+    var feature = datatobesent.toGeoJSON().features[i];
+    if (feature.geometry.type === "LineString") {
+        coordinates.push(feature.geometry.coordinates);
     }
-});
-
-var returnValue;
-
-var url = "http://localhost:8080/fmedatastreaming/Generalization/junctiondetect.fmw?data=" + encodeURIComponent(JSON.stringify(JSON.stringify(datatobesent.toGeoJSON())));
-var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/GeneralizationPredict/networkcalculator.fmw/parameters?fmetoken=47e241ca547e14ab6ea961aef083f8a4cbe6dfe3"
-
-
-var httpRequest = new XMLHttpRequest();
-httpRequest.open("GET", url, false);
-httpRequest.setRequestHeader("Authorization","fmetoken token=81387a82c039e953b7a6e8447fa33169379f93d5")
-httpRequest.setRequestHeader("Access-Control-Allow-Origin", "http://localhost:8080");
-httpRequest.setRequestHeader("Accept","text/html");
-httpRequest.setRequestHeader("content-Type","application/x-www-form-urlencoded");
-            httpRequest.onreadystatechange = function()
-            {
-                if (httpRequest.readyState == 4 && httpRequest.status == 200)
-                {
-                 var responseArray = (httpRequest.response).split(/\r?\n/);
-                 responseArray.pop();
-                 var nodeArray = [];
-                  $.each(responseArray, function(i, item) {
-                        nodeArray.push(Object.values(JSON.parse(responseArray[i])));
-                  });
-                 nodeArray = _.flatten(nodeArray,true);
-                 if (new Set(nodeArray).size == nodeArray.length){
-                    alert("Generalization Not possible");
-                 }
-                 else{
-                    var nodeCount = _.countBy(nodeArray);
-                    if (!(Object.values(nodeCount)).includes(3)){
-                    returnValue =  "OmissionMerge";
-                    }
-                 }
-                }
-            }
-            // send a request so we get a reply
-            httpRequest.send();
-
- return returnValue;
+    }
+    var result = checkOverlap(coordinates[0], coordinates[1]);
+    return result
+  }
+  
+function checkOverlap(line1, line2) {
+var commonPair = false;
+for (var i = 0; i < line1.length; i++) {
+    for (var j = 0; j < line2.length; j++) {
+    if (line1[i][0] == line2[j][0] && line1[i][1] == line2[j][1]) {
+        commonPair = true;
+        break;
+    }
+    }
+    if (commonPair) {
+    break;
+    }
 }
+if (commonPair) {
+    return "OmissionMerge";
+} else {
+    return "abstraction to existence";
+}
+}
+
+
+  
