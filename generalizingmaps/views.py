@@ -303,7 +303,7 @@ def spatial_transformation():
         merged_line = ops.linemerge(multi_line)
         g1_o = shapely.wkt.loads(str(merged_line))
         features.append(Feature(geometry=g1_o, properties={"genType": "OmissionMerge"}))
-    breakpoint()
+    
     # collapse
     for x in point_res:
         collapse = x[0].centroid
