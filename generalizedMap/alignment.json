@@ -3,12 +3,12 @@
         "1": {
             "BaseAlign": {
                 "0": [
-                    83
+                    14
                 ]
             },
             "SketchAlign": {
                 "0": [
-                    "S14"
+                    "S12"
                 ]
             },
             "genType": "No generalization",
@@ -17,46 +17,18 @@
         "2": {
             "BaseAlign": {
                 "0": [
-                    23
+                    15
                 ]
             },
             "SketchAlign": {
                 "0": [
-                    "S15"
+                    "S13"
                 ]
             },
             "genType": "No generalization",
             "degreeOfGeneralization": 0
         },
         "3": {
-            "BaseAlign": {
-                "0": [
-                    79
-                ]
-            },
-            "SketchAlign": {
-                "0": [
-                    "S16"
-                ]
-            },
-            "genType": "No generalization",
-            "degreeOfGeneralization": 0
-        },
-        "4": {
-            "BaseAlign": {
-                "0": [
-                    81
-                ]
-            },
-            "SketchAlign": {
-                "0": [
-                    "S17"
-                ]
-            },
-            "genType": "No generalization",
-            "degreeOfGeneralization": 0
-        },
-        "5": {
             "BaseAlign": {
                 "0": [
                     26,
@@ -71,7 +43,7 @@
             "genType": "OmissionMerge",
             "degreeOfGeneralization": 0.5
         },
-        "6": {
+        "4": {
             "BaseAlign": {
                 "0": [
                     33,
@@ -87,6 +59,6 @@
             "genType": "OmissionMerge",
             "degreeOfGeneralization": 0.6666666666666666
         },
-        "checkAlignnum": 7
+        "checkAlignnum": 5
     }
 }

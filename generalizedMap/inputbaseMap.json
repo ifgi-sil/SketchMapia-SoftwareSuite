@@ -957,9 +957,8 @@
                 "isRoute": null,
                 "feat_type": "Landmark",
                 "selected": false,
-                "aligned": false,
-                "otype": "Polygon",
-                "missing": true
+                "aligned": true,
+                "otype": "Polygon"
             },
             "geometry": {
                 "type": "Polygon",
@@ -1044,9 +1043,8 @@
                 "isRoute": null,
                 "feat_type": "Landmark",
                 "selected": false,
-                "aligned": false,
-                "otype": "Polygon",
-                "missing": true
+                "aligned": true,
+                "otype": "Polygon"
             },
             "geometry": {
                 "type": "Polygon",
@@ -1276,8 +1274,9 @@
                 "isRoute": null,
                 "feat_type": null,
                 "selected": false,
-                "aligned": true,
-                "otype": "Line"
+                "aligned": false,
+                "otype": "Line",
+                "missing": true
             },
             "geometry": {
                 "type": "LineString",
@@ -2344,8 +2343,9 @@
                 "isRoute": null,
                 "feat_type": null,
                 "selected": false,
-                "aligned": true,
-                "otype": "Line"
+                "aligned": false,
+                "otype": "Line",
+                "missing": true
             },
             "geometry": {
                 "type": "LineString",
@@ -2368,8 +2368,9 @@
                 "isRoute": null,
                 "feat_type": null,
                 "selected": false,
-                "aligned": true,
-                "otype": "Line"
+                "aligned": false,
+                "otype": "Line",
+                "missing": true
             },
             "geometry": {
                 "type": "LineString",
@@ -2392,8 +2393,9 @@
                 "isRoute": null,
                 "feat_type": null,
                 "selected": false,
-                "aligned": true,
-                "otype": "Line"
+                "aligned": false,
+                "otype": "Line",
+                "missing": true
             },
             "geometry": {
                 "type": "LineString",

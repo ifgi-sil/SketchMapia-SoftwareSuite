@@ -797,7 +797,7 @@
                 "isRoute": null,
                 "feat_type": "Landmark",
                 "selected": false,
-                "aligned": false,
+                "aligned": true,
                 "otype": "Polygon"
             },
             "geometry": {
@@ -836,7 +836,7 @@
                 "isRoute": null,
                 "feat_type": "Landmark",
                 "selected": false,
-                "aligned": false,
+                "aligned": true,
                 "otype": "Polygon"
             },
             "geometry": {
@@ -887,7 +887,7 @@
                 "isRoute": null,
                 "feat_type": null,
                 "selected": false,
-                "aligned": true,
+                "aligned": false,
                 "otype": "Line",
                 "SketchRouteSeqOrder": null
             },
@@ -913,7 +913,7 @@
                 "isRoute": null,
                 "feat_type": null,
                 "selected": false,
-                "aligned": true,
+                "aligned": false,
                 "otype": "Line",
                 "SketchRouteSeqOrder": null
             },
@@ -939,7 +939,7 @@
                 "isRoute": null,
                 "feat_type": null,
                 "selected": false,
-                "aligned": true,
+                "aligned": false,
                 "otype": "Line",
                 "SketchRouteSeqOrder": null
             },
@@ -965,7 +965,7 @@
                 "isRoute": null,
                 "feat_type": null,
                 "selected": false,
-                "aligned": true,
+                "aligned": false,
                 "otype": "Line",
                 "SketchRouteSeqOrder": null
             },

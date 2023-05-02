@@ -219,7 +219,8 @@ def spatial_transformation():
     poly = []
     line = []
     point = []
-    no_gen = []
+    no_gen_l = []
+    no_gen_p = []
     for i in data_ip['features']:
         geo = i['geometry']
         properties = i['properties']
@@ -249,8 +250,15 @@ def spatial_transformation():
                 if y == id :
                     type = geo['type']
                     coor = geo['coordinates']
-                    f_coor = geometry.LineString(coor)
-                    no_gen.append(f_coor)
+                    # breakpoint()
+                    if len(coor) > 1:
+                        # Create a LineString object
+                        f_coor = geometry.LineString(coor)
+                        no_gen_l.append(f_coor)
+                    else:
+                        # Create a Polygon object
+                        f_coor = geometry.Polygon(coor[0])
+                        no_gen_p.append(f_coor)
                 else:
                     continue
 
@@ -283,11 +291,17 @@ def spatial_transformation():
         end = start + len(sublist)
         line_res.append(line[start:end])
         
-    ng_res = []
+    ng_res_l = []
     for sublist in ng_ids:
-        start = sum([len(sub) for sub in ng_res])
+        start = sum([len(sub) for sub in ng_res_l])
         end = start + len(sublist)
-        ng_res.append(no_gen[start:end])
+        ng_res_l.append(no_gen_l[start:end])
+        
+    ng_res_p = []
+    for sublist in ng_ids:
+        start = sum([len(sub) for sub in ng_res_p])
+        end = start + len(sublist)
+        ng_res_p.append(no_gen_p[start:end])
 
     features = []
     # amalgamation 
@@ -299,11 +313,11 @@ def spatial_transformation():
 
     # omission_merge
     for x in line_res:
-        multi_line = geometry.MultiLineString(line)
+        multi_line = geometry.MultiLineString(x)
         merged_line = ops.linemerge(multi_line)
         g1_o = shapely.wkt.loads(str(merged_line))
         features.append(Feature(geometry=g1_o, properties={"genType": "OmissionMerge"}))
-    breakpoint()
+    
     # collapse
     for x in point_res:
         collapse = x[0].centroid
@@ -311,13 +325,22 @@ def spatial_transformation():
         features.append(Feature(geometry=g1_c, properties={"genType": "Collapse"}))
  
     # No Generalization
-    for x in ng_res:
-        multi_line = geometry.LineString(x[0])
+    for x in ng_res_l:
+        if len(x) == 0: # Skip empty inputs
+            continue
+        multi_line = geometry.LineString(x)
         g1_n = shapely.wkt.loads(str(multi_line))
         features.append(Feature(geometry=g1_n, properties={"genType": "No generalization"}))
 
+    for x in ng_res_p:
+        if len(x) == 0: # Skip empty inputs
+            continue
+        polygon = shapely.geometry.Polygon(x[0])
+        wkt_string = polygon.wkt
+        features.append(Feature(geometry=shapely.wkt.loads(wkt_string), properties={"genType": "No generalization"}))
+    
     feature_collection = FeatureCollection(features)
-
+    
     outputbasepath =  os.path.join(USER_PROJ_DIR,"outputbaseMap"+".json")
     if os.path.exists(outputbasepath):
         os.remove(outputbasepath)
