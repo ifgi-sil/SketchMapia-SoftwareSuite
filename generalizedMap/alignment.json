@@ -1,43 +1,42 @@
 {
-    "CamScanner 07-11-2022 11.08.10.jpg": {
+    "02.jpg": {
         "1": {
             "BaseAlign": {
                 "0": [
-                    9
+                    83
                 ]
             },
             "SketchAlign": {
                 "0": [
-                    "S4"
+                    "S14"
                 ]
             },
-            "genType": "Collapse",
+            "genType": "No generalization",
             "degreeOfGeneralization": 0
         },
         "2": {
             "BaseAlign": {
                 "0": [
-                    7,
-                    8
+                    23
                 ]
             },
             "SketchAlign": {
                 "0": [
-                    "S3"
+                    "S15"
                 ]
             },
-            "genType": "Amalgamation",
-            "degreeOfGeneralization": 0.5
+            "genType": "No generalization",
+            "degreeOfGeneralization": 0
         },
         "3": {
             "BaseAlign": {
                 "0": [
-                    10
+                    79
                 ]
             },
             "SketchAlign": {
                 "0": [
-                    "S1"
+                    "S16"
                 ]
             },
             "genType": "No generalization",
@@ -46,12 +45,12 @@
         "4": {
             "BaseAlign": {
                 "0": [
-                    11
+                    81
                 ]
             },
             "SketchAlign": {
                 "0": [
-                    "S2"
+                    "S17"
                 ]
             },
             "genType": "No generalization",
@@ -60,23 +59,34 @@
         "5": {
             "BaseAlign": {
                 "0": [
-                    1,
-                    2,
-                    0,
-                    3,
-                    4,
-                    5,
-                    6
+                    26,
+                    76
                 ]
             },
             "SketchAlign": {
                 "0": [
-                    "S0"
+                    "S18"
                 ]
             },
             "genType": "OmissionMerge",
-            "degreeOfGeneralization": 0.8571428571428571
+            "degreeOfGeneralization": 0.5
         },
-        "checkAlignnum": 6
+        "6": {
+            "BaseAlign": {
+                "0": [
+                    33,
+                    53,
+                    55
+                ]
+            },
+            "SketchAlign": {
+                "0": [
+                    "S26"
+                ]
+            },
+            "genType": "OmissionMerge",
+            "degreeOfGeneralization": 0.6666666666666666
+        },
+        "checkAlignnum": 7
     }
 }

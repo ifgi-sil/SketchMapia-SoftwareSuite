@@ -264,7 +264,7 @@ def spatial_transformation():
                 else:
                     continue
     f.close()
-    
+   
     poly_res = []
     for sublist in amal_ids:
         start = sum([len(sub) for sub in poly_res])
@@ -277,6 +277,12 @@ def spatial_transformation():
         end = start + len(sublist)
         point_res.append(point[start:end])
 
+    line_res = []
+    for sublist in om_ids:
+        start = sum([len(sub) for sub in line_res])
+        end = start + len(sublist)
+        line_res.append(line[start:end])
+        
     ng_res = []
     for sublist in ng_ids:
         start = sum([len(sub) for sub in ng_res])
@@ -292,12 +298,12 @@ def spatial_transformation():
         features.append(Feature(geometry=g1_a, properties={"genType": "Amalgamation"}))
 
     # omission_merge
-    # for x in line:
-    multi_line = geometry.MultiLineString(line)
-    merged_line = ops.linemerge(multi_line)
-    g1_o = shapely.wkt.loads(str(merged_line))
-    features.append(Feature(geometry=g1_o, properties={"genType": "OmissionMerge"}))
-
+    for x in line_res:
+        multi_line = geometry.MultiLineString(line)
+        merged_line = ops.linemerge(multi_line)
+        g1_o = shapely.wkt.loads(str(merged_line))
+        features.append(Feature(geometry=g1_o, properties={"genType": "OmissionMerge"}))
+    breakpoint()
     # collapse
     for x in point_res:
         collapse = x[0].centroid
