@@ -328,9 +328,9 @@ def spatial_transformation():
     for x in ng_res_l:
         if len(x) == 0: # Skip empty inputs
             continue
-        multi_line = geometry.LineString(x)
-        g1_n = shapely.wkt.loads(str(multi_line))
-        features.append(Feature(geometry=g1_n, properties={"genType": "No generalization"}))
+        line = shapely.geometry.LineString(x[0])
+        wkt_string = line.wkt
+        features.append(Feature(geometry=shapely.wkt.loads(wkt_string), properties={"genType": "No generalization"}))
 
     for x in ng_res_p:
         if len(x) == 0: # Skip empty inputs
