@@ -33,8 +33,9 @@
                 "isRoute": "Yes",
                 "feat_type": null,
                 "selected": false,
-                "aligned": true,
+                "aligned": false,
                 "otype": "Line",
+                "missing": true,
                 "RouteSeqOrder": 12
             },
             "geometry": {
@@ -123,8 +124,9 @@
                 "isRoute": "Yes",
                 "feat_type": null,
                 "selected": false,
-                "aligned": true,
+                "aligned": false,
                 "otype": "Line",
+                "missing": true,
                 "RouteSeqOrder": 10
             },
             "geometry": {
@@ -557,8 +559,9 @@
                 "isRoute": null,
                 "feat_type": null,
                 "selected": false,
-                "aligned": true,
-                "otype": "Line"
+                "aligned": false,
+                "otype": "Line",
+                "missing": true
             },
             "geometry": {
                 "type": "LineString",

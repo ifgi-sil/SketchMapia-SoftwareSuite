@@ -3,9 +3,18 @@ var ProcSketchMap;
 var StreetGroup;
 var BuildingGroup;
 var extraFeaturesCount = 0;
-var missingFeaturesCount = 0
+var extraFeaturesIds = [];
+var missingFeaturesCount = 0;
+var missingFeaturesIds = [];
 var routeArray = [];
 var sketchRouteArray = [];
+var roundaboutcount = 0;
+var junctionmergecount = 0;
+var roundaboutids = [];
+var junctionmergeids = [];
+var qualRelationsBaseMap;
+var qualRelationsSketchMap;
+
 
 
 
@@ -127,6 +136,7 @@ function qualify_MM(callback) {
         //contentType: 'application/json',
         success: function (resp) {
             console.log("Metric Map Qualify complete");
+            qualRelationsBaseMap = JSON.parse(resp)
             callback();
         }
     });
@@ -162,6 +172,7 @@ function qualify_SM(callback) {
 
         if(alignBoolean == false){
              extraFeaturesCount = extraFeaturesCount + 1;
+             extraFeaturesIds.push(SMGeoJsonData.features[i].properties.sid);
         }
     }
     console.log("SMGeoJsonData....:",SMGeoJsonData);
@@ -182,6 +193,7 @@ function qualify_SM(callback) {
         //dataType: 'json',
         success: function (resp) {
             console.log("Sketch Map Qualify complete");
+            qualRelationsSketchMap = JSON.parse(resp)
             callback();
         }
     });
@@ -269,6 +281,7 @@ extraFeaturesCount = 0;
         if (!blayer.feature.properties.aligned ){
             blayer.feature.properties.missing = true;
             missingFeaturesCount = missingFeaturesCount + 1;
+            missingFeaturesIds.push(blayer.feature.properties.id);
         }
         else
         {delete blayer.feature.properties.missing; }
@@ -334,7 +347,7 @@ var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/Generalization
                    console.log("Test done");
                    var httpRequest = new XMLHttpRequest();
                     httpRequest.open("GET", url, false);
-                    httpRequest.setRequestHeader("Authorization","fmetoken token=81387a82c039e953b7a6e8447fa33169379f93d5")
+                    httpRequest.setRequestHeader("Authorization","fmetoken token=b739b7cb5c74bee6e6aefdb71a551ba648624259")
                     httpRequest.setRequestHeader("Access-Control-Allow-Origin", "http://localhost:8080");
                     httpRequest.setRequestHeader("Accept","text/html");
                     httpRequest.setRequestHeader("content-Type","multipart/form-data");
@@ -348,6 +361,23 @@ var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/Generalization
                 var sketchMapProc=[];
                 var baseMapProc=[];
                  $.each(wholeMapProc.features, function(i, item) {
+
+                 if(item.properties.RoundAboutCount != null ) {
+                    roundaboutcount = item.properties.RoundAboutCount;
+                 }
+
+                 if(item.properties.JunctionMergeCount != null ) {
+                    junctionmergecount = item.properties.JunctionMergeCount;
+                 }
+
+                 if(item.properties.genType != null && item.properties.genType.includes("JunctionMerge")){
+                    junctionmergeids.push(item.properties.id);
+                 }
+
+                 if(item.properties.genType != null && item.properties.genType.includes("RoundAbout")){
+                    roundaboutids.push(item.properties.id);
+                 }
+
                  if(item.properties.mapType == "Sketch"){
                       item.properties.id = item.properties.id.toString();
                     if(item.properties.otype == "CircleMarker"){
@@ -357,7 +387,6 @@ var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/Generalization
                     sketchMapProc.push(item);
                  }
                  else{
-                    console.log("item", item);
                   if (item.properties.missing){
                   item.properties.id = randomnum;
                   }
@@ -446,7 +475,7 @@ function analyzeInputMap(){
                 //contentType: 'text/plain',
                 success: function (resp) {
                     setResults_in_output_div(resp);
-                    $('#summary_result_div').prop("style", "visibility: visible; position:absolute ; z-index:10000000; background-color: white");
+                    $('#summary_result_div').prop("style", " height:100%; overflow-y: scroll;  visibility: visible; position:absolute ; z-index:10000000; background-color: white");
                     //$('#summary_result_div').refresh();
 
                     $("#stepper_analyze_map").prop("style", "background: #17a2b8");
@@ -465,40 +494,49 @@ function analyzeInputMap(){
 }
 
 function setResults_in_output_div(resp){
- var amalgamation = "";
- var collapse = "";
- var omissionmerge = "";
+ var amalgamation = 0;
+ var collapse = 0 ;
+ var omissionmerge = 0;
+
 
   for (var i in Object.values(AlignmentArray)[0]){
   if (Object.values(AlignmentArray)[0][i].genType == "Amalgamation"){
-   amalgamation = amalgamation + "    " + Object.values(AlignmentArray)[0][i].degreeOfGeneralization ;
+   amalgamation = amalgamation + 1 ;
   }
   if (Object.values(AlignmentArray)[0][i].genType == "OmissionMerge"){
-   omissionmerge = omissionmerge + "    " + Object.values(AlignmentArray)[0][i].degreeOfGeneralization ;
+   omissionmerge = omissionmerge + 1 ;
   }
   if (Object.values(AlignmentArray)[0][i].genType == "Collapse"){
-   collapse = collapse + "    " + Object.values(AlignmentArray)[0][i].degreeOfGeneralization ;
+   collapse = collapse + 1 ;
+  }
   }
 
-  }
 
-    $('#Amalgamation').text(amalgamation);
-    $('#OmissionMerge').text(omissionmerge);
-    $('#Collapse').text(collapse);
+    $('#CountOmissionMerge').text(omissionmerge);
+    $('#CountAbsExistenceStreets').text(StreetGroup.size);
+    $('#CountJunctionMerge').text(junctionmergecount);
+    $('#CountRACollapse').text(roundaboutcount);
+    $('#CountAmalgamation').text(amalgamation);
+    $('#CountAbsExistenceBuildings').text( BuildingGroup.size);
+    $('#CountCollapse').text(collapse);
+
+
+
 
     $('#overAllCompleteness').text(resp.overAllCompleteness+"%");
+    $('#totalGeneralization').text(parseInt(omissionmerge)+ parseInt(StreetGroup.size)+ parseInt(collapse) + parseInt(junctionmergecount)+ parseInt(roundaboutcount) + parseInt(amalgamation) + parseInt(BuildingGroup.size));
     $('#precision').text(resp.precision);
     $('#recall').text(resp.recall);
     $('#f_score').text(resp.f_score);
     $('#sketchMapID').text(resp.sketchMapID);
 
-    $('#toal_mm_streets').text(resp.toal_mm_streets);
+    $('#total_mm_streets').text(resp.toal_mm_streets);
     $('#totalSketchedStreets').text(resp.totalSketchedStreets);
-    $('#streetCompleteness').text(resp.streetCompleteness + "-- Group:" + StreetGroup.size );
+    $('#streetCompleteness').text(resp.streetCompleteness  );
 
     $('#total_mm_landmarks').text(resp.total_mm_landmarks);
     $('#totalSketchedLandmarks').text(resp.totalSketchedLandmarks);
-    $('#landmarkCompleteness').text(resp.landmarkCompleteness + "-- Group:" + BuildingGroup.size);
+    $('#landmarkCompleteness').text(resp.landmarkCompleteness );
 
     $('#total_mm_cityblocks').text(missingFeaturesCount);
     $('#totalSketchedCityblocks').text( extraFeaturesCount );
@@ -549,4 +587,96 @@ function setResults_in_output_div(resp){
 
 
 
+function findCommonElements3(arr1, arr2) {
+    return arr1.some(item => arr2.includes(item))
 }
+
+
+$( "#exportAsCSV" ).on( "click", function() {
+
+var GeneralizationCSV = ["BaseId , SketchId , Generalization Type"];
+var QualRelationsBaseMapCSV = ["Object 1 , Object 2, Relations"];
+var QualRelationsSketchMapCSV = ["Object 1, Object 2, Relations"];
+
+        for (var x in qualRelationsBaseMap.constraint_collection){
+            console.log(x)
+            QualRelationsBaseMapCSV.push(" " + ',' +  qualRelationsBaseMap.constraint_collection[x].relation_set + ',' + " ");
+            for (var y in  qualRelationsBaseMap.constraint_collection[x].constraints){
+            QualRelationsBaseMapCSV.push(qualRelationsBaseMap.constraint_collection[x].constraints[y]["obj 1"] + ',' + qualRelationsBaseMap.constraint_collection[x].constraints[y]["obj 2"] + ',' + qualRelationsBaseMap.constraint_collection[x].constraints[y]["relation"])
+            }
+        }
+
+        for (var x in qualRelationsSketchMap.constraint_collection){
+            console.log(x)
+            QualRelationsSketchMapCSV.push(" " + ',' +  qualRelationsSketchMap.constraint_collection[x].relation_set + ',' + " ");
+            for (var y in  qualRelationsSketchMap.constraint_collection[x].constraints){
+            QualRelationsSketchMapCSV.push(qualRelationsSketchMap.constraint_collection[x].constraints[y]["obj 1"] + ',' + qualRelationsSketchMap.constraint_collection[x].constraints[y]["obj 2"] + ',' + qualRelationsSketchMap.constraint_collection[x].constraints[y]["relation"])
+            }
+        }
+
+    Object.keys(AlignmentArray[sketchMaptitle]).forEach(function (key) {
+
+        if (key != "checkAlignnum"){
+        if (findCommonElements3(junctionmergeids, AlignmentArray[sketchMaptitle][key].BaseAlign[0])){
+             if (AlignmentArray[sketchMaptitle][key].genType == "No generalization") {
+                    AlignmentArray[sketchMaptitle][key].genType = "JunctionMerge" ;
+                    }
+             else {
+                      AlignmentArray[sketchMaptitle][key].genType = AlignmentArray[sketchMaptitle][key].genType + "JunctionMerge" ;
+             }
+          }
+           if (findCommonElements3(roundaboutids, AlignmentArray[sketchMaptitle][key].BaseAlign[0])){
+                if (AlignmentArray[sketchMaptitle][key].genType == "No generalization") {
+                    AlignmentArray[sketchMaptitle][key].genType = "RoundAboutCollapse"
+                    }
+                else {
+                    AlignmentArray[sketchMaptitle][key].genType = + "RoundAboutCollapse"
+                }
+          }
+        GeneralizationCSV.push(((AlignmentArray[sketchMaptitle][key].BaseAlign[0]).toString()).replace(",", " ") + ',' + ((AlignmentArray[sketchMaptitle][key].SketchAlign[0]).toString()).replace(",", " ") + ',' + ((AlignmentArray[sketchMaptitle][key].genType).toString()) ) ;
+        console.log(((AlignmentArray[sketchMaptitle][key].BaseAlign[0]).toString()).replaceAll(",", " "));
+        }
+   // do something with key or value
+    });
+
+
+
+        GeneralizationCSV.push("Features missing in sketch map, " + missingFeaturesIds.toString());
+        GeneralizationCSV.push("Features drawn extra in sketch map, " + extraFeaturesIds.toString());
+
+    var html = document.querySelector("#correctness >table").outerHTML;
+
+
+   var csv = [];
+    var rows = document.querySelectorAll("table tr");
+    for (var i = 0; i < rows.length; i++) {
+        var row = [], cols = rows[i].querySelectorAll("td, th");
+        for (var j = 0; j < cols.length; j++)
+            row.push(cols[j].innerText);
+        csv.push(row.join(","));
+    }
+
+
+
+
+
+
+    var zip = new JSZip();
+        zip.file("GenDetailedOutput.csv",GeneralizationCSV.join("\n"));
+        zip.file("QRBaseMap.csv",QualRelationsBaseMapCSV.join("\n"));
+        zip.file("QRSketchMap.csv",QualRelationsSketchMapCSV.join("\n"));
+        zip.file(sketchMaptitle + "QualitativeOutput.csv", csv.join("\n"));
+        zip.file("GeneralizedBaseMap.geojson", JSON.stringify(GenBaseMap.toGeoJSON()));
+        zip.generateAsync({type:"blob"})
+        .then(function(content) {
+        saveAs(content, "project.zip");
+      });
+
+});
+
+
+
+
+
+}
+

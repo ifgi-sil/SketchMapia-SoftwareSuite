@@ -13,6 +13,8 @@ import numpy as np
 from analyser import completeness
 from analyser import qualitativeAnalyser
 from qualifier import qualify_map
+from copy import deepcopy
+import pandas as pd
 from analyser import inverses
 import json
 import os
@@ -153,7 +155,7 @@ def mmGeoJsonReceiver(request):
         f.close()
     except IOError:
         print("Metric map QCNs json path problem ")
-    return HttpResponse(template.render({}, request))
+    return HttpResponse(json.dumps(MetricMap_QCNS,indent=4))
 
 
 """
@@ -191,7 +193,7 @@ def smGeoJsonReceiver(request):
         f.close()
     except IOError:
         print("Sketch map QCNs json path problem ")
-    return HttpResponse(template.render({}, request))
+    return HttpResponse(json.dumps(sketchMap_QCNS, indent=4))
 
 
 def analyzeInputMap(request):
@@ -336,11 +338,11 @@ def analyzeInputMap(request):
         precision = total_no_correct_rels / total_no_rels_sm
         recall = total_no_correct_rels / total_on_rels_MM
 
-        f_score = 2 * ((precision * recall) / (precision + recall))
+        #f_score = 2 * ((precision * recall) / (precision + recall))
 
         print("precision....:", precision)
         print("recall....:", recall)
-        print("F-value....:", f_score)
+        #print("F-value....:", f_score)
         # session.modified = True
 
         return HttpResponse(json.dumps({"sketchMapID": sketchFileName, "total_mm_landmarks": total_mm_landmarks,
@@ -381,4 +383,4 @@ def analyzeInputMap(request):
                            "correctnessAccuracy_opra": round(correctnessAccuracy_opra, 2),
                            "precision": round(precision, 2),
                            "recall": round(recall, 2),
-                           "f_score": round(f_score, 2)}), content_type="application/json")
+                           "f_score": "nil"}), content_type="application/json")

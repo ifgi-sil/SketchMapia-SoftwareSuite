@@ -139,6 +139,73 @@ $( "#loaded" ).prop( "disabled", false );
  });
 
 
+labelButton = L.easyButton({
+states: [{
+            stateName: 'label-visible',        // name the state
+            icon:      'fa-solid fa-info',               // and define its properties
+            title:     'showlabels',      // like its title
+            onClick: function(btn, map) {
+                btn.button.style.boxShadow = 'inset 0 -1px 5px 2px rgba(81, 77, 77, 1)';
+                drawnItems.eachLayer(function(blayer){
+                    blayer.bindTooltip(String(blayer.feature.properties.id), {permanent:true});
+                })
+                btn.state('label-invisible');    // change state on click!
+
+                if (GenBaseMap != null){
+                       GenBaseMap.eachLayer(function(glayer){
+                        glayer.bindTooltip(String(glayer.feature.properties.id), {permanent:true});
+                       });
+                }
+            }
+        }, {
+            stateName: 'label-invisible',
+            icon:      'fa-solid fa-info',
+            title:     'hidelabels',
+            onClick: function(btn, map) {
+                 btn.button.style.boxShadow = null;// and its callback
+                 drawnItems.eachLayer(function(blayer){
+                    blayer.unbindTooltip();
+                })
+                if (GenBaseMap != null){
+                       GenBaseMap.eachLayer(function(glayer){
+                        glayer.unbindTooltip();
+                       });
+                }
+                btn.state('label-visible');
+            }
+    }]
+});
+
+
+
+
+
+labelButtonSketchMap = L.easyButton({
+states: [{
+            stateName: 'label-visible',        // name the state
+            icon:      'fa-solid fa-info',               // and define its properties
+            title:     'showlabels',      // like its title
+            onClick: function(btn, map) {
+                btn.button.style.boxShadow = 'inset 0 -1px 5px 2px rgba(81, 77, 77, 1)';
+                drawnSketchItems.eachLayer(function(slayer){
+                    slayer.bindTooltip(String(slayer.feature.properties.sid), {permanent:true});
+                })
+                btn.state('label-invisible');    // change state on click!
+            }
+        }, {
+            stateName: 'label-invisible',
+            icon:      'fa-solid fa-info',
+            title:     'hidelabels',
+            onClick: function(btn, map) {
+                 btn.button.style.boxShadow = null;// and its callback
+                 drawnSketchItems.eachLayer(function(slayer){
+                    slayer.unbindTooltip();
+                })
+                btn.state('label-visible');
+            }
+    }]
+});
+
 
 var drawBM = document.getElementById('drawBM');
 $('#drawBM').click(function(){
@@ -217,6 +284,7 @@ drawnItems.eachLayer(function(blayer){
         });
 addedClickBase = false;
 routeButton.addTo(baseMap);
+labelButton.addTo(baseMap);
 });
 
 
@@ -450,7 +518,7 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
 
 
     $( "#editmenuoptions" ).slideToggle(500);
-
+    labelButtonSketchMap.addTo(sketchMap);
 
     });
 
@@ -780,7 +848,7 @@ var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/Generalization
 
 var httpRequest = new XMLHttpRequest();
 httpRequest.open("GET", url, false);
-httpRequest.setRequestHeader("Authorization","fmetoken token=81387a82c039e953b7a6e8447fa33169379f93d5")
+httpRequest.setRequestHeader("Authorization","fmetoken token=b739b7cb5c74bee6e6aefdb71a551ba648624259")
 httpRequest.setRequestHeader("Access-Control-Allow-Origin", "http://localhost:8080");
 httpRequest.setRequestHeader("Accept","text/html");
 httpRequest.setRequestHeader("content-Type","application/x-www-form-urlencoded");
