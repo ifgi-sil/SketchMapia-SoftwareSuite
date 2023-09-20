@@ -916,7 +916,7 @@ var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/Generalization
 
 var httpRequest = new XMLHttpRequest();
 httpRequest.open("GET", url, false);
-httpRequest.setRequestHeader("Authorization","fmetoken token=052c05a3a85fea84fb131d60281131e9ac65787b")
+httpRequest.setRequestHeader("Authorization","fmetoken token=****")
 httpRequest.setRequestHeader("Access-Control-Allow-Origin", "http://localhost:8080");
 httpRequest.setRequestHeader("Accept","text/html");
 httpRequest.setRequestHeader("content-Type","application/x-www-form-urlencoded");
