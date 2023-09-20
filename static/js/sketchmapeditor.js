@@ -42,6 +42,15 @@ $( "#filemenu" ).click(function() {
   $( "#filemenuoptions" ).slideToggle(500);
 });
 
+
+$( "#upload" ).click(function() {
+  $( "#filemenuoptions" ).slideToggle(500);
+});
+
+$( "#downloadProject" ).click(function() {
+  $( "#filemenuoptions" ).slideToggle(500);
+});
+
 $( "#editmenu" ).click(function() {
   $( "#editmenuoptions" ).slideToggle(500);
 });
@@ -91,14 +100,10 @@ function renderImageFile(file, location) {
         layerGroupBasemapGen.addTo(baseMap);
         drawnItems.addTo(layerGroupBasemap);
         var layerControl = new L.Control.Layers(null, {
-    'Base Map': layerGroupBasemap,
-    'Generalized Map': layerGroupBasemapGen
-    }).addTo(baseMap);
-
-
-
-
-    }
+            'Base Map': layerGroupBasemap,
+            'Generalized Map': layerGroupBasemapGen
+        }).addTo(baseMap);
+        }
 
 $( "#loaded" ).prop( "checked", true );
 $( "#loaded" ).prop( "disabled", false );
@@ -110,34 +115,68 @@ $( "#loaded" ).prop( "disabled", false );
 }
 
 
- routeButton = L.easyButton('fa-arrow-trend-up',function(){
+ routeButton = L.easyButton({
 
-    drawnItems.eachLayer(function(blayer){
-        blayer.on('click',function(e){
-           if (!blayer.feature.properties.isRoute){
-              blayer.feature.properties.isRoute = "Yes";
-              blayer.feature.properties.RouteSeqOrder = routeOrder + 1;
-              blayer.setStyle({
-                color: 'red'   //or whatever style you wish to use;
+ states: [{
+            stateName: 'Select-Route-Mode-On',        // name the state
+            icon:      'fa-arrow-trend-up',               // and define its properties
+            title:     'SelectRouteOff',      // like its title
+            onClick: function(btn, map) {
+                console.log("On");
+                $($(this)[0]._container).css('display','inline-flex');
+                btn.button.style.boxShadow = 'inset 0 -1px 5px 2px rgba(81, 77, 77, 1)';
+
+                $($(this)[0]._container).append($("<a style='outline: none;width: fit-content;' id = 'clearRoute' onclick='clearRoute()'>Clear Route</a>"));
+                drawnItems.eachLayer(function(blayer){
+                    blayer.on('click',function(e){
+                    if (!blayer.feature.properties.isRoute){
+                        blayer.feature.properties.isRoute = "Yes";
+                        blayer.feature.properties.RouteSeqOrder = routeOrder + 1;
+                        blayer.setStyle({
+                            color: 'red'   //or whatever style you wish to use;
+                        });
+                        routeOrder = routeOrder + 1;
+                    }
+                    else if (blayer.feature.properties.isRoute == "Yes"){
+                        blayer.feature.properties.isRoute = null ;
+                        delete blayer.feature.properties.RouteSeqOrder;
+                        blayer.setStyle({
+                            color: '#e8913a'   //or whatever style you wish to use;
+                        });
+                        routeOrder = routeOrder - 1;
+                     }
+                });
             });
-            routeOrder = routeOrder + 1;
-           }
-           else if (blayer.feature.properties.isRoute == "Yes"){
-              blayer.feature.properties.isRoute = null ;
-              delete blayer.feature.properties.RouteSeqOrder;
-              blayer.setStyle({
-                color: '#e8913a'   //or whatever style you wish to use;
-            });
-            routeOrder = routeOrder - 1;
-           }
-
-        });
-
-    });
+             btn.state('Select-Route-Mode-Off');    // change state on click!
+            }
+        }, {
+            stateName: 'Select-Route-Mode-Off',
+            icon:      'fa-arrow-trend-up',
+            title:     'SelectRouteOn',
+            onClick: function(btn, map) {
+                btn.button.style.boxShadow = null;// and its callback
+                $( "#clearRoute" ).remove();
+               drawnItems.eachLayer(function(blayer){
+                blayer.off('click');
+                });
+                console.log("Off");
+                btn.state('Select-Route-Mode-On');
+            }
+    }]
 
 
  });
 
+function clearRoute(){
+        drawnItems.eachLayer(function(blayer){
+                        blayer.feature.properties.isRoute = null ;
+                        delete blayer.feature.properties.RouteSeqOrder;
+                        blayer.setStyle({
+                            color: '#e8913a'   //or whatever style you wish to use;
+                        });
+                        routeOrder = 0;
+    });
+};
 
 labelButton = L.easyButton({
 states: [{
@@ -359,44 +398,70 @@ drawnItems.eachLayer(function(blayer){
         sketchMap.fitBounds(bounds);
         sketchMaptitle = $(e.target).parent().attr("data-original-title");
         if(allDrawnSketchItems.hasOwnProperty(sketchMaptitle)){
-        drawnSketchItems=allDrawnSketchItems[sketchMaptitle];
-        drawnSketchItems.addTo(sketchMap);
-        if (Object.keys(AlignmentArray).length == 0){
-            checkAlignnum = 1;
-            alignmentArraySingleMap={};
-            drawnSketchItems.eachLayer(function(slayer){
-             slayer.feature.properties.selected = false;
-             slayer.feature.properties.aligned = false;
-             slayer.feature.properties.isRoute = null;
-             if (slayer.feature.properties.group){
-                delete slayer.feature.properties.group;
-                delete slayer.feature.properties.groupID;
-             }
-             });
-            drawnItems.eachLayer(function(blayer){
-            blayer.feature.properties.selected=false;
-            blayer.feature.properties.aligned=false;
-              if (blayer.feature.properties.group){
-                delete blayer.feature.properties.group;
-                delete blayer.feature.properties.groupID;
-             }
+            drawnSketchItems=allDrawnSketchItems[sketchMaptitle];
+            drawnSketchItems.addTo(sketchMap);
+            if (Object.keys(AlignmentArray).length == 0){
+                console.log("inside Alignment Array=0");
+                checkAlignnum = 1;
+                alignmentArraySingleMap={};
+                drawnSketchItems.eachLayer(function(slayer){
+                    slayer.feature.properties.selected = false;
+                    slayer.feature.properties.aligned = false;
+                    slayer.feature.properties.isRoute = null;
+                    if (slayer.feature.properties.group){
+                        delete slayer.feature.properties.group;
+                        delete slayer.feature.properties.groupID;
+                    }
+                    });
+                drawnItems.eachLayer(function(blayer){
+                    blayer.feature.properties.selected=false;
+                    blayer.feature.properties.aligned=false;
+                    if (blayer.feature.properties.group){
+                        delete blayer.feature.properties.group;
+                        delete blayer.feature.properties.groupID;
+                    }
              if (blayer.feature.properties.missing){
                 delete blayer.feature.properties.missing;
              }
 
         });
         styleLayers();
-        id = -1;
         }
         else{
+            console.log("in AlignmentArray");
+
             checkAlignnum = AlignmentArray[sketchMaptitle].checkAlignnum;
             alignmentArraySingleMap=AlignmentArray[sketchMaptitle];
-        }
+
+             drawnSketchItems.eachLayer(function(slayer){
+                $.each(alignmentArraySingleMap, function(i, item) {
+                    if(alignmentArraySingleMap[i].genType == "Abstraction to show existence"){
+                        if((alignmentArraySingleMap[i].SketchAlign[0]).includes(slayer.feature.properties.sid)){
+                             slayer.feature.properties.group = true ;
+                             slayer.feature.properties.groupID = i;
+                        }
+                }
+                });
+            });
+
+            drawnItems.eachLayer(function(blayer){
+                $.each(alignmentArraySingleMap, function(i, item) {
+                    if(alignmentArraySingleMap[i].genType == "Abstraction to show existence"){
+                        if((alignmentArraySingleMap[i].BaseAlign[0]).includes(blayer.feature.properties.id)){
+                             blayer.feature.properties.group = true ;
+                             blayer.feature.properties.groupID = i;
+                        }
+                }
+                });
+            });
+         }
+
 
         restoreBaseAlignment(alignmentArraySingleMap);
         styleLayers();
         }
         else{
+        console.log("No sketchmap own title");
         drawnSketchItems = new L.geoJson().addTo(sketchMap);
         alignmentArraySingleMap={};
         drawnItems.eachLayer(function(blayer){
@@ -480,6 +545,7 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
 
         sketchMap.on('pm:create', function (event) {
                        id=id+1;
+                       console.log("create id", id);
             var layer = event.layer;
 
             var feature = layer.feature = layer.feature || {}; // Initialize feature
@@ -580,6 +646,7 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
 
 
     function align(BID,SID,num,sketchtype,basetype){
+       console.log(BID,SID,num,sketchtype,basetype);
        var degreeOfGeneralization;
        var BaseAlign={};
        var SketchAlign={};
@@ -593,6 +660,7 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
           alignmentArraySingleMap[num]={BaseAlign,SketchAlign,genType,degreeOfGeneralization};
           }
           if(genType == "Abstraction to show existence"){
+                console.log("Group Yes");
                 drawnItems.eachLayer(function(blayer){
                        if(BID.includes(blayer.feature.properties.id)){
                             blayer.feature.properties.group = true;
@@ -848,7 +916,7 @@ var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/Generalization
 
 var httpRequest = new XMLHttpRequest();
 httpRequest.open("GET", url, false);
-httpRequest.setRequestHeader("Authorization","fmetoken token=b739b7cb5c74bee6e6aefdb71a551ba648624259")
+httpRequest.setRequestHeader("Authorization","fmetoken token=052c05a3a85fea84fb131d60281131e9ac65787b")
 httpRequest.setRequestHeader("Access-Control-Allow-Origin", "http://localhost:8080");
 httpRequest.setRequestHeader("Accept","text/html");
 httpRequest.setRequestHeader("content-Type","application/x-www-form-urlencoded");
