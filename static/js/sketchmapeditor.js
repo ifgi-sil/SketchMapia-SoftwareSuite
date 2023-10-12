@@ -577,6 +577,9 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
         sketchMap.on('pm:remove', function (e) {
             checkIfAlignedAlready([e.layer.feature.properties.sid]);
             alignSketchID = [];
+            alignBaseID = [];
+            sketchOtypearray = [];
+            baseOtypearray = [];
             drawnSketchItems.removeLayer(e.layer);
         });
 
@@ -655,6 +658,7 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
        degreeOfGeneralization=(BID.length - SID.length)/BID.length;
        var genType;
        (async () => {
+           console.log(sketchtype,basetype);
           genType = await predictGeneralization(sketchtype,basetype);
           if(genType!= "Generalization Not possible") {
           alignmentArraySingleMap[num]={BaseAlign,SketchAlign,genType,degreeOfGeneralization};
@@ -832,7 +836,6 @@ hoverfunction();
 }
 
 function checkIfAlignedAlready(alignSketchID){
-console.log("removed",alignSketchID);
 drawnSketchItems.eachLayer(function(slayer){
 $.each(alignmentArraySingleMap, function(i, item) {
     if(alignSketchID.includes(slayer.feature.properties.sid) && (alignmentArraySingleMap[i].SketchAlign != null) && (alignmentArraySingleMap[i].SketchAlign[0]).includes(slayer.feature.properties.sid)){
@@ -841,8 +844,8 @@ $.each(alignmentArraySingleMap, function(i, item) {
         blayer.feature.properties.aligned=false;
      }
      });
-
-     delete alignmentArraySingleMap[Object.keys(alignmentArraySingleMap)[i-1]];
+    console.log("removed",alignmentArraySingleMap[i]);
+     delete alignmentArraySingleMap[i];
      styleLayers();
     }
     });
@@ -916,7 +919,7 @@ var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/Generalization
 
 var httpRequest = new XMLHttpRequest();
 httpRequest.open("GET", url, false);
-httpRequest.setRequestHeader("Authorization","fmetoken token=****")
+httpRequest.setRequestHeader("Authorization","fmetoken token=*****")
 httpRequest.setRequestHeader("Access-Control-Allow-Origin", "http://localhost:8080");
 httpRequest.setRequestHeader("Accept","text/html");
 httpRequest.setRequestHeader("content-Type","application/x-www-form-urlencoded");
@@ -932,7 +935,7 @@ httpRequest.setRequestHeader("content-Type","application/x-www-form-urlencoded")
                   });
                  nodeArray = _.flatten(nodeArray,true);
                  if (new Set(nodeArray).size == nodeArray.length){
-                    alert("Generalization Not possible");
+                    returnValue = "Abstraction to show existence";
                  }
                  else{
                     var nodeCount = _.countBy(nodeArray);

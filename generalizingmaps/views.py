@@ -130,7 +130,7 @@ def mmGeoJsonReceiver(request):
     #global USER_PROJ_DIR
     fileName_full = str(request.POST.get('metricFileName'))
     MMGeoJsonData = request.POST.get('MMGeoJsonData')
-    print(type(MMGeoJsonData))
+    #print(type(MMGeoJsonData))
     MMGeoJsonData = json.loads(MMGeoJsonData)
     print("here is MMGeoJsonData:", MMGeoJsonData)
     # print("here svg file and content:",fileName_full, svgContent)

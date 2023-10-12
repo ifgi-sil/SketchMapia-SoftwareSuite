@@ -812,8 +812,10 @@
                 "isRoute": null,
                 "feat_type": "Landmark",
                 "selected": false,
-                "aligned": false,
-                "otype": "Polygon"
+                "aligned": true,
+                "otype": "Polygon",
+                "group": true,
+                "groupID": 30
             },
             "geometry": {
                 "type": "Polygon",
@@ -852,7 +854,9 @@
                 "feat_type": "Landmark",
                 "selected": false,
                 "aligned": true,
-                "otype": "Polygon"
+                "otype": "Polygon",
+                "group": true,
+                "groupID": 30
             },
             "geometry": {
                 "type": "Polygon",
@@ -890,8 +894,10 @@
                 "isRoute": null,
                 "feat_type": "Landmark",
                 "selected": false,
-                "aligned": false,
-                "otype": "Polygon"
+                "aligned": true,
+                "otype": "Polygon",
+                "group": true,
+                "groupID": 30
             },
             "geometry": {
                 "type": "Polygon",
