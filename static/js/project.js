@@ -318,8 +318,6 @@ var lastBaseStreet = routeIDArray[routeIDArray.length - 1];
       AlignmentArray[sketchMaptitle]=alignmentArraySingleMap;
       AlignmentArray[sketchMaptitle].checkAlignnum = checkAlignnum;
 
-var url = "http://localhost:8080/fmedatastreaming/Generalization/generalizerFile.fmw?Alignment=" + encodeURIComponent(JSON.stringify(JSON.stringify(AlignmentArray))) + "&RouteSeq=" + encodeURIComponent(routeIDArray) + "&SketchRouteSeq=" + encodeURIComponent(sketchIDArray) + "&lastsegment=" + encodeURIComponent(lastBaseStreet) + "&lastsketchsegment=" + encodeURIComponent(lastSketchStreet);
-var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/GeneralizationPredict/networkcalculator.fmw/parameters?fmetoken=47e241ca547e14ab6ea961aef083f8a4cbe6dfe3"
 
  $.ajax({
                 headers: { "X-CSRFToken": $.cookie("csrftoken") },
@@ -329,24 +327,16 @@ var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/Generalization
                     basedata: JSON.stringify(drawnItems.toGeoJSON()),
                     sketchdata: JSON.stringify(drawnSketchItems.toGeoJSON()),
                     aligndata: JSON.stringify(AlignmentArray),
-                    routedata: JSON.stringify(routeArray)
+                    routedata: JSON.stringify(routeArray),
+                    sketchroutedata: JSON.stringify(sketchRouteArray)
                 },
-                //contentType: 'text/plain',
                 success: function (resp) {
                    console.log("Test done");
-                   var httpRequest = new XMLHttpRequest();
-                    httpRequest.open("GET", url, false);
-                    httpRequest.setRequestHeader("Authorization","fmetoken token=81387a82c039e953b7a6e8447fa33169379f93d5")
-                    httpRequest.setRequestHeader("Access-Control-Allow-Origin", "http://localhost:8080");
-                    httpRequest.setRequestHeader("Accept","text/html");
-                    httpRequest.setRequestHeader("content-Type","multipart/form-data");
-            httpRequest.onreadystatechange = function()
-            {
-                if (httpRequest.readyState == 4 && httpRequest.status == 200)
                 {
 
                 var randomnum = 110111;
-                var wholeMapProc = JSON.parse(httpRequest.response);
+                var wholeMapProc = JSON.parse(resp);
+                console.log(wholeMapProc)
                 var sketchMapProc=[];
                 var baseMapProc=[];
                  $.each(wholeMapProc.features, function(i, item) {
@@ -365,11 +355,11 @@ var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/Generalization
                   }
                    if (item.properties.SketchAlign){
 
-                   if((JSON.parse(item.properties.SketchAlign)).toString() === item.properties.SketchAlign){
+                   if((item.properties.SketchAlign).toString() === item.properties.SketchAlign){
                         item.properties.id=item.properties.SketchAlign
                    }
                    else{
-                        item.properties.id = Object.values(JSON.parse(item.properties.SketchAlign))[0][0].replace(/\D/g,'');
+                        item.properties.id = Object.values(item.properties.SketchAlig)[0][0].replace(/\D/g,'');
                     }
                  }
                   baseMapProc.push(item);
@@ -383,23 +373,15 @@ var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/Generalization
 
 
                 GenBaseMap = L.geoJSON(baseMapProc);
+                console.log(baseMapProc)
                 GenStyleLayers();
                 Genhoverfunction();
                 GenBaseMap.addTo(layerGroupBasemapGen);
                 ProcSketchMap = L.geoJSON(sketchMapProc);
                 analyzeInputMap();
                 }
-            }
-            // send a request so we get a reply
-            httpRequest.send();
-
                 }
             });
-
-/*
-
-*/
-
 }
 
 

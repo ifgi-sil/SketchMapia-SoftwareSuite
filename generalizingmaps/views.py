@@ -6,7 +6,6 @@ from django.http.response import HttpResponse
 import osmnx as ox
 import requests
 import geopandas as gpd
-from shapely.geometry import Polygon
 from osmnx import utils
 from osmnx import utils_graph
 import numpy as np
@@ -18,12 +17,13 @@ import json
 import os
 import bcrypt
 from shapely import geometry, ops
+from shapely.geometry import Point, Polygon
 from matplotlib import pyplot as plt
 import shapely.wkt
 from math import sqrt
 import geojson
 from geojson import Feature, Point, FeatureCollection, Polygon, dump
-
+from django.http import JsonResponse
 
 global G
 
@@ -82,49 +82,37 @@ def helpingfunction_fetchdata_unsimplified(latlng_array):
   #  openregions_gdf = openregions_gdf[['geometry', 'osmid', 'element_type']]
   #  openregions_gdf.to_file('static/geojson_files/openregions' + '.geojson', driver="GeoJSON", encoding="utf-8")
 
-def routedirection(routedata):
+def routedirection(routedata,inputfile):
     # Network flow
-    # print(routedata)
     r_data = json.loads(str(routedata))
-    # print(r_data)
-    nf_ids = []
-    for data in r_data:
-        nf_ids.append(data["id"])
-        
-    nf_id=[nf_ids]
-    print(nf_id)
-
-    USER_PROJ_DIR = "generalizedMap"
-    Inputbasepath = os.path.join(USER_PROJ_DIR,"inputbaseMap"+".json")
-    f = open(Inputbasepath)
+    nf_ids = set(data['id'] for data in r_data)
+    f = open(inputfile)
     data_ip = json.load(f)
     ls=[]
-    for i in data_ip['features']:
-        geo = i['geometry']
-        properties = i['properties']
-        id = properties['id']
-        for x in nf_id:
-            # for y in x:
-            if x == id :
-                type = geo['type']
-                coor = geo['coordinates']
-                ls.append(coor)
-            else:
-                continue
+    for feature in data_ip['features']:
+        properties = feature['properties']
+        id = properties.get('id')
+
+        if id in nf_ids:
+            geo = feature['geometry']
+            coor = geo['coordinates']
+            ls.append(coor)
 
     def joinSegments( s ):
-        if s[0][0] == s[1][0] or s[0][0] == s[1][-1]:
-            s[0].reverse()
-        c = s[0][:]
-        for x in s[1:]:
-            if x[-1] == c[-1]:
-                x.reverse()
-            c += x
-        return c
-
-    # breakpoint()
+        try:
+            if s[0][0] == s[1][0] or s[0][0] == s[1][-1]:
+                s[0].reverse()
+            c = s[0][:]
+            for x in s[1:]:
+                if x[-1] == c[-1]:
+                    x.reverse()
+                c += x
+            return c
+        except IndexError:
+            return []
+    
     res = joinSegments(ls)
-
+    
     def split_list(Input_list, n):
         for i in range(0, len(Input_list), n):
             yield Input_list[i:i + n]
@@ -132,22 +120,19 @@ def routedirection(routedata):
     val=split_list(res, n)
     co_or=list(val)
 
-    f_out=dict(zip(nf_id[0], co_or))
-
-    # breakpoint()
-    print(f_out)
+    f_out=dict(zip(list(nf_ids), co_or))
+    # print(f_out)
     return(f_out)
 
 
 def requestFME(request):
-    template = loader.get_template('../templates/generalizingmaps.html')
     if request.is_ajax():
         basedata = request.POST.get('basedata')
         sketchdata = request.POST.get('sketchdata')
         aligndata = request.POST.get('aligndata')
         routedata = request.POST.get('routedata')
-        # print(routedata)
-        #response = requests.get('http://desktop-f25rpfv:8080/fmedatastreaming/Generalization/generalizer.fmw?', params=query)
+        sketchroutedata= request.POST.get('sketchroutedata')
+        
     USER_PROJ_DIR = "generalizedMap"
     baseMapdata = json.loads(basedata)
     sketchMapdata = json.loads(sketchdata)
@@ -175,23 +160,32 @@ def requestFME(request):
         f.close()
     except IOError:
         print("Files written")
-    # routedirection(routedata)
-    spatial_transformation()
-    return HttpResponse(template.render({}, request))
+    
+    result= spatial_transformation(routedata,sketchroutedata)
 
-def spatial_transformation():
+    return HttpResponse(result)
+
+
+def spatial_transformation(routedata,sketchroutedata):
     USER_PROJ_DIR = "generalizedMap"
     Inputbasepath = os.path.join(USER_PROJ_DIR,"inputbaseMap"+".json")
+    Inputsketchpath = os.path.join(USER_PROJ_DIR,"inputsketchMap"+".json")
     Inputaligndata =  os.path.join(USER_PROJ_DIR,"alignment"+".json")
-    f = open(Inputbasepath)
-    h = open(Inputaligndata)
-
+    
+    base = open(Inputbasepath)
+    sketch = open(Inputsketchpath)
+    align = open(Inputaligndata)
+    
     # returns JSON object as a dictionary
-    data = json.load(h)
+    data = json.load(align)
     amal_ids = []
     ng_ids = []
     c_ids =[]
     om_ids=[]
+    s_amal_ids = []
+    s_ng_ids = []
+    s_c_ids =[]
+    s_om_ids=[]
     for k,v in data.items():
         for val,val1 in v.items():
             key = 'genType'
@@ -199,23 +193,31 @@ def spatial_transformation():
                 if val1[key] == 'Amalgamation':
                     id = val1['BaseAlign']['0']
                     amal_ids.append(id)
+                    id1 = val1['SketchAlign']['0']
+                    s_amal_ids.append(id1)
                 if val1[key] == "No generalization":
                     ng_id = val1['BaseAlign']['0']
                     ng_ids.append(ng_id)
+                    ng_id1 = val1['SketchAlign']['0']
+                    s_ng_ids.append(ng_id1)
 
                 if val1[key]== "OmissionMerge":
                     om_id = val1['BaseAlign']['0']
                     om_ids.append(om_id)
+                    om_id1 = val1['SketchAlign']['0']
+                    s_om_ids.append(om_id1)
 
                 if val1[key]== "Collapse":
                     c_id = val1['BaseAlign']['0']
                     c_ids.append(c_id)
+                    c_id1 = val1['SketchAlign']['0']
+                    s_c_ids.append(c_id1)
 
             except (KeyError,TypeError) as error:
                 continue
-    h.close()
+    align.close()
 
-    data_ip = json.load(f)
+    data_ip = json.load(base)
     poly = []
     line = []
     point = []
@@ -250,7 +252,6 @@ def spatial_transformation():
                 if y == id :
                     type = geo['type']
                     coor = geo['coordinates']
-                    # breakpoint()
                     if len(coor) > 1:
                         # Create a LineString object
                         f_coor = geometry.LineString(coor)
@@ -271,8 +272,8 @@ def spatial_transformation():
                     point.append(f_coor)
                 else:
                     continue
-    f.close()
-   
+    base.close()
+    
     poly_res = []
     for sublist in amal_ids:
         start = sum([len(sub) for sub in poly_res])
@@ -305,50 +306,167 @@ def spatial_transformation():
 
     features = []
     # amalgamation 
-    for x in poly_res:
+    for x, ids, sids in zip(poly_res, amal_ids, s_amal_ids):
         mpt = geometry.MultiPolygon(x)
         res = mpt.convex_hull.wkt
         g1_a = shapely.wkt.loads(res)
-        features.append(Feature(geometry=g1_a, properties={"genType": "Amalgamation"}))
+        features.append(Feature(geometry=g1_a, properties={"genType": "Amalgamation", "bid": ids, "SketchAlign":sids[0]}))
 
     # omission_merge
-    for x in line_res:
+    for x, ids, sids in zip(line_res, om_ids, s_om_ids):
         multi_line = geometry.MultiLineString(x)
         merged_line = ops.linemerge(multi_line)
         g1_o = shapely.wkt.loads(str(merged_line))
-        features.append(Feature(geometry=g1_o, properties={"genType": "OmissionMerge"}))
-    
+        features.append(Feature(geometry=g1_o, properties={"genType": "OmissionMerge", "bid": ids[0],"SketchAlign":sids[0]}))
+   
     # collapse
-    for x in point_res:
+    for x, ids, sids in zip(point_res, c_ids, s_c_ids):
         collapse = x[0].centroid
         g1_c = shapely.wkt.loads(str(collapse))
-        features.append(Feature(geometry=g1_c, properties={"genType": "Collapse"}))
+        features.append(Feature(geometry=g1_c, properties={"genType": "Collapse", "bid": ids[0],"SketchAlign":sids[0]}))
  
     # No Generalization
-    for x in ng_res_l:
+    for x, ids, sids in zip(ng_res_l, ng_ids, s_ng_ids):
         if len(x) == 0: # Skip empty inputs
             continue
         line = shapely.geometry.LineString(x[0])
         wkt_string = line.wkt
-        features.append(Feature(geometry=shapely.wkt.loads(wkt_string), properties={"genType": "No generalization"}))
+        features.append(Feature(geometry=shapely.wkt.loads(wkt_string), properties={"genType": "No generalization", "bid": ids[0],"SketchAlign":sids[0]}))
 
-    for x in ng_res_p:
+    for x, ids, sids in zip(ng_res_p, ng_ids, s_ng_ids):
         if len(x) == 0: # Skip empty inputs
             continue
         polygon = shapely.geometry.Polygon(x[0])
         wkt_string = polygon.wkt
-        features.append(Feature(geometry=shapely.wkt.loads(wkt_string), properties={"genType": "No generalization"}))
+        features.append(Feature(geometry=shapely.wkt.loads(wkt_string), properties={"genType": "No generalization", "bid": ids[0],"SketchAlign":sids[0]}))
     
     feature_collection = FeatureCollection(features)
+    base = open(Inputbasepath)
+    base_data = json.load(base)
+    # Create a dictionary to map "id" to base data properties
+    id_to_properties = {feature["properties"]["id"]: feature["properties"] for feature in base_data["features"]}
     
-    outputbasepath =  os.path.join(USER_PROJ_DIR,"outputbaseMap"+".json")
-    if os.path.exists(outputbasepath):
-        os.remove(outputbasepath)
-    f = open(outputbasepath, "a+")
-    f.write(json.dumps(feature_collection,indent=4))
-    f.close()
-    return
+    # Iterate through feature collection features
+    for feature in feature_collection["features"]:
+        base_align = feature["properties"]["bid"]
+        if isinstance(base_align, list):
+            # Initialize an empty dictionary to store the merged properties
+            merged_properties = {}
 
+            # Loop through the list of IDs
+            for bid in base_align:
+                if bid in id_to_properties:
+                    # Merge the properties of this ID into the merged_properties dictionary
+                    merged_properties.update(id_to_properties[bid])
+
+            # Update the feature's properties with the merged properties
+            feature["properties"].update(merged_properties)
+        elif base_align in id_to_properties:
+            base_properties = id_to_properties[base_align]
+            # Merge the sketch data properties into the feature collection properties
+            feature["properties"].update(base_properties)
+
+    f_out = routedirection(routedata,Inputbasepath)
+    
+    # Iterate through the features in inputbasemap and update coordinates if id matches
+    for feature in feature_collection['features']:
+        properties = feature['properties']
+        id = properties.get('bid')
+        # id = str(id_str).strip('[]')
+        gen_type = properties.get('genType')
+        if gen_type == "No generalization" and id in f_out :
+            geo = feature['geometry']
+            geo['coordinates'] = f_out[id]
+    
+    for feature in feature_collection['features']:
+        # Check if the geometry type is 'Point'
+        type = feature['geometry']['type']
+        # coordinates = feature['geometry']['coordinates']
+        if type == 'Point':
+            # Create a GeoDataFrame with the input feature
+            gdf = gpd.GeoDataFrame.from_features([feature])
+
+            # Set the coordinate reference system (CRS) to a standard one, e.g., EPSG:4326
+            gdf.crs = "EPSG:4326"
+
+            # Create a buffered polygon around the point (e.g., with a radius of 1 unit)
+            buffered_radius = 1.0
+            buffered_polygon = gdf.buffer(buffered_radius)
+
+            # Simplify the buffered polygon to reduce the number of coordinates
+            simplified_buffer = buffered_polygon.simplify(0.001)
+            
+            # Convert the simplified buffered polygon to GeoJSON format
+            simplified_geojson = simplified_buffer.to_json()
+            
+            # Parse the simplified GeoJSON string to a Python dictionary
+            simplified_data = json.loads(simplified_geojson)
+            
+            # Update the 'geometry' key in the original feature
+            feature['geometry'] = simplified_data['features'][0]['geometry']
+
+    
+    sketchroute= routedirection(sketchroutedata,Inputsketchpath)
+
+    sketch = open(Inputsketchpath)
+    sketchdata= json.load(sketch)
+    for feature in sketchdata['features']:
+        properties = feature['properties']
+        id = properties.get('id')
+        if id in sketchroute:
+            geo = feature['geometry']
+            geo['coordinates'] = sketchroute[id]
+            
+    for feature in sketchdata['features']:
+        # Check if the geometry type is 'Point'
+        type = feature['geometry']['type']
+        feature['properties']['mapType'] = 'Sketch'
+        # coordinates = feature['geometry']['coordinates']
+        if type == 'Point':
+            # Create a GeoDataFrame with the input feature
+            gdf = gpd.GeoDataFrame.from_features([feature])
+
+            # Set the coordinate reference system (CRS) to a standard one, e.g., EPSG:4326
+            gdf.crs = "EPSG:4326"
+
+            # Create a buffered polygon around the point (e.g., with a radius of 1 unit)
+            buffered_radius = 1.0
+            buffered_polygon = gdf.buffer(buffered_radius)
+
+            # Simplify the buffered polygon to reduce the number of coordinates
+            simplified_buffer = buffered_polygon.simplify(0.001)
+            
+            # Convert the simplified buffered polygon to GeoJSON format
+            simplified_geojson = simplified_buffer.to_json()
+            
+            # Parse the simplified GeoJSON string to a Python dictionary
+            simplified_data = json.loads(simplified_geojson)
+            
+            # Update the 'geometry' key in the original feature
+            feature['geometry'] = simplified_data['features'][0]['geometry']
+            
+    # Assuming you have two feature collections, feature_collection1 and feature_collection2
+    combined_feature_collection = {
+        "type": "FeatureCollection",
+        "features": []
+    }
+    # Append the features from feature_collection1 to the combined feature collection
+    for feature in feature_collection["features"]:
+        combined_feature_collection["features"].append(feature)
+
+    # Append the features from feature_collection2 to the combined feature collection
+    for feature in sketchdata["features"]:
+        combined_feature_collection["features"].append(feature)
+
+
+    outputsketchpath =  os.path.join(USER_PROJ_DIR,"outputMap"+".json")
+    if os.path.exists(outputsketchpath):
+        os.remove(outputsketchpath)
+    f = open(outputsketchpath, "a+")
+    f.write(json.dumps(combined_feature_collection,indent=4))
+    f.close()
+    
+    return(json.dumps(combined_feature_collection,indent=4))
 
 def omission_deadendstreets(request):
     template = loader.get_template('../templates/generalizingmaps.html')
@@ -414,7 +532,7 @@ def smGeoJsonReceiver(request):
     SMGeoJsonData = json.loads(SMGeoJsonData)
     # print("here svg file and content:",fileName_full, svgContent)
     fileName, extension = os.path.splitext(fileName_full)
-    #print("here is SMGeoJsonData:",SMGeoJsonData)
+    # print("here is SMGeoJsonData:",SMGeoJsonData)
     #smGeoJson = request.get_json()
     data_format = "geojson"
     map_type = "sketch_map"
@@ -578,7 +696,11 @@ def analyzeInputMap(request):
         precision = total_no_correct_rels / total_no_rels_sm
         recall = total_no_correct_rels / total_on_rels_MM
 
-        f_score = 2 * ((precision * recall) / (precision + recall))
+        # f_score = 2 * ((precision * recall) / (precision + recall))
+        if precision + recall == 0:
+            f_score = 0
+        else:
+            f_score = 2 * ((precision * recall) / (precision + recall))
 
         print("precision....:", precision)
         print("recall....:", recall)
