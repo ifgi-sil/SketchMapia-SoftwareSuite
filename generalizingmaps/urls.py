@@ -9,7 +9,5 @@ urlpatterns = [
     path('smReceiver/',views.smGeoJsonReceiver),
     path('analyzeInputMap/',views.analyzeInputMap),
     path('requestFME/',views.requestFME),
-    path('spatial_transformation/',views.spatial_transformation),
-    path('routedirection/',views.routedirection),
     path('', views.map, name='map'),
 ]

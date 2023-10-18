@@ -6,12 +6,15 @@ from django.http.response import HttpResponse
 import osmnx as ox
 import requests
 import geopandas as gpd
+from shapely.geometry import Polygon
 from osmnx import utils
 from osmnx import utils_graph
 import numpy as np
 from analyser import completeness
 from analyser import qualitativeAnalyser
 from qualifier import qualify_map
+from copy import deepcopy
+import pandas as pd
 from analyser import inverses
 import json
 import os
@@ -459,14 +462,16 @@ def spatial_transformation(routedata,sketchroutedata):
         combined_feature_collection["features"].append(feature)
 
 
-    outputsketchpath =  os.path.join(USER_PROJ_DIR,"outputMap"+".json")
-    if os.path.exists(outputsketchpath):
-        os.remove(outputsketchpath)
-    f = open(outputsketchpath, "a+")
+    outputpath =  os.path.join(USER_PROJ_DIR,"generalizedoutputMap"+".json")
+    if os.path.exists(outputpath):
+        os.remove(outputpath)
+    f = open(outputpath, "a+")
     f.write(json.dumps(combined_feature_collection,indent=4))
     f.close()
     
     return(json.dumps(combined_feature_collection,indent=4))
+
+
 
 def omission_deadendstreets(request):
     template = loader.get_template('../templates/generalizingmaps.html')
@@ -488,7 +493,7 @@ def mmGeoJsonReceiver(request):
     #global USER_PROJ_DIR
     fileName_full = str(request.POST.get('metricFileName'))
     MMGeoJsonData = request.POST.get('MMGeoJsonData')
-    print(type(MMGeoJsonData))
+    #print(type(MMGeoJsonData))
     MMGeoJsonData = json.loads(MMGeoJsonData)
     print("here is MMGeoJsonData:", MMGeoJsonData)
     # print("here svg file and content:",fileName_full, svgContent)
@@ -513,7 +518,7 @@ def mmGeoJsonReceiver(request):
         f.close()
     except IOError:
         print("Metric map QCNs json path problem ")
-    return HttpResponse(template.render({}, request))
+    return HttpResponse(json.dumps(MetricMap_QCNS,indent=4))
 
 
 """
@@ -532,7 +537,7 @@ def smGeoJsonReceiver(request):
     SMGeoJsonData = json.loads(SMGeoJsonData)
     # print("here svg file and content:",fileName_full, svgContent)
     fileName, extension = os.path.splitext(fileName_full)
-    # print("here is SMGeoJsonData:",SMGeoJsonData)
+    #print("here is SMGeoJsonData:",SMGeoJsonData)
     #smGeoJson = request.get_json()
     data_format = "geojson"
     map_type = "sketch_map"
@@ -551,7 +556,7 @@ def smGeoJsonReceiver(request):
         f.close()
     except IOError:
         print("Sketch map QCNs json path problem ")
-    return HttpResponse(template.render({}, request))
+    return HttpResponse(json.dumps(sketchMap_QCNS, indent=4))
 
 
 def analyzeInputMap(request):
@@ -696,15 +701,11 @@ def analyzeInputMap(request):
         precision = total_no_correct_rels / total_no_rels_sm
         recall = total_no_correct_rels / total_on_rels_MM
 
-        # f_score = 2 * ((precision * recall) / (precision + recall))
-        if precision + recall == 0:
-            f_score = 0
-        else:
-            f_score = 2 * ((precision * recall) / (precision + recall))
+        #f_score = 2 * ((precision * recall) / (precision + recall))
 
         print("precision....:", precision)
         print("recall....:", recall)
-        print("F-value....:", f_score)
+        #print("F-value....:", f_score)
         # session.modified = True
 
         return HttpResponse(json.dumps({"sketchMapID": sketchFileName, "total_mm_landmarks": total_mm_landmarks,
@@ -745,7 +746,4 @@ def analyzeInputMap(request):
                            "correctnessAccuracy_opra": round(correctnessAccuracy_opra, 2),
                            "precision": round(precision, 2),
                            "recall": round(recall, 2),
-                           "f_score": round(f_score, 2)}), content_type="application/json")
-
-
-
+                           "f_score": "nil"}), content_type="application/json")
