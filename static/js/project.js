@@ -3,9 +3,21 @@ var ProcSketchMap;
 var StreetGroup;
 var BuildingGroup;
 var extraFeaturesCount = 0;
-var missingFeaturesCount = 0
+var extraFeaturesIds = [];
+var missingFeaturesCount = 0;
+var missingFeaturesIds = [];
 var routeArray = [];
 var sketchRouteArray = [];
+var roundaboutcount = 0;
+var junctionmergecount = 0;
+var multiOmiMergeCount = 0;
+var roundaboutids = [];
+var junctionmergeids = [];
+var qualRelationsBaseMap;
+var qualRelationsSketchMap;
+var multiOmiMergeids = [];
+var TemporaryAlignmentArray={};
+
 
 
 
@@ -94,7 +106,7 @@ function downloadProject(){
 }
      zip.generateAsync({type:"blob"})
         .then(function(content) {
-    saveAs(content, "project.zip");
+    saveAs(content, sketchMaptitle.replace(".jpg","") + "Input.zip");
 
 });
 }
@@ -105,15 +117,21 @@ function qualify_MM(callback) {
     var MMGeoJsonDataFiltered = {};
     MMGeoJsonDataFiltered.type = "FeatureCollection";
     MMGeoJsonDataFiltered.features = [];
+
     for (var i in MMGeoJsonData.features){
+
         var group = MMGeoJsonData.features[i].properties.group;
         if(group != "Yes"){
             MMGeoJsonDataFiltered.features[count]=MMGeoJsonData.features[i];
             count = count + 1;
         }
+        if(MMGeoJsonData.features[i].properties.genType3 != undefined && MMGeoJsonData.features[i].properties.genType3.includes("Multi-MultiOmissionMerge")){
+            MMGeoJsonData.features[i].properties.id = 'G' + MMGeoJsonData.features[i].properties.groupID;
+            MMGeoJsonDataFiltered.features[count]=MMGeoJsonData.features[i];
+            count = count + 1;
+
+        }
     }
-    console.log("metric map jsondata:",MMGeoJsonData);
-    console.log("metric map jsondata filtered:",MMGeoJsonDataFiltered);
 
     $.ajax({
         headers: { "X-CSRFToken": $.cookie("csrftoken") },
@@ -127,6 +145,7 @@ function qualify_MM(callback) {
         //contentType: 'application/json',
         success: function (resp) {
             console.log("Metric Map Qualify complete");
+            qualRelationsBaseMap = JSON.parse(resp)
             callback();
         }
     });
@@ -151,6 +170,12 @@ function qualify_SM(callback) {
         }
         else{
            if(group == "Yes"){
+
+           if(SMGeoJsonData.features[i].properties.genType3 != undefined && SMGeoJsonData.features[i].properties.genType3.includes("Multi-MultiOmissionMerge")){
+            SMGeoJsonData.features[i].properties.id = 'G' + SMGeoJsonData.features[i].properties.groupID;
+            SMGeoJsonDataFiltered.features[count]=SMGeoJsonData.features[i];
+            count = count + 1;
+            }
             if(SMGeoJsonData.features[i].properties.otype == "Line"){
                 streetGroupIdÁrray.push(SMGeoJsonData.features[i].properties.groupID);
             }
@@ -162,10 +187,9 @@ function qualify_SM(callback) {
 
         if(alignBoolean == false){
              extraFeaturesCount = extraFeaturesCount + 1;
+             extraFeaturesIds.push(SMGeoJsonData.features[i].properties.sid);
         }
     }
-    console.log("SMGeoJsonData....:",SMGeoJsonData);
-    console.log("ExtraFeatures...", extraFeaturesCount);
     // fileName = sketchFileName.split(".");
     // fileName = fName[0];
     StreetGroup = new Set(streetGroupIdÁrray);
@@ -182,6 +206,7 @@ function qualify_SM(callback) {
         //dataType: 'json',
         success: function (resp) {
             console.log("Sketch Map Qualify complete");
+            qualRelationsSketchMap = JSON.parse(resp)
             callback();
         }
     });
@@ -269,6 +294,7 @@ extraFeaturesCount = 0;
         if (!blayer.feature.properties.aligned ){
             blayer.feature.properties.missing = true;
             missingFeaturesCount = missingFeaturesCount + 1;
+            missingFeaturesIds.push(blayer.feature.properties.id);
         }
         else
         {delete blayer.feature.properties.missing; }
@@ -288,7 +314,7 @@ var byrouteorder = routeArray.slice(0);
         return a.RouteSeqOrder - b.RouteSeqOrder;
     });
 
-  console.log(typeof(byrouteorder), byrouteorder);
+
 
 
 
@@ -318,8 +344,9 @@ var lastBaseStreet = routeIDArray[routeIDArray.length - 1];
       AlignmentArray[sketchMaptitle]=alignmentArraySingleMap;
       AlignmentArray[sketchMaptitle].checkAlignnum = checkAlignnum;
 
-var url = "http://localhost:8080/fmedatastreaming/Generalization/generalizerFile.fmw?Alignment=" + encodeURIComponent(JSON.stringify(JSON.stringify(AlignmentArray))) + "&RouteSeq=" + encodeURIComponent(routeIDArray) + "&SketchRouteSeq=" + encodeURIComponent(sketchIDArray) + "&lastsegment=" + encodeURIComponent(lastBaseStreet) + "&lastsketchsegment=" + encodeURIComponent(lastSketchStreet);
-var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/GeneralizationPredict/networkcalculator.fmw/parameters?fmetoken=47e241ca547e14ab6ea961aef083f8a4cbe6dfe3"
+// console.log("route",routeIDArray);
+// var url = "http://localhost:8080/fmedatastreaming/Generalization/generalizerFile.fmw?Alignment=" + encodeURIComponent(JSON.stringify(JSON.stringify(AlignmentArray))) + "&RouteSeq=" + encodeURIComponent(routeIDArray) + "&SketchRouteSeq=" + encodeURIComponent(sketchIDArray) + "&lastsegment=" + encodeURIComponent(lastBaseStreet) + "&lastsketchsegment=" + encodeURIComponent(lastSketchStreet);
+// var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/GeneralizationPredict/networkcalculator.fmw/parameters?fmetoken=47e241ca547e14ab6ea961aef083f8a4cbe6dfe3"
 
  $.ajax({
                 headers: { "X-CSRFToken": $.cookie("csrftoken") },
@@ -327,27 +354,53 @@ var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/Generalization
                 type: 'POST',
                 data: {
                     basedata: JSON.stringify(drawnItems.toGeoJSON()),
-                    sketchdata: JSON.stringify(drawnSketchItems.toGeoJSON())
+                    sketchdata: JSON.stringify(drawnSketchItems.toGeoJSON()),
+                    aligndata: JSON.stringify(AlignmentArray),
+                    routedata: JSON.stringify(routeArray),
+                    sketchroutedata: JSON.stringify(sketchRouteArray)
                 },
                 //contentType: 'text/plain',
                 success: function (resp) {
-                   console.log("Test done");
-                   var httpRequest = new XMLHttpRequest();
-                    httpRequest.open("GET", url, false);
-                    httpRequest.setRequestHeader("Authorization","fmetoken token=81387a82c039e953b7a6e8447fa33169379f93d5")
-                    httpRequest.setRequestHeader("Access-Control-Allow-Origin", "http://localhost:8080");
-                    httpRequest.setRequestHeader("Accept","text/html");
-                    httpRequest.setRequestHeader("content-Type","multipart/form-data");
-            httpRequest.onreadystatechange = function()
+            //        var httpRequest = new XMLHttpRequest();
+            //         httpRequest.open("GET", url, false);
+            //         httpRequest.setRequestHeader("Authorization","fmetoken token=*****")
+            //         httpRequest.setRequestHeader("Access-Control-Allow-Origin", "http://localhost:8080");
+            //         httpRequest.setRequestHeader("Accept","text/html");
+            //         httpRequest.setRequestHeader("content-Type","multipart/form-data");
+            // httpRequest.onreadystatechange = function()
             {
-                if (httpRequest.readyState == 4 && httpRequest.status == 200)
-                {
+                // if (httpRequest.readyState == 4 && httpRequest.status == 200)
+                // {
 
                 var randomnum = 110111;
-                var wholeMapProc = JSON.parse(httpRequest.response);
+                var wholeMapProc = JSON.parse(resp);
                 var sketchMapProc=[];
                 var baseMapProc=[];
+                 multiOmiMergeCount = 0;
                  $.each(wholeMapProc.features, function(i, item) {
+
+                 if(item.properties.RoundAboutCount != null ) {
+                    roundaboutcount = item.properties.RoundAboutCount;
+                 }
+
+                 if(item.properties.JunctionMergeCount != null ) {
+                    junctionmergecount = item.properties.JunctionMergeCount;
+                 }
+
+                 if(item.properties.genType2 != null && item.properties.genType2.includes("JunctionMerge")){
+                 console.log("Yes JunctionMerge")
+                    junctionmergeids.push(item.properties.id);
+                 }
+
+                 if (item.properties.genType3 != null && item.properties.genType3.includes("Multi-MultiOmissionMerge")){
+                    multiOmiMergeCount = multiOmiMergeCount + 1 ;
+                    multiOmiMergeids.push(item.properties.id)
+                 }
+                 if(item.properties.genType1 != null && item.properties.genType1.includes("RoundAbout")){
+                    roundaboutids.push(item.properties.id);
+                    console.log("Yes roundabout")
+                 }
+
                  if(item.properties.mapType == "Sketch"){
                       item.properties.id = item.properties.id.toString();
                     if(item.properties.otype == "CircleMarker"){
@@ -357,17 +410,15 @@ var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/Generalization
                     sketchMapProc.push(item);
                  }
                  else{
-                    console.log("item", item);
                   if (item.properties.missing){
                   item.properties.id = randomnum;
                   }
                    if (item.properties.SketchAlign){
-
-                   if((JSON.parse(item.properties.SketchAlign)).toString() === item.properties.SketchAlign){
+                   if((item.properties.SketchAlign).toString() === item.properties.SketchAlign){
                         item.properties.id=item.properties.SketchAlign
                    }
                    else{
-                        item.properties.id = Object.values(JSON.parse(item.properties.SketchAlign))[0][0].replace(/\D/g,'');
+                        item.properties.id = Object.values(item.properties.SketchAlign)[0][0].replace(/\D/g,'');
                     }
                  }
                   baseMapProc.push(item);
@@ -389,15 +440,8 @@ var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/Generalization
                 }
             }
             // send a request so we get a reply
-            httpRequest.send();
-
-                }
+            // httpRequest.send();
             });
-
-/*
-
-*/
-
 }
 
 
@@ -424,6 +468,9 @@ GenBaseMap.eachLayer(function(glayer){
 function analyzeInputMap(){
 
 
+TemporaryAlignmentArray= JSON.parse(JSON.stringify({}));
+
+TemporaryAlignmentArray = JSON.parse(JSON.stringify(AlignmentArray));
     //loc = document.getElementById("#sketchmapplaceholder");
     //createProcessingRing(loc);
 
@@ -446,7 +493,7 @@ function analyzeInputMap(){
                 //contentType: 'text/plain',
                 success: function (resp) {
                     setResults_in_output_div(resp);
-                    $('#summary_result_div').prop("style", "visibility: visible; position:absolute ; z-index:10000000; background-color: white");
+                    $('#summary_result_div').prop("style", " height:100%; overflow-y: scroll;  visibility: visible; position:absolute ; z-index:10000000; background-color: white");
                     //$('#summary_result_div').refresh();
 
                     $("#stepper_analyze_map").prop("style", "background: #17a2b8");
@@ -465,40 +512,50 @@ function analyzeInputMap(){
 }
 
 function setResults_in_output_div(resp){
- var amalgamation = "";
- var collapse = "";
- var omissionmerge = "";
+ var amalgamation = 0;
+ var collapse = 0 ;
+ var omissionmerge = 0;
+
 
   for (var i in Object.values(AlignmentArray)[0]){
   if (Object.values(AlignmentArray)[0][i].genType == "Amalgamation"){
-   amalgamation = amalgamation + "    " + Object.values(AlignmentArray)[0][i].degreeOfGeneralization ;
+   amalgamation = amalgamation + 1 ;
   }
   if (Object.values(AlignmentArray)[0][i].genType == "OmissionMerge"){
-   omissionmerge = omissionmerge + "    " + Object.values(AlignmentArray)[0][i].degreeOfGeneralization ;
+   omissionmerge = omissionmerge + 1 ;
   }
   if (Object.values(AlignmentArray)[0][i].genType == "Collapse"){
-   collapse = collapse + "    " + Object.values(AlignmentArray)[0][i].degreeOfGeneralization ;
+   collapse = collapse + 1 ;
+  }
   }
 
-  }
 
-    $('#Amalgamation').text(amalgamation);
-    $('#OmissionMerge').text(omissionmerge);
-    $('#Collapse').text(collapse);
+    $('#CountOmissionMerge').text(omissionmerge);
+    $('#CountAbsExistenceStreets').text(parseInt(StreetGroup.size) - parseInt(multiOmiMergeCount));
+    $('#CountJunctionMerge').text(junctionmergecount);
+    $('#CountRACollapse').text(roundaboutcount);
+    $('#CountAmalgamation').text(amalgamation);
+    $('#CountAbsExistenceBuildings').text( BuildingGroup.size);
+    $('#CountCollapse').text(collapse);
+    $('#CountOmissionMergeMulti').text(multiOmiMergeCount);
+
+
+
 
     $('#overAllCompleteness').text(resp.overAllCompleteness+"%");
+    $('#totalGeneralization').text(parseInt(omissionmerge)+ parseInt(StreetGroup.size)+ parseInt(collapse) + parseInt(junctionmergecount)+ parseInt(roundaboutcount) + parseInt(amalgamation) + parseInt(BuildingGroup.size));
     $('#precision').text(resp.precision);
     $('#recall').text(resp.recall);
     $('#f_score').text(resp.f_score);
     $('#sketchMapID').text(resp.sketchMapID);
 
-    $('#toal_mm_streets').text(resp.toal_mm_streets);
+    $('#total_mm_streets').text(resp.toal_mm_streets);
     $('#totalSketchedStreets').text(resp.totalSketchedStreets);
-    $('#streetCompleteness').text(resp.streetCompleteness + "-- Group:" + StreetGroup.size );
+    $('#streetCompleteness').text(resp.streetCompleteness  );
 
     $('#total_mm_landmarks').text(resp.total_mm_landmarks);
     $('#totalSketchedLandmarks').text(resp.totalSketchedLandmarks);
-    $('#landmarkCompleteness').text(resp.landmarkCompleteness + "-- Group:" + BuildingGroup.size);
+    $('#landmarkCompleteness').text(resp.landmarkCompleteness );
 
     $('#total_mm_cityblocks').text(missingFeaturesCount);
     $('#totalSketchedCityblocks').text( extraFeaturesCount );
@@ -547,6 +604,103 @@ function setResults_in_output_div(resp){
     $('#missing_opra_rels').text(resp.missing_opra_rels);
     $('#correctnessAccuracy_opra').text(resp.correctnessAccuracy_opra);
 
-
-
 }
+
+function findCommonElements3(arr1, arr2) {
+    return arr1.some(item => arr2.includes(item))
+}
+
+
+$( "#exportAsCSV" ).on( "click", function() {
+var GeneralizationCSV = ["BaseId , SketchId , Generalization Type"];
+var QualRelationsBaseMapCSV = ["Object 1 , Object 2, Relations"];
+var QualRelationsSketchMapCSV = ["Object 1, Object 2, Relations"];
+
+        for (var x in qualRelationsBaseMap.constraint_collection){
+
+            QualRelationsBaseMapCSV.push(" " + ',' +  qualRelationsBaseMap.constraint_collection[x].relation_set + ',' + " ");
+            for (var y in  qualRelationsBaseMap.constraint_collection[x].constraints){
+            QualRelationsBaseMapCSV.push(qualRelationsBaseMap.constraint_collection[x].constraints[y]["obj 1"] + ',' + qualRelationsBaseMap.constraint_collection[x].constraints[y]["obj 2"] + ',' + qualRelationsBaseMap.constraint_collection[x].constraints[y]["relation"])
+            }
+        }
+
+        for (var x in qualRelationsSketchMap.constraint_collection){
+            QualRelationsSketchMapCSV.push(" " + ',' +  qualRelationsSketchMap.constraint_collection[x].relation_set + ',' + " ");
+            for (var y in  qualRelationsSketchMap.constraint_collection[x].constraints){
+            QualRelationsSketchMapCSV.push(qualRelationsSketchMap.constraint_collection[x].constraints[y]["obj 1"] + ',' + qualRelationsSketchMap.constraint_collection[x].constraints[y]["obj 2"] + ',' + qualRelationsSketchMap.constraint_collection[x].constraints[y]["relation"])
+            }
+        }
+
+    Object.keys(TemporaryAlignmentArray[sketchMaptitle]).forEach(function(key){
+     if (key != "checkAlignnum"){
+       if (findCommonElements3(multiOmiMergeids, TemporaryAlignmentArray[sketchMaptitle][key].BaseAlign[0])){
+            TemporaryAlignmentArray[sketchMaptitle][key].genType = "Multi-Multi Omission Merge";
+          }
+     }
+
+    });
+
+
+
+    Object.keys(TemporaryAlignmentArray[sketchMaptitle]).forEach(function(key) {
+
+        if (key != "checkAlignnum"){
+        if (findCommonElements3(junctionmergeids, TemporaryAlignmentArray[sketchMaptitle][key].BaseAlign[0])){
+             if (TemporaryAlignmentArray[sketchMaptitle][key].genType == "No generalization") {
+                    TemporaryAlignmentArray[sketchMaptitle][key].genType = "JunctionMerge" ;
+                    }
+             else {
+                      console.log("check check" ,TemporaryAlignmentArray[sketchMaptitle][key])
+                      TemporaryAlignmentArray[sketchMaptitle][key].genType = TemporaryAlignmentArray[sketchMaptitle][key].genType + "JunctionMerge" ;
+             }
+          }
+           if (findCommonElements3(roundaboutids, TemporaryAlignmentArray[sketchMaptitle][key].BaseAlign[0])){
+            console.log("YEsCSV");
+                if (TemporaryAlignmentArray[sketchMaptitle][key].genType == "No generalization") {
+                    TemporaryAlignmentArray[sketchMaptitle][key].genType = "RoundAboutCollapse"
+                    }
+                else {
+                    TemporaryAlignmentArray[sketchMaptitle][key].genType = TemporaryAlignmentArray[sketchMaptitle][key].genType + "RoundAboutCollapse"
+                }
+          }
+        GeneralizationCSV.push(((TemporaryAlignmentArray[sketchMaptitle][key].BaseAlign[0]).toString()).replaceAll(",", " ") + ',' + ((TemporaryAlignmentArray[sketchMaptitle][key].SketchAlign[0]).toString()).replaceAll(",", " ") + ',' + ((TemporaryAlignmentArray[sketchMaptitle][key].genType).toString()) ) ;
+
+        }
+   // do something with key or value
+
+    });
+
+        GeneralizationCSV.push("Features missing in sketch map, " + missingFeaturesIds.toString());
+        GeneralizationCSV.push("Features drawn extra in sketch map, " + extraFeaturesIds.toString());
+
+    var html = document.querySelector("#correctness >table").outerHTML;
+
+
+   var csv = [];
+    var rows = document.querySelectorAll("table tr");
+    for (var i = 0; i < rows.length; i++) {
+        var row = [], cols = rows[i].querySelectorAll("td, th");
+        for (var j = 0; j < cols.length; j++)
+            row.push(cols[j].innerText);
+        csv.push(row.join(","));
+    }
+
+
+
+
+
+
+    var zip = new JSZip();
+        zip.file("GenDetailedOutput.csv",GeneralizationCSV.join("\n"));
+        zip.file("QRBaseMap.csv",QualRelationsBaseMapCSV.join("\n"));
+        zip.file("QRSketchMap.csv",QualRelationsSketchMapCSV.join("\n"));
+        zip.file(sketchMaptitle + "QualitativeOutput.csv", csv.join("\n"));
+        zip.file("GeneralizedBaseMap.geojson", JSON.stringify(GenBaseMap.toGeoJSON()));
+        zip.generateAsync({type:"blob"})
+        .then(function(content) {
+        saveAs(content, sketchMaptitle.replace(".jpg","") + "Output.zip");
+      });
+
+});
+
+
