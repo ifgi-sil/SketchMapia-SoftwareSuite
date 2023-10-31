@@ -52,7 +52,7 @@
             },
             "properties": {
                 "genType": "Amalgamation",
-                "bid": [
+                "BaseAlign": [
                     3,
                     4,
                     6,
@@ -88,7 +88,7 @@
             },
             "properties": {
                 "genType": "OmissionMerge",
-                "bid": 1,
+                "BaseAlign": 1,
                 "SketchAlign": "S0",
                 "id": 1,
                 "isRoute": "Yes",
@@ -370,7 +370,7 @@
             },
             "properties": {
                 "genType": "Collapse",
-                "bid": 7,
+                "BaseAlign": 7,
                 "SketchAlign": "S3",
                 "id": 7,
                 "isRoute": null,
@@ -397,7 +397,7 @@
             },
             "properties": {
                 "genType": "No generalization",
-                "bid": 2,
+                "BaseAlign": 2,
                 "SketchAlign": "S1",
                 "id": 2,
                 "isRoute": null,

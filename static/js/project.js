@@ -414,12 +414,12 @@ var lastBaseStreet = routeIDArray[routeIDArray.length - 1];
                   item.properties.id = randomnum;
                   }
                    if (item.properties.SketchAlign){
-                   if((item.properties.SketchAlign).toString() === item.properties.SketchAlign){
-                        item.properties.id=item.properties.SketchAlign
-                   }
-                   else{
-                        item.properties.id = Object.values(item.properties.SketchAlign)[0][0].replace(/\D/g,'');
-                    }
+                //    if((item.properties.SketchAlign).toString() === item.properties.SketchAlign){
+                //         item.properties.id=item.properties.SketchAlign
+                //    }
+                //    else{
+                    item.properties.id = item.properties.SketchAlign.replace(/\D/g,'');
+                    // }
                  }
                   baseMapProc.push(item);
                   randomnum = randomnum + 1;

@@ -313,20 +313,20 @@ def spatial_transformation(routedata,sketchroutedata):
         mpt = geometry.MultiPolygon(x)
         res = mpt.convex_hull.wkt
         g1_a = shapely.wkt.loads(res)
-        features.append(Feature(geometry=g1_a, properties={"genType": "Amalgamation", "bid": ids, "SketchAlign":sids[0]}))
+        features.append(Feature(geometry=g1_a, properties={"genType": "Amalgamation", "BaseAlign": ids, "SketchAlign":sids[0]}))
 
     # omission_merge
     for x, ids, sids in zip(line_res, om_ids, s_om_ids):
         multi_line = geometry.MultiLineString(x)
         merged_line = ops.linemerge(multi_line)
         g1_o = shapely.wkt.loads(str(merged_line))
-        features.append(Feature(geometry=g1_o, properties={"genType": "OmissionMerge", "bid": ids[0],"SketchAlign":sids[0]}))
+        features.append(Feature(geometry=g1_o, properties={"genType": "OmissionMerge", "BaseAlign": ids[0],"SketchAlign":sids[0]}))
    
     # collapse
     for x, ids, sids in zip(point_res, c_ids, s_c_ids):
         collapse = x[0].centroid
         g1_c = shapely.wkt.loads(str(collapse))
-        features.append(Feature(geometry=g1_c, properties={"genType": "Collapse", "bid": ids[0],"SketchAlign":sids[0]}))
+        features.append(Feature(geometry=g1_c, properties={"genType": "Collapse", "BaseAlign": ids[0],"SketchAlign":sids[0]}))
  
     # No Generalization
     for x, ids, sids in zip(ng_res_l, ng_ids, s_ng_ids):
@@ -334,14 +334,14 @@ def spatial_transformation(routedata,sketchroutedata):
             continue
         line = shapely.geometry.LineString(x[0])
         wkt_string = line.wkt
-        features.append(Feature(geometry=shapely.wkt.loads(wkt_string), properties={"genType": "No generalization", "bid": ids[0],"SketchAlign":sids[0]}))
+        features.append(Feature(geometry=shapely.wkt.loads(wkt_string), properties={"genType": "No generalization", "BaseAlign": ids[0],"SketchAlign":sids[0]}))
 
     for x, ids, sids in zip(ng_res_p, ng_ids, s_ng_ids):
         if len(x) == 0: # Skip empty inputs
             continue
         polygon = shapely.geometry.Polygon(x[0])
         wkt_string = polygon.wkt
-        features.append(Feature(geometry=shapely.wkt.loads(wkt_string), properties={"genType": "No generalization", "bid": ids[0],"SketchAlign":sids[0]}))
+        features.append(Feature(geometry=shapely.wkt.loads(wkt_string), properties={"genType": "No generalization", "BaseAlign": ids[0],"SketchAlign":sids[0]}))
     
     feature_collection = FeatureCollection(features)
     base = open(Inputbasepath)
@@ -351,7 +351,7 @@ def spatial_transformation(routedata,sketchroutedata):
     
     # Iterate through feature collection features
     for feature in feature_collection["features"]:
-        base_align = feature["properties"]["bid"]
+        base_align = feature["properties"]["BaseAlign"]
         if isinstance(base_align, list):
             # Initialize an empty dictionary to store the merged properties
             merged_properties = {}
@@ -374,7 +374,7 @@ def spatial_transformation(routedata,sketchroutedata):
     # Iterate through the features in inputbasemap and update coordinates if id matches
     for feature in feature_collection['features']:
         properties = feature['properties']
-        id = properties.get('bid')
+        id = properties.get("BaseAlign")
         # id = str(id_str).strip('[]')
         gen_type = properties.get('genType')
         if gen_type == "No generalization" and id in f_out :

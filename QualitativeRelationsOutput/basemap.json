@@ -6,8 +6,8 @@
         {
             "constraints": [
                 {
-                    "obj 1": "S2",
-                    "obj 2": "S3",
+                    "obj 1": "2",
+                    "obj 2": "3",
                     "relation": "dc"
                 }
             ],
@@ -17,23 +17,23 @@
         {
             "constraints": [
                 {
-                    "obj 1": "S2",
-                    "obj 2": "S0",
+                    "obj 1": "2",
+                    "obj 2": "0",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "S2",
-                    "obj 2": "S1",
+                    "obj 1": "2",
+                    "obj 2": "1",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "S0",
-                    "obj 2": "S3",
+                    "obj 1": "0",
+                    "obj 2": "3",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "S3",
-                    "obj 2": "S1",
+                    "obj 1": "3",
+                    "obj 2": "1",
                     "relation": "disjoint"
                 }
             ],
@@ -43,13 +43,13 @@
         {
             "constraints": [
                 {
-                    "obj 1": "S0",
-                    "obj 2": "S2",
+                    "obj 1": "0",
+                    "obj 2": "2",
                     "relation": "right"
                 },
                 {
-                    "obj 1": "S0",
-                    "obj 2": "S3",
+                    "obj 1": "0",
+                    "obj 2": "3",
                     "relation": "nonAdjacent"
                 }
             ],
@@ -59,8 +59,8 @@
         {
             "constraints": [
                 {
-                    "obj 1": "S0",
-                    "obj 2": "S1",
+                    "obj 1": "0",
+                    "obj 2": "1",
                     "relation": "nonAdjacent"
                 }
             ],
@@ -70,8 +70,8 @@
         {
             "constraints": [
                 {
-                    "obj 1": "S0",
-                    "obj 2": "S1",
+                    "obj 1": "0",
+                    "obj 2": "1",
                     "relation": "disconnected"
                 }
             ],
@@ -87,14 +87,14 @@
     "features": [
         {
             "genType": "Amalgamation",
-            "bid": [
+            "BaseAlign": [
                 3,
                 4,
                 6,
                 5
             ],
             "SketchAlign": "S2",
-            "id": "S2",
+            "id": "2",
             "isRoute": null,
             "feat_type": "Landmark",
             "selected": false,
@@ -104,9 +104,9 @@
         },
         {
             "genType": "OmissionMerge",
-            "bid": 1,
+            "BaseAlign": 1,
             "SketchAlign": "S0",
-            "id": "S0",
+            "id": "0",
             "isRoute": "Yes",
             "feat_type": null,
             "selected": false,
@@ -117,9 +117,9 @@
         },
         {
             "genType": "Collapse",
-            "bid": 7,
+            "BaseAlign": 7,
             "SketchAlign": "S3",
-            "id": "S3",
+            "id": "3",
             "isRoute": null,
             "feat_type": "Landmark",
             "selected": false,
@@ -129,9 +129,9 @@
         },
         {
             "genType": "No generalization",
-            "bid": 2,
+            "BaseAlign": 2,
             "SketchAlign": "S1",
-            "id": "S1",
+            "id": "1",
             "isRoute": null,
             "feat_type": null,
             "selected": false,
