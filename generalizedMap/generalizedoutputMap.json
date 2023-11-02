@@ -409,6 +409,88 @@
         },
         {
             "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            353.0,
+                            412.711207
+                        ],
+                        [
+                            432.0,
+                            458.687528
+                        ],
+                        [
+                            431.0,
+                            329.753934
+                        ],
+                        [
+                            374.0,
+                            342.747242
+                        ],
+                        [
+                            353.0,
+                            412.711207
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "genType": "No generalization",
+                "BaseAlign": 8,
+                "SketchAlign": "S4",
+                "id": 8,
+                "isRoute": null,
+                "feat_type": "Landmark",
+                "selected": false,
+                "aligned": true,
+                "otype": "Polygon"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            462.0,
+                            297.770407
+                        ],
+                        [
+                            505.0,
+                            331.752904
+                        ],
+                        [
+                            532.0,
+                            268.785335
+                        ],
+                        [
+                            490.0,
+                            238.800779
+                        ],
+                        [
+                            462.0,
+                            297.770407
+                        ]
+                    ]
+                ]
+            },
+            "properties": {
+                "genType": "No generalization",
+                "BaseAlign": 9,
+                "SketchAlign": "S5",
+                "id": 9,
+                "isRoute": null,
+                "feat_type": "Landmark",
+                "selected": false,
+                "aligned": true,
+                "otype": "Polygon"
+            }
+        },
+        {
+            "type": "Feature",
             "properties": {
                 "id": 0,
                 "sid": "S0",
@@ -775,6 +857,86 @@
                         [
                             589.177207,
                             168.238168
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 4,
+                "sid": "S4",
+                "isRoute": null,
+                "feat_type": "Landmark",
+                "selected": false,
+                "aligned": true,
+                "otype": "Polygon",
+                "mapType": "Sketch"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            282.078973,
+                            388.124917
+                        ],
+                        [
+                            376.109149,
+                            386.125947
+                        ],
+                        [
+                            363.104976,
+                            300.170218
+                        ],
+                        [
+                            278.077689,
+                            310.16507
+                        ],
+                        [
+                            282.078973,
+                            388.124917
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 5,
+                "sid": "S5",
+                "isRoute": null,
+                "feat_type": "Landmark",
+                "selected": false,
+                "aligned": true,
+                "otype": "Polygon",
+                "mapType": "Sketch"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            440.129695,
+                            383.127491
+                        ],
+                        [
+                            526.157303,
+                            381.128521
+                        ],
+                        [
+                            513.15313,
+                            298.171247
+                        ],
+                        [
+                            430.126485,
+                            308.166099
+                        ],
+                        [
+                            440.129695,
+                            383.127491
                         ]
                     ]
                 ]

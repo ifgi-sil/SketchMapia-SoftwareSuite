@@ -264,6 +264,82 @@
                     ]
                 ]
             }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 8,
+                "isRoute": null,
+                "feat_type": "Landmark",
+                "selected": false,
+                "aligned": true,
+                "otype": "Polygon"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            353,
+                            412.711207
+                        ],
+                        [
+                            432,
+                            458.687528
+                        ],
+                        [
+                            431,
+                            329.753934
+                        ],
+                        [
+                            374,
+                            342.747242
+                        ],
+                        [
+                            353,
+                            412.711207
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 9,
+                "isRoute": null,
+                "feat_type": "Landmark",
+                "selected": false,
+                "aligned": true,
+                "otype": "Polygon"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            462,
+                            297.770407
+                        ],
+                        [
+                            505,
+                            331.752904
+                        ],
+                        [
+                            532,
+                            268.785335
+                        ],
+                        [
+                            490,
+                            238.800779
+                        ],
+                        [
+                            462,
+                            297.770407
+                        ]
+                    ]
+                ]
+            }
         }
     ]
 }

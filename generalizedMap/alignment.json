@@ -60,6 +60,34 @@
             "genType": "OmissionMerge",
             "degreeOfGeneralization": 0.5
         },
-        "checkAlignnum": 5
+        "5": {
+            "BaseAlign": {
+                "0": [
+                    8
+                ]
+            },
+            "SketchAlign": {
+                "0": [
+                    "S4"
+                ]
+            },
+            "genType": "No generalization",
+            "degreeOfGeneralization": 0
+        },
+        "6": {
+            "BaseAlign": {
+                "0": [
+                    9
+                ]
+            },
+            "SketchAlign": {
+                "0": [
+                    "S5"
+                ]
+            },
+            "genType": "No generalization",
+            "degreeOfGeneralization": 0
+        },
+        "checkAlignnum": 7
     }
 }

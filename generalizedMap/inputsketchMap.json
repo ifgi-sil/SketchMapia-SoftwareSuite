@@ -109,6 +109,84 @@
                     168.238168
                 ]
             }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 4,
+                "sid": "S4",
+                "isRoute": null,
+                "feat_type": "Landmark",
+                "selected": false,
+                "aligned": true,
+                "otype": "Polygon"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            282.078973,
+                            388.124917
+                        ],
+                        [
+                            376.109149,
+                            386.125947
+                        ],
+                        [
+                            363.104976,
+                            300.170218
+                        ],
+                        [
+                            278.077689,
+                            310.16507
+                        ],
+                        [
+                            282.078973,
+                            388.124917
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 5,
+                "sid": "S5",
+                "isRoute": null,
+                "feat_type": "Landmark",
+                "selected": false,
+                "aligned": true,
+                "otype": "Polygon"
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            440.129695,
+                            383.127491
+                        ],
+                        [
+                            526.157303,
+                            381.128521
+                        ],
+                        [
+                            513.15313,
+                            298.171247
+                        ],
+                        [
+                            430.126485,
+                            308.166099
+                        ],
+                        [
+                            440.129695,
+                            383.127491
+                        ]
+                    ]
+                ]
+            }
         }
     ]
 }

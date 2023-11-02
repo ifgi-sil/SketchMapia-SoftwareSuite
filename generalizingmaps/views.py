@@ -306,7 +306,10 @@ def spatial_transformation(routedata,sketchroutedata):
         start = sum([len(sub) for sub in ng_res_p])
         end = start + len(sublist)
         ng_res_p.append(no_gen_p[start:end])
-
+    
+    ng_res= ng_res_l + ng_res_p
+    ng_res_f= [sublist for sublist in ng_res if sublist]
+    
     features = []
     # amalgamation 
     for x, ids, sids in zip(poly_res, amal_ids, s_amal_ids):
@@ -329,20 +332,22 @@ def spatial_transformation(routedata,sketchroutedata):
         features.append(Feature(geometry=g1_c, properties={"genType": "Collapse", "BaseAlign": ids[0],"SketchAlign":sids[0]}))
  
     # No Generalization
-    for x, ids, sids in zip(ng_res_l, ng_ids, s_ng_ids):
-        if len(x) == 0: # Skip empty inputs
+    for x, ids, sids in zip(ng_res_f, ng_ids, s_ng_ids):
+        if len(x) == 0:  # Skip empty inputs
             continue
-        line = shapely.geometry.LineString(x[0])
-        wkt_string = line.wkt
-        features.append(Feature(geometry=shapely.wkt.loads(wkt_string), properties={"genType": "No generalization", "BaseAlign": ids[0],"SketchAlign":sids[0]}))
-
-    for x, ids, sids in zip(ng_res_p, ng_ids, s_ng_ids):
-        if len(x) == 0: # Skip empty inputs
+        if isinstance(x[0], shapely.geometry.linestring.LineString):
+            line = shapely.geometry.LineString(x[0])
+            wkt_string = line.wkt
+            gen_type = "No generalization"
+        elif isinstance(x[0], shapely.geometry.polygon.Polygon):
+            polygon = shapely.geometry.Polygon(x[0])
+            wkt_string = polygon.wkt
+            gen_type = "No generalization"
+        else:
             continue
-        polygon = shapely.geometry.Polygon(x[0])
-        wkt_string = polygon.wkt
-        features.append(Feature(geometry=shapely.wkt.loads(wkt_string), properties={"genType": "No generalization", "BaseAlign": ids[0],"SketchAlign":sids[0]}))
-    
+        
+        features.append(Feature(geometry=shapely.wkt.loads(wkt_string), properties={"genType": gen_type, "BaseAlign": ids[0], "SketchAlign": sids[0]}))
+                        
     feature_collection = FeatureCollection(features)
     base = open(Inputbasepath)
     base_data = json.load(base)

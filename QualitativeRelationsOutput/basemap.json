@@ -9,6 +9,31 @@
                     "obj 1": "2",
                     "obj 2": "3",
                     "relation": "dc"
+                },
+                {
+                    "obj 1": "2",
+                    "obj 2": "4",
+                    "relation": "dc"
+                },
+                {
+                    "obj 1": "2",
+                    "obj 2": "5",
+                    "relation": "dc"
+                },
+                {
+                    "obj 1": "3",
+                    "obj 2": "4",
+                    "relation": "dc"
+                },
+                {
+                    "obj 1": "3",
+                    "obj 2": "5",
+                    "relation": "dc"
+                },
+                {
+                    "obj 1": "4",
+                    "obj 2": "5",
+                    "relation": "dc"
                 }
             ],
             "relation_set": "RCC8",
@@ -32,8 +57,28 @@
                     "relation": "disjoint"
                 },
                 {
+                    "obj 1": "0",
+                    "obj 2": "4",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "0",
+                    "obj 2": "5",
+                    "relation": "disjoint"
+                },
+                {
                     "obj 1": "3",
                     "obj 2": "1",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "1",
+                    "obj 2": "4",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "1",
+                    "obj 2": "5",
                     "relation": "disjoint"
                 }
             ],
@@ -50,6 +95,16 @@
                 {
                     "obj 1": "0",
                     "obj 2": "3",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "0",
+                    "obj 2": "4",
+                    "relation": "right"
+                },
+                {
+                    "obj 1": "0",
+                    "obj 2": "5",
                     "relation": "nonAdjacent"
                 }
             ],
@@ -79,7 +134,13 @@
             "arity": 2
         },
         {
-            "constraints": [],
+            "constraints": [
+                {
+                    "obj 1": "2",
+                    "obj 2": "4",
+                    "relation": "before"
+                }
+            ],
             "relation_set": "linearOrdering",
             "arity": 2
         }
@@ -138,6 +199,30 @@
             "aligned": true,
             "otype": "Line",
             "geometry_type": "LineString"
+        },
+        {
+            "genType": "No generalization",
+            "BaseAlign": 8,
+            "SketchAlign": "S4",
+            "id": "4",
+            "isRoute": null,
+            "feat_type": "Landmark",
+            "selected": false,
+            "aligned": true,
+            "otype": "Polygon",
+            "geometry_type": "Polygon"
+        },
+        {
+            "genType": "No generalization",
+            "BaseAlign": 9,
+            "SketchAlign": "S5",
+            "id": "5",
+            "isRoute": null,
+            "feat_type": "Landmark",
+            "selected": false,
+            "aligned": true,
+            "otype": "Polygon",
+            "geometry_type": "Polygon"
         }
     ]
 }
