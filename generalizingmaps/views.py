@@ -186,7 +186,7 @@ def spatial_transformation(routedata,sketchroutedata):
     c_ids =[]
     om_ids=[]
     s_amal_ids = []
-    s_ng_ids = []
+    # s_ng_ids = []
     s_c_ids =[]
     s_om_ids=[]
     for k,v in data.items():
@@ -201,8 +201,8 @@ def spatial_transformation(routedata,sketchroutedata):
                 if val1[key] == "No generalization":
                     ng_id = val1['BaseAlign']['0']
                     ng_ids.append(ng_id)
-                    ng_id1 = val1['SketchAlign']['0']
-                    s_ng_ids.append(ng_id1)
+                    # ng_id1 = val1['SketchAlign']['0']
+                    # s_ng_ids.append(ng_id1)
 
                 if val1[key]== "OmissionMerge":
                     om_id = val1['BaseAlign']['0']
@@ -218,12 +218,13 @@ def spatial_transformation(routedata,sketchroutedata):
 
             except (KeyError,TypeError) as error:
                 continue
-    align.close()
 
     data_ip = json.load(base)
     poly = []
     line = []
     point = []
+    ng_ids_l = []
+    ng_ids_p = []
     no_gen_l = []
     no_gen_p = []
     for i in data_ip['features']:
@@ -259,10 +260,12 @@ def spatial_transformation(routedata,sketchroutedata):
                         # Create a LineString object
                         f_coor = geometry.LineString(coor)
                         no_gen_l.append(f_coor)
+                        ng_ids_l.append(id)
                     else:
                         # Create a Polygon object
                         f_coor = geometry.Polygon(coor[0])
                         no_gen_p.append(f_coor)
+                        ng_ids_p.append(id)
                 else:
                     continue
 
@@ -275,7 +278,6 @@ def spatial_transformation(routedata,sketchroutedata):
                     point.append(f_coor)
                 else:
                     continue
-    base.close()
     
     poly_res = []
     for sublist in amal_ids:
@@ -307,10 +309,25 @@ def spatial_transformation(routedata,sketchroutedata):
         end = start + len(sublist)
         ng_res_p.append(no_gen_p[start:end])
     
-    ng_res= ng_res_l + ng_res_p
-    ng_res_f= [sublist for sublist in ng_res if sublist]
+    s_ng_ids_l = []
+    s_ng_ids_p = []
     
+    # Iterate through the data and update SketchAlign
+    for key, value in data.items():
+        for sub_key, sub_value in value.items():
+            if isinstance(sub_value, dict) and "BaseAlign" in sub_value:
+                base_align_value = sub_value["BaseAlign"]["0"][0]
+                sketch_align_value = sub_value["SketchAlign"]["0"][0]
+                
+                if base_align_value in ng_ids_p:
+                    s_ng_ids_p.append(sketch_align_value)
+                elif base_align_value in ng_ids_l:
+                    s_ng_ids_l.append(sketch_align_value)
+
+    align.close()
+    base.close()
     features = []
+    
     # amalgamation 
     for x, ids, sids in zip(poly_res, amal_ids, s_amal_ids):
         mpt = geometry.MultiPolygon(x)
@@ -332,22 +349,20 @@ def spatial_transformation(routedata,sketchroutedata):
         features.append(Feature(geometry=g1_c, properties={"genType": "Collapse", "BaseAlign": ids[0],"SketchAlign":sids[0]}))
  
     # No Generalization
-    for x, ids, sids in zip(ng_res_f, ng_ids, s_ng_ids):
-        if len(x) == 0:  # Skip empty inputs
+    for x, ids, sids in zip(ng_res_l, ng_ids_l, s_ng_ids_l):
+        if len(x) == 0: # Skip empty inputs
             continue
-        if isinstance(x[0], shapely.geometry.linestring.LineString):
-            line = shapely.geometry.LineString(x[0])
-            wkt_string = line.wkt
-            gen_type = "No generalization"
-        elif isinstance(x[0], shapely.geometry.polygon.Polygon):
-            polygon = shapely.geometry.Polygon(x[0])
-            wkt_string = polygon.wkt
-            gen_type = "No generalization"
-        else:
+        line = shapely.geometry.LineString(x[0])
+        wkt_string = line.wkt
+        features.append(Feature(geometry=shapely.wkt.loads(wkt_string), properties={"genType": "No generalization", "BaseAlign": ids,"SketchAlign":sids}))
+
+    for x, ids, sids in zip(ng_res_p, ng_ids_p, s_ng_ids_p):
+        if len(x) == 0: # Skip empty inputs
             continue
-        
-        features.append(Feature(geometry=shapely.wkt.loads(wkt_string), properties={"genType": gen_type, "BaseAlign": ids[0], "SketchAlign": sids[0]}))
-                        
+        polygon = shapely.geometry.Polygon(x[0])
+        wkt_string = polygon.wkt
+        features.append(Feature(geometry=shapely.wkt.loads(wkt_string), properties={"genType": "No generalization", "BaseAlign": ids,"SketchAlign":sids}))
+          
     feature_collection = FeatureCollection(features)
     base = open(Inputbasepath)
     base_data = json.load(base)
