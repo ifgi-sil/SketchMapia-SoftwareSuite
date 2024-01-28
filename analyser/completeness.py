@@ -30,21 +30,11 @@ def get_cityblockCompleteness(totalSketchedCityblocks,total_mm_cityblocks):
     return cityblockCompleteness
 
 # get overall accuracy
-def get_overall_completness(landmarkCompleteness,streetCompleteness,cityblockCompleteness):
+def get_overall_completness(landmarkCompleteness,streetCompleteness):
     overAllCompleteness = 0.00
-    if(landmarkCompleteness == 0 and streetCompleteness == 0 and cityblockCompleteness == 0):
-        overAllCompleteness = 0.00
-    elif(landmarkCompleteness !=0 and streetCompleteness !=0 and cityblockCompleteness == 0 ):
-        overAllCompleteness = (landmarkCompleteness + streetCompleteness ) / 2
+    overAllCompleteness = (landmarkCompleteness + streetCompleteness) / 2
 
-    elif(landmarkCompleteness !=0 and streetCompleteness ==0 and cityblockCompleteness != 0 ):
-        overAllCompleteness = (landmarkCompleteness + cityblockCompleteness) / 2
 
-    elif (landmarkCompleteness == 0 and streetCompleteness != 0 and cityblockCompleteness != 0):
-        overAllCompleteness = (streetCompleteness + cityblockCompleteness) / 2
-
-    elif (landmarkCompleteness != 0 and streetCompleteness != 0 and cityblockCompleteness != 0):
-        overAllCompleteness = (landmarkCompleteness + streetCompleteness + cityblockCompleteness) / 3
 
     return overAllCompleteness
 
@@ -52,29 +42,25 @@ def get_overall_completness(landmarkCompleteness,streetCompleteness,cityblockCom
 
 def get_cityblocks_mm(mmqcns):
     cb_count=0
-    if  mmqcns['properties']['map_type'] == "metric_map":
-        for feature in mmqcns['features']:
-            if feature['feat_type'] =="Cityblock":
-                cb_count+= 1
+    for feature in mmqcns['features']:
+        if feature['geometry']['type'] =="Cityblock":
+            cb_count+= 1
     return cb_count
 
 
 def get_streets_mm(mmqcns):
     st_count=0
-    if  mmqcns['properties']['map_type'] == "metric_map":
-        for feature in mmqcns['features']:
-            if feature['geometry_type'] =="LineString":
-                st_count+=1
+
+    for feature in mmqcns['features']:
+        if feature['geometry']['type'] =="LineString":
+            st_count+=1
     return st_count
 
 def get_landmarks_mm(mmqcns):
     lm_count=0
-    if  mmqcns['properties']['map_type'] == "metric_map":
-        for feature in mmqcns['features']:
-            #print(feature)
-            if feature['feat_type'] =="Landmark":
-                lm_count+=1
-
+    for feature in mmqcns['features']:
+        if feature['properties']['feat_type'] =="Landmark":
+            lm_count+=1
     return lm_count
 
 
@@ -85,10 +71,9 @@ def get_landmarks_mm(mmqcns):
 
 def get_cityblocks_sm(smqcns):
     cb_count=0
-    if  smqcns['properties']['map_type'] == "sketch_map":
-        for feature in smqcns['features']:
-            if feature['feat_type'] =="Cityblock":
-                cb_count+= 1
+    for feature in smqcns['features']:
+        if feature['feat_type'] =="Cityblock":
+            cb_count+= 1
     return cb_count
 
 """
@@ -96,10 +81,10 @@ def get_cityblocks_sm(smqcns):
 """
 def get_streets_sm(smqcns):
     st_count=0
-    if  smqcns['properties']['map_type'] == "sketch_map":
-        for feature in smqcns['features']:
-            if feature['geometry_type'] =="LineString":
-                st_count+=1
+
+    for feature in smqcns['features']:
+        if feature['geometry']['type'] =="LineString":
+            st_count+=1
     return st_count
 
 """
@@ -107,11 +92,10 @@ def get_streets_sm(smqcns):
 """
 def get_landmarks_sm(smqcns):
     lm_count=0
-    if  smqcns['properties']['map_type'] == "sketch_map":
-        for feature in smqcns['features']:
-            #print(feature)
-            if feature['feat_type'] =="Landmark":
-                lm_count+=1
+
+    for feature in smqcns['features']:
+        if feature['properties']['feat_type'] =="Landmark":
+            lm_count+=1
 
     return lm_count
 

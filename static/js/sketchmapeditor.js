@@ -20,7 +20,8 @@ var drawnItems;
 var addedClickBase = false;
 var addedClickSketch = false;
 var routeOrder = 0;
-
+var allGenBaseMap = {};
+var genbasemap;
 
 $(function() {
 
@@ -99,6 +100,8 @@ function renderImageFile(file, location) {
         layerGroupBasemap.addTo(baseMap);
         layerGroupBasemapGen.addTo(baseMap);
         drawnItems.addTo(layerGroupBasemap);
+
+
         var layerControl = new L.Control.Layers(null, {
             'Base Map': layerGroupBasemap,
             'Generalized Map': layerGroupBasemapGen
@@ -107,10 +110,6 @@ function renderImageFile(file, location) {
 
 $( "#loaded" ).prop( "checked", true );
 $( "#loaded" ).prop( "disabled", false );
-
-
-
-
 
 }
 
@@ -167,6 +166,18 @@ $( "#loaded" ).prop( "disabled", false );
 
  });
 
+
+function removeLayer(id) {
+	layerGroupBasemapGen.eachLayer(function (layer) {
+		if (layer._leaflet_id === id){
+			layerGroupBasemapGen.removeLayer(layer)
+		}
+	});
+}
+
+
+
+
 function clearRoute(){
         drawnItems.eachLayer(function(blayer){
                         blayer.feature.properties.isRoute = null ;
@@ -190,9 +201,10 @@ states: [{
                 })
                 btn.state('label-invisible');    // change state on click!
 
-                if (GenBaseMap != null){
-                       GenBaseMap.eachLayer(function(glayer){
-                        glayer.bindTooltip(String(glayer.feature.properties.id), {permanent:true});
+                if (allGenBaseMap[sketchMaptitle] != null){
+
+                       genbasemap.eachLayer(function(glayer){
+                            glayer.bindTooltip(String(glayer.feature.properties.id), {permanent:true});
                        });
                 }
             }
@@ -205,8 +217,8 @@ states: [{
                  drawnItems.eachLayer(function(blayer){
                     blayer.unbindTooltip();
                 })
-                if (GenBaseMap != null){
-                       GenBaseMap.eachLayer(function(glayer){
+                if (allGenBaseMap[sketchMaptitle] != null){
+                       genbasemap.eachLayer(function(glayer){
                         glayer.unbindTooltip();
                        });
                 }
@@ -459,6 +471,12 @@ drawnItems.eachLayer(function(blayer){
 
         restoreBaseAlignment(alignmentArraySingleMap);
         styleLayers();
+
+        if (allGenBaseMap[sketchMaptitle] != null){
+            layerGroupBasemapGen.clearLayers();
+            genbasemap = allGenBaseMap[sketchMaptitle].addTo(layerGroupBasemapGen);
+            GenStyleLayers(genbasemap);
+         }
         }
         else{
         console.log("No sketchmap own title");
@@ -919,7 +937,7 @@ var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/Generalization
 
 var httpRequest = new XMLHttpRequest();
 httpRequest.open("GET", url, false);
-httpRequest.setRequestHeader("Authorization","fmetoken token=*****")
+httpRequest.setRequestHeader("Authorization","fmetoken token=052c05a3a85fea84fb131d60281131e9ac65787b")
 httpRequest.setRequestHeader("Access-Control-Allow-Origin", "http://localhost:8080");
 httpRequest.setRequestHeader("Accept","text/html");
 httpRequest.setRequestHeader("content-Type","application/x-www-form-urlencoded");
@@ -950,3 +968,4 @@ httpRequest.setRequestHeader("content-Type","application/x-www-form-urlencoded")
 
  return returnValue;
 }
+

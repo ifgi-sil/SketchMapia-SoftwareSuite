@@ -1,11 +1,4 @@
 {% extends 'base.html' %}
-
 {% block content %}
-{% if user.is_authenticated %}
-  Hi {{ user.username }}! You are successfully logged in.  <p><a href="{% url 'generalizingmaps:map' %}">Get started</a></p>
-  <p><a href="{% url 'logout' %}">logout</a></p>
-{% else %}
-  <p>You are not logged in</p>
-  <a href="{% url 'login' %}">login</a>
-{% endif %}
+ <p><a href="{% url 'generalizingmaps:map' %}" >Get started</a></p>
 {% endblock %}
