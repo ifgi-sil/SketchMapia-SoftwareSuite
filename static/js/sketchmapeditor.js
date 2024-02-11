@@ -22,6 +22,8 @@ var addedClickSketch = false;
 var routeOrder = 0;
 var allGenBaseMap = {};
 var genbasemap;
+var BooleanMissingFeature;
+
 
 $(function() {
 
@@ -106,6 +108,7 @@ function renderImageFile(file, location) {
             'Base Map': layerGroupBasemap,
             'Generalized Map': layerGroupBasemapGen
         }).addTo(baseMap);
+        missingFeatureButton.addTo(baseMap);
         }
 
 $( "#loaded" ).prop( "checked", true );
@@ -114,14 +117,13 @@ $( "#loaded" ).prop( "disabled", false );
 }
 
 
- routeButton = L.easyButton({
+ var routeButton = L.easyButton({
 
  states: [{
             stateName: 'Select-Route-Mode-On',        // name the state
             icon:      'fa-arrow-trend-up',               // and define its properties
             title:     'SelectRouteOff',      // like its title
             onClick: function(btn, map) {
-                console.log("On");
                 $($(this)[0]._container).css('display','inline-flex');
                 btn.button.style.boxShadow = 'inset 0 -1px 5px 2px rgba(81, 77, 77, 1)';
 
@@ -158,7 +160,6 @@ $( "#loaded" ).prop( "disabled", false );
                drawnItems.eachLayer(function(blayer){
                 blayer.off('click');
                 });
-                console.log("Off");
                 btn.state('Select-Route-Mode-On');
             }
     }]
@@ -189,7 +190,7 @@ function clearRoute(){
     });
 };
 
-labelButton = L.easyButton({
+var labelButton = L.easyButton({
 states: [{
             stateName: 'label-visible',        // name the state
             icon:      'fa-solid fa-info',               // and define its properties
@@ -228,10 +229,35 @@ states: [{
 });
 
 
+var missingFeatureButton = L.easyButton({
+position: 'topright',
+states: [{
+            stateName: 'missing-invisible',        // name the state
+            icon:      'fa-solid fa-square-xmark',               // and define its properties
+            title:     'hidemissingfeatures',      // like its title
+            onClick: function(btn, map) {
+                btn.button.style.boxShadow = 'inset 0 -1px 5px 2px rgba(81, 77, 77, 1)';
+                btn.state('missing-visible');    // change state on click!
+                BooleanMissingFeature = true;
+                GenStyleLayers(allGenBaseMap[sketchMaptitle]);
+            }
+        }, {
+            stateName: 'missing-visible',
+            icon:      'fa-solid fa-square-xmark',
+            title:     'showmissingfeatures',
+            onClick: function(btn, map) {
+                btn.button.style.boxShadow = null;// and its callback
+                btn.state('missing-invisible');
+                BooleanMissingFeature = false;
+                GenStyleLayers(allGenBaseMap[sketchMaptitle]);
+            }
+    }]
+});
 
 
 
-labelButtonSketchMap = L.easyButton({
+
+var labelButtonSketchMap = L.easyButton({
 states: [{
             stateName: 'label-visible',        // name the state
             icon:      'fa-solid fa-info',               // and define its properties
@@ -412,10 +438,13 @@ drawnItems.eachLayer(function(blayer){
         if(allDrawnSketchItems.hasOwnProperty(sketchMaptitle)){
             drawnSketchItems=allDrawnSketchItems[sketchMaptitle];
             drawnSketchItems.addTo(sketchMap);
-            if (Object.keys(AlignmentArray).length == 0){
+            (!(sketchMaptitle in AlignmentArray))
+            if (!(sketchMaptitle in AlignmentArray)){
                 console.log("inside Alignment Array=0");
                 checkAlignnum = 1;
                 alignmentArraySingleMap={};
+         var idArray = Object.values(drawnSketchItems.toGeoJSON().features).map((item) => item.properties.id);
+         id = Math.max.apply(Math, idArray);
                 drawnSketchItems.eachLayer(function(slayer){
                     slayer.feature.properties.selected = false;
                     slayer.feature.properties.aligned = false;
@@ -441,10 +470,10 @@ drawnItems.eachLayer(function(blayer){
         }
         else{
             console.log("in AlignmentArray");
-
             checkAlignnum = AlignmentArray[sketchMaptitle].checkAlignnum;
             alignmentArraySingleMap=AlignmentArray[sketchMaptitle];
-
+         var idArray = Object.values(drawnSketchItems.toGeoJSON().features).map((item) => item.properties.id);
+         id = Math.max.apply(Math, idArray);
              drawnSketchItems.eachLayer(function(slayer){
                 $.each(alignmentArraySingleMap, function(i, item) {
                     if(alignmentArraySingleMap[i].genType == "Abstraction to show existence"){
@@ -563,7 +592,6 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
 
         sketchMap.on('pm:create', function (event) {
                        id=id+1;
-                       console.log("create id", id);
             var layer = event.layer;
 
             var feature = layer.feature = layer.feature || {}; // Initialize feature
@@ -667,7 +695,6 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
 
 
     function align(BID,SID,num,sketchtype,basetype){
-       console.log(BID,SID,num,sketchtype,basetype);
        var degreeOfGeneralization;
        var BaseAlign={};
        var SketchAlign={};
@@ -676,13 +703,11 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
        degreeOfGeneralization=(BID.length - SID.length)/BID.length;
        var genType;
        (async () => {
-           console.log(sketchtype,basetype);
           genType = await predictGeneralization(sketchtype,basetype);
           if(genType!= "Generalization Not possible") {
           alignmentArraySingleMap[num]={BaseAlign,SketchAlign,genType,degreeOfGeneralization};
           }
           if(genType == "Abstraction to show existence"){
-                console.log("Group Yes");
                 drawnItems.eachLayer(function(blayer){
                        if(BID.includes(blayer.feature.properties.id)){
                             blayer.feature.properties.group = true;
@@ -862,7 +887,6 @@ $.each(alignmentArraySingleMap, function(i, item) {
         blayer.feature.properties.aligned=false;
      }
      });
-    console.log("removed",alignmentArraySingleMap[i]);
      delete alignmentArraySingleMap[i];
      styleLayers();
     }

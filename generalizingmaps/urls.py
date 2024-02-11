@@ -8,4 +8,5 @@ urlpatterns = [
     path('analyzeInputMap/',views.analyzeInputMap),
     path('requestFME/',views.requestFME),
     path('', views.map, name='map'),
+    path('clearFiles/',views.clearFiles),
 ]

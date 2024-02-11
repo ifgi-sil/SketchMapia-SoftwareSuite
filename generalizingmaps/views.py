@@ -9,6 +9,9 @@ from analyser import qualitativeAnalyser
 from qualifier import qualify_map
 import json
 import os
+import glob
+import time
+
 
 
 global G
@@ -29,7 +32,6 @@ def requestFME(request):
 
         #response = requests.get('http://desktop-f25rpfv:8080/fmedatastreaming/Generalization/generalizer.fmw?', params=query)
         USER_PROJ_DIR = "generalizedMap"
-        print ("outside if",basedata)
         baseMapdata = json.loads(basedata)
         sketchMapdata = json.loads(sketchdata)
         try:
@@ -53,8 +55,14 @@ def requestFME(request):
 
 
 
+def clearFiles(request):
+    files = glob.glob('QualitativeRelationsOutput/*')
+    print(files)
 
-
+    for f in files:
+        print(f)
+        os.remove(f)
+    return HttpResponse()
 
 
 #@app.route("/mmReceiver", methods=["POST", "GET"])
@@ -64,17 +72,17 @@ def mmGeoJsonReceiver(request):
     global SM_QCN_PATH
     global MM_QCN_PATH
     #global USER_PROJ_DIR
+
+
     fileName_full = str(request.POST.get('metricFileName'))
     MMGeoJsonData = request.POST.get('MMGeoJsonData')
     MMGeoJsonData = json.loads(MMGeoJsonData)
-    print("here is MMGeoJsonData:", fileName_full)
     fileName, extension = os.path.splitext(fileName_full)
 
     data_format = "geojson"
     map_type = "metric_map"
 
     MetricMap_QCNS = qualify_map.main_loader(fileName, MMGeoJsonData, data_format, map_type)
-    print("check" + fileName_full,MetricMap_QCNS)
     USER_PROJ_DIR = "QualitativeRelationsOutput"
     try:
         MM_QCN_PATH = os.path.join(USER_PROJ_DIR,fileName_full+".json")
@@ -86,6 +94,8 @@ def mmGeoJsonReceiver(request):
         f = open(MM_QCN_PATH, "a+")
         f.write(json.dumps(MetricMap_QCNS,indent=4))
         f.close()
+
+
     except IOError:
         print("Metric map QCNs json path problem ")
     return HttpResponse(json.dumps(MetricMap_QCNS,indent=4))
@@ -108,14 +118,12 @@ def smGeoJsonReceiver(request):
     SMGeoJsonData = json.loads(SMGeoJsonData)
     # print("here svg file and content:",fileName_full, svgContent)
     fileName, extension = os.path.splitext(fileName_full)
-    print("here is SMGeoJsonData:",fileName_full)
     #smGeoJson = request.get_json()
     data_format = "geojson"
     map_type = "sketch_map"
 
     sketchMap_QCNS = qualify_map.main_loader(fileName, SMGeoJsonData, data_format, map_type)
     USER_PROJ_DIR = "QualitativeRelationsOutput"
-    print("check"+fileName_full,sketchMap_QCNS)
     try:
         SM_QCN_PATH = os.path.join(USER_PROJ_DIR,fileName_full+".json")
         #filepath = './output/'+str("sketchMapID")+'.json'
@@ -126,6 +134,7 @@ def smGeoJsonReceiver(request):
         f = open(SM_QCN_PATH, "a+")
         f.write(json.dumps(sketchMap_QCNS,indent=4))
         f.close()
+
     except IOError:
         print("Sketch map QCNs json path problem ")
     return HttpResponse(json.dumps(sketchMap_QCNS, indent=4))
@@ -139,7 +148,8 @@ def analyzeInputMap(request):
         sketchmapdata = request.POST.get('sketchmapdata')
         metricmapdata = request.POST.get('metricmapdata')
         print("name", sketchFileName, metricFileName,qa)
-
+        print("METRIC",metricmapdata)
+        print("SKETCH",sketchmapdata)
         metricMap = json.loads(metricmapdata)
         sketchMap = json.loads(sketchmapdata)
 
@@ -164,7 +174,7 @@ def analyzeInputMap(request):
         # session['cityblockCompleteness'] = cityblockCompleteness
         overAllCompleteness = completeness.get_overall_completness(landmarkCompleteness, streetCompleteness)
         # session['overAllCompleteness'] = overAllCompleteness
-        print (overAllCompleteness)
+        print ("Landmarks :",total_mm_landmarks,"Streets:", toal_mm_streets)
         result = {"sketchMapID": sketchFileName, "total_mm_landmarks": total_mm_landmarks,
                                "toal_mm_streets": toal_mm_streets,
                                "totalSketchedLandmarks": totalSketchedLandmarks,
@@ -181,18 +191,34 @@ def analyzeInputMap(request):
             MM_QCN_PATH = os.path.join(USER_PROJ_DIR, metricFileName + ".json")
             SM_QCN_PATH = os.path.join(USER_PROJ_DIR, sketchFileName + ".json")
 
-            with open(MM_QCN_PATH, 'r+') as mmjsonqcn:
+            while not os.path.exists(MM_QCN_PATH):
+                time.sleep(1)
 
-                try:
-                    metricMapQCNs = json.load(mmjsonqcn)
-                except IOError:
-                    print("metric_map.json is not loading ")
+            if os.path.isfile(MM_QCN_PATH):
+                with open(MM_QCN_PATH, 'r+') as mmjsonqcn:
 
-            with open(SM_QCN_PATH, 'r+') as smjsonqcn:
-                try:
-                    sketchMapQCNs = json.load(smjsonqcn)
-                except IOError:
-                    print("sketch_map.json is not loading ")
+                    try:
+                        metricMapQCNs = json.load(mmjsonqcn)
+                    except IOError:
+                        print("metric_map.json is not loading ")
+            else:
+                raise ValueError("%s isn't a file!" % MM_QCN_PATH)
+
+            while not os.path.exists(SM_QCN_PATH):
+                time.sleep(1)
+
+            if os.path.isfile(SM_QCN_PATH):
+                with open(SM_QCN_PATH, 'r+') as smjsonqcn:
+                    try:
+                        sketchMapQCNs = json.load(smjsonqcn)
+                    except IOError:
+                        print("sketch_map.json is not loading ")
+            else:
+                raise ValueError("%s isn't a file!" % SM_QCN_PATH)
+
+
+
+
 
             """
                 Measure the correct relations using RCC11

@@ -3,23 +3,22 @@
   <component name="ChangeListManager">
     <list default="true" id="ddc94cae-33dc-48ab-ba60-fb9a8106a848" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QualitativeRelationsOutput/basemap.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/QualitativeRelationsOutput/sketchmap.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sketchmap_generalize/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sketchmap_generalize/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analyser/completeness.py" beforeDir="false" afterPath="$PROJECT_DIR$/analyser/completeness.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generalizedMap/basemap.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QualitativeRelationsOutput/basemapForsketchMap1.JPG.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QualitativeRelationsOutput/basemapForsketchMap2.JPG.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QualitativeRelationsOutput/basemapForsketchMap3.JPG.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QualitativeRelationsOutput/basemapForsketchMap4.JPG.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QualitativeRelationsOutput/basemapForsketchMap5.JPG.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QualitativeRelationsOutput/sketchMap1.JPG.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QualitativeRelationsOutput/sketchMap2.JPG.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QualitativeRelationsOutput/sketchMap3.JPG.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QualitativeRelationsOutput/sketchMap4.JPG.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/QualitativeRelationsOutput/sketchMap5.JPG.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/generalizedMap/inputbaseMap.json" beforeDir="false" afterPath="$PROJECT_DIR$/generalizedMap/inputbaseMap.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/generalizedMap/inputsketchMap.json" beforeDir="false" afterPath="$PROJECT_DIR$/generalizedMap/inputsketchMap.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generalizedMap/sketchmap.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/generalizingmaps/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/generalizingmaps/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/generalizingmaps/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/generalizingmaps/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/main.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/js/project.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/project.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/js/sketchmapeditor.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/sketchmapeditor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/generalizingmaps.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/generalizingmaps.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/results.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/results.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,100 +29,22 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/generalizingmaps/views.py">
+        <entry file="file://$PROJECT_DIR$/analyser/completeness.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-731">
-              <caret line="23" column="29" selection-start-line="23" selection-start-column="29" selection-end-line="23" selection-end-column="29" />
+            <state relative-caret-position="-208">
+              <caret line="26" column="27" selection-start-line="26" selection-start-column="27" selection-end-line="26" selection-end-column="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/generalizingmaps/urls.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="6" column="20" selection-start-line="6" selection-start-column="10" selection-end-line="6" selection-end-column="20" />
               <folding>
-                <element signature="e#0#35#0" expanded="true" />
+                <element signature="e#0#28#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Sketchmap_generalize/settings.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="48" column="27" selection-start-line="48" selection-start-column="23" selection-end-line="48" selection-end-column="27" />
-              <folding>
-                <element signature="e#321#330#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/generalizingmaps.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="39">
-              <caret line="114" column="33" selection-start-line="114" selection-start-column="33" selection-end-line="114" selection-end-column="33" />
-              <folding>
-                <element signature="n#style#0;n#label#0;n#nav#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#label#1;n#nav#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#label#2;n#nav#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#1;n#label#2;n#nav#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#i#0;n#p#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#label#0;n#li#0;n#ul#1;n#li#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#li#0;n#ul#1;n#li#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#i#0;n#p#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#2;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#3;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#label#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#label#0;n#li#0;n#ul#0;n#div#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#li#0;n#ul#0;n#div#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#label#0;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#form#0;n#div#1;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#form#0;n#div#1;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/manage.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="17" selection-start-line="17" selection-end-line="17" />
-              <folding>
-                <element signature="e#84#93#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/static/js/project.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1551">
-              <caret line="714" column="45" selection-start-line="714" selection-start-column="45" selection-end-line="714" selection-end-column="45" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/css/main.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="260">
-              <caret line="39" column="24" selection-start-line="39" selection-start-column="24" selection-end-line="39" selection-end-column="24" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/results.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="172">
-              <caret line="35" column="9" selection-start-line="35" selection-start-column="9" selection-end-line="35" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -131,8 +52,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/js/sketchmapeditor.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
-              <caret line="221" column="45" selection-start-line="221" selection-start-column="45" selection-end-line="221" selection-end-column="45" />
+            <state relative-caret-position="98">
+              <caret line="471" column="18" selection-start-line="471" selection-start-column="12" selection-end-line="471" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -149,8 +70,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/base.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
+            <state relative-caret-position="204">
               <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/static/js/project.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="132">
+              <caret line="703" column="64" selection-start-line="703" selection-start-column="64" selection-end-line="703" selection-end-column="64" />
             </state>
           </provider>
         </entry>
@@ -167,36 +97,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Gen</find>
-      <find>Genhoverfunction</find>
-      <find>GenchangestyleOnHover</find>
-      <find>genbas</find>
-      <find>gen</find>
-      <find>allGenBaseMap</find>
-      <find>allgen</find>
-      <find>html</find>
-      <find>Generaliza</find>
-      <find>responseArray</find>
-      <find>genres</find>
-      <find>setresu</find>
-      <find>comple</find>
-      <find>totalSketchedStreets</find>
-      <find>index</find>
-      <find>missingFeaturesIds</find>
-      <find>overAllCompleteness</find>
-      <find>genresu</find>
-      <find>csrf</find>
-      <find>sketchmap</find>
-      <find>export</find>
+      <find>ajax</find>
+      <find>data</find>
+      <find>for</find>
+      <find>missingfe</find>
+      <find>opacity</find>
       <find>button</find>
-      <find>align</find>
-      <find>select</find>
-      <find>oval</find>
-      <find>miss</find>
       <find>missing</find>
-      <find>count</find>
-      <find>missingFeaturesCount</find>
-      <find>omissionmerge</find>
+      <find>missin</find>
+      <find>basemap</find>
+      <find>analyse</find>
+      <find>genresu</find>
+      <find>multiomi</find>
+      <find>round</find>
+      <find>generaliz</find>
+      <find>roundaboutcount</find>
+      <find>qualRelationsBaseMap</find>
+      <find>roundaboutids</find>
+      <find>multio</find>
+      <find>multiOmiMergeids</find>
+      <find>multiOmiMerge</find>
+      <find>missingFeaturesIds</find>
+      <find>multiOmi</find>
+      <find>style</find>
+      <find>layergr</find>
+      <find>gen</find>
+      <find>missingFeatureButton</find>
+      <find>baseMap</find>
+      <find>styleLayers</find>
+      <find>console</find>
+      <find>consol</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -227,7 +157,6 @@
         <option value="$USER_HOME$/Anaconda3/Lib/site-packages/osmnx/pois.py" />
         <option value="$USER_HOME$/Anaconda3/Lib/site-packages/osmnx/io.py" />
         <option value="$PROJECT_DIR$/templates/degreeOfGeneralization.html" />
-        <option value="$PROJECT_DIR$/Sketchmap_generalize/urls.py" />
         <option value="$PROJECT_DIR$/static/js/modules/uplaodfile.js" />
         <option value="$PROJECT_DIR$/static/scss/core/upload.scss" />
         <option value="$PROJECT_DIR$/static/js/modules/imageuploader.js" />
@@ -244,15 +173,16 @@
         <option value="$PROJECT_DIR$/static/css/leaflet.geomann.css" />
         <option value="$PROJECT_DIR$/static/css/leaflet-geoman.css" />
         <option value="$PROJECT_DIR$/static/js/sketchMap_sma_script.js" />
-        <option value="$PROJECT_DIR$/generalizingmaps/urls.py" />
         <option value="$PROJECT_DIR$/analyser/completeness.py" />
         <option value="$PROJECT_DIR$/Sketchmap_generalize/settings.py" />
-        <option value="$PROJECT_DIR$/generalizingmaps/views.py" />
         <option value="$PROJECT_DIR$/templates/home.html" />
-        <option value="$PROJECT_DIR$/static/js/sketchmapeditor.js" />
         <option value="$PROJECT_DIR$/templates/results.html" />
         <option value="$PROJECT_DIR$/templates/generalizingmaps.html" />
         <option value="$PROJECT_DIR$/static/css/main.css" />
+        <option value="$PROJECT_DIR$/Sketchmap_generalize/urls.py" />
+        <option value="$PROJECT_DIR$/generalizingmaps/urls.py" />
+        <option value="$PROJECT_DIR$/generalizingmaps/views.py" />
+        <option value="$PROJECT_DIR$/static/js/sketchmapeditor.js" />
         <option value="$PROJECT_DIR$/static/js/project.js" />
       </list>
     </option>
@@ -269,17 +199,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope">
-        <subPane subId="Scope 'Default Changelist'; set:Default Changelist; class com.intellij.packageDependencies.ChangeListScope">
-          <expand>
-            <path>
-              <item name="Sketchmap_generalize" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="F:\Sketchmap_generalize" type="442cc68d:ScopeViewTreeModel$RootNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -310,16 +229,6 @@
             <path>
               <item name="Sketchmap_generalize" type="b2602c69:ProjectViewProjectNode" />
               <item name="Sketchmap_generalize" type="462c0819:PsiDirectoryNode" />
-              <item name="qualifier" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Sketchmap_generalize" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Sketchmap_generalize" type="462c0819:PsiDirectoryNode" />
-              <item name="QualitativeRelationsOutput" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Sketchmap_generalize" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Sketchmap_generalize" type="462c0819:PsiDirectoryNode" />
               <item name="Sketchmap_generalize" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -336,13 +245,18 @@
             <path>
               <item name="Sketchmap_generalize" type="b2602c69:ProjectViewProjectNode" />
               <item name="Sketchmap_generalize" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Sketchmap_generalize" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Sketchmap_generalize" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Scope 'Default Changelist'; set:Default Changelist; class com.intellij.packageDependencies.ChangeListScope">
+          <expand>
+            <path>
+              <item name="Sketchmap_generalize" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="F:\Sketchmap_generalize" type="442cc68d:ScopeViewTreeModel$RootNode" />
             </path>
           </expand>
           <select />
@@ -492,14 +406,14 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32871974" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.8070313" visible="true" weight="0.39446366" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.9015625" visible="true" weight="0.39446366" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49921876" weight="0.3993174" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.32871974" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.19296876" side_tool="true" weight="0.3217993" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.0984375" side_tool="true" visible="true" weight="0.39446366" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.32871974" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -530,31 +444,6 @@
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.js" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/static/js/map.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27438">
-          <caret line="1614" column="37" selection-start-line="1612" selection-start-column="33" selection-end-line="1614" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/QualitativeRelationsOutput/basemap.json" />
-    <entry file="file://$PROJECT_DIR$/generalizedMap/inputsketchMap.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="232">
-          <caret line="1209" column="14" selection-start-line="1209" selection-start-column="14" selection-end-line="1209" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/sketchMap_sma_script.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="875" column="27" selection-start-line="875" selection-start-column="27" selection-end-line="875" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Sketchmap_generalize/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/db.sqlite3">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -574,16 +463,6 @@
           <caret line="14" selection-start-line="14" selection-end-line="14" />
           <folding>
             <element signature="e#236#245#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Sketchmap_generalize/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="24" column="75" selection-start-line="24" selection-start-column="75" selection-end-line="24" selection-end-column="75" />
-          <folding>
-            <element signature="e#644#680#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -608,13 +487,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/generalizedMap/basemap.json" />
     <entry file="file://$PROJECT_DIR$/QualitativeRelationsOutput/sketchmap.json" />
-    <entry file="file://$PROJECT_DIR$/generalizedMap/inputbaseMap.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="838" column="26" selection-start-line="838" selection-start-column="26" selection-end-line="838" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Anaconda3/Lib/urllib/parse.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="96">
@@ -632,9 +504,7 @@
     <entry file="file://$PROJECT_DIR$/static/js/underscore-min.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/QualitativeRelationsOutput/basemapForsketchMap2.JPG.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/QualitativeRelationsOutput/basemapForsketchMap2.JPG.json" />
     <entry file="file://$PROJECT_DIR$/generalizingmaps/apps.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -642,16 +512,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="171" column="10" selection-start-line="171" selection-start-column="10" selection-end-line="171" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/accounts/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="27" selection-start-line="7" selection-start-column="27" selection-end-line="7" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#54#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -671,16 +531,6 @@
     <entry file="file://$PROJECT_DIR$/accounts/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state>
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/generalizingmaps/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="36" selection-start-line="9" selection-start-column="36" selection-end-line="9" selection-end-column="36" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
@@ -721,13 +571,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/analyser/completeness.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="73">
-          <caret line="60" column="38" selection-start-line="60" selection-start-column="38" selection-end-line="60" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/qualifier/qualify_map.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -735,46 +578,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/QualitativeRelationsOutput/sketchMap1.JPG.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/QualitativeRelationsOutput/basemapForsketchMap1.JPG.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/home.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="25" selection-start-column="25" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/generalizingmaps/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-731">
-          <caret line="23" column="29" selection-start-line="23" selection-start-column="29" selection-end-line="23" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/static/js/sketchmapeditor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="221" column="45" selection-start-line="221" selection-start-column="45" selection-end-line="221" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/QualitativeRelationsOutput/sketchMap1.JPG.json" />
+    <entry file="file://$PROJECT_DIR$/QualitativeRelationsOutput/basemapForsketchMap1.JPG.json" />
     <entry file="file://$PROJECT_DIR$/Sketchmap_generalize/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
+        <state relative-caret-position="799">
           <caret line="48" column="27" selection-start-line="48" selection-start-column="23" selection-end-line="48" selection-end-column="27" />
           <folding>
             <element signature="e#321#330#0" expanded="true" />
@@ -784,7 +592,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/manage.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
+        <state relative-caret-position="272">
           <caret line="17" selection-start-line="17" selection-end-line="17" />
           <folding>
             <element signature="e#84#93#0" expanded="true" />
@@ -792,9 +600,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/static/css/main.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="663">
+          <caret line="39" column="24" selection-start-line="39" selection-start-column="24" selection-end-line="39" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/templates/results.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="172">
+        <state relative-caret-position="595">
           <caret line="35" column="9" selection-start-line="35" selection-start-column="9" selection-end-line="35" selection-end-column="9" />
         </state>
       </provider>
@@ -810,8 +625,6 @@
             <element signature="n#style#0;n#span#1;n#label#2;n#nav#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#i#0;n#p#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#label#0;n#li#0;n#ul#1;n#li#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#li#0;n#ul#1;n#li#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#i#0;n#p#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#span#2;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#span#3;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -833,17 +646,94 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/css/main.css">
+    <entry file="file://$PROJECT_DIR$/accounts/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="39" column="24" selection-start-line="39" selection-start-column="24" selection-end-line="39" selection-end-column="24" />
+        <state relative-caret-position="119">
+          <caret line="7" column="27" selection-start-line="7" selection-start-column="27" selection-end-line="7" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#54#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/QualitativeRelationsOutput/basemapForLocation_10.jpg.json" />
+    <entry file="file://$PROJECT_DIR$/Sketchmap_generalize/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="172">
+          <caret line="24" column="10" selection-start-line="24" selection-start-column="10" selection-end-line="24" selection-end-column="10" />
+          <folding>
+            <element signature="e#644#680#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/QualitativeRelationsOutput/basemapForLocation_8.jpg.json" />
+    <entry file="file://$PROJECT_DIR$/QualitativeRelationsOutput/Location_4.jpg.json" />
+    <entry file="file://$PROJECT_DIR$/QualitativeRelationsOutput/Location_3.jpg.json" />
+    <entry file="file://$PROJECT_DIR$/generalizingmaps/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1071">
+          <caret line="63" column="20" selection-start-line="63" selection-start-column="20" selection-end-line="63" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/generalizedMap/inputbaseMap.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="14382">
+          <caret line="846" column="10" selection-start-line="846" selection-start-column="10" selection-end-line="846" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/generalizedMap/inputsketchMap.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-867" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/generalizingmaps/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="20" selection-start-line="6" selection-start-column="10" selection-end-line="6" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/home.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="25" selection-start-column="25" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/js/sketchmapeditor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="98">
+          <caret line="471" column="18" selection-start-line="471" selection-start-column="12" selection-end-line="471" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/analyser/completeness.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-208">
+          <caret line="26" column="27" selection-start-line="26" selection-start-column="27" selection-end-line="26" selection-end-column="27" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/static/js/project.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1551">
-          <caret line="714" column="45" selection-start-line="714" selection-start-column="45" selection-end-line="714" selection-end-column="45" />
+        <state relative-caret-position="132">
+          <caret line="703" column="64" selection-start-line="703" selection-start-column="64" selection-end-line="703" selection-end-column="64" />
         </state>
       </provider>
     </entry>
