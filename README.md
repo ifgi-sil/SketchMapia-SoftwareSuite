@@ -32,7 +32,7 @@ The project could be save anytime using the "Download Project" available in the 
 The downlaoded project could be uploaded later to continue the analysis process.
 ### Upload Project
  1. Upload Base map image.
- 2. Upload all the files from the downloaded project.
+ 2. Upload all the files from the downloaded project using the "Upload Project" available in the "File" menu at the top-left.
  3. Upload all the sketch map images.
     It is important to maintain this order while uploading an existing project.
 
