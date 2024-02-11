@@ -19,9 +19,13 @@
 14. Hovering over the aligned feature in the sketch map would highlight the corresponding feature in metric map to which it is aligned.
 15. Continue the process of annotation and alignment, till all features in the sketch map that are present in metric map are aligned.
  #### For annotation :
-   If a feature has no demarcation in the sketch map, but is only respresented through labels, then the center of the label is to annotated using a point.
-   Street from one junction to another junction is to be annotated as a single street segment.
-16. Once alignment process is completed, please save the sketch m
+  - If a feature has no demarcation in the sketch map, but is only respresented through labels, then the center of the label is to annotated using a point.
+  - Street from one junction to another junction is to be annotated as a single street segment.
+16. Once alignment process is completed, please save the sketch map. (This step should not be skipped in order to get the results)
+17. To go to the next sketch map, click on the blue bar with dropdown symbol in the right side of the align button. The uploaded list of sketch maps appear. Click on any other sketch map.
+18. Repeat steps 10 to 16 and then move to the next sketch map.
+19. Once all sketch maps are annotated, aligned and saved, click the "Analyse" Button. (There is an option to )
+### Results
+ The Analysis process takes a longer time. Please wait till a modal appears and the completeness, generalization and qualitative acc
 
 
-### From Saved Project
