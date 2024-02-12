@@ -36,9 +36,8 @@
                 "isRoute": null,
                 "feat_type": null,
                 "selected": false,
-                "aligned": false,
-                "otype": "Line",
-                "missing": true
+                "aligned": true,
+                "otype": "Line"
             },
             "geometry": {
                 "type": "LineString",
@@ -164,9 +163,8 @@
                 "isRoute": null,
                 "feat_type": null,
                 "selected": false,
-                "aligned": false,
-                "otype": "Line",
-                "missing": true
+                "aligned": true,
+                "otype": "Line"
             },
             "geometry": {
                 "type": "LineString",
@@ -283,9 +281,10 @@
                 "isRoute": "Yes",
                 "feat_type": null,
                 "selected": false,
-                "aligned": true,
+                "aligned": false,
                 "otype": "Line",
-                "RouteSeqOrder": 16
+                "RouteSeqOrder": 16,
+                "missing": true
             },
             "geometry": {
                 "type": "LineString",
@@ -369,8 +368,9 @@
                 "isRoute": null,
                 "feat_type": null,
                 "selected": false,
-                "aligned": true,
-                "otype": "Line"
+                "aligned": false,
+                "otype": "Line",
+                "missing": true
             },
             "geometry": {
                 "type": "LineString",
@@ -393,9 +393,8 @@
                 "isRoute": null,
                 "feat_type": null,
                 "selected": false,
-                "aligned": false,
-                "otype": "Line",
-                "missing": true
+                "aligned": true,
+                "otype": "Line"
             },
             "geometry": {
                 "type": "LineString",
@@ -532,9 +531,7 @@
                 "feat_type": null,
                 "selected": false,
                 "aligned": true,
-                "otype": "Line",
-                "group": true,
-                "groupID": "17"
+                "otype": "Line"
             },
             "geometry": {
                 "type": "LineString",
@@ -641,9 +638,8 @@
                 "isRoute": null,
                 "feat_type": null,
                 "selected": false,
-                "aligned": false,
-                "otype": "Line",
-                "missing": true
+                "aligned": true,
+                "otype": "Line"
             },
             "geometry": {
                 "type": "LineString",
@@ -666,9 +662,8 @@
                 "isRoute": null,
                 "feat_type": null,
                 "selected": false,
-                "aligned": false,
-                "otype": "Line",
-                "missing": true
+                "aligned": true,
+                "otype": "Line"
             },
             "geometry": {
                 "type": "LineString",
@@ -703,9 +698,8 @@
                 "isRoute": null,
                 "feat_type": null,
                 "selected": false,
-                "aligned": false,
-                "otype": "Line",
-                "missing": true
+                "aligned": true,
+                "otype": "Line"
             },
             "geometry": {
                 "type": "LineString",
@@ -732,9 +726,8 @@
                 "isRoute": null,
                 "feat_type": null,
                 "selected": false,
-                "aligned": false,
-                "otype": "Line",
-                "missing": true
+                "aligned": true,
+                "otype": "Line"
             },
             "geometry": {
                 "type": "LineString",
@@ -757,9 +750,8 @@
                 "isRoute": null,
                 "feat_type": null,
                 "selected": false,
-                "aligned": false,
-                "otype": "Line",
-                "missing": true
+                "aligned": true,
+                "otype": "Line"
             },
             "geometry": {
                 "type": "LineString",
@@ -1097,9 +1089,7 @@
                 "feat_type": "Landmark",
                 "selected": false,
                 "aligned": true,
-                "otype": "Polygon",
-                "group": true,
-                "groupID": "12"
+                "otype": "Polygon"
             },
             "geometry": {
                 "type": "Polygon",
@@ -1137,9 +1127,7 @@
                 "feat_type": "Landmark",
                 "selected": false,
                 "aligned": true,
-                "otype": "Polygon",
-                "group": true,
-                "groupID": "12"
+                "otype": "Polygon"
             },
             "geometry": {
                 "type": "Polygon",
@@ -1177,9 +1165,7 @@
                 "feat_type": "Landmark",
                 "selected": false,
                 "aligned": true,
-                "otype": "Polygon",
-                "group": true,
-                "groupID": "12"
+                "otype": "Polygon"
             },
             "geometry": {
                 "type": "Polygon",
@@ -1217,9 +1203,7 @@
                 "feat_type": "Landmark",
                 "selected": false,
                 "aligned": true,
-                "otype": "Polygon",
-                "group": true,
-                "groupID": "12"
+                "otype": "Polygon"
             },
             "geometry": {
                 "type": "Polygon",
@@ -1256,8 +1240,9 @@
                 "isRoute": null,
                 "feat_type": "Landmark",
                 "selected": false,
-                "aligned": true,
-                "otype": "Polygon"
+                "aligned": false,
+                "otype": "Polygon",
+                "missing": true
             },
             "geometry": {
                 "type": "Polygon",
@@ -1294,8 +1279,9 @@
                 "isRoute": null,
                 "feat_type": "Landmark",
                 "selected": false,
-                "aligned": true,
-                "otype": "Polygon"
+                "aligned": false,
+                "otype": "Polygon",
+                "missing": true
             },
             "geometry": {
                 "type": "Polygon",
@@ -1332,8 +1318,9 @@
                 "isRoute": null,
                 "feat_type": "Landmark",
                 "selected": false,
-                "aligned": true,
-                "otype": "Polygon"
+                "aligned": false,
+                "otype": "Polygon",
+                "missing": true
             },
             "geometry": {
                 "type": "Polygon",
@@ -1370,8 +1357,9 @@
                 "isRoute": null,
                 "feat_type": "Landmark",
                 "selected": false,
-                "aligned": true,
-                "otype": "Polygon"
+                "aligned": false,
+                "otype": "Polygon",
+                "missing": true
             },
             "geometry": {
                 "type": "Polygon",
@@ -1955,8 +1943,9 @@
                 "isRoute": null,
                 "feat_type": "Landmark",
                 "selected": false,
-                "aligned": true,
-                "otype": "Polygon"
+                "aligned": false,
+                "otype": "Polygon",
+                "missing": true
             },
             "geometry": {
                 "type": "Polygon",
@@ -3692,9 +3681,7 @@
                 "feat_type": null,
                 "selected": false,
                 "aligned": true,
-                "otype": "Line",
-                "group": true,
-                "groupID": "17"
+                "otype": "Line"
             },
             "geometry": {
                 "type": "LineString",
@@ -3718,9 +3705,7 @@
                 "feat_type": null,
                 "selected": false,
                 "aligned": true,
-                "otype": "Line",
-                "group": true,
-                "groupID": "17"
+                "otype": "Line"
             },
             "geometry": {
                 "type": "LineString",
@@ -3743,10 +3728,9 @@
                 "isRoute": null,
                 "feat_type": null,
                 "selected": false,
-                "aligned": true,
+                "aligned": false,
                 "otype": "Line",
-                "group": true,
-                "groupID": "18"
+                "missing": true
             },
             "geometry": {
                 "type": "LineString",
@@ -3781,10 +3765,9 @@
                 "isRoute": null,
                 "feat_type": null,
                 "selected": false,
-                "aligned": true,
+                "aligned": false,
                 "otype": "Line",
-                "group": true,
-                "groupID": "18"
+                "missing": true
             },
             "geometry": {
                 "type": "LineString",
@@ -3831,10 +3814,9 @@
                 "isRoute": null,
                 "feat_type": null,
                 "selected": false,
-                "aligned": true,
+                "aligned": false,
                 "otype": "Line",
-                "group": true,
-                "groupID": "18"
+                "missing": true
             },
             "geometry": {
                 "type": "LineString",
@@ -3866,9 +3848,7 @@
                 "feat_type": null,
                 "selected": false,
                 "aligned": true,
-                "otype": "Line",
-                "group": true,
-                "groupID": "17"
+                "otype": "Line"
             },
             "geometry": {
                 "type": "LineString",
@@ -3892,9 +3872,7 @@
                 "feat_type": null,
                 "selected": false,
                 "aligned": true,
-                "otype": "Line",
-                "group": true,
-                "groupID": "17"
+                "otype": "Line"
             },
             "geometry": {
                 "type": "LineString",
@@ -4379,9 +4357,7 @@
                 "feat_type": null,
                 "selected": false,
                 "aligned": true,
-                "otype": "Line",
-                "group": true,
-                "groupID": "17"
+                "otype": "Line"
             },
             "geometry": {
                 "type": "LineString",
@@ -4405,9 +4381,7 @@
                 "feat_type": null,
                 "selected": false,
                 "aligned": true,
-                "otype": "Line",
-                "group": true,
-                "groupID": "17"
+                "otype": "Line"
             },
             "geometry": {
                 "type": "LineString",
@@ -4430,10 +4404,9 @@
                 "isRoute": null,
                 "feat_type": null,
                 "selected": false,
-                "aligned": true,
+                "aligned": false,
                 "otype": "Line",
-                "group": true,
-                "groupID": "18"
+                "missing": true
             },
             "geometry": {
                 "type": "LineString",

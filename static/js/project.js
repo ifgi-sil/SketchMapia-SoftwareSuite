@@ -321,7 +321,9 @@ drawnItems = allDrawnSketchItems["basemap"] ;
     }
    }
 
-tempallDrawnSketchItems = allDrawnSketchItems;
+tempallDrawnSketchItems= JSON.parse(JSON.stringify({}));
+tempallDrawnSketchItems = JSON.parse(JSON.stringify(allDrawnSketchItems));
+
 
 delete tempallDrawnSketchItems.basemap;
 
@@ -524,7 +526,9 @@ var url = "http://localhost:8080/fmedatastreaming/Generalization/generalizerFile
                 allGenBaseMap[currentsketchMap] = GenBaseMap;
                 GenStyleLayers(GenBaseMap);
                 Genhoverfunction(GenBaseMap);
-                allGenBaseMap[currentsketchMap].addTo(layerGroupBasemapGen);
+                if (currentsketchMap == sketchMaptitle){
+                allGenBaseMap[sketchMaptitle].addTo(layerGroupBasemapGen);
+                }
                 ProcSketchMap = L.geoJSON(sketchMapProc);
 
                 }
