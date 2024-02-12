@@ -23,6 +23,7 @@ var routeOrder = 0;
 var allGenBaseMap = {};
 var genbasemap;
 var BooleanMissingFeature;
+var BooleanEditSketchMode = false;
 
 
 $(function() {
@@ -415,6 +416,12 @@ drawnItems.eachLayer(function(blayer){
 
 
    $('.thumbnail').click(function(e){
+   console.log(BooleanEditSketchMode);
+
+   if (BooleanEditSketchMode == true){
+   saveSketchMap();
+   }
+
    addedClickSketch = false;
 
      $('#slider').prop('checked', true);
@@ -526,11 +533,15 @@ drawnItems.eachLayer(function(blayer){
         id = -1;
         checkAlignnum = 1;
         }
+
+
    });
 
 
 
     $('#drawSM').click(function(){
+
+    BooleanEditSketchMode = true;
 
     if (addedClickBase == false){
            addClickBase();
@@ -837,9 +848,18 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
 
     }
 
-    $('#saveSM').click(function(){
-     sketchMap.pm.removeControls();
 
+   function saveSketchMap(){
+    console.log("called");
+     if (sketchMap){
+        sketchMap.pm.removeControls();
+        sketchMap.off('pm:drawstart');
+        sketchMap.off('pm:drawend');
+        sketchMap.off('pm:create');
+        }
+
+
+     if (drawnSketchItems){
      drawnSketchItems.eachLayer(function(slayer){
         slayer.off('click');
         });
@@ -850,16 +870,17 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
      addedClickBase = false;
      addedClickSketch = false;
 
-     sketchMap.off('pm:drawstart');
-     sketchMap.off('pm:drawend');
-     sketchMap.off('pm:create');
-      $( "#editmenuoptions" ).slideToggle(500);
 
      allDrawnSketchItems[sketchMaptitle]=drawnSketchItems;
       drawnSketchItems.setStyle({opacity:1});
       AlignmentArray[sketchMaptitle]=alignmentArraySingleMap;
       AlignmentArray[sketchMaptitle].checkAlignnum = checkAlignnum;
+   }
+   }
 
+    $('#saveSM').click(function(){
+         BooleanEditSketchMode = false;
+         $( "#editmenuoptions" ).slideToggle(500);
     });
 
 

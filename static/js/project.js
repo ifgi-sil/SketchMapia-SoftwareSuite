@@ -77,7 +77,7 @@ function renderGeoJsonFiles(file, map) {
 
 
           styleLayers();
-            allDrawnSketchItems[sketchMaptitle]=drawnSketchItems;
+          allDrawnSketchItems[sketchMaptitle]=drawnSketchItems;
         });
     }}
 }
@@ -295,6 +295,20 @@ function GenchangestyleOnHover(Array,BooleanGroup,GenBaseMap){
 
 async function analyseMultiMap () {
 
+const getCircularReplacer = () => {
+  const seen = new WeakSet();
+  return (key, value) => {
+    if (typeof value === 'object' && value !== null) {
+      if (seen.has(value)) {
+        return;
+      }
+      seen.add(value);
+    }
+    return value;
+  };
+};
+
+
 responseArray = {};
 genResultArray = {};
 
@@ -321,13 +335,17 @@ drawnItems = allDrawnSketchItems["basemap"] ;
     }
    }
 
-tempallDrawnSketchItems= JSON.parse(JSON.stringify({}));
-tempallDrawnSketchItems = JSON.parse(JSON.stringify(allDrawnSketchItems));
+tempallDrawnSketchItems = JSON.parse(JSON.stringify({}));
 
 
-delete tempallDrawnSketchItems.basemap;
+for ( var i in Object.keys(allDrawnSketchItems)){
 
+if (Object.keys(allDrawnSketchItems)[i] != 'basemap'){
+ tempallDrawnSketchItems[Object.keys(allDrawnSketchItems)[i]] = allDrawnSketchItems[Object.keys(allDrawnSketchItems)[i]]
+}
 
+}
+ console.log(tempallDrawnSketchItems);
 
 for (var i in Object.keys(tempallDrawnSketchItems)){
 var index = i;
