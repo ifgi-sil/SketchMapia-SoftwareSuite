@@ -880,6 +880,7 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
 
     $('#saveSM').click(function(){
          BooleanEditSketchMode = false;
+         saveSketchMap();
          $( "#editmenuoptions" ).slideToggle(500);
     });
 

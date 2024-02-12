@@ -632,7 +632,7 @@ function computeAndDisplay (index,currentsketchMap){
                 success: function (resp) {
                     responseArray[currentsketchMap] = resp;
                     setResults_in_output_div (index,resp);
-                    $('#summary_result_div').prop("style", " height:100%; overflow-y: scroll;  visibility: visible; position:absolute ; z-index:10000000; background-color: white");
+                    $('#summary_result_div').prop("style", " height:500px; overflow: auto;  visibility: visible; position:absolute ; z-index:10000000; background-color: white");
                     //$('#summary_result_div').refresh();
 
                     //$("#stepper_analyze_map").prop("style", "background: #17a2b8");
@@ -854,7 +854,7 @@ for (var i in Object.keys(responseArray)){
         }
         zip.generateAsync({type:"blob"})
         .then(function(content) {
-        saveAs(content, sketchMaptitle.replace(".jpg","") + "Output.zip");
+        saveAs(content, "Results.zip");
       });
 
 });
