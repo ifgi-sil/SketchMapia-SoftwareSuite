@@ -1,0 +1,93 @@
+{
+    "CamScanner 07-11-2022 11.08.10.jpg": {
+        "1": {
+            "BaseAlign": {
+                "0": [
+                    7
+                ]
+            },
+            "SketchAlign": {
+                "0": [
+                    "S3"
+                ]
+            },
+            "genType": "Collapse",
+            "degreeOfGeneralization": 0
+        },
+        "2": {
+            "BaseAlign": {
+                "0": [
+                    3,
+                    4,
+                    6,
+                    5
+                ]
+            },
+            "SketchAlign": {
+                "0": [
+                    "S2"
+                ]
+            },
+            "genType": "Amalgamation",
+            "degreeOfGeneralization": 0.75
+        },
+        "3": {
+            "BaseAlign": {
+                "0": [
+                    2
+                ]
+            },
+            "SketchAlign": {
+                "0": [
+                    "S1"
+                ]
+            },
+            "genType": "No generalization",
+            "degreeOfGeneralization": 0
+        },
+        "4": {
+            "BaseAlign": {
+                "0": [
+                    1,
+                    0
+                ]
+            },
+            "SketchAlign": {
+                "0": [
+                    "S0"
+                ]
+            },
+            "genType": "OmissionMerge",
+            "degreeOfGeneralization": 0.5
+        },
+        "5": {
+            "BaseAlign": {
+                "0": [
+                    8
+                ]
+            },
+            "SketchAlign": {
+                "0": [
+                    "S4"
+                ]
+            },
+            "genType": "No generalization",
+            "degreeOfGeneralization": 0
+        },
+        "6": {
+            "BaseAlign": {
+                "0": [
+                    9
+                ]
+            },
+            "SketchAlign": {
+                "0": [
+                    "S5"
+                ]
+            },
+            "genType": "No generalization",
+            "degreeOfGeneralization": 0
+        },
+        "checkAlignnum": 7
+    }
+}
