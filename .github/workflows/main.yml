@@ -36,3 +36,5 @@ jobs:
         docker push rajasirpi/sketchmapia-2.0/generalizations:1.0.0
         docker push rajasirpi/sketchmapia-2.0//sketchmap_analyser:1.0.0
 
+        
+
