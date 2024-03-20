@@ -28,7 +28,7 @@ jobs:
         docker build ./generalizations -t sketchmapia-2.0/generalizations:1.0.0
     - name: docker build sketchmap_analyser
       run: |
-        docker build ./sketchmap_analyser -t sketchmapia-2.0//sketchmap_analyser:1.0.0
+        docker build ./sketchmap_analyser -t sketchmapia-2.0/sketchmap_analyser:1.0.0
     - name: docker push
       run: |
         docker push sketchmapia-2.0/accuracy:1.0.0
