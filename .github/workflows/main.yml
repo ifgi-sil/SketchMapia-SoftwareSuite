@@ -20,22 +20,22 @@ jobs:
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: docker build accuracy
       run: |
-        docker build ./accuracy -t rajasirpi/sketchmapia-2.0/accuracy:1.0.0 
+        docker build ./accuracy -t rajasirpi/sketchmapia-2.0:accuracy 
     - name: docker build completeness
       run: |
-        docker build ./completeness -t rajasirpi/sketchmapia-2.0/completeness:1.0.0
+        docker build ./completeness -t rajasirpi/sketchmapia-2.0:completeness
     - name: docker build generalizations
       run: |
-        docker build ./generalizations -t rajasirpi/sketchmapia-2.0/generalizations:1.0.0
+        docker build ./generalizations -t rajasirpi/sketchmapia-2.0:generalizations
     - name: docker build sketchmap_analyser
       run: |
-        docker build ./sketchmap_analyser -t rajasirpi/sketchmapia-2.0/sketchmap_analyser:1.0.0
+        docker build ./sketchmap_analyser -t rajasirpi/sketchmapia-2.0:sketchmap_analyser
     - name: docker push
       run: |
-        docker push rajasirpi/sketchmapia-2.0/accuracy:1.0.0
-        docker push rajasirpi/sketchmapia-2.0/completeness:1.0.0
-        docker push rajasirpi/sketchmapia-2.0/generalizations:1.0.0
-        docker push rajasirpi/sketchmapia-2.0//sketchmap_analyser:1.0.0
+        docker push rajasirpi/sketchmapia-2.0:accuracy
+        docker push rajasirpi/sketchmapia-2.0:completeness
+        docker push rajasirpi/sketchmapia-2.0:generalizations
+        docker push rajasirpi/sketchmapia-2.0:sketchmap_analyser
 
         
 
