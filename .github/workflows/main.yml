@@ -3,8 +3,8 @@ name: CI/CD
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  # pull_request:
+  #   branches: [ "main" ]
 
 jobs:
   build:
@@ -20,7 +20,7 @@ jobs:
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: docker build accuracy
       run: |
-        docker build ./accuracy -t rajasirpi/sketchmapia-2.0/accuracy:1.0.0
+        docker build ./accuracy -t rajasirpi/sketchmapia-2.0/accuracy:1.0.0 
     - name: docker build completeness
       run: |
         docker build ./completeness -t rajasirpi/sketchmapia-2.0/completeness:1.0.0
