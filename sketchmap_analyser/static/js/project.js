@@ -570,7 +570,29 @@ function generalizeMap() {
             Genhoverfunction();
             GenBaseMap.addTo(layerGroupBasemapGen);
             ProcSketchMap = L.geoJSON(sketchMapProc);
-            analyzeInputMap();
+            // analyzeInputMap();
+            var completenessPromise = analyzeCompleteness();
+            var qualitativePromise = analyzeQualitative();
+            
+            Promise.all([completenessPromise, qualitativePromise])
+                .then(function(results) {
+                    var completenessData = results[0];
+                    var qualitativeData = results[1];
+                    handleCompletenessResults(completenessData)
+                    handleCorrectnessResults(qualitativeData)
+                    handlegeneralizationResults();
+                    $('#summary_result_div').prop("style", " height:100%; overflow-y: scroll;  visibility: visible; position:absolute ; z-index:10000000; background-color: white");
+                    $("#stepper_analyze_map").prop("style", "background: #17a2b8");
+                })
+                .catch(function(error) {
+                    console.error('Error in fetching completeness and/or qualitative data:', error);
+                });
+
+            $(document).on('keydown', function (e) {
+                if (e.keyCode === 27) { // ESC
+                    $("#summary_result_div").hide();
+                }
+            });
         }
     });
 }
@@ -595,115 +617,282 @@ GenBaseMap.eachLayer(function(glayer){
 
 }
 
-
-function analyzeInputMap(){
-
-
-TemporaryAlignmentArray= JSON.parse(JSON.stringify({}));
-
-TemporaryAlignmentArray = JSON.parse(JSON.stringify(AlignmentArray));
-    //loc = document.getElementById("#sketchmapplaceholder");
-    //createProcessingRing(loc);
-
-    //sm_map.addLayer(createProcessingRing(loc));
-    //sm_map.addLayer( createProcessingRing(loc));
-    qualify_MM(function (resp_mm) {
-        console.log("call qualify SM function");
-        qualify_SM(function(resp_sm){
-            console.log("call the alignment function");
-            // Make an Ajax request for completeness analysis
-            var completenessRequest = $.ajax({
-                headers: { "X-CSRFToken": $.cookie("csrftoken") },
-                url: 'http://127.0.0.1:8002/completeness/analyzeCompleteness/',
-                type: 'POST',
-                data: {
-                    sketchFileName: resp_mm,
-                    metricFileName: resp_sm
-                }
+function analyzeCompleteness() {
+    return new Promise(function(resolve, reject) {
+        TemporaryAlignmentArray = JSON.parse(JSON.stringify(AlignmentArray));
+        qualify_MM(function(resp_mm) {
+            console.log("call qualify SM function");
+            qualify_SM(function(resp_sm) {
+                $.ajax({
+                    headers: { "X-CSRFToken": $.cookie("csrftoken") },
+                    url: 'http://127.0.0.1:8002/completeness/analyzeCompleteness/',
+                    type: 'POST',
+                    data: {
+                        sketchFileName: resp_mm,
+                        metricFileName: resp_sm
+                    },
+                    success: function(response) {
+                        // console.log('completeness results:', response);
+                        resolve(response); // Resolve the promise with the response data
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Error in completeness analysis:', errorThrown);
+                        reject(errorThrown); // Reject the promise with the error message
+                    }
+                });
             });
-
-            // Make a separate Ajax request for qualitative analysis
-            var qualitativeRequest = $.ajax({
-                headers: { "X-CSRFToken": $.cookie("csrftoken") },
-                url: 'http://127.0.0.1:8003/accuracy/analyzeQualitative/',
-                type: 'POST',
-                data: {
-                    sketchFileName: "sketchmap",
-                    metricFileName: "basemap"
-                }
-            });
-
-            // Combine the results when both requests are complete
-            $.when(completenessRequest, qualitativeRequest).done(function(completenessData, qualitativeData) {
-                // Handle the combined data here
-                console.log('Combined completeness data:', completenessData);
-                console.log('Combined qualitative data:', qualitativeData);
-
-                setResults_in_output_div(completenessData, qualitativeData);
-                $('#summary_result_div').prop("style", " height:100%; overflow-y: scroll;  visibility: visible; position:absolute ; z-index:10000000; background-color: white");
-                $("#stepper_analyze_map").prop("style", "background: #17a2b8");
-            });
-
-            // // First, make an Ajax request for completeness analysis
-            // $.ajax({
-            //     headers: { "X-CSRFToken": $.cookie("csrftoken") },
-            //     url: '/completeness/analyzeCompleteness/',  // Update the URL to your completeness analysis endpoint
-            //     type: 'POST',
-            //     data: {
-            //         sketchFileName: "sketchmap",  // Modify these values as needed
-            //         metricFileName: "basemap"
-            //     },
-            //     success: function (completenessData) {
-            //         setResults_in_output_div(completenessData);
-            //         $('#summary_result_div').prop("style", " height:100%; overflow-y: scroll;  visibility: visible; position:absolute ; z-index:10000000; background-color: white");
-            //         $("#stepper_analyze_map").prop("style", "background: #17a2b8");
-            //         // Handle the completeness analysis results here
-            //         // You can access the results in the completenessData object
-            //         console.log('Completeness analysis results:', completenessData);
-            //     },
-            //     error: function (error) {
-            //         // Handle errors
-            //         console.error('Completeness analysis error:', error);
-            //     }
-            // });
-            // // ajax call for getting the matches dictionary
-            // $.ajax({
-            //     headers: { "X-CSRFToken": $.cookie("csrftoken") },
-            //     url: '/qualitativerelations/analyzeQualitative/',
-            //     type: 'POST',
-            //     data: {
-            //         sketchFileName: "sketchmap",
-            //         metricFileName: "basemap"
-
-            //     },
-            //     success: function (qualitativeData) {
-            //         setResults_in_output_div(qualitativeData);
-            //         $('#summary_result_div').prop("style", " height:100%; overflow-y: scroll;  visibility: visible; position:absolute ; z-index:10000000; background-color: white");
-            //         $("#stepper_analyze_map").prop("style", "background: #17a2b8");
-            //         // Handle the qualitative analysis results here
-            //         // You can access the results in the qualitativeData object
-            //         console.log('Qualitative analysis results:', qualitativeData);
-            //     },
-            //     error: function (error) {
-            //         // Handle errors
-            //         console.error('Qualitative analysis error:', error);
-            //     }
-            // });
         });
-    });
-
-    $(document).on('keydown', function (e) {
-        if (e.keyCode === 27) { // ESC
-            $("#summary_result_div").hide();
-        }
     });
 }
 
-function setResults_in_output_div(completenessData,qualitativeData){
+function analyzeQualitative() {
+    return new Promise(function(resolve, reject) {
+        qualify_MM(function(resp_mm) {
+            console.log("call qualify SM function");
+            qualify_SM(function(resp_sm) {
+                $.ajax({
+                    headers: { "X-CSRFToken": $.cookie("csrftoken") },
+                    url: 'http://127.0.0.1:8003/accuracy/analyzeQualitative/',
+                    type: 'POST',
+                    data: {
+                        sketchFileName: resp_mm,
+                        metricFileName: resp_sm
+                    },
+                    success: function(response) {
+                        // console.log('Qualitative analysis result:', response);
+                        resolve(response); // Resolve the promise with the response data
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('Error in qualitative analysis:', errorThrown);
+                        reject(errorThrown); // Reject the promise with the error message
+                    }
+                });
+            });
+        });
+    });
+}
+
+
+// function analyzeInputMap(){
+// TemporaryAlignmentArray= JSON.parse(JSON.stringify({}));
+// TemporaryAlignmentArray = JSON.parse(JSON.stringify(AlignmentArray));
+//     qualify_MM(function (resp_mm) {
+//         console.log("call qualify SM function");
+//         qualify_SM(function(resp_sm){
+//             console.log("call the alignment function");
+//             // Make an Ajax request for completeness analysis
+//             var completenessRequest = $.ajax({
+//                 headers: { "X-CSRFToken": $.cookie("csrftoken") },
+//                 url: 'http://127.0.0.1:8002/completeness/analyzeCompleteness/',
+//                 type: 'POST',
+//                 data: {
+//                     // qa: $("#qa1").is(':checked'),
+//                     sketchFileName: resp_mm,
+//                     metricFileName: resp_sm
+//                 }
+//             });
+
+//             // Make a separate Ajax request for qualitative analysis
+//             var qualitativeRequest = $.ajax({
+//                 headers: { "X-CSRFToken": $.cookie("csrftoken") },
+//                 url: 'http://127.0.0.1:8003/accuracy/analyzeQualitative/',
+//                 type: 'POST',
+//                 data: {
+//                     // qa: $("#qa").is(':checked'),
+//                     sketchFileName: "sketchmap",
+//                     metricFileName: "basemap"
+//                 }
+//             });
+
+//             // Combine the results when both requests are complete
+//             $.when(completenessRequest, qualitativeRequest).done(function(completenessData, qualitativeData) {
+//                 // Handle the combined data here
+//                 console.log('Combined completeness data:', completenessData);
+//                 console.log('Combined qualitative data:', qualitativeData);
+
+//                 setResults_in_output_div(completenessData, qualitativeData);
+//                 $('#summary_result_div').prop("style", " height:100%; overflow-y: scroll;  visibility: visible; position:absolute ; z-index:10000000; background-color: white");
+//                 $("#stepper_analyze_map").prop("style", "background: #17a2b8");
+//             });
+
+//         });
+//     });
+
+//     $(document).on('keydown', function (e) {
+//         if (e.keyCode === 27) { // ESC
+//             $("#summary_result_div").hide();
+//         }
+//     });
+// }
+
+// function setResults_in_output_div(completenessData,qualitativeData){
+//     var amalgamation = 0;
+//     var collapse = 0 ;
+//     var omissionmerge = 0;
+   
+   
+//      for (var i in Object.values(AlignmentArray)[0]){
+//      if (Object.values(AlignmentArray)[0][i].genType == "Amalgamation"){
+//       amalgamation = amalgamation + 1 ;
+//      }
+//      if (Object.values(AlignmentArray)[0][i].genType == "OmissionMerge"){
+//       omissionmerge = omissionmerge + 1 ;
+//      }
+//      if (Object.values(AlignmentArray)[0][i].genType == "Collapse"){
+//       collapse = collapse + 1 ;
+//      }
+//      }
+   
+   
+//        $('#CountOmissionMerge').text(omissionmerge);
+//        $('#CountAbsExistenceStreets').text(parseInt(StreetGroup.size) - parseInt(multiOmiMergeCount));
+//        $('#CountJunctionMerge').text(junctionmergecount);
+//        $('#CountRACollapse').text(roundaboutcount);
+//        $('#CountAmalgamation').text(amalgamation);
+//        $('#CountAbsExistenceBuildings').text( BuildingGroup.size);
+//        $('#CountCollapse').text(collapse);
+//        $('#CountOmissionMergeMulti').text(multiOmiMergeCount);
+   
+   
+   
+   
+//        $('#overAllCompleteness').text(completenessData[0].overAllCompleteness+"%");
+//        $('#totalGeneralization').text(parseInt(omissionmerge)+ parseInt(StreetGroup.size)+ parseInt(collapse) + parseInt(junctionmergecount)+ parseInt(roundaboutcount) + parseInt(amalgamation) + parseInt(BuildingGroup.size));
+//        $('#precision').text(qualitativeData[0].precision);
+//        $('#recall').text(qualitativeData[0].recall);
+//        $('#f_score').text(qualitativeData[0].f_score);
+//        $('#sketchMapID').text(completenessData[0].sketchMapID);
+   
+//        $('#total_mm_streets').text(completenessData[0].total_mm_streets);
+//        $('#totalSketchedStreets').text(completenessData[0].totalSketchedStreets);
+//        $('#streetCompleteness').text(completenessData[0].streetCompleteness  );
+   
+//        $('#total_mm_landmarks').text(completenessData[0].total_mm_landmarks);
+//        $('#totalSketchedLandmarks').text(completenessData[0].totalSketchedLandmarks);
+//        $('#landmarkCompleteness').text(completenessData[0].landmarkCompleteness );
+   
+//        $('#total_mm_cityblocks').text(missingFeaturesCount);
+//        $('#totalSketchedCityblocks').text( extraFeaturesCount );
+//        $('#cityblockCompleteness').text(completenessData[0].cityblockCompleteness);
+//        $('#overAllCompleteness1').text(completenessData[0].overAllCompleteness);
+   
+//        $('#totalRCC11Relations_mm').text(qualitativeData[0].totalRCC11Relations_mm);
+//        $('#totalRCC11Relations').text(qualitativeData[0].totalRCC11Relations);
+//        $('#correctRCC11Relations').text(qualitativeData[0].correctRCC11Relations);
+//        $('#wrongMatchedRCC11rels').text(qualitativeData[0].wrongMatchedRCC11rels);
+//        $('#missingRCC11rels').text(qualitativeData[0].missingRCC11rels);
+//        $('#correctnessAccuracy_rcc11').text(qualitativeData[0].correctnessAccuracy_rcc11);
+   
+//        $('#total_lO_rels_mm').text(qualitativeData[0].total_lO_rels_mm);
+//        $('#total_LO_rels_sm').text(qualitativeData[0].total_LO_rels_sm);
+//        $('#matched_LO_rels').text(qualitativeData[0].matched_LO_rels);
+//        $('#wrong_matched_LO_rels').text(qualitativeData[0].wrong_matched_LO_rels);
+//        $('#missing_LO_rels').text(qualitativeData[0].missing_LO_rels);
+//        $('#correctnessAccuracy_LO').text(qualitativeData[0].correctnessAccuracy_LO);
+   
+//        $('#total_LR_rels_mm').text(qualitativeData[0].total_LR_rels_mm);
+//        $('#total_LR_rels_sm').text(qualitativeData[0].total_LR_rels_sm);
+//        $('#matched_LR_rels').text(qualitativeData[0].matched_LR_rels);
+//        $('#wrong_matched_LR_rels').text(qualitativeData[0].wrong_matched_LR_rels);
+//        $('#missing_LR_rels').text(qualitativeData[0].missing_LR_rels);
+//        $('#correctnessAccuracy_LR').text(qualitativeData[0].correctnessAccuracy_LR);
+   
+//        $('#total_DE9IM_rels_mm').text(qualitativeData[0].total_DE9IM_rels_mm);
+//        $('#total_DE9IM_rels_sm').text(qualitativeData[0].total_DE9IM_rels_sm);
+//        $('#matched_DE9IM_rels').text(qualitativeData[0].matched_DE9IM_rels);
+//        $('#wrong_matched_DE9IM_rels').text(qualitativeData[0].wrong_matched_DE9IM_rels);
+//        $('#missing_DE9IM_rels').text(qualitativeData[0].missing_DE9IM_rels);
+//        $('#correctnessAccuracy_DE9IM').text(qualitativeData[0].correctnessAccuracy_DE9IM);
+   
+//        $('#total_streetTop_rels_mm').text(qualitativeData[0].total_streetTop_rels_mm);
+//        $('#total_streetTop_rels_sm').text(qualitativeData[0].total_streetTop_rels_sm);
+//        $('#matched_streetTop_rels').text(qualitativeData[0].matched_streetTop_rels);
+//        $('#wrong_matched_streetTop_rels').text(qualitativeData[0].wrong_matched_streetTop_rels);
+//        $('#missing_streetTop_rels').text(qualitativeData[0].missing_streetTop_rels);
+//        $('#correctnessAccuracy_streetTop').text(qualitativeData[0].correctnessAccuracy_streetTop);
+   
+//        $('#total_opra_rels_mm').text(qualitativeData[0].total_opra_rels_mm);
+//        $('#total_opra_rels_sm').text(qualitativeData[0].total_opra_rels_sm);
+//        $('#matched_opra_rels').text(qualitativeData[0].matched_opra_rels);
+//        $('#wrong_matched_opra_rels').text(qualitativeData[0].wrong_matched_opra_rels);
+//        $('#missing_opra_rels').text(qualitativeData[0].missing_opra_rels);
+//        $('#correctnessAccuracy_opra').text(qualitativeData[0].correctnessAccuracy_opra);
+   
+//    }
+   
+// Function to handle completeness results
+function handleCompletenessResults(completenessData) {
+    var completeness = completenessData;
+    // Update DOM elements
+    $('#overAllCompleteness').text(completeness.overAllCompleteness + "%");
+    $('#sketchMapID').text(completeness.sketchMapID);
+    $('#total_mm_streets').text(completeness.total_mm_streets);
+    $('#totalSketchedStreets').text(completeness.totalSketchedStreets);
+    $('#streetCompleteness').text(completeness.streetCompleteness);
+    $('#total_mm_landmarks').text(completeness.total_mm_landmarks);
+    $('#totalSketchedLandmarks').text(completeness.totalSketchedLandmarks);
+    $('#landmarkCompleteness').text(completeness.landmarkCompleteness);
+    $('#total_mm_cityblocks').text(missingFeaturesCount);
+    $('#totalSketchedCityblocks').text(extraFeaturesCount);
+    $('#cityblockCompleteness').text(completeness.cityblockCompleteness);
+    $('#overAllCompleteness1').text(completeness.overAllCompleteness);
+
+}
+
+function handleCorrectnessResults(qualitativeData) {
+    var qualitative = qualitativeData;
+    if (qualitative) {
+        $('#precision').text(qualitative.precision);
+        $('#recall').text(qualitative.recall);
+        $('#f_score').text(qualitative.f_score);
+        $('#totalRCC11Relations_mm').text(qualitative.totalRCC11Relations_mm);
+        $('#totalRCC11Relations').text(qualitative.totalRCC11Relations);
+        $('#correctRCC11Relations').text(qualitative.correctRCC11Relations);
+        $('#wrongMatchedRCC11rels').text(qualitative.wrongMatchedRCC11rels);
+        $('#missingRCC11rels').text(qualitative.missingRCC11rels);
+        $('#correctnessAccuracy_rcc11').text(qualitative.correctnessAccuracy_rcc11);
+
+        $('#total_lO_rels_mm').text(qualitative.total_lO_rels_mm);
+        $('#total_LO_rels_sm').text(qualitative.total_LO_rels_sm);
+        $('#matched_LO_rels').text(qualitative.matched_LO_rels);
+        $('#wrong_matched_LO_rels').text(qualitative.wrong_matched_LO_rels);
+        $('#missing_LO_rels').text(qualitative.missing_LO_rels);
+        $('#correctnessAccuracy_LO').text(qualitative.correctnessAccuracy_LO);
+
+        $('#total_LR_rels_mm').text(qualitative.total_LR_rels_mm);
+        $('#total_LR_rels_sm').text(qualitative.total_LR_rels_sm);
+        $('#matched_LR_rels').text(qualitative.matched_LR_rels);
+        $('#wrong_matched_LR_rels').text(qualitative.wrong_matched_LR_rels);
+        $('#missing_LR_rels').text(qualitative.missing_LR_rels);
+        $('#correctnessAccuracy_LR').text(qualitative.correctnessAccuracy_LR);
+
+        $('#total_DE9IM_rels_mm').text(qualitative.total_DE9IM_rels_mm);
+        $('#total_DE9IM_rels_sm').text(qualitative.total_DE9IM_rels_sm);
+        $('#matched_DE9IM_rels').text(qualitative.matched_DE9IM_rels);
+        $('#wrong_matched_DE9IM_rels').text(qualitative.wrong_matched_DE9IM_rels);
+        $('#missing_DE9IM_rels').text(qualitative.missing_DE9IM_rels);
+        $('#correctnessAccuracy_DE9IM').text(qualitative.correctnessAccuracy_DE9IM);
+
+        $('#total_streetTop_rels_mm').text(qualitative.total_streetTop_rels_mm);
+        $('#total_streetTop_rels_sm').text(qualitative.total_streetTop_rels_sm);
+        $('#matched_streetTop_rels').text(qualitative.matched_streetTop_rels);
+        $('#wrong_matched_streetTop_rels').text(qualitative.wrong_matched_streetTop_rels);
+        $('#missing_streetTop_rels').text(qualitative.missing_streetTop_rels);
+        $('#correctnessAccuracy_streetTop').text(qualitative.correctnessAccuracy_streetTop);
+
+        $('#total_opra_rels_mm').text(qualitative.total_opra_rels_mm);
+        $('#total_opra_rels_sm').text(qualitative.total_opra_rels_sm);
+        $('#matched_opra_rels').text(qualitative.matched_opra_rels);
+        $('#wrong_matched_opra_rels').text(qualitative.wrong_matched_opra_rels);
+        $('#missing_opra_rels').text(qualitative.missing_opra_rels);
+        $('#correctnessAccuracy_opra').text(qualitative.correctnessAccuracy_opra);
+    }
+}
+
+function handlegeneralizationResults(){
  var amalgamation = 0;
  var collapse = 0 ;
  var omissionmerge = 0;
-
 
   for (var i in Object.values(AlignmentArray)[0]){
   if (Object.values(AlignmentArray)[0][i].genType == "Amalgamation"){
@@ -717,7 +906,6 @@ function setResults_in_output_div(completenessData,qualitativeData){
   }
   }
 
-
     $('#CountOmissionMerge').text(omissionmerge);
     $('#CountAbsExistenceStreets').text(parseInt(StreetGroup.size) - parseInt(multiOmiMergeCount));
     $('#CountJunctionMerge').text(junctionmergecount);
@@ -726,73 +914,10 @@ function setResults_in_output_div(completenessData,qualitativeData){
     $('#CountAbsExistenceBuildings').text( BuildingGroup.size);
     $('#CountCollapse').text(collapse);
     $('#CountOmissionMergeMulti').text(multiOmiMergeCount);
-
-
-
-
-    $('#overAllCompleteness').text(completenessData[0].overAllCompleteness+"%");
     $('#totalGeneralization').text(parseInt(omissionmerge)+ parseInt(StreetGroup.size)+ parseInt(collapse) + parseInt(junctionmergecount)+ parseInt(roundaboutcount) + parseInt(amalgamation) + parseInt(BuildingGroup.size));
-    $('#precision').text(qualitativeData[0].precision);
-    $('#recall').text(qualitativeData[0].recall);
-    $('#f_score').text(qualitativeData[0].f_score);
-    $('#sketchMapID').text(completenessData[0].sketchMapID);
-
-    $('#total_mm_streets').text(completenessData[0].total_mm_streets);
-    $('#totalSketchedStreets').text(completenessData[0].totalSketchedStreets);
-    $('#streetCompleteness').text(completenessData[0].streetCompleteness  );
-
-    $('#total_mm_landmarks').text(completenessData[0].total_mm_landmarks);
-    $('#totalSketchedLandmarks').text(completenessData[0].totalSketchedLandmarks);
-    $('#landmarkCompleteness').text(completenessData[0].landmarkCompleteness );
-
-    $('#total_mm_cityblocks').text(missingFeaturesCount);
-    $('#totalSketchedCityblocks').text( extraFeaturesCount );
-    $('#cityblockCompleteness').text(completenessData[0].cityblockCompleteness);
-    $('#overAllCompleteness1').text(completenessData[0].overAllCompleteness);
-
-    $('#totalRCC11Relations_mm').text(qualitativeData[0].totalRCC11Relations_mm);
-    $('#totalRCC11Relations').text(qualitativeData[0].totalRCC11Relations);
-    $('#correctRCC11Relations').text(qualitativeData[0].correctRCC11Relations);
-    $('#wrongMatchedRCC11rels').text(qualitativeData[0].wrongMatchedRCC11rels);
-    $('#missingRCC11rels').text(qualitativeData[0].missingRCC11rels);
-    $('#correctnessAccuracy_rcc11').text(qualitativeData[0].correctnessAccuracy_rcc11);
-
-    $('#total_lO_rels_mm').text(qualitativeData[0].total_lO_rels_mm);
-    $('#total_LO_rels_sm').text(qualitativeData[0].total_LO_rels_sm);
-    $('#matched_LO_rels').text(qualitativeData[0].matched_LO_rels);
-    $('#wrong_matched_LO_rels').text(qualitativeData[0].wrong_matched_LO_rels);
-    $('#missing_LO_rels').text(qualitativeData[0].missing_LO_rels);
-    $('#correctnessAccuracy_LO').text(qualitativeData[0].correctnessAccuracy_LO);
-
-    $('#total_LR_rels_mm').text(qualitativeData[0].total_LR_rels_mm);
-    $('#total_LR_rels_sm').text(qualitativeData[0].total_LR_rels_sm);
-    $('#matched_LR_rels').text(qualitativeData[0].matched_LR_rels);
-    $('#wrong_matched_LR_rels').text(qualitativeData[0].wrong_matched_LR_rels);
-    $('#missing_LR_rels').text(qualitativeData[0].missing_LR_rels);
-    $('#correctnessAccuracy_LR').text(qualitativeData[0].correctnessAccuracy_LR);
-
-    $('#total_DE9IM_rels_mm').text(qualitativeData[0].total_DE9IM_rels_mm);
-    $('#total_DE9IM_rels_sm').text(qualitativeData[0].total_DE9IM_rels_sm);
-    $('#matched_DE9IM_rels').text(qualitativeData[0].matched_DE9IM_rels);
-    $('#wrong_matched_DE9IM_rels').text(qualitativeData[0].wrong_matched_DE9IM_rels);
-    $('#missing_DE9IM_rels').text(qualitativeData[0].missing_DE9IM_rels);
-    $('#correctnessAccuracy_DE9IM').text(qualitativeData[0].correctnessAccuracy_DE9IM);
-
-    $('#total_streetTop_rels_mm').text(qualitativeData[0].total_streetTop_rels_mm);
-    $('#total_streetTop_rels_sm').text(qualitativeData[0].total_streetTop_rels_sm);
-    $('#matched_streetTop_rels').text(qualitativeData[0].matched_streetTop_rels);
-    $('#wrong_matched_streetTop_rels').text(qualitativeData[0].wrong_matched_streetTop_rels);
-    $('#missing_streetTop_rels').text(qualitativeData[0].missing_streetTop_rels);
-    $('#correctnessAccuracy_streetTop').text(qualitativeData[0].correctnessAccuracy_streetTop);
-
-    $('#total_opra_rels_mm').text(qualitativeData[0].total_opra_rels_mm);
-    $('#total_opra_rels_sm').text(qualitativeData[0].total_opra_rels_sm);
-    $('#matched_opra_rels').text(qualitativeData[0].matched_opra_rels);
-    $('#wrong_matched_opra_rels').text(qualitativeData[0].wrong_matched_opra_rels);
-    $('#missing_opra_rels').text(qualitativeData[0].missing_opra_rels);
-    $('#correctnessAccuracy_opra').text(qualitativeData[0].correctnessAccuracy_opra);
 
 }
+
 
 function findCommonElements3(arr1, arr2) {
     return arr1.some(item => arr2.includes(item))

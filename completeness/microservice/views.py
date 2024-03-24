@@ -119,7 +119,8 @@ def get_landmarks_sm(smqcns):
 def analyzeCompleteness(request):
     sketchFileName = request.POST.get('sketchFileName')
     metricFileName = request.POST.get('metricFileName')
-
+    # qa = str(request.POST.get('qa'))
+    # if qa == "true":
     # USER_PROJ_DIR = "QualitativeRelationsOutput"
 
     # MM_QCN_PATH = os.path.join(USER_PROJ_DIR, metricFileName + ".json")
@@ -137,7 +138,7 @@ def analyzeCompleteness(request):
     #         sketchMapQCNs = json.load(smjson)
     # except IOError:
     #     return HttpResponse(json.dumps({"error": "Sketch Map JSON not found"}), content_type="application/json")
- 
+
     total_mm_landmarks = get_landmarks_mm(metricMapQCNs)
     total_mm_streets = get_streets_mm(metricMapQCNs)
     total_mm_cityblocks = get_cityblocks_mm(metricMapQCNs)

@@ -3,43 +3,40 @@
         "1": {
             "BaseAlign": {
                 "0": [
-                    7
+                    10
                 ]
             },
             "SketchAlign": {
                 "0": [
-                    "S3"
+                    "S9"
                 ]
             },
-            "genType": "Collapse",
+            "genType": "No generalization",
             "degreeOfGeneralization": 0
         },
         "2": {
             "BaseAlign": {
                 "0": [
-                    3,
-                    4,
-                    6,
-                    5
+                    9
                 ]
             },
             "SketchAlign": {
                 "0": [
-                    "S2"
+                    "S11"
                 ]
             },
-            "genType": "Amalgamation",
-            "degreeOfGeneralization": 0.75
+            "genType": "No generalization",
+            "degreeOfGeneralization": 0
         },
         "3": {
             "BaseAlign": {
                 "0": [
-                    2
+                    11
                 ]
             },
             "SketchAlign": {
                 "0": [
-                    "S1"
+                    "S12"
                 ]
             },
             "genType": "No generalization",
@@ -48,27 +45,26 @@
         "4": {
             "BaseAlign": {
                 "0": [
-                    1,
-                    0
+                    12
                 ]
             },
             "SketchAlign": {
                 "0": [
-                    "S0"
+                    "S10"
                 ]
             },
-            "genType": "OmissionMerge",
-            "degreeOfGeneralization": 0.5
+            "genType": "No generalization",
+            "degreeOfGeneralization": 0
         },
         "5": {
             "BaseAlign": {
                 "0": [
-                    8
+                    13
                 ]
             },
             "SketchAlign": {
                 "0": [
-                    "S4"
+                    "S13"
                 ]
             },
             "genType": "No generalization",
@@ -77,7 +73,7 @@
         "6": {
             "BaseAlign": {
                 "0": [
-                    9
+                    14
                 ]
             },
             "SketchAlign": {
@@ -88,6 +84,90 @@
             "genType": "No generalization",
             "degreeOfGeneralization": 0
         },
-        "checkAlignnum": 7
+        "7": {
+            "BaseAlign": {
+                "0": [
+                    15
+                ]
+            },
+            "SketchAlign": {
+                "0": [
+                    "S6"
+                ]
+            },
+            "genType": "No generalization",
+            "degreeOfGeneralization": 0
+        },
+        "8": {
+            "BaseAlign": {
+                "0": [
+                    0
+                ]
+            },
+            "SketchAlign": {
+                "0": [
+                    "S0"
+                ]
+            },
+            "genType": "No generalization",
+            "degreeOfGeneralization": 0
+        },
+        "9": {
+            "BaseAlign": {
+                "0": [
+                    1
+                ]
+            },
+            "SketchAlign": {
+                "0": [
+                    "S1"
+                ]
+            },
+            "genType": "No generalization",
+            "degreeOfGeneralization": 0
+        },
+        "10": {
+            "BaseAlign": {
+                "0": [
+                    2
+                ]
+            },
+            "SketchAlign": {
+                "0": [
+                    "S2"
+                ]
+            },
+            "genType": "No generalization",
+            "degreeOfGeneralization": 0
+        },
+        "11": {
+            "BaseAlign": {
+                "0": [
+                    3
+                ]
+            },
+            "SketchAlign": {
+                "0": [
+                    "S3"
+                ]
+            },
+            "genType": "No generalization",
+            "degreeOfGeneralization": 0
+        },
+        "12": {
+            "BaseAlign": {
+                "0": [
+                    4
+                ]
+            },
+            "SketchAlign": {
+                "0": [
+                    "S4"
+                ]
+            },
+            "genType": "No generalization",
+            "degreeOfGeneralization": 0
+        },
+        "checkAlignnum": 13
     }
 }
