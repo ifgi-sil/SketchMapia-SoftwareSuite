@@ -36,7 +36,8 @@ The downloaded project could be uploaded later to continue the analysis process.
     It is **important to maintain this order while uploading an existing project**.
 
 ### Additional Features
-Layer Control near the Align Button --> To toggle between initial base map and generalized base map.
-Button with Cross symbol --> To show/hide missing features in the generalized base map.
+1. Layer Control near the Align Button --> To toggle between initial base map and generalized base map.
+2. Button with Cross symbol --> To show/hide missing features in the generalized base map.
+3. i button in the digitizing tools to show/hide the unique ids of features.
 
 
