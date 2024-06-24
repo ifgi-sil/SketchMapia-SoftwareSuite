@@ -117,14 +117,8 @@ def requestFME(request):
 
     return HttpResponse(result)
 
-
 def spatial_transformation(routedata,sketchroutedata):
     USER_PROJ_DIR = "generalizedMap"
-    # current_dir = os.path.dirname(os.path.abspath(__file__))
-        
-    # Inputbasepath = os.path.join(current_dir, USER_PROJ_DIR, "inputbaseMap.json")
-    # Inputsketchpath = os.path.join(current_dir, USER_PROJ_DIR, "inputsketchMap.json")
-    # Inputaligndata = os.path.join(current_dir, USER_PROJ_DIR, "alignment.json")
     Inputbasepath = os.path.join(USER_PROJ_DIR,"inputbaseMap"+".json")
     Inputsketchpath = os.path.join(USER_PROJ_DIR,"inputsketchMap"+".json")
     Inputaligndata =  os.path.join(USER_PROJ_DIR,"alignment"+".json")
@@ -139,10 +133,12 @@ def spatial_transformation(routedata,sketchroutedata):
     ng_ids = []
     c_ids =[]
     om_ids=[]
-    s_amal_ids = []
+    a2e_ids =[]
+    s_amal_ids =[]
     # s_ng_ids = []
     s_c_ids =[]
     s_om_ids=[]
+    s_a2e_ids =[]
     for k,v in data.items():
         for val,val1 in v.items():
             key = 'genType'
@@ -169,6 +165,12 @@ def spatial_transformation(routedata,sketchroutedata):
                     c_ids.append(c_id)
                     c_id1 = val1['SketchAlign']['0']
                     s_c_ids.append(c_id1)
+                    
+                if val1[key]== "Abstraction to show existence":
+                    a2e_id = val1['BaseAlign']['0']
+                    a2e_ids.append(a2e_id)
+                    a2e_id1 = val1['SketchAlign']['0']
+                    s_a2e_ids.append(a2e_id1)
 
             except (KeyError,TypeError) as error:
                 continue
@@ -177,6 +179,10 @@ def spatial_transformation(routedata,sketchroutedata):
     poly = []
     line = []
     point = []
+    a2e_l = []
+    a2e_p= []
+    a2e_ids_l=[]
+    a2e_ids_p=[]
     ng_ids_l = []
     ng_ids_p = []
     no_gen_l = []
@@ -232,6 +238,24 @@ def spatial_transformation(routedata,sketchroutedata):
                     point.append(f_coor)
                 else:
                     continue
+                
+        for x in a2e_ids:
+            for y in x:
+                if y == id :
+                    type = geo['type']
+                    coor = geo['coordinates']
+                    if len(coor) > 1:
+                        # Create a LineString object
+                        f_coor = geometry.LineString(coor)
+                        a2e_l.append(f_coor)
+                        a2e_ids_l.append(id)
+                    else:
+                        # Create a Polygon object
+                        f_coor = geometry.Polygon(coor[0])
+                        a2e_p.append(f_coor)
+                        a2e_ids_p.append(id)
+                else:
+                    continue
     
     poly_res = []
     for sublist in amal_ids:
@@ -262,26 +286,68 @@ def spatial_transformation(routedata,sketchroutedata):
         start = sum([len(sub) for sub in ng_res_p])
         end = start + len(sublist)
         ng_res_p.append(no_gen_p[start:end])
-    
+        
+    a2e_l_res = []
+    for sublist in a2e_ids:
+        start = sum([len(sub) for sub in a2e_l_res])
+        end = start + len(sublist)
+        a2e_l_res.append(a2e_l[start:end])
+        
+    a2e_p_res=[]   
+    for sublist in a2e_ids:
+        start = sum([len(sub) for sub in a2e_p_res])
+        end = start + len(sublist)
+        a2e_p_res.append(a2e_p[start:end])
+        
     s_ng_ids_l = []
     s_ng_ids_p = []
+    s_a2e_ids_l = []
+    s_a2e_ids_p = []
     
     # Iterate through the data and update SketchAlign
     for key, value in data.items():
         for sub_key, sub_value in value.items():
             if isinstance(sub_value, dict) and "BaseAlign" in sub_value:
                 base_align_value = sub_value["BaseAlign"]["0"][0]
-                sketch_align_value = sub_value["SketchAlign"]["0"][0]
+                sketch_align_value = sub_value["SketchAlign"]["0"]
                 
                 if base_align_value in ng_ids_p:
                     s_ng_ids_p.append(sketch_align_value)
                 elif base_align_value in ng_ids_l:
                     s_ng_ids_l.append(sketch_align_value)
+                if base_align_value in a2e_ids_p:
+                    s_a2e_ids_p.append(sketch_align_value)
+                elif base_align_value in a2e_ids_l:
+                    s_a2e_ids_l.append(sketch_align_value)
+                    
+    # breakpoint()
+    # Iterate through the data and update SketchAlign
+    # for key, value in data.items():
+    #     for sub_key, sub_value in value.items():
+    #         if isinstance(sub_value, dict) and "BaseAlign" in sub_value and "SketchAlign" in sub_value:
+    #             base_align_list = sub_value["BaseAlign"]["0"]
+    #             sketch_align_list = sub_value["SketchAlign"]["0"]
+                
+    #             # Ensure both lists have the same length
+    #             if len(base_align_list) != len(sketch_align_list):
+    #                 print(f"Warning: Mismatched lengths for BaseAlign and SketchAlign in {key} -> {sub_key}")
+    #                 continue
+                
+    #             # Pair elements and append to the appropriate lists
+    #             for base_align_value, sketch_align_value in zip(base_align_list, sketch_align_list):
+    #                 if base_align_value in ng_ids_p:
+    #                     s_ng_ids_p.append(sketch_align_value)
+    #                 elif base_align_value in ng_ids_l:
+    #                     s_ng_ids_l.append(sketch_align_value)
+    #                 if base_align_value in a2e_ids_p:
+    #                     s_a2e_ids_p.append(sketch_align_value)
+    #                 elif base_align_value in a2e_ids_l:
+    #                     s_a2e_ids_l.append(sketch_align_value)
 
     align.close()
     base.close()
     features = []
-    
+    # breakpoint()
     # amalgamation 
     for x, ids, sids in zip(poly_res, amal_ids, s_amal_ids):
         mpt = geometry.MultiPolygon(x)
@@ -301,7 +367,41 @@ def spatial_transformation(routedata,sketchroutedata):
         collapse = x[0].centroid
         g1_c = shapely.wkt.loads(str(collapse))
         features.append(Feature(geometry=g1_c, properties={"genType": "Collapse", "BaseAlign": ids[0],"SketchAlign":sids[0]}))
- 
+        
+    def is_connected(multi_line):
+        merged = ops.linemerge(multi_line)
+        if isinstance(merged, geometry.LineString):
+            return True
+        elif isinstance(merged, geometry.MultiLineString) and len(merged.geoms) == 1:
+            return True
+        return False
+    
+    # Abstraction to show existence Streets and buildings
+    for x, ids, sids in zip(a2e_l_res, a2e_ids, s_a2e_ids_l):
+        # breakpoint()
+        if len(x) == 0: # Skip empty inputs
+            continue
+        multi_line = geometry.MultiLineString(x)
+        if is_connected(multi_line):
+            merged_line = ops.linemerge(multi_line)
+            g1_a2e = geometry.shape(merged_line)
+            gen_type = "Multi-MultiOmissionMerge"
+        else:
+            g1_a2e = multi_line
+            gen_type = "Abstraction to show existence"
+
+        features.append(Feature(geometry=g1_a2e, properties={"genType": gen_type, "BaseAlign": ids, "SketchAlign":sids}))
+    
+    for x, ids, sids in zip(a2e_p_res, a2e_ids_p, s_a2e_ids_p):
+        if len(x) == 0: # Skip empty inputs
+            continue
+        # breakpoint()
+        mpt = geometry.MultiPolygon(x)
+        res = mpt.convex_hull.wkt
+        g1_a2e = shapely.wkt.loads(res)
+        features.append(Feature(geometry=g1_a2e, properties={"genType": "Abstraction to show existence", "BaseAlign": ids, "SketchAlign":sids}))
+
+    
     # No Generalization
     for x, ids, sids in zip(ng_res_l, ng_ids_l, s_ng_ids_l):
         if len(x) == 0: # Skip empty inputs
@@ -316,7 +416,7 @@ def spatial_transformation(routedata,sketchroutedata):
         polygon = shapely.geometry.Polygon(x[0])
         wkt_string = polygon.wkt
         features.append(Feature(geometry=shapely.wkt.loads(wkt_string), properties={"genType": "No generalization", "BaseAlign": ids,"SketchAlign":sids}))
-          
+    print(features)  
     feature_collection = FeatureCollection(features)
     base = open(Inputbasepath)
     base_data = json.load(base)
@@ -422,6 +522,85 @@ def spatial_transformation(routedata,sketchroutedata):
             # Update the 'geometry' key in the original feature
             feature['geometry'] = simplified_data['features'][0]['geometry']
             
+    # Initialize list to store coordinates for s_a2e_ids
+    s_a2e_l = []
+    s_a2e_p = []
+  
+    for sublist in s_a2e_ids_l:
+        for sid in sublist:
+            for feature in sketchdata['features']:
+                if feature['properties']['sid'] == sid:
+                    s_a2e_l.append(geometry.LineString(feature['geometry']['coordinates']))
+    # breakpoint()
+    
+    for feature in sketchdata['features']:
+        geo = feature['geometry']
+        properties = feature['properties']
+        sid = properties['sid']
+        for sublist in s_a2e_ids_p:
+            for y in sublist:
+                if y == sid:
+                    # breakpoint()
+                    type = geo['type']
+                    coor = geo['coordinates']
+                    f_coor = geometry.Polygon(coor[0])
+                    s_a2e_p.append(f_coor)
+
+                
+    s_a2e_l_res = []
+    for sublist in s_a2e_ids:
+        start = sum([len(sub) for sub in s_a2e_l_res])
+        end = start + len(sublist)
+        s_a2e_l_res.append(s_a2e_l[start:end])
+        
+    s_a2e_p_res = []
+    for sublist in s_a2e_ids:
+        start = sum([len(sub) for sub in s_a2e_p_res])
+        end = start + len(sublist)
+        s_a2e_p_res.append(s_a2e_p[start:end])
+    
+    # features = []
+    # processed_sids = set()
+    # print(s_a2e_l_res, s_a2e_ids)
+    # breakpoint()
+    for x, ids, sids in zip(s_a2e_l_res, a2e_ids, s_a2e_ids_l):
+        multi_line = geometry.MultiLineString(x)
+        # breakpoint()
+        if is_connected(multi_line):
+            merged_line = ops.linemerge(multi_line)
+            g1_a2e = geometry.shape(merged_line)
+        else:
+            g1_a2e = multi_line
+
+        # Gather properties from the sketchdata
+        merged_properties = {"mapType": "Sketch"}
+        for feature in sketchdata['features']:
+            if feature['properties']['sid'] in sids:
+                merged_properties.update(feature['properties'])
+                # processed_sids.add(feature['properties']['sid'])
+
+        features.append(Feature(geometry=geometry.mapping(g1_a2e), properties=merged_properties))
+ 
+    # sketchdata['features'] = [feature for feature in sketchdata['features'] if feature['properties']['sid'] not in processed_sids]
+    
+    for x, ids, sids in zip(s_a2e_p_res, a2e_ids_p, s_a2e_ids_p):
+        if len(x) == 0: # Skip empty inputs
+            continue
+        # breakpoint()
+        mpt = geometry.MultiPolygon(x)
+        res = mpt.convex_hull.wkt
+        g1_a2e = shapely.wkt.loads(res)
+        
+        # Gather properties from the sketchdata
+        merged_properties = {"mapType": "Sketch"}
+        for feature in sketchdata['features']:
+            if feature['properties']['sid'] in sids:
+                merged_properties.update(feature['properties'])
+                # processed_sids.add(feature['properties']['sid'])
+
+        features.append(Feature(geometry=geometry.mapping(g1_a2e), properties=merged_properties))
+        
+     
     # Assuming you have two feature collections, feature_collection1 and feature_collection2
     combined_feature_collection = {
         "type": "FeatureCollection",
@@ -430,11 +609,14 @@ def spatial_transformation(routedata,sketchroutedata):
     # Append the features from feature_collection1 to the combined feature collection
     for feature in feature_collection["features"]:
         combined_feature_collection["features"].append(feature)
-
+    # breakpoint() 
+    # Flatten s_a2e_ids to easily check if an sid is in this list
+    flattened_s_a2e_ids = [sid for sublist in s_a2e_ids for sid in sublist]
     # Append the features from feature_collection2 to the combined feature collection
     for feature in sketchdata["features"]:
-        combined_feature_collection["features"].append(feature)
-        
+        if feature['properties']['sid'] not in flattened_s_a2e_ids:
+            combined_feature_collection["features"].append(feature)
+    
     # breakpoint()
     print(combined_feature_collection)
 
