@@ -108,24 +108,18 @@ function imageToFormat(img, maxWidth = null, maxHeight = null, imgType = 'image/
   var width = img.width;
   var height = img.height;
 
-  if (img.width > maxWidth)
-    width = maxWidth;
-
-  if (img.height > maxHeight)
-    height = maxWidth;
-
   // Apply width & height
   canvas.width = img.width;
   canvas.height = img.height;
-
+   var ctx = canvas.getContext("2d");
   // Set proper canvas dimensions before transform & export
-  if (orientation >= 5 && orientation <= 8) {
+ /* if (orientation >= 5 && orientation <= 8) {
     canvas.width = img.height;
     canvas.height = img.width;
-  }
+  }*/
 
   // Calc scale
-  var scaleX = width / img.width;
+ /* var scaleX = width / img.width;
   var scaleY = height / img.height;
   var scale = 1;
 
@@ -139,11 +133,11 @@ function imageToFormat(img, maxWidth = null, maxHeight = null, imgType = 'image/
   canvas.width *= scale;
   canvas.height *= scale;
 
-  var ctx = canvas.getContext("2d");
-  ctx.scale(scale, scale);
+
+  ctx.scale(scale, scale);*/
 
   // Transform context before drawing image
-  switch (orientation) {
+  /*switch (orientation) {
 
     case 1: ctx.transform(1, 0, 0, 1, 0, 0);
       break;
@@ -164,7 +158,7 @@ function imageToFormat(img, maxWidth = null, maxHeight = null, imgType = 'image/
 
     default:
       break;
-  }
+  }*/
 
   ctx.drawImage(img, 0, 0);
 
@@ -188,7 +182,7 @@ function drawRotated(img,degree) {
     var cw = img.width, ch = img.height, cx = 0, cy = 0;
 
     // Calculate new canvas size and x/y coorditates for image
-  switch (degree) {
+ /* switch (degree) {
 
       case -90:
         cw = img.height;
@@ -209,7 +203,7 @@ function drawRotated(img,degree) {
         ch = img.width;
         cx = img.width * (-1);
         break;
-    }
+    }*/
 
     // Rotate image
     canvas.setAttribute('width', cw);
@@ -251,7 +245,7 @@ function drawRotated(img,degree) {
       , minSelect: 1
       , imagesToLoad: null
       , filesType: ["image/jpeg", "image/png", "image/gif"]
-      , maxWidth: 1280 // pixel
+      , maxWidth: 5000// pixel
       , maxHeight: 1024
       , imgType: "image/jpeg"
       , imgQuality: .9

@@ -79,7 +79,6 @@ function renderImageFile(file, location) {
     reader.readAsDataURL(file);
 
     reader.onload = function (e) {
-
         var container = L.DomUtil.get('baseMap');
         if (container != null) {
             container._leaflet_id = null;
@@ -88,7 +87,7 @@ function renderImageFile(file, location) {
 
         image.title = file.name;
         image.src = this.result;
-
+        console.log("src", this.result);
 
         baseMap = new L.map('imagemap', {
             crs: L.CRS.Simple
@@ -130,7 +129,9 @@ $( "#loaded" ).prop( "disabled", false );
 
                 $($(this)[0]._container).append($("<a style='outline: none;width: fit-content;' id = 'clearRoute' onclick='clearRoute()'>Clear Route</a>"));
                 drawnItems.eachLayer(function(blayer){
+
                     blayer.on('click',function(e){
+                    if (blayer.feature.properties.otype == "Line"){
                     if (!blayer.feature.properties.isRoute){
                         blayer.feature.properties.isRoute = "Yes";
                         blayer.feature.properties.RouteSeqOrder = routeOrder + 1;
@@ -147,7 +148,9 @@ $( "#loaded" ).prop( "disabled", false );
                         });
                         routeOrder = routeOrder - 1;
                      }
+                     }
                 });
+
             });
              btn.state('Select-Route-Mode-Off');    // change state on click!
             }
@@ -167,6 +170,58 @@ $( "#loaded" ).prop( "disabled", false );
 
 
  });
+
+ var multibuildingButton = L.easyButton({
+
+ states: [{
+            stateName: 'Select-MultiBuilding-Mode-On',        // name the state
+            icon:      'fa fa-th-large',               // and define its properties
+            title:     'SelectMultiBuildingOff',      // like its title
+            onClick: function(btn, map) {
+                $($(this)[0]._container).css('display','inline-flex');
+                btn.button.style.boxShadow = 'inset 0 -1px 5px 2px rgba(81, 77, 77, 1)';
+
+
+                drawnItems.eachLayer(function(blayer){
+
+                    blayer.on('click',function(e){
+                     if (blayer.feature.properties.otype == "Polygon"){
+                    if (!blayer.feature.properties.isMultiBuilding){
+                        blayer.feature.properties.isMultiBuilding = "Yes";
+                        blayer.setStyle({
+                            color: 'red'   //or whatever style you wish to use;
+                        });
+                    }
+                    else if (blayer.feature.properties.isMultiBuilding == "Yes"){
+                        blayer.feature.properties.isMultiBuilding = null ;
+                        blayer.setStyle({
+                            color: '#e8913a'   //or whatever style you wish to use;
+                        });
+                  }
+                  }
+                });
+            });
+             btn.state('Select-MultiBuilding-Mode-Off');    // change state on click!
+            }
+        }, {
+            stateName: 'Select-MultiBuilding-Mode-Off',
+            icon:      'fa fa-th-large',
+            title:     'SelectMultiBuildingOn',
+            onClick: function(btn, map) {
+                btn.button.style.boxShadow = null;// and its callback
+               drawnItems.eachLayer(function(blayer){
+                blayer.off('click');
+                });
+                btn.state('Select-MultiBuilding-Mode-On');
+            }
+    }]
+
+
+ });
+
+
+
+
 
 
 function removeLayer(id) {
@@ -299,7 +354,7 @@ drawCircle: false,
 drawMarker: false,
 drawRectangle:false,
 drawText: false,
-drawCircleMarker:true,
+drawCircleMarker:false,
 dragMode:false,
 rotateMode:false,
 cutPolygon:false
@@ -363,6 +418,7 @@ drawnItems.eachLayer(function(blayer){
 addedClickBase = false;
 routeButton.addTo(baseMap);
 labelButton.addTo(baseMap);
+multibuildingButton.addTo(baseMap);
 });
 
 
@@ -482,6 +538,8 @@ drawnItems.eachLayer(function(blayer){
          var idArray = Object.values(drawnSketchItems.toGeoJSON().features).map((item) => item.properties.id);
          id = Math.max.apply(Math, idArray);
              drawnSketchItems.eachLayer(function(slayer){
+                  delete slayer.feature.properties.group;
+                  delete slayer.feature.properties.groupID;
                 $.each(alignmentArraySingleMap, function(i, item) {
                     if(alignmentArraySingleMap[i].genType == "Abstraction to show existence"){
                         if((alignmentArraySingleMap[i].SketchAlign[0]).includes(slayer.feature.properties.sid)){
@@ -493,6 +551,8 @@ drawnItems.eachLayer(function(blayer){
             });
 
             drawnItems.eachLayer(function(blayer){
+                  delete blayer.feature.properties.group;
+                  delete blayer.feature.properties.groupID;
                 $.each(alignmentArraySingleMap, function(i, item) {
                     if(alignmentArraySingleMap[i].genType == "Abstraction to show existence"){
                         if((alignmentArraySingleMap[i].BaseAlign[0]).includes(blayer.feature.properties.id)){
@@ -743,25 +803,29 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
     }
     var hoverarray = [];
 
+
     function hoverfunction(){
+
     drawnSketchItems.eachLayer(function(slayer){
     slayer.on('mouseover', function() {
-    $.each(alignmentArraySingleMap, function(i, item) {
-    if((alignmentArraySingleMap[i].SketchAlign != null) && (alignmentArraySingleMap[i].SketchAlign[0]).includes(slayer.feature.properties.sid)){
-
-    hoverarray.push(alignmentArraySingleMap[i].BaseAlign[0]);
-    hoverarray.push(alignmentArraySingleMap[i].SketchAlign[0]);
+      if (slayer.feature.properties.aligned == true){
+      for (i in alignmentArraySingleMap){
+           if (alignmentArraySingleMap[i].SketchAlign[0].includes(slayer.feature.properties.sid)){
+               hoverarray.push(alignmentArraySingleMap[i].BaseAlign[0]);
+               hoverarray.push(alignmentArraySingleMap[i].SketchAlign[0]);
+               break;
+           }
+      }
     }
 
     changestyleOnHover(hoverarray);
     });
-    });
+
     slayer.on('mouseout', function() {
     hoverarray=[];
     styleLayers();
     });
-
-    });
+       });
     }
 
 
@@ -901,9 +965,19 @@ hoverfunction();
 }
 
 function checkIfAlignedAlready(alignSketchID){
-drawnSketchItems.eachLayer(function(slayer){
-$.each(alignmentArraySingleMap, function(i, item) {
-    if(alignSketchID.includes(slayer.feature.properties.sid) && (alignmentArraySingleMap[i].SketchAlign != null) && (alignmentArraySingleMap[i].SketchAlign[0]).includes(slayer.feature.properties.sid)){
+
+for (i in alignmentArraySingleMap){
+
+if (alignmentArraySingleMap[i].SketchAlign){
+if (alignmentArraySingleMap[i].SketchAlign[0].some(item => alignSketchID.includes(item))){
+ drawnSketchItems.eachLayer(function (slayer){
+   if ((alignmentArraySingleMap[i].SketchAlign[0]).includes(slayer.feature.properties.sid)){
+   console.log(slayer.feature.properties.id);
+    slayer.feature.properties.aligned = false;
+    slayer.feature.properties.isRoute = null;
+    slayer.feature.properties.group = null;
+   }
+ });
      drawnItems.eachLayer(function(blayer){
      if((alignmentArraySingleMap[i].BaseAlign != null) && (alignmentArraySingleMap[i].BaseAlign[0]).includes(blayer.feature.properties.id)){
         blayer.feature.properties.aligned=false;
@@ -911,10 +985,10 @@ $.each(alignmentArraySingleMap, function(i, item) {
      });
      delete alignmentArraySingleMap[i];
      styleLayers();
-    }
-    });
-})
-
+ console.log("iuasd");
+ }
+}
+}
 
 }
 
@@ -949,16 +1023,16 @@ if (drawnItems){
          if (blayer.feature.properties.selected){
                 blayer.setStyle({weight:12});
             }
-            if (!blayer.feature.properties.selected && !blayer.feature.properties.aligned && !blayer.feature.properties.isRoute){
+            if (!blayer.feature.properties.selected && !blayer.feature.properties.aligned && (!blayer.feature.properties.isRoute || !blayer.feature.properties.isMultiBuilding)){
                 blayer.setStyle({opacity:0.7,weight: 5,color: "#e8913a",dashArray: [5, 5]});
             }
-            if (!blayer.feature.properties.selected && blayer.feature.properties.aligned && !blayer.feature.properties.isRoute){
+            if (!blayer.feature.properties.selected && blayer.feature.properties.aligned && (!blayer.feature.properties.isRoute || !blayer.feature.properties.isMultiBuilding)){
                 blayer.setStyle({opacity:0.7,weight: 5,color: "#e8913a",dashArray: null});
             }
-            if (!blayer.feature.properties.selected && !blayer.feature.properties.aligned && blayer.feature.properties.isRoute=="Yes"){
+            if (!blayer.feature.properties.selected && !blayer.feature.properties.aligned && (blayer.feature.properties.isRoute=="Yes" || blayer.feature.properties.isMultiBuilding)){
                 blayer.setStyle({opacity:0.7,weight: 5,color: "red",dashArray: [5, 5]});
             }
-            if(!blayer.feature.properties.selected && blayer.feature.properties.aligned && blayer.feature.properties.isRoute=="Yes"){
+            if(!blayer.feature.properties.selected && blayer.feature.properties.aligned &&( blayer.feature.properties.isRoute=="Yes" || blayer.feature.properties.isMultiBuilding)){
                 blayer.setStyle({opacity:0.7,weight: 5,color: "red",dashArray: null,});
             }
      });

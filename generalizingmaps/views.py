@@ -8,10 +8,10 @@ from analyser import completeness
 from analyser import qualitativeAnalyser
 from qualifier import qualify_map
 import json
+import pandas as pd
 import os
 import glob
 import time
-
 
 
 global G
@@ -21,6 +21,53 @@ def map(request):
     template = loader.get_template('../templates/generalizingmaps.html')
     return HttpResponse(template.render({}, request))
 
+def compare(request):
+    return render(request,'compare.html')
+
+
+def compareResults(request):
+    arrayOfResearchers = [0] * 3
+    rearrangedDfAlign = [0] * 3
+    diff = [0] * 10
+    if (request.is_ajax()):
+        for i in range(3):
+            arrayOfResearchers[i] = request.FILES.get("uploadR" + str(i + 1) + "align")
+            df = pd.read_csv(arrayOfResearchers[i], error_bad_lines=False)
+            df = df[(df['BaseId'] != "Features drawn extra in sketch map") & (
+                        df['BaseId'] != "Features missing in sketch map")]
+            sorteddf = df.sort_values('Sketch Map')
+            groupeddf = sorteddf.groupby('Sketch Map')
+            list_groupeddf = list(groupeddf)
+            rearrangedDfAlign[i] = []
+            for j in range(len(list_groupeddf)):
+                list_groupeddf[j][1]['BaseId'] = list_groupeddf[j][1]['BaseId'].str.split(' ')
+                rearrangedDfAlign[i].append(list_groupeddf[j][1].explode('BaseId').sort_values('BaseId'))
+
+        for j in range(10):
+            diff[j] = pd.concat([rearrangedDfAlign[0][j][['BaseId', 'Generalization Type']],
+                                 rearrangedDfAlign[1][j][['BaseId', 'Generalization Type']],
+                                 rearrangedDfAlign[2][j][['BaseId', 'Generalization Type']]],
+                                keys=['R1', 'R2', 'R3']).drop_duplicates(keep=False)
+            diff[j]['Researcher'] = diff[j].index.get_level_values(0).tolist()
+            diff[j]=diff[j].pivot(index='BaseId', columns='Researcher', values='Generalization Type')
+            if 'R1' not in diff[j]:
+                diff[j]['R1'] = pd.NA
+            if 'R2' not in diff[j]:
+                diff[j]['R2'] = pd.NA
+            if 'R3' not in diff[j]:
+                diff[j]['R3'] = pd.NA
+            diff[j] = diff[j].reindex(sorted(diff[j].columns), axis=1)
+            for index, row in diff[j].iterrows():
+                if pd.isna(row['R1']):
+                    row['R1']= rearrangedDfAlign[0][j]['Generalization Type'].loc[(rearrangedDfAlign[0][j]['BaseId'])==index]
+                if pd.isna(row['R2']):
+                    row['R2']= rearrangedDfAlign[1][j]['Generalization Type'].loc[(rearrangedDfAlign[1][j]['BaseId'])==index]
+                if pd.isna(row['R3']):
+                    row['R3']= rearrangedDfAlign[2][j]['Generalization Type'].loc[(rearrangedDfAlign[2][j]['BaseId'])==index]
+            print(diff[j].to_string())
+            diff[j] = diff[j].to_json(orient="split")
+
+    return HttpResponse(json.dumps(diff))
 
 @ensure_csrf_cookie
 def requestFME(request):

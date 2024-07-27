@@ -24,6 +24,8 @@ var rows = [];
 var cells = [];
 var numbOfSM;
 var tempallDrawnSketchItems;
+var streetCountBeforeGen = 0;
+var lmCountBeforeGen = 0;
 
 
 
@@ -34,11 +36,11 @@ var tempallDrawnSketchItems;
 function uploadProject(){
      var fileList = document.getElementById('upload').files;
     for (var i = 0; i < fileList.length; i++) {
-        renderGeoJsonFiles(fileList[i], map);
+        renderGeoJsonFiles(fileList[i]);
     }
 }
 
-function renderGeoJsonFiles(file, map) {
+function renderGeoJsonFiles(file) {
     var fileName = file.name;
     var reader = new FileReader();
     reader.readAsDataURL(file);
@@ -115,6 +117,7 @@ MMGeoJsonData = GenBaseMap.toGeoJSON();
     for (var i in MMGeoJsonData.features){
 
         var group = MMGeoJsonData.features[i].properties.group;
+
         if(group != "Yes"){
             MMGeoJsonDataFiltered.features[count]=MMGeoJsonData.features[i];
             count = count + 1;
@@ -170,7 +173,7 @@ SMGeoJsonData = ProcSketchMap.toGeoJSON();
     StreetGroup = new Set(streetGroupIdÁrray);
     BuildingGroup = new Set(buildingGroupIdArray);
 
-
+    console.log("streetgroup", StreetGroup);
     return MMGeoJsonDataFiltered, SMGeoJsonDataFiltered;
 
 
@@ -295,6 +298,8 @@ function GenchangestyleOnHover(Array,BooleanGroup,GenBaseMap){
 
 async function analyseMultiMap () {
 
+
+
 const getCircularReplacer = () => {
   const seen = new WeakSet();
   return (key, value) => {
@@ -351,6 +356,8 @@ for (var i in Object.keys(tempallDrawnSketchItems)){
 var index = i;
 missingFeaturesIds[index]=[];
 extraFeaturesIds[index]=[];
+    streetCountBeforeGen = 0;
+    lmCountBeforeGen = 0;
 currentsketchMap = Object.keys(tempallDrawnSketchItems)[i];
 
   drawnItems.eachLayer(function(blayer){
@@ -378,6 +385,15 @@ sketchRouteArray = [];
 missingFeaturesCount = 0;
 extraFeaturesCount = 0;
          drawnItems.eachLayer(function(blayer){
+
+            if (blayer.feature.properties.otype == "Line"){
+                streetCountBeforeGen = streetCountBeforeGen + 1;
+        }
+
+         if (blayer.feature.properties.otype == "Polygon"){
+                lmCountBeforeGen = lmCountBeforeGen + 1;
+        }
+
         if (!blayer.feature.properties.aligned ){
             blayer.feature.properties.missing = true;
             missingFeaturesCount = missingFeaturesCount + 1;
@@ -398,6 +414,23 @@ var byrouteorder = routeArray.slice(0);
     byrouteorder.sort(function(a,b) {
         return a.RouteSeqOrder - b.RouteSeqOrder;
     });
+
+drawnSketchItems.eachLayer(function(slayer){
+                if (slayer.feature.properties.group){
+                        delete slayer.feature.properties.group;
+                        delete slayer.feature.properties.groupID;
+                    }
+                $.each(AlignmentArray[currentsketchMap], function(j, item) {
+                    if(AlignmentArray[currentsketchMap][j].genType == "Abstraction to show existence"){
+                        if((AlignmentArray[currentsketchMap][j].SketchAlign[0]).includes(slayer.feature.properties.sid)){
+                             slayer.feature.properties.group = true ;
+                             slayer.feature.properties.groupID = j;
+                        }
+                }
+                });
+            });
+
+
 
 drawnSketchItems.eachLayer(function(slayer){
            if (slayer.feature.properties.isRoute == "Yes"){
@@ -451,6 +484,7 @@ function generalizeMap(index,currentsketchMap,alignmentArraySingleMap,routeIDArr
  var omissionmerge = 0;
  var junctionmergecount = 0;
  var roundaboutcount = 0;
+ var multibuildingscountMissing = 0;
  multiOmiMergeids[currentsketchMap] = [];
  roundaboutids[currentsketchMap] = [];
  junctionmergeids[currentsketchMap] = [];
@@ -458,7 +492,7 @@ function generalizeMap(index,currentsketchMap,alignmentArraySingleMap,routeIDArr
 var url = "http://localhost:8080/fmedatastreaming/Generalization/generalizerFile.fmw?Alignment=" + encodeURIComponent(JSON.stringify(JSON.stringify(alignmentArraySingleMap))) + "&RouteSeq=" + encodeURIComponent(routeIDArray) + "&SketchRouteSeq=" + encodeURIComponent(sketchIDArray) + "&lastsegment=" + encodeURIComponent(lastBaseStreet) + "&lastsketchsegment=" + encodeURIComponent(lastSketchStreet);
 
                    var httpRequest = new XMLHttpRequest();
-                    httpRequest.open("GET", url, false);
+                    httpRequest.open("POST", url, false);
                     httpRequest.setRequestHeader("Authorization","fmetoken token=052c05a3a85fea84fb131d60281131e9ac65787b")
                     httpRequest.setRequestHeader("Access-Control-Allow-Origin", "http://localhost:8080");
                     httpRequest.setRequestHeader("Accept","text/html");
@@ -489,6 +523,12 @@ var url = "http://localhost:8080/fmedatastreaming/Generalization/generalizerFile
   }
   }
                  $.each(wholeMapProc.features, function(i, item) {
+
+                   if(item.properties.Missingmultibuilding != null ) {
+                    multibuildingscountMissing = item.properties.Missingmultibuilding;
+                    console.log(multibuildingscountMissing);
+                 }
+
 
                  if(item.properties.RoundAboutCount != null ) {
                     roundaboutcount = item.properties.RoundAboutCount;
@@ -696,6 +736,8 @@ var GeneralizationSummaryCSV = [];
 var QASummaryCSV = [];
 var OverallSummaryCsv = [];
 
+
+
      if ($("#qa").is(':checked')){
      for (var i = 0;i<numbOfSM-3;i++){
          QualRelationsBaseMapCSV[i] = ["Object 1 , Object 2, Relations"];
@@ -721,9 +763,9 @@ for (var i in Object.keys(responseArray)){
         var sketchmap = Object.keys(responseArray)[i];
         CompletenessSummaryCSV.push(sketchmap);
         CompletenessSummaryCSV.push("Completeness");
-        CompletenessSummaryCSV.push("Spatial Features , Features in Base map , Drawn Features , Completeness");
-        CompletenessSummaryCSV.push("Street segments (excluding groups)" + "," + responseArray[sketchmap].toal_mm_streets + "," + responseArray[sketchmap].totalSketchedStreets + ',' + responseArray[sketchmap].streetCompleteness );
-        CompletenessSummaryCSV.push("Landmarks (excluding groups)" + "," + responseArray[sketchmap].total_mm_landmarks + "," + responseArray[sketchmap].totalSketchedLandmarks + ',' + responseArray[sketchmap].landmarkCompleteness);
+        CompletenessSummaryCSV.push("Spatial Features , Features in Original Metric map, Features in Generalized Metric map (Excluding Groups) , Drawn Features in Sketch map (Excluding Group), Completeness");
+        CompletenessSummaryCSV.push("Street segments " + "," + streetCountBeforeGen + "," + responseArray[sketchmap].toal_mm_streets + "," + responseArray[sketchmap].totalSketchedStreets + ',' + responseArray[sketchmap].streetCompleteness );
+        CompletenessSummaryCSV.push("Landmarks " + "," + lmCountBeforeGen + "," + responseArray[sketchmap].total_mm_landmarks + "," + responseArray[sketchmap].totalSketchedLandmarks + ',' + responseArray[sketchmap].landmarkCompleteness);
         CompletenessSummaryCSV.push("No. of groups in Streets" + "," + genResultArray[sketchmap].abstExiStreets);
         CompletenessSummaryCSV.push("No. of groups in Landmarks" + "," + genResultArray[sketchmap].absExiBuildings);
         CompletenessSummaryCSV.push("Missing Features" + "," + missingFeaturesIds[i]);
@@ -772,13 +814,11 @@ for (var i in Object.keys(responseArray)){
 }
 
 
-
+GeneralizationCSV.push("Sketch Map , BaseId , SketchId , Generalization Type");
 
  for (var i in Object.keys(tempallDrawnSketchItems)){
 
   var sketchmap = Object.keys(tempallDrawnSketchItems)[i];
-   GeneralizationCSV.push(sketchmap);
-   GeneralizationCSV.push("BaseId , SketchId , Generalization Type");
     Object.keys(TemporaryAlignmentArray[sketchmap]).forEach(function(key){
      if (key != "checkAlignnum"){
        if (findCommonElements3(multiOmiMergeids[sketchmap], TemporaryAlignmentArray[sketchmap][key].BaseAlign[0])){
@@ -809,15 +849,19 @@ for (var i in Object.keys(responseArray)){
                     TemporaryAlignmentArray[sketchmap][key].genType = TemporaryAlignmentArray[sketchmap][key].genType + "RoundAboutCollapse"
                 }
           }
-        GeneralizationCSV.push(((TemporaryAlignmentArray[sketchmap][key].BaseAlign[0]).toString()).replaceAll(",", " ") + ',' + ((TemporaryAlignmentArray[sketchmap][key].SketchAlign[0]).toString()).replaceAll(",", " ") + ',' + ((TemporaryAlignmentArray[sketchmap][key].genType).toString()) ) ;
+          if (typeof TemporaryAlignmentArray[sketchmap][key].genType == 'undefined'){
+                console.log("true");
+                TemporaryAlignmentArray[sketchmap][key].genType = "NOT DEFINED";
+          }
+        GeneralizationCSV.push(sketchmap + ',' + ((TemporaryAlignmentArray[sketchmap][key].BaseAlign[0]).toString()).replaceAll(",", " ") + ',' + ((TemporaryAlignmentArray[sketchmap][key].SketchAlign[0]).toString()).replaceAll(",", " ") + ',' + ((TemporaryAlignmentArray[sketchmap][key].genType).toString()) ) ;
 
         }
    // do something with key or value
 
     });
 
-        GeneralizationCSV.push("Features missing in sketch map, " + missingFeaturesIds[i].toString());
-        GeneralizationCSV.push("Features drawn extra in sketch map, " + extraFeaturesIds[i].toString());
+        GeneralizationCSV.push(sketchmap + ',' + "Features missing in sketch map, " + missingFeaturesIds[i].toString());
+        GeneralizationCSV.push(sketchmap + ',' + "Features drawn extra in sketch map, " + extraFeaturesIds[i].toString());
         GeneralizationCSV.push("   ");
 
      }

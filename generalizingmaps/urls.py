@@ -9,4 +9,6 @@ urlpatterns = [
     path('requestFME/',views.requestFME),
     path('', views.map, name='map'),
     path('clearFiles/',views.clearFiles),
+    path('compare/', views.compare, name='compare'),
+    path('compare/compareResults/', views.compareResults, name='compareResult')
 ]

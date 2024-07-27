@@ -9,7 +9,7 @@ overflow:hidden;
 
 
 .oval-button {
-    background: #5271a9;
+  background: #5271a9;
   background-image: -webkit-linear-gradient(top, #5271a9, #b62bb8);
   background-image: -moz-linear-gradient(top, #5271a9, #b62bb8);
   background-image: -ms-linear-gradient(top, #5271a9, #b62bb8);
@@ -256,8 +256,92 @@ border-bottom-right-radius: 3px;
 }
 
 #Analyze{
-    margin-left: 200px;
+    margin-left: 400px;
     height: 40px;
     margin-top: 10px;
+}
+
+#Compare{
+    margin-left: 100px;
+    height: 40px;
+    margin-top: 10px;
+}
+
+.compareInputContainer {
+  text-align: center;
+  margin-top: 20px;
+  overflow: auto;
+  height: 100%;
+}
+
+.row {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.col-sm {
+  flex: 1;
+  margin: 5px;
+}
+
+.btn {
+  font-weight: 800;
+}
+
+.label-input-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+label[for^="upload"] {
+  font-weight: bold;
+  margin-right: 10px;
+  color: #333;
+}
+
+input[type="file"] {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 180px; /* Adjust width as needed */
+}
+
+#GenerateResults {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-weight: bold;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#ResultContainer {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+  height: 300px; /* Should be removed. Only for demonstration */
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
