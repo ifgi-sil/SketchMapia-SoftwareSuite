@@ -20,6 +20,10 @@ var drawnItems;
 var addedClickBase = false;
 var addedClickSketch = false;
 var routeOrder = 0;
+var allGenBaseMap = {};
+var genbasemap;
+var BooleanMissingFeature;
+var BooleanEditSketchMode = false;
 
 
 $(function() {
@@ -75,7 +79,6 @@ function renderImageFile(file, location) {
     reader.readAsDataURL(file);
 
     reader.onload = function (e) {
-
         var container = L.DomUtil.get('baseMap');
         if (container != null) {
             container._leaflet_id = null;
@@ -84,7 +87,7 @@ function renderImageFile(file, location) {
 
         image.title = file.name;
         image.src = this.result;
-
+        console.log("src", this.result);
 
         baseMap = new L.map('imagemap', {
             crs: L.CRS.Simple
@@ -99,36 +102,36 @@ function renderImageFile(file, location) {
         layerGroupBasemap.addTo(baseMap);
         layerGroupBasemapGen.addTo(baseMap);
         drawnItems.addTo(layerGroupBasemap);
+
+
         var layerControl = new L.Control.Layers(null, {
             'Base Map': layerGroupBasemap,
             'Generalized Map': layerGroupBasemapGen
         }).addTo(baseMap);
+        missingFeatureButton.addTo(baseMap);
         }
 
 $( "#loaded" ).prop( "checked", true );
 $( "#loaded" ).prop( "disabled", false );
 
-
-
-
-
 }
 
 
- routeButton = L.easyButton({
+ var routeButton = L.easyButton({
 
  states: [{
             stateName: 'Select-Route-Mode-On',        // name the state
             icon:      'fa-arrow-trend-up',               // and define its properties
             title:     'SelectRouteOff',      // like its title
             onClick: function(btn, map) {
-                console.log("On");
                 $($(this)[0]._container).css('display','inline-flex');
                 btn.button.style.boxShadow = 'inset 0 -1px 5px 2px rgba(81, 77, 77, 1)';
 
                 $($(this)[0]._container).append($("<a style='outline: none;width: fit-content;' id = 'clearRoute' onclick='clearRoute()'>Clear Route</a>"));
                 drawnItems.eachLayer(function(blayer){
+
                     blayer.on('click',function(e){
+                    if (blayer.feature.properties.otype == "Line"){
                     if (!blayer.feature.properties.isRoute){
                         blayer.feature.properties.isRoute = "Yes";
                         blayer.feature.properties.RouteSeqOrder = routeOrder + 1;
@@ -145,7 +148,9 @@ $( "#loaded" ).prop( "disabled", false );
                         });
                         routeOrder = routeOrder - 1;
                      }
+                     }
                 });
+
             });
              btn.state('Select-Route-Mode-Off');    // change state on click!
             }
@@ -159,13 +164,76 @@ $( "#loaded" ).prop( "disabled", false );
                drawnItems.eachLayer(function(blayer){
                 blayer.off('click');
                 });
-                console.log("Off");
                 btn.state('Select-Route-Mode-On');
             }
     }]
 
 
  });
+
+ var multibuildingButton = L.easyButton({
+
+ states: [{
+            stateName: 'Select-MultiBuilding-Mode-On',        // name the state
+            icon:      'fa fa-th-large',               // and define its properties
+            title:     'SelectMultiBuildingOff',      // like its title
+            onClick: function(btn, map) {
+                $($(this)[0]._container).css('display','inline-flex');
+                btn.button.style.boxShadow = 'inset 0 -1px 5px 2px rgba(81, 77, 77, 1)';
+
+
+                drawnItems.eachLayer(function(blayer){
+
+                    blayer.on('click',function(e){
+                     if (blayer.feature.properties.otype == "Polygon"){
+                    if (!blayer.feature.properties.isMultiBuilding){
+                        blayer.feature.properties.isMultiBuilding = "Yes";
+                        blayer.setStyle({
+                            color: 'red'   //or whatever style you wish to use;
+                        });
+                    }
+                    else if (blayer.feature.properties.isMultiBuilding == "Yes"){
+                        blayer.feature.properties.isMultiBuilding = null ;
+                        blayer.setStyle({
+                            color: '#e8913a'   //or whatever style you wish to use;
+                        });
+                  }
+                  }
+                });
+            });
+             btn.state('Select-MultiBuilding-Mode-Off');    // change state on click!
+            }
+        }, {
+            stateName: 'Select-MultiBuilding-Mode-Off',
+            icon:      'fa fa-th-large',
+            title:     'SelectMultiBuildingOn',
+            onClick: function(btn, map) {
+                btn.button.style.boxShadow = null;// and its callback
+               drawnItems.eachLayer(function(blayer){
+                blayer.off('click');
+                });
+                btn.state('Select-MultiBuilding-Mode-On');
+            }
+    }]
+
+
+ });
+
+
+
+
+
+
+function removeLayer(id) {
+	layerGroupBasemapGen.eachLayer(function (layer) {
+		if (layer._leaflet_id === id){
+			layerGroupBasemapGen.removeLayer(layer)
+		}
+	});
+}
+
+
+
 
 function clearRoute(){
         drawnItems.eachLayer(function(blayer){
@@ -178,8 +246,7 @@ function clearRoute(){
     });
 };
 
-
-labelButton = L.easyButton({
+var labelButton = L.easyButton({
 states: [{
             stateName: 'label-visible',        // name the state
             icon:      'fa-solid fa-info',               // and define its properties
@@ -191,9 +258,10 @@ states: [{
                 })
                 btn.state('label-invisible');    // change state on click!
 
-                if (GenBaseMap != null){
-                       GenBaseMap.eachLayer(function(glayer){
-                        glayer.bindTooltip(String(glayer.feature.properties.id), {permanent:true});
+                if (allGenBaseMap[sketchMaptitle] != null){
+
+                       genbasemap.eachLayer(function(glayer){
+                            glayer.bindTooltip(String(glayer.feature.properties.id), {permanent:true});
                        });
                 }
             }
@@ -206,8 +274,8 @@ states: [{
                  drawnItems.eachLayer(function(blayer){
                     blayer.unbindTooltip();
                 })
-                if (GenBaseMap != null){
-                       GenBaseMap.eachLayer(function(glayer){
+                if (allGenBaseMap[sketchMaptitle] != null){
+                       genbasemap.eachLayer(function(glayer){
                         glayer.unbindTooltip();
                        });
                 }
@@ -217,10 +285,35 @@ states: [{
 });
 
 
+var missingFeatureButton = L.easyButton({
+position: 'topright',
+states: [{
+            stateName: 'missing-invisible',        // name the state
+            icon:      'fa-solid fa-square-xmark',               // and define its properties
+            title:     'hidemissingfeatures',      // like its title
+            onClick: function(btn, map) {
+                btn.button.style.boxShadow = 'inset 0 -1px 5px 2px rgba(81, 77, 77, 1)';
+                btn.state('missing-visible');    // change state on click!
+                BooleanMissingFeature = true;
+                GenStyleLayers(allGenBaseMap[sketchMaptitle]);
+            }
+        }, {
+            stateName: 'missing-visible',
+            icon:      'fa-solid fa-square-xmark',
+            title:     'showmissingfeatures',
+            onClick: function(btn, map) {
+                btn.button.style.boxShadow = null;// and its callback
+                btn.state('missing-invisible');
+                BooleanMissingFeature = false;
+                GenStyleLayers(allGenBaseMap[sketchMaptitle]);
+            }
+    }]
+});
 
 
 
-labelButtonSketchMap = L.easyButton({
+
+var labelButtonSketchMap = L.easyButton({
 states: [{
             stateName: 'label-visible',        // name the state
             icon:      'fa-solid fa-info',               // and define its properties
@@ -261,7 +354,7 @@ drawCircle: false,
 drawMarker: false,
 drawRectangle:false,
 drawText: false,
-drawCircleMarker:true,
+drawCircleMarker:false,
 dragMode:false,
 rotateMode:false,
 cutPolygon:false
@@ -325,6 +418,7 @@ drawnItems.eachLayer(function(blayer){
 addedClickBase = false;
 routeButton.addTo(baseMap);
 labelButton.addTo(baseMap);
+multibuildingButton.addTo(baseMap);
 });
 
 
@@ -378,6 +472,12 @@ drawnItems.eachLayer(function(blayer){
 
 
    $('.thumbnail').click(function(e){
+   console.log(BooleanEditSketchMode);
+
+   if (BooleanEditSketchMode == true){
+   saveSketchMap();
+   }
+
    addedClickSketch = false;
 
      $('#slider').prop('checked', true);
@@ -401,10 +501,13 @@ drawnItems.eachLayer(function(blayer){
         if(allDrawnSketchItems.hasOwnProperty(sketchMaptitle)){
             drawnSketchItems=allDrawnSketchItems[sketchMaptitle];
             drawnSketchItems.addTo(sketchMap);
-            if (Object.keys(AlignmentArray).length == 0){
+            (!(sketchMaptitle in AlignmentArray))
+            if (!(sketchMaptitle in AlignmentArray)){
                 console.log("inside Alignment Array=0");
                 checkAlignnum = 1;
                 alignmentArraySingleMap={};
+         var idArray = Object.values(drawnSketchItems.toGeoJSON().features).map((item) => item.properties.id);
+         id = Math.max.apply(Math, idArray);
                 drawnSketchItems.eachLayer(function(slayer){
                     slayer.feature.properties.selected = false;
                     slayer.feature.properties.aligned = false;
@@ -430,11 +533,13 @@ drawnItems.eachLayer(function(blayer){
         }
         else{
             console.log("in AlignmentArray");
-
             checkAlignnum = AlignmentArray[sketchMaptitle].checkAlignnum;
             alignmentArraySingleMap=AlignmentArray[sketchMaptitle];
-
+         var idArray = Object.values(drawnSketchItems.toGeoJSON().features).map((item) => item.properties.id);
+         id = Math.max.apply(Math, idArray);
              drawnSketchItems.eachLayer(function(slayer){
+                  delete slayer.feature.properties.group;
+                  delete slayer.feature.properties.groupID;
                 $.each(alignmentArraySingleMap, function(i, item) {
                     if(alignmentArraySingleMap[i].genType == "Abstraction to show existence"){
                         if((alignmentArraySingleMap[i].SketchAlign[0]).includes(slayer.feature.properties.sid)){
@@ -446,6 +551,8 @@ drawnItems.eachLayer(function(blayer){
             });
 
             drawnItems.eachLayer(function(blayer){
+                  delete blayer.feature.properties.group;
+                  delete blayer.feature.properties.groupID;
                 $.each(alignmentArraySingleMap, function(i, item) {
                     if(alignmentArraySingleMap[i].genType == "Abstraction to show existence"){
                         if((alignmentArraySingleMap[i].BaseAlign[0]).includes(blayer.feature.properties.id)){
@@ -460,6 +567,12 @@ drawnItems.eachLayer(function(blayer){
 
         restoreBaseAlignment(alignmentArraySingleMap);
         styleLayers();
+
+        if (allGenBaseMap[sketchMaptitle] != null){
+            layerGroupBasemapGen.clearLayers();
+            genbasemap = allGenBaseMap[sketchMaptitle].addTo(layerGroupBasemapGen);
+            GenStyleLayers(genbasemap);
+         }
         }
         else{
         console.log("No sketchmap own title");
@@ -480,11 +593,15 @@ drawnItems.eachLayer(function(blayer){
         id = -1;
         checkAlignnum = 1;
         }
+
+
    });
 
 
 
     $('#drawSM').click(function(){
+
+    BooleanEditSketchMode = true;
 
     if (addedClickBase == false){
            addClickBase();
@@ -546,7 +663,6 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
 
         sketchMap.on('pm:create', function (event) {
                        id=id+1;
-                       console.log("create id", id);
             var layer = event.layer;
 
             var feature = layer.feature = layer.feature || {}; // Initialize feature
@@ -650,7 +766,6 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
 
 
     function align(BID,SID,num,sketchtype,basetype){
-       console.log(BID,SID,num,sketchtype,basetype);
        var degreeOfGeneralization;
        var BaseAlign={};
        var SketchAlign={};
@@ -659,13 +774,11 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
        degreeOfGeneralization=(BID.length - SID.length)/BID.length;
        var genType;
        (async () => {
-           console.log(sketchtype,basetype);
           genType = await predictGeneralization(sketchtype,basetype);
           if(genType!= "Generalization Not possible") {
           alignmentArraySingleMap[num]={BaseAlign,SketchAlign,genType,degreeOfGeneralization};
           }
           if(genType == "Abstraction to show existence"){
-                console.log("Group Yes");
                 drawnItems.eachLayer(function(blayer){
                        if(BID.includes(blayer.feature.properties.id)){
                             blayer.feature.properties.group = true;
@@ -690,25 +803,29 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
     }
     var hoverarray = [];
 
+
     function hoverfunction(){
+
     drawnSketchItems.eachLayer(function(slayer){
     slayer.on('mouseover', function() {
-    $.each(alignmentArraySingleMap, function(i, item) {
-    if((alignmentArraySingleMap[i].SketchAlign != null) && (alignmentArraySingleMap[i].SketchAlign[0]).includes(slayer.feature.properties.sid)){
-
-    hoverarray.push(alignmentArraySingleMap[i].BaseAlign[0]);
-    hoverarray.push(alignmentArraySingleMap[i].SketchAlign[0]);
+      if (slayer.feature.properties.aligned == true){
+      for (i in alignmentArraySingleMap){
+           if (alignmentArraySingleMap[i].SketchAlign[0].includes(slayer.feature.properties.sid)){
+               hoverarray.push(alignmentArraySingleMap[i].BaseAlign[0]);
+               hoverarray.push(alignmentArraySingleMap[i].SketchAlign[0]);
+               break;
+           }
+      }
     }
 
     changestyleOnHover(hoverarray);
     });
-    });
+
     slayer.on('mouseout', function() {
     hoverarray=[];
     styleLayers();
     });
-
-    });
+       });
     }
 
 
@@ -795,9 +912,18 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
 
     }
 
-    $('#saveSM').click(function(){
-     sketchMap.pm.removeControls();
 
+   function saveSketchMap(){
+    console.log("called");
+     if (sketchMap){
+        sketchMap.pm.removeControls();
+        sketchMap.off('pm:drawstart');
+        sketchMap.off('pm:drawend');
+        sketchMap.off('pm:create');
+        }
+
+
+     if (drawnSketchItems){
      drawnSketchItems.eachLayer(function(slayer){
         slayer.off('click');
         });
@@ -808,16 +934,18 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
      addedClickBase = false;
      addedClickSketch = false;
 
-     sketchMap.off('pm:drawstart');
-     sketchMap.off('pm:drawend');
-     sketchMap.off('pm:create');
-      $( "#editmenuoptions" ).slideToggle(500);
 
      allDrawnSketchItems[sketchMaptitle]=drawnSketchItems;
       drawnSketchItems.setStyle({opacity:1});
       AlignmentArray[sketchMaptitle]=alignmentArraySingleMap;
       AlignmentArray[sketchMaptitle].checkAlignnum = checkAlignnum;
+   }
+   }
 
+    $('#saveSM').click(function(){
+         BooleanEditSketchMode = false;
+         saveSketchMap();
+         $( "#editmenuoptions" ).slideToggle(500);
     });
 
 
@@ -837,21 +965,30 @@ hoverfunction();
 }
 
 function checkIfAlignedAlready(alignSketchID){
-drawnSketchItems.eachLayer(function(slayer){
-$.each(alignmentArraySingleMap, function(i, item) {
-    if(alignSketchID.includes(slayer.feature.properties.sid) && (alignmentArraySingleMap[i].SketchAlign != null) && (alignmentArraySingleMap[i].SketchAlign[0]).includes(slayer.feature.properties.sid)){
+
+for (i in alignmentArraySingleMap){
+
+if (alignmentArraySingleMap[i].SketchAlign){
+if (alignmentArraySingleMap[i].SketchAlign[0].some(item => alignSketchID.includes(item))){
+ drawnSketchItems.eachLayer(function (slayer){
+   if ((alignmentArraySingleMap[i].SketchAlign[0]).includes(slayer.feature.properties.sid)){
+   console.log(slayer.feature.properties.id);
+    slayer.feature.properties.aligned = false;
+    slayer.feature.properties.isRoute = null;
+    slayer.feature.properties.group = null;
+   }
+ });
      drawnItems.eachLayer(function(blayer){
      if((alignmentArraySingleMap[i].BaseAlign != null) && (alignmentArraySingleMap[i].BaseAlign[0]).includes(blayer.feature.properties.id)){
         blayer.feature.properties.aligned=false;
      }
      });
-    console.log("removed",alignmentArraySingleMap[i]);
      delete alignmentArraySingleMap[i];
      styleLayers();
-    }
-    });
-})
-
+ console.log("iuasd");
+ }
+}
+}
 
 }
 
@@ -886,16 +1023,16 @@ if (drawnItems){
          if (blayer.feature.properties.selected){
                 blayer.setStyle({weight:12});
             }
-            if (!blayer.feature.properties.selected && !blayer.feature.properties.aligned && !blayer.feature.properties.isRoute){
+            if (!blayer.feature.properties.selected && !blayer.feature.properties.aligned && (!blayer.feature.properties.isRoute || !blayer.feature.properties.isMultiBuilding)){
                 blayer.setStyle({opacity:0.7,weight: 5,color: "#e8913a",dashArray: [5, 5]});
             }
-            if (!blayer.feature.properties.selected && blayer.feature.properties.aligned && !blayer.feature.properties.isRoute){
+            if (!blayer.feature.properties.selected && blayer.feature.properties.aligned && (!blayer.feature.properties.isRoute || !blayer.feature.properties.isMultiBuilding)){
                 blayer.setStyle({opacity:0.7,weight: 5,color: "#e8913a",dashArray: null});
             }
-            if (!blayer.feature.properties.selected && !blayer.feature.properties.aligned && blayer.feature.properties.isRoute=="Yes"){
+            if (!blayer.feature.properties.selected && !blayer.feature.properties.aligned && (blayer.feature.properties.isRoute=="Yes" || blayer.feature.properties.isMultiBuilding)){
                 blayer.setStyle({opacity:0.7,weight: 5,color: "red",dashArray: [5, 5]});
             }
-            if(!blayer.feature.properties.selected && blayer.feature.properties.aligned && blayer.feature.properties.isRoute=="Yes"){
+            if(!blayer.feature.properties.selected && blayer.feature.properties.aligned &&( blayer.feature.properties.isRoute=="Yes" || blayer.feature.properties.isMultiBuilding)){
                 blayer.setStyle({opacity:0.7,weight: 5,color: "red",dashArray: null,});
             }
      });
@@ -904,91 +1041,51 @@ if (drawnItems){
 
 
 
-// function predictGenSingleLine(sketchtype,basetype){
-// var datatobesent = new L.geoJson();
-//  drawnItems.eachLayer(function(blayer){
-//     if((Object.keys(basetype).map(Number)).includes(blayer.feature.properties.id)){
-//        datatobesent.addData(blayer.toGeoJSON());
-//     }
-// });
-
-// var returnValue;
-
-// var url = "http://localhost:8080/fmedatastreaming/Generalization/junctiondetect.fmw?data=" + encodeURIComponent(JSON.stringify(JSON.stringify(datatobesent.toGeoJSON())));
-// var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/GeneralizationPredict/networkcalculator.fmw/parameters?fmetoken=47e241ca547e14ab6ea961aef083f8a4cbe6dfe3"
-
-
-// var httpRequest = new XMLHttpRequest();
-// httpRequest.open("GET", url, false);
-// httpRequest.setRequestHeader("Authorization","fmetoken token=*****")
-// httpRequest.setRequestHeader("Access-Control-Allow-Origin", "http://localhost:8080");
-// httpRequest.setRequestHeader("Accept","text/html");
-// httpRequest.setRequestHeader("content-Type","application/x-www-form-urlencoded");
-//             httpRequest.onreadystatechange = function()
-//             {
-//                 if (httpRequest.readyState == 4 && httpRequest.status == 200)
-//                 {
-//                  var responseArray = (httpRequest.response).split(/\r?\n/);
-//                  responseArray.pop();
-//                  var nodeArray = [];
-//                   $.each(responseArray, function(i, item) {
-//                         nodeArray.push(Object.values(JSON.parse(responseArray[i])));
-//                   });
-//                  nodeArray = _.flatten(nodeArray,true);
-//                  if (new Set(nodeArray).size == nodeArray.length){
-//                     returnValue = "Abstraction to show existence";
-//                  }
-//                  else{
-//                     var nodeCount = _.countBy(nodeArray);
-//                     if (!(Object.values(nodeCount)).includes(3)){
-//                     returnValue =  "OmissionMerge";
-//                     }
-//                  }
-//                 }
-//             }
-//             // send a request so we get a reply
-//             httpRequest.send();
-
-//  return returnValue;
-// }
-
-function predictGenSingleLine(sketchtype, basetype) {
-    var datatobesent = new L.geoJson();
-    drawnItems.eachLayer(function(blayer) {
-      if ((Object.keys(basetype).map(Number)).includes(blayer.feature.properties.id)) {
-        datatobesent.addData(blayer.toGeoJSON());
-      }
-    });
-    var coordinates = [];
-    for (var i = 0; i < datatobesent.toGeoJSON().features.length; i++) {
-    var feature = datatobesent.toGeoJSON().features[i];
-    if (feature.geometry.type === "LineString") {
-        coordinates.push(feature.geometry.coordinates);
+function predictGenSingleLine(sketchtype,basetype){
+var datatobesent = new L.geoJson();
+ drawnItems.eachLayer(function(blayer){
+    if((Object.keys(basetype).map(Number)).includes(blayer.feature.properties.id)){
+       datatobesent.addData(blayer.toGeoJSON());
     }
-    }
-    var result = checkOverlap(coordinates[0], coordinates[1]);
-    return result
-  }
-  
-function checkOverlap(line1, line2) {
-var commonPair = false;
-for (var i = 0; i < line1.length; i++) {
-    for (var j = 0; j < line2.length; j++) {
-    if (line1[i][0] == line2[j][0] && line1[i][1] == line2[j][1]) {
-        commonPair = true;
-        break;
-    }
-    }
-    if (commonPair) {
-    break;
-    }
-}
-if (commonPair) {
-    return "OmissionMerge";
-} else {
-    return "abstraction to existence";
-}
+});
+
+var returnValue;
+
+var url = "http://localhost:8080/fmedatastreaming/Generalization/junctiondetect.fmw?data=" + encodeURIComponent(JSON.stringify(JSON.stringify(datatobesent.toGeoJSON())));
+var newurl = "http://desktop-f25rpfv:8080/fmerest/v3/repositories/GeneralizationPredict/networkcalculator.fmw/parameters?fmetoken=47e241ca547e14ab6ea961aef083f8a4cbe6dfe3"
+
+
+var httpRequest = new XMLHttpRequest();
+httpRequest.open("GET", url, false);
+httpRequest.setRequestHeader("Authorization","fmetoken token=052c05a3a85fea84fb131d60281131e9ac65787b")
+httpRequest.setRequestHeader("Access-Control-Allow-Origin", "http://localhost:8080");
+httpRequest.setRequestHeader("Accept","text/html");
+httpRequest.setRequestHeader("content-Type","application/x-www-form-urlencoded");
+            httpRequest.onreadystatechange = function()
+            {
+                if (httpRequest.readyState == 4 && httpRequest.status == 200)
+                {
+                 var responseArray = (httpRequest.response).split(/\r?\n/);
+                 responseArray.pop();
+                 var nodeArray = [];
+                  $.each(responseArray, function(i, item) {
+                        nodeArray.push(Object.values(JSON.parse(responseArray[i])));
+                  });
+                 nodeArray = _.flatten(nodeArray,true);
+                 if (new Set(nodeArray).size == nodeArray.length){
+                    returnValue = "Abstraction to show existence";
+                 }
+                 else{
+                    var nodeCount = _.countBy(nodeArray);
+                    if (!(Object.values(nodeCount)).includes(3)){
+                    returnValue =  "OmissionMerge";
+                    }
+                 }
+                }
+            }
+            // send a request so we get a reply
+            httpRequest.send();
+
+ return returnValue;
 }
 
-
-  

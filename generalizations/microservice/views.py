@@ -18,6 +18,7 @@ import bcrypt
 from shapely import geometry, ops
 from shapely.geometry import Point, Polygon, shape
 from shapely import LineString, MultiPoint, Polygon
+from shapely.geometry import Polygon, LineString, MultiLineString
 from matplotlib import pyplot as plt
 import shapely.wkt
 from math import sqrt
@@ -25,54 +26,81 @@ import geojson
 from geojson import Feature, Point, FeatureCollection, Polygon, dump
 from django.http import JsonResponse
 from collections import defaultdict
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 
 def routedirection(routedata,inputfile):
     # Network flow
     r_data = json.loads(str(routedata))
     nf_ids = set(data['id'] for data in r_data)
-    f = open(inputfile)
-    data_ip = json.load(f)
     ls=[]
-    for feature in data_ip['features']:
+    for feature in inputfile['features']:
         properties = feature['properties']
         id = properties.get('id')
-
+    
         if id in nf_ids:
             geo = feature['geometry']
             coor = geo['coordinates']
             ls.append(coor)
+            # ls.append((id,coor))
+       
+    # def convert_to_list(data):
+    #     if isinstance(data, (tuple, set)):  # If it's a tuple or set, convert to list
+    #         return [convert_to_list(item) for item in data]  # Recursively convert inner items
+    #     elif isinstance(data, list):  # If it's a list, process its items
+    #         return [convert_to_list(item) for item in data]
+    #     else:  # If it's neither, return the data as is
+    #         return data
+        
+    # # Apply the conversion recursively
+    # data = convert_to_list(ls)
 
-    def joinSegments( s ):
-        try:
-            if s[0][0] == s[1][0] or s[0][0] == s[1][-1]:
-                s[0].reverse()
-            c = s[0][:]
-            for x in s[1:]:
-                if x[-1] == c[-1]:
-                    x.reverse()
-                c += x
-            return c
-        except IndexError:
+    # Function to ensure segments are connected and properly aligned
+    def align_segments(segments):
+        if not segments:
             return []
-    
-    res = joinSegments(ls)
-    
-    def split_list(Input_list, n):
-        for i in range(0, len(Input_list), n):
-            yield Input_list[i:i + n]
-    n = 2
-    val=split_list(res, n)
-    co_or=list(val)
 
-    f_out=dict(zip(list(nf_ids), co_or))
-    # print(f_out)
-    return(f_out)
+        aligned_segments = [segments[0]]  # Start with the first segment
+
+        for segment in segments[1:]:
+            last_segment = aligned_segments[-1]
+
+            # If the end of the last segment doesn't match the start of the current segment, reverse the current segment
+            if last_segment[-1] != segment[0]:
+                segment.reverse()
+
+            # Add the properly aligned segment to the list
+            aligned_segments.append(segment)
+
+        return aligned_segments
+
+    # Align the segments so that they are continuous
+    aligned_segments = align_segments(ls)
+    
+    # result = {}
+    # # Iterate through the list
+    # for item in aligned_segments:
+    #     # If the first element is an integer, it is the key
+    #     if isinstance(item[0], int):
+    #         key = item[0]
+    #         # Ensure the value is wrapped in a list
+    #         result[key] = [list(item[1])]
+    #     # If the second element is an integer, it is the key
+    #     elif isinstance(item[1], int):
+    #         key = item[1]
+    #         result[key] = [list(item[0])]
+            
+    # breakpoint() 
+    result = dict(zip(nf_ids, aligned_segments))
+    # print(result)
+    
+    return(result)
 
 import logging
 
+@ensure_csrf_cookie
 def requestFME(request):
-    # if request.is_ajax() and request.method == 'POST':
+   
     basedata = request.POST.get('basedata')
     sketchdata = request.POST.get('sketchdata')
     aligndata = request.POST.get('aligndata')
@@ -84,18 +112,11 @@ def requestFME(request):
     sketchMapdata = json.loads(sketchdata)
     alignMapdata = json.loads(aligndata)
     
-    try:
-        # Get the directory of the current script
-        # current_dir = os.path.dirname(os.path.abspath(__file__))
-        
-        # Inputbasepath = os.path.join(current_dir, USER_PROJ_DIR, "inputbaseMap.json")
-        # Inputsketchpath = os.path.join(current_dir, USER_PROJ_DIR, "inputsketchMap.json")
-        # Inputaligndata = os.path.join(current_dir, USER_PROJ_DIR, "alignment.json")
-        
+    try:  
         Inputbasepath = os.path.join(USER_PROJ_DIR,"inputbaseMap"+".json")
         Inputsketchpath = os.path.join(USER_PROJ_DIR,"inputsketchMap"+".json")
         Inputaligndata =  os.path.join(USER_PROJ_DIR,"alignment"+".json")
-        # breakpoint()
+      
         if os.path.exists(Inputbasepath):
             os.remove(Inputbasepath)
         f = open(Inputbasepath, "a+")
@@ -129,9 +150,21 @@ def spatial_transformation(routedata,sketchroutedata):
     base = open(Inputbasepath)
     sketch = open(Inputsketchpath)
     align = open(Inputaligndata)
-    # breakpoint()
-    # returns JSON object as a dictionary
+    
     data_ip = json.load(base)
+    f_out = routedirection(routedata,data_ip)
+    
+    # Iterate through the features in inputbasemap and update coordinates if id matches
+    for feature in data_ip['features']:
+        properties = feature['properties']
+        id = properties.get("id")
+        # id = str(id_str).strip('[]')
+        # gen_type = properties.get('genType')
+        if id in f_out :
+            geo = feature['geometry']
+            geo['coordinates'] = f_out[id]
+   
+    # returns JSON object as a dictionary
     data = json.load(align)
     amal_ids = []
     ng_id_1 = []
@@ -186,9 +219,9 @@ def spatial_transformation(routedata,sketchroutedata):
         properties = i['properties']
         id = properties['id']
         
-        if i['properties'].get('missing'):
-            m_ids.append(i['properties']['id'])
-            m_coor.append(i['geometry']['coordinates'])
+        if properties.get('missing') and geo['type'] == 'LineString':
+            m_ids.append(id)
+            m_coor.append(geo['coordinates'])
             
     def calculate_angle(p1, p2, p3):
         """
@@ -227,42 +260,7 @@ def spatial_transformation(routedata,sketchroutedata):
         Check if a sequence of coordinates forms a closed loop.
         """
         return coordinates[0] == coordinates[-1]
-
     
-    def is_connected(coord1, coord2):
-        """
-        Check if the end of coord1 is the start of coord2.
-        """
-        return coord1[-1] == coord2[0]
-    
-    
-    # def combine_segments(m_ids, m_coor):
-    #     """
-    #     Combine segments that are connected and track their IDs.
-    #     """
-    #     combined_segments = []
-    #     visited = set()
-
-    #     for i, (segment, segment_id) in enumerate(zip(m_coor, m_ids)):
-    #         if i in visited:
-    #             continue
-
-    #         current_path = segment[:]
-    #         segment_ids = [segment_id]
-
-    #         for j in range(i + 1, len(m_coor)):
-    #             if j in visited:
-    #                 continue
-
-    #             if is_connected(current_path, m_coor[j]):
-    #                 current_path.extend(m_coor[j][1:])
-    #                 segment_ids.append(m_ids[j])
-    #                 visited.add(j)
-
-    #         combined_segments.append((segment_ids, current_path))
-    #         visited.add(i)
-
-    #     return combined_segments
 
     def combine_segments(m_ids, m_coor):
         """
@@ -310,18 +308,7 @@ def spatial_transformation(routedata,sketchroutedata):
         curved_ids = []
         loop_ids = []
         straight_ids = []
-        # breakpoint()
-        
-        # combined_segments = combine_segments(m_coor)
 
-        # for segment_ids, coordinates in combined_segments:
-        #     if is_curved(coordinates, curvature_threshold):
-        #         curved_ids.extend([m_ids[i] for i in segment_ids])
-
-        #     if check_closed_loop(coordinates):
-        #         loop_ids.extend([m_ids[i] for i in segment_ids])
-        #     else:
-        #         straight_ids.extend([m_ids[i] for i in segment_ids])
         combined_segments = combine_segments(m_ids, m_coor)
 
         for segment_ids, coordinates in combined_segments:
@@ -426,20 +413,21 @@ def spatial_transformation(routedata,sketchroutedata):
     connected_streets, connected_street_points = find_connected_streets(loop_ids, data_ip)
     
     connected_streets_st, st_points = find_connected_streets(st_ids, data_ip)
+    
+    # Iterate through the lists in reverse order to safely remove elements
+    for index in range(len(connected_streets_st) - 1, -1, -1):
+        if len(connected_streets_st[index]) < 4:
+            # Remove the sublist from both lists if it has fewer than 4 elements
+            del connected_streets_st[index]
+            del st_ids[index]
 
     # Print the results
     print("Connected Streets IDs:", connected_streets)
     print("Connected Streets points:", connected_street_points)
     print("Connected Streets straight IDs:", connected_streets_st)
     print("Connected Streets straight points:", st_points)
-    
-    # Flatten list2 for easier comparison with list1
-    # flattened_list2 = [item[0] for item in ng_id_1]
 
-    # Create the final list by excluding elements in list1
-    # ng_ids = [[item] for item in flattened_list2 if item not in connected_streets and item not in connected_streets_st]
-    
-        # Flatten connected_streets and connected_streets_st for easier comparison
+    # Flatten connected_streets and connected_streets_st for easier comparison
     flattened_connected_streets = [item for sublist in connected_streets for item in sublist]
     flattened_connected_streets_st = [item for sublist in connected_streets_st for item in sublist]
 
@@ -462,12 +450,12 @@ def spatial_transformation(routedata,sketchroutedata):
     a2e_l = []
     a2e_p= []
     a2e_ids_l=[]
-    a2e_ids_p=[]
+    a2e_ids_p=[] 
     ng_ids_l = []
     ng_ids_p = []
     no_gen_l = []
     no_gen_p = []
-   
+
     for i in data_ip['features']:
         geo = i['geometry']
         properties = i['properties']
@@ -520,25 +508,59 @@ def spatial_transformation(routedata,sketchroutedata):
                     point.append(f_coor)
                 else:
                     continue
-                
-        for x in a2e_ids:
-            for y in x:
-                if y == id :
+        
+        # for x in a2e_ids:
+        #     for y in x:
+        #         if y == id :
+        #             type = geo['type']
+        #             coor = geo['coordinates']
+                    
+        #             if len(coor) > 1:
+        #                 # Handle LineString
+        #                 f_coor = geometry.LineString(coor)
+        #                 a2e_l.append(f_coor)
+        #                 a2e_ids_l.append(id)
+                        
+        #             else:
+        #                 # Handle Polygon
+        #                 f_coor = geometry.Polygon(coor[0])
+        #                 a2e_p.append(f_coor)
+        #                 a2e_ids_p.append(id)
+    
+    
+    for group in a2e_ids:
+        group_l = []
+        group_p = []
+        coor_l = []
+        coor_p = []
+        for id in group:
+            for feature in data_ip['features']:
+                geo = feature['geometry']
+                properties = feature['properties']
+                if properties['id'] == id:
                     type = geo['type']
                     coor = geo['coordinates']
                     if len(coor) > 1:
-                        # Create a LineString object
+                        # Handle LineString
                         f_coor = geometry.LineString(coor)
-                        a2e_l.append(f_coor)
-                        a2e_ids_l.append(id)
+                        coor_l.append(f_coor)
+                        # a2e_ids_l.append(id)
+                        group_l.append(id)
                     else:
-                        # Create a Polygon object
+                        # Handle Polygon
                         f_coor = geometry.Polygon(coor[0])
-                        a2e_p.append(f_coor)
-                        a2e_ids_p.append(id)
-                else:
-                    continue
-    
+                        coor_p.append(f_coor)
+                        group_p.append(id)
+                        
+        if coor_l:
+            a2e_l.append(coor_l)
+        if coor_p:
+            a2e_p.append(coor_p)
+        if group_l:
+            a2e_ids_l.append(group_l)
+        if group_p:
+            a2e_ids_p.append(group_p)
+
     poly_res = []
     for sublist in amal_ids:
         start = sum([len(sub) for sub in poly_res])
@@ -556,31 +578,32 @@ def spatial_transformation(routedata,sketchroutedata):
         start = sum([len(sub) for sub in line_res])
         end = start + len(sublist)
         line_res.append(line[start:end])
-        
+    
     ng_res_l = []
     for sublist in ng_ids:
         start = sum([len(sub) for sub in ng_res_l])
         end = start + len(sublist)
         ng_res_l.append(no_gen_l[start:end])
-        
+
     ng_res_p = []
     for sublist in ng_ids:
         start = sum([len(sub) for sub in ng_res_p])
         end = start + len(sublist)
         ng_res_p.append(no_gen_p[start:end])
-        
+
     a2e_l_res = []
     for sublist in a2e_ids:
         start = sum([len(sub) for sub in a2e_l_res])
         end = start + len(sublist)
         a2e_l_res.append(a2e_l[start:end])
-        
+
     a2e_p_res=[]   
     for sublist in a2e_ids:
         start = sum([len(sub) for sub in a2e_p_res])
         end = start + len(sublist)
         a2e_p_res.append(a2e_p[start:end])
-        
+    
+    # breakpoint()
     s_ng_ids_l = []
     s_ng_ids_p = []
     s_a2e_ids_l = []
@@ -602,43 +625,17 @@ def spatial_transformation(routedata,sketchroutedata):
                     s_ng_ids_p.append(sketch_align_value)
                 elif base_align_value in ng_ids_l:
                     s_ng_ids_l.append(sketch_align_value)
-                if base_align_value in a2e_ids_p:
+                if is_in_nested_list(a2e_ids_p,base_align_value):
                     s_a2e_ids_p.append(sketch_align_value)
-                elif base_align_value in a2e_ids_l:
+                if is_in_nested_list(a2e_ids_l, base_align_value):
                     s_a2e_ids_l.append(sketch_align_value)
                 if is_in_nested_list(connected_streets, base_align_value):
                     s_rac_ids.append(sketch_align_value)
                 if is_in_nested_list(connected_streets_st, base_align_value):
                     s_jm_ids.append(sketch_align_value)
-    # breakpoint()
-    # Iterate through the data and update SketchAlign
-    # for key, value in data.items():
-    #     for sub_key, sub_value in value.items():
-    #         if isinstance(sub_value, dict) and "BaseAlign" in sub_value and "SketchAlign" in sub_value:
-    #             base_align_list = sub_value["BaseAlign"]["0"]
-    #             sketch_align_list = sub_value["SketchAlign"]["0"]
-                
-    #             # Ensure both lists have the same length
-    #             if len(base_align_list) != len(sketch_align_list):
-    #                 print(f"Warning: Mismatched lengths for BaseAlign and SketchAlign in {key} -> {sub_key}")
-    #                 continue
-                
-    #             # Pair elements and append to the appropriate lists
-    #             for base_align_value, sketch_align_value in zip(base_align_list, sketch_align_list):
-    #                 if base_align_value in ng_ids_p:
-    #                     s_ng_ids_p.append(sketch_align_value)
-    #                 elif base_align_value in ng_ids_l:
-    #                     s_ng_ids_l.append(sketch_align_value)
-    #                 if base_align_value in a2e_ids_p:
-    #                     s_a2e_ids_p.append(sketch_align_value)
-    #                 elif base_align_value in a2e_ids_l:
-    #                     s_a2e_ids_l.append(sketch_align_value)
-
-    # align.close()
-    # base.close()
+    
     features = []
     
-    # breakpoint()
     # amalgamation .................................................................
     for x, ids, sids in zip(poly_res, amal_ids, s_amal_ids):
         mpt = geometry.MultiPolygon(x)
@@ -648,16 +645,17 @@ def spatial_transformation(routedata,sketchroutedata):
 
     # omission_merge................................................................
     for x, ids, sids in zip(line_res, om_ids, s_om_ids):
+        # breakpoint()
         multi_line = geometry.MultiLineString(x)
         merged_line = ops.linemerge(multi_line)
         g1_o = shapely.wkt.loads(str(merged_line))
-        features.append(Feature(geometry=g1_o, properties={"genType": "OmissionMerge", "BaseAlign": ids[0],"SketchAlign":sids[0]}))
+        features.append(Feature(geometry=g1_o, properties={"genType": "OmissionMerge", "BaseAlign": ids,"SketchAlign":sids[0]}))
    
     # collapse......................................................................
     for x, ids, sids in zip(point_res, c_ids, s_c_ids):
         collapse = x[0].centroid
         g1_c = shapely.wkt.loads(str(collapse))
-        features.append(Feature(geometry=g1_c, properties={"genType": "Collapse", "BaseAlign": ids[0],"SketchAlign":sids[0]}))
+        features.append(Feature(geometry=g1_c, properties={"genType": "Collapse", "BaseAlign": ids,"SketchAlign":sids[0]}))
         
     def is_connected(multi_line):
         merged = ops.linemerge(multi_line)
@@ -666,12 +664,9 @@ def spatial_transformation(routedata,sketchroutedata):
         elif isinstance(merged, geometry.MultiLineString) and len(merged.geoms) == 1:
             return True
         return False
-    
+
     # Abstraction to show existence Streets and buildings ..........................
-    for x, ids, sids in zip(a2e_l_res, a2e_ids, s_a2e_ids_l):
-        # breakpoint()
-        if len(x) == 0: # Skip empty inputs
-            continue
+    for x, ids, sids in zip(a2e_l_res[0], a2e_ids_l, s_a2e_ids_l):
         multi_line = geometry.MultiLineString(x)
         if is_connected(multi_line):
             merged_line = ops.linemerge(multi_line)
@@ -681,12 +676,9 @@ def spatial_transformation(routedata,sketchroutedata):
         else:
             g1_a2e = multi_line
             gen_type = "Abstraction to show existence"
-            features.append(Feature(geometry=g1_a2e, properties={"genType": gen_type, "BaseAlign": ids, "SketchAlign":sids}))
+            features.append(Feature(geometry=g1_a2e, properties={"genType": gen_type, "BaseAlign":  ids, "SketchAlign":sids}))
     
-    for x, ids, sids in zip(a2e_p_res, a2e_ids_p, s_a2e_ids_p):
-        if len(x) == 0: # Skip empty inputs
-            continue
-        # breakpoint()
+    for x, ids, sids in zip(a2e_p_res[0], a2e_ids_p, s_a2e_ids_p):
         mpt = geometry.MultiPolygon(x)
         res = mpt.convex_hull.wkt
         g1_a2e = shapely.wkt.loads(res)
@@ -711,8 +703,6 @@ def spatial_transformation(routedata,sketchroutedata):
     sketch = open(Inputsketchpath)
     sketchdata= json.load(sketch)
     s_rac_l = []
-    # print(s_rac_ids)
-    # breakpoint()
     for sublist in s_rac_ids:
         for sid in sublist:
             for feature in sketchdata['features']:
@@ -728,41 +718,77 @@ def spatial_transformation(routedata,sketchroutedata):
     def connection_check (s_rac_l_res, connected_streets, s_rac_ids):
         for x, ids, sids in zip(s_rac_l_res, connected_streets, s_rac_ids):
             multi_line = geometry.MultiLineString(x)
-            # breakpoint()
             if is_connected(multi_line):
                 return 'connected'
             else:
                 return 'not connected'
-
-    def find_features(data_ip, loop_ids):
+    
+    def find_features(data_ip, loop_ids, features):
         rac_l_res = []
+        
+        # Ensure loop_ids is a list of lists
         if isinstance(loop_ids[0], int):
             loop_ids = [loop_ids]
-            
+
         for loop_group in loop_ids:
-            rac_l =[]
-            for feature in data_ip['features']:
-                geo = feature['geometry']
-                properties = feature['properties']
-                id = properties['id']
-                
-                if id in loop_group:
-                    type = geo['type']
-                    coor = geo['coordinates']
-                    if type == 'LineString':
-                        f_coor = geometry.LineString(coor)
-                        rac_l.append(f_coor)
-            rac_l_res.append(rac_l)
+            group_list = []  # Create a sublist for each loop group
+
+            for id in loop_group:  # Iterate over each id in the current loop group
+                found_in_basealign = False  # Flag to check if id is found in BaseAlign
+
+                # Check in features first
+                for feature in features:
+                    properties = feature['properties']
+                    base_align = properties.get('BaseAlign')
+                    
+                    if isinstance(base_align, list):
+                        if id in base_align:  # Check if the id is in the list
+                            geo = feature['geometry']
+                            type = geo['type']
+                            coor = geo['coordinates']
+
+                            if type == 'LineString':
+                                f_coor = geometry.LineString(coor)
+                                group_list.append(f_coor)  # Append to the current group sublist
+                                found_in_basealign = True
+                                break  # No need to check further since we found the id
+                    elif isinstance(base_align, int):
+                        if id == base_align:  # Check if the id matches the single integer
+                            geo = feature['geometry']
+                            type = geo['type']
+                            coor = geo['coordinates']
+
+                            if type == 'LineString':
+                                f_coor = geometry.LineString(coor)
+                                group_list.append(f_coor)  # Append to the current group sublist
+                                found_in_basealign = True
+                                break  # No need to check further since we found the id
+
+                # If the id was not found in BaseAlign, check in data_ip
+                if not found_in_basealign:
+                    for feature in data_ip['features']:
+                        properties = feature['properties']
+                        
+                        if properties['id'] == id:  # Check if the id matches
+                            geo = feature['geometry']
+                            type = geo['type']
+                            coor = geo['coordinates']
+
+                            if type == 'LineString':
+                                f_coor = geometry.LineString(coor)
+                                group_list.append(f_coor)  # Append to the current group sublist
+                            break  # No need to check further since we found the id
+
+            rac_l_res.append(group_list)
+
         return rac_l_res
-    
+
     connection_status = connection_check(s_rac_l_res, connected_streets, s_rac_ids)
 
     # Only proceed if connected
     if connection_status == 'connected':
-        rac_l_res = find_features(data_ip, loop_ids)
+        rac_l_res = find_features(data_ip, loop_ids, features)
         # print(rac_l_res)
-        # breakpoint()    
-        # multi_line = geometry.MultiLineString(rac_l_res)
         centroids = []
         
         for group in rac_l_res:
@@ -775,88 +801,6 @@ def spatial_transformation(routedata,sketchroutedata):
     
         print(centroids) 
 
-      
-  
-    # g_rac_line =[]
-    # for group_index, street_group in enumerate(connected_streets):
-    #     g_rac_lines =[]
-    #     for feature in data_ip['features']:
-    #             geo = feature['geometry']
-    #             properties = feature['properties']
-    #             id = properties['id']
-
-    #             if id in street_group:
-    #                 type = geo['type']
-    #                 coor = geo['coordinates']
-    #                 if type == 'LineString':
-    #                     f_coor = geometry.LineString(coor)
-    #                     g_rac_lines.append(f_coor)
-    #     g_rac_line.append(g_rac_lines)
-
-    # def extract_endpoint(line):
-    #     return [line.coords[0], line.coords[-1]]
-    
-    # # Create new line segments that connect each endpoint to the centroid
-    # new_segments = []
-    # for line in g_rac_line:
-    #     endpoints = extract_endpoint(line)
-    #     # breakpoint()
-    #     for endpoint in endpoints:
-    #         new_segment = LineString([endpoint, (centroid.x, centroid.y)])
-    #         new_segments.append(new_segment)
-
-    # # Combine original line segments with new segments
-    # all_segments = g_rac_line + new_segments
-
-    # # Printing the results
-    # for segment in all_segments:
-    #     print(segment)
-    
-    # Iterate through connected streets and centroids to create new line segments
-    # all_segments = []
-
-    # for group_index, street_group in enumerate(connected_streets):
-    #     centroid = centroids[group_index]
-    #     g_rac_line = []
-        
-    #     for feature in data_ip['features']:
-    #         geo = feature['geometry']
-    #         properties = feature['properties']
-    #         segment_id = properties['id']
-            
-    #         if segment_id in street_group:
-    #             coor = geo['coordinates']
-    #             if geo['type'] == 'LineString':
-    #                 f_coor = LineString(coor)
-    #                 g_rac_line.append(f_coor)
-        
-    #     new_segments = []
-    #     for line in g_rac_line:
-    #         endpoints = extract_endpoint(line)
-    #         # for endpoint in endpoints:
-    #         # print (line, endpoints)
-    #         # breakpoint()
-    #         new_segment = LineString([endpoints[0], (centroid.x, centroid.y)])
-    #         new_segments.append(new_segment)
-
-    #     all_segments.append(new_segments)
-
-   # Iterate over the line segments
-    # for i, line_segments in enumerate(g_rac_line):
-    #     centroid = centroids[i]  # Select the corresponding centroid
-        
-    #     for line_segment in line_segments:
-    #         line_coords = list(line_segment.coords)
-    #         new_line_coords = [line_coords[0], line_coords[-1], centroid.coords[0]]
-    #         new_line_segment = LineString(new_line_coords)
-    #         print(new_line_segment)
-
-                # new_segments.append(new_line_segment)
-            
-    # Printing the results
-    # for segment in all_segments:
-    #     print(segment)
-    
     new_line = []
     
     for group_index, point_group in enumerate(connected_street_points):
@@ -869,105 +813,93 @@ def spatial_transformation(routedata,sketchroutedata):
             new_segment = LineString([point, (centroid.x, centroid.y)])
             new_line.append(new_segment)
             
-    # breakpoint()      
-    # for group_index, street_group in enumerate(connected_streets):
-    #     centroid = centroids[group_index]
-    #     # street_group = connected_streets[group_index]
-        
-    #     for segment_id in street_group:
-    #         for feature in data_ip['features']:
-    #             properties = feature['properties']
-    #             geo = feature['geometry']
-    #             if properties['id'] == segment_id:
-    #                 coor = geo['coordinates']
-    #                 if geo['type'] == 'LineString':
-    #                     line = LineString(coor)
-    #                     # endpoints = extract_endpoint(line)
-    #                     # breakpoint()
-    #                     # unique_points = set(tuple(point) for point in point_group)
-    #                     # for point in unique_points:
-    #                     #     new_segment = LineString([point, (centroid.x, centroid.y)])
-                            
-    #                         if line.coords[-1] == new_segment.coords[0]:
-    #                             combined_segment = LineString(list(line.coords) + list(new_segment.coords[1:]))
-    #                             print(combined_segment)
-                            
-    #                             # Create new feature for the extended line segment
-    #                             new_feature = Feature(
-    #                                 geometry=combined_segment,
-    #                                 properties={
-    #                                     "genType": "Roundaboutcollapse",
-    #                                     "BaseAlign": segment_id,
-    #                                     "SketchAlign": group_index  # Assuming SketchAlign should be group_index
-    #                                 }
-    #                             )
-                        
-    #                             # Add the new feature to the features list
-    #                             features.append(new_feature)
-
-
-    
-            
     for group_index, street_group in enumerate(connected_streets):
         for segment_id in street_group:
-            for feature in data_ip['features']:
+            found_in_basealign = False  # Flag to track if the segment is found in features
+            # First, check in the features list
+            for feature in features:
                 properties = feature['properties']
-                geo = feature['geometry']
-                if properties['id'] == segment_id and geo['type'] == 'LineString':
-                    original_line = LineString(geo['coordinates'])
-                    combined_segment = None  # Initialize combined_segment as None
-                    
-                    # Find the corresponding new line segment
-                    for new_segment in new_line:
-                        if original_line.coords[-1] == new_segment.coords[0]:
-                            combined_segment = LineString(list(original_line.coords) + list(new_segment.coords[1:]))
-                            break  # Exit the loop once combined_segment is found
-                        elif original_line.coords[0] == new_segment.coords[0]:
-                            combined_segment = LineString(list(new_segment.coords[1:]) + list(original_line.coords))
-                            break  # Exit the loop once combined_segment is found
-                    
-                    # Ensure combined_segment is assigned
-                    if combined_segment:
-                        # print(combined_segment)
-                        sketch_align_value = None
-                        for key, value in data.items():
-                            for val,val1 in v.items():
-                                base_align_list = val1['BaseAlign']['0']
-                                if segment_id in base_align_list:
-                                    sketch_align_value = val1['SketchAlign']['0'][0]
-                                    break 
-                        # print(segment_id, sketch_align_value)
-                        # breakpoint()
-                        # Create new feature for the extended line segment
-                        new_feature = Feature(
-                            geometry=combined_segment,
-                            properties={
-                                "genType": "No generalization",
-                                "genType1": "Roundaboutcollapse",
-                                "BaseAlign": segment_id,
-                                "SketchAlign": sketch_align_value,
-                                "RoundAboutCount": len(connected_streets)
-                            }
-                        )
+                base_align = properties.get('BaseAlign')
+                if isinstance(base_align, list):
+                    if segment_id in base_align:
+                        geo = feature['geometry']
+                        if geo['type'] == 'LineString':
+                            original_line = LineString(geo['coordinates'])
+                            combined_segment = None  # Initialize combined_segment as None
+                            found_in_basealign = True  # Mark as found
+                            break  # Stop checking features once the segment is found
+                elif isinstance(base_align, int):
+                    if segment_id == base_align:
+                        geo = feature['geometry']
+                        if geo['type'] == 'LineString':
+                            original_line = LineString(geo['coordinates'])
+                            combined_segment = None  # Initialize combined_segment as None
+                            found_in_basealign = True
+                            break 
+            # If not found in features, check in data_ip['features']
+            if not found_in_basealign:
+                for feature in data_ip['features']:
+                    properties = feature['properties']
+                    geo = feature['geometry']
+                    if properties['id'] == segment_id and geo['type'] == 'LineString':
+                        original_line = LineString(geo['coordinates'])
+                        combined_segment = None  # Initialize combined_segment as None
+                        break 
 
-                        # Add the new feature to the features list
-                        features.append(new_feature)
+            # Find the corresponding new line segment
+            for new_segment in new_line:
+                if original_line.coords[-1] == new_segment.coords[0]:
+                    combined_segment = LineString(list(original_line.coords) + list(new_segment.coords[1:]))
+                    break  # Exit the loop once combined_segment is found
+                elif original_line.coords[0] == new_segment.coords[0]:
+                    combined_segment = LineString(list(new_segment.coords[1:]) + list(original_line.coords))
+                    break  # Exit the loop once combined_segment is found
+            
+            # Ensure combined_segment is assigned
+            if combined_segment:
+                # print(combined_segment)
+                sketch_align_value = None
+                for key, value in data.items():
+                    for val,val1 in v.items():
+                        base_align_list = val1['BaseAlign']['0']
+                        if segment_id in base_align_list:
+                            sketch_align_value = val1['SketchAlign']['0'][0]
+                            break 
+                # print(segment_id, sketch_align_value)
 
-    # breakpoint() 
+                # Create new feature for the extended line segment
+                feature_found = False
 
-    # print(features)
+                # Iterate through the existing features
+                for feature in features:
+                    # Check if the current feature's BaseAlign matches the segment_id
+                    if 'BaseAlign' in feature['properties']:
+                        base_align = feature['properties']['BaseAlign']
 
-    import matplotlib.pyplot as plt
+                        # Normalize base_align to always be a list
+                        if not isinstance(base_align, list):
+                            base_align = [base_align]
 
-    # fig, ax = plt.subplots()
-    # for segment in new_segment:
-    #     x, y = segment.xy
-    #     ax.plot(x, y)
-    # ax.plot(centroid.x, centroid.y, 'ro')  # plot centroid
-    # plt.show()
-    
-    # breakpoint()
-    
+                        # Check if segment_id is in the list
+                        if segment_id in base_align:
+                            # Update the geometry and properties
+                            feature['geometry'] = geometry.mapping(combined_segment)
+                            feature['properties']['genType1'] = "Roundaboutcollapse"
+                            feature['properties']['RoundAboutCount'] = len(connected_streets)
+                            feature_found = True
+                            break
+                if not feature_found:
+                    new_feature = Feature(
+                        geometry= combined_segment,
+                        properties={
+                            "genType1":"Roundaboutcollapse",
+                            "BaseAlign": segment_id,  # Use the respective id
+                            "SketchAlign": sketch_align_value,  # Index of the group, adjust if needed
+                            "RoundAboutCount": len(connected_streets)
+                        }
+                    )
+                    features.append(new_feature)
+
     # Junction merge.................................................................
     s_jm_l = []
     for sublist in s_jm_ids:
@@ -983,7 +915,7 @@ def spatial_transformation(routedata,sketchroutedata):
         s_jm_l_res.append(s_jm_l[start:end])
     
     connection_status = connection_check(s_jm_l_res, connected_streets_st, s_jm_ids)
-    # breakpoint()
+    
     def find_center_point_of_segment(line_segments):
         """
         Find the center points of all line segments.
@@ -995,8 +927,6 @@ def spatial_transformation(routedata,sketchroutedata):
             for line in line_segment:
                 if isinstance(line, LineString):
                     coords = list(line.coords)
-                    if len(coords) != 2:
-                        raise ValueError("Each line segment must have exactly two endpoints.")
                     midpoint_x = (coords[0][0] + coords[1][0]) / 2
                     midpoint_y = (coords[0][1] + coords[1][1]) / 2
                     center_point = geometry.Point(midpoint_x, midpoint_y)
@@ -1004,21 +934,62 @@ def spatial_transformation(routedata,sketchroutedata):
                 
         return center_points
 
-    g_jm_line =[]
-    for feature in data_ip['features']:
-            geo = feature['geometry']
-            properties = feature['properties']
-            id = properties['id']
+    g_jm_line = []
 
-            for i in connected_streets_st:
-                if id in i:
-                    type = geo['type']
-                    coor = geo['coordinates']
-                    if type == 'LineString':
-                        f_coor = geometry.LineString(coor)
-                        g_jm_line.append((id,f_coor))
+    for street_group in connected_streets_st:
+        group_list = []  # Create a sublist for each street group
+        
+        for id in street_group:  # Iterate over each id in the current street group
+            # Flag to check if id is found in BaseAlign
+            found_in_basealign = False
+
+            # Check in additional_features first
+            for feature in features:
+                properties = feature['properties']
+                base_align = properties.get('BaseAlign')
+                
+                if isinstance(base_align, list):
+                    if id in base_align:  # Check if the id is in the list
+                        geo = feature['geometry']
+                        type = geo['type']
+                        coor = geo['coordinates']
+
+                        if type == 'LineString':
+                            f_coor = geometry.LineString(coor)
+                            group_list.append((id, f_coor))  # Append to the current group sublist
+                            found_in_basealign = True
+                            break  # No need to check further since we found the id
+                elif isinstance(base_align, int):
+                    if id == base_align:  # Check if the id matches the single integer
+                        geo = feature['geometry']
+                        type = geo['type']
+                        coor = geo['coordinates']
+
+                        if type == 'LineString':
+                            f_coor = geometry.LineString(coor)
+                            group_list.append((id, f_coor))  # Append to the current group sublist
+                            found_in_basealign = True
+                            break  # No need to check further since we found the id
+
+            # If the id was not found in BaseAlign, check in data_ip
+            if not found_in_basealign:
+                for feature in data_ip['features']:
+                    properties = feature['properties']
+                    
+                    if properties['id'] == id:  # Check if the id matches
+                        geo = feature['geometry']
+                        type = geo['type']
+                        coor = geo['coordinates']
+
+                        if type == 'LineString':
+                            f_coor = geometry.LineString(coor)
+                            group_list.append((id, f_coor))  # Append to the current group sublist
+                        break  # No need to check further since we found the id
+
+        g_jm_line.append(group_list)
 
     print(g_jm_line)
+    
     
     def extract_relevant_point(line, st_points):
         coords = list(line.coords)
@@ -1030,18 +1001,20 @@ def spatial_transformation(routedata,sketchroutedata):
                     if tuple(st_point) == point:
                         return True
             return False
-
+        
         # Check if the line is curved (more than two points)
         if len(coords) > 2:
+            # breakpoint()
+            if point_in_st_points(coords[0]) and point_in_st_points(coords[-1]):
+                return coords[:-1] 
             # Check if the start or end of the line is in st_points
-            if point_in_st_points(coords[0]):
+            elif point_in_st_points(coords[0]):
                 return coords[1:]  # Take the point next to the start point
             elif point_in_st_points(coords[-1]):
                 return coords[:-1]  # Take the point before the end point
             else:
                 # If neither start nor end is in st_points, return the second-to-last point
                 return None
-
         else:
             # For straight lines, return the endpoint that is in st_points
             if point_in_st_points(coords[0]):
@@ -1051,29 +1024,7 @@ def spatial_transformation(routedata,sketchroutedata):
             else:
             #     # If neither endpoint is in st_points, return the first coordinate by default
                 return None
-
     
-    # def find_center_points_of_segments(line_segments):
-    #     """
-    #     Find center points for each group of 4 line segments.
-    #     :param line_segments: A list of Shapely LineString objects.
-    #     :return: A list of Shapely Point objects representing the center points.
-    #     """
-    #     center_points = []
-    #     num_segments = len(line_segments)
-        
-    #     for i in range(0, num_segments, 4):
-    #         segment_group = line_segments[i:i+4]
-            
-    #         if len(segment_group) < 4:
-    #             print(f"Warning: Last group has less than 4 segments. Skipping group: {segment_group}")
-    #             continue
-            
-    #         center_point = find_center_point_of_segment(segment_group[0])
-    #         center_points.append(center_point)
-        
-    #     return center_points
-
     def create_junction_segments(line_segments, center_point, st_points):
         """
         Create junction segments by extending each line segment to the center point.
@@ -1083,12 +1034,7 @@ def spatial_transformation(routedata,sketchroutedata):
         """
         new_segments = []
         for segment_id, line in line_segments:
-            # endpoints = extract_relevant_point(line,st_points)
-            # breakpoint()
-            # print(line)
-            # print(endpoints)
             relevant_point = extract_relevant_point(line, st_points)
-            # print(relevant_point)
             if relevant_point is not None:
                 if relevant_point == list(line.coords[1:]):
                 # relevant_point is the result of coords[1:], so append center_point
@@ -1102,7 +1048,8 @@ def spatial_transformation(routedata,sketchroutedata):
                 
                 # new_segments.append(new_segment)
                 new_segments.append((segment_id, new_segment))
-        
+            
+            # print(new_segment)
         return new_segments
 
     def process_line_segments(g_jm_line, center_points):
@@ -1112,93 +1059,27 @@ def spatial_transformation(routedata,sketchroutedata):
         :return: A list of new Shapely LineString objects representing the junctions.
         """
         new_segments = []
-    
-        # Split jm_l_line into groups of 4 and create junction segments
-        num_segments = len(g_jm_line)
-        num_center_points = len(center_points)
-        
-        if num_center_points * 4 != num_segments:
-            print(f"Warning: Number of center points ({num_center_points}) and line segments ({num_segments}) do not align perfectly in 4:1 ratio. Skipping processing.")
-            return new_segments
-
-        for i in range(0, num_segments, 4):
-            segment_group = g_jm_line[i:i+4]
+        for idx, segment_group in enumerate(g_jm_line):
+            if idx >= len(center_points):
+                print(f"Warning: More segment groups ({len(g_jm_line)}) than center points ({len(center_points)}). Skipping remaining groups.")
+                break
             
-            if len(segment_group) < 4:
-                print(f"Warning: Last group has less than 4 segments. Skipping group: {segment_group}")
-                continue
-        
-            # Create junction segments for the group
-            center_point = center_points[i // 4]
+            center_point = center_points[idx]
             junction_segments = create_junction_segments(segment_group, center_point, st_points)
-            # print(junction_segments)
-            # breakpoint()
-            # Add the new junction segments to the list
             new_segments.extend(junction_segments)
         print(new_segments)
         
         return new_segments
 
-    # # Example usage:
-    # if connection_status == 'connected':
-    #     jm_l_res = find_features(data_ip, st_ids)
-    #     breakpoint()
-    # Process the line segments to create junctions
-    # new_segments = process_line_segments(g_jm_line)
-    
-  
-    
-    # Combine original line segments with new segments
-    # all_segments = g_jm_line + new_segments
-
-    # Printing the results
-    # for segment in all_segments:
-    #     print(segment)
-    
-
-    # def plot_segments_and_centers(line_segments, center_points, all_segments):
-    #     """
-    #     Plot line segments and center points using Matplotlib.
-    #     :param line_segments: A list of Shapely LineString objects.
-    #     :param center_points: A list of Shapely Point objects.
-    #     :param new_segments: A list of new Shapely LineString objects representing the junctions.
-    #     """
-    #     fig, ax = plt.subplots()
-        
-    #     # Plot original line segments
-    #     for line in line_segments:
-    #         x, y = line.xy
-    #         ax.plot(x, y, color='blue', linestyle='dashed')
-        
-    #     # Plot center points
-    #     for point in center_points:
-    #         ax.plot(point.x, point.y, 'ro')  # 'ro' means red color, circle marker
-        
-    #     # Plot new junction segments
-    #     for segment in all_segments:
-    #         x, y = segment.xy
-    #         ax.plot(x, y, color='green')
-        
-    #     plt.xlabel('X Coordinate')
-    #     plt.ylabel('Y Coordinate')
-    #     plt.title('Line Segments, Center Points, and Junctions')
-    #     plt.grid(True)
-    #     plt.show()
-        
-    # breakpoint() 
     # Only proceed if connected
     if connection_status == 'connected':
-        jm_l_res = find_features(data_ip, st_ids)
-        print(jm_l_res)
-        
+        jm_l_res = find_features(data_ip, st_ids, features)
+
         # Assuming jm_l_res contains Shapely LineString objects
         center_points = find_center_point_of_segment(jm_l_res)
         
         print(center_points)
-        # for points in center_points:
-        #     print(points)
-        # breakpoint()  
-        # Process the line segments to create junctions
+        
         new_segments = process_line_segments(g_jm_line, center_points)
         
         for segment_id, new_segment in new_segments:
@@ -1211,24 +1092,41 @@ def spatial_transformation(routedata,sketchroutedata):
                         break 
                 
             # print(segment_id, sketch_align_value)
-            # breakpoint()
-            new_feature = Feature(
-                geometry=new_segment,
-                properties={
-                    "genType": "No generalization",
-                    "genType2": "JunctionMerge",
-                    "BaseAlign": segment_id,  # Use the respective id
-                    "SketchAlign": sketch_align_value,  # Index of the group, adjust if needed
-                    "JunctionMergeCount": len(center_points)
-                }
-            )
-            features.append(new_feature)
+            feature_found = False
     
-        # Plot the line segments and center points
-        # plot_segments_and_centers(g_jm_line, center_points, new_segments)
+            # Iterate through the existing features
+            for feature in features:
+                # Check if the current feature's BaseAlign matches the segment_id
+                if 'BaseAlign' in feature['properties']:
+                    base_align = feature['properties']['BaseAlign']
 
-    print(features)  
+                    # Normalize base_align to always be a list
+                    if not isinstance(base_align, list):
+                        base_align = [base_align]
+
+                    # Check if segment_id is in the list
+                    if segment_id in base_align:
+                        # Update the geometry and properties
+                        feature['geometry'] = geometry.mapping(new_segment)
+                        feature['properties']['genType2'] = "JunctionMerge"
+                        feature['properties']['JunctionMergeCount'] = len(center_points)
+                        feature_found = True
+                        break
+            if not feature_found:
+                new_feature = Feature(
+                    geometry= new_segment,
+                    properties={
+                        "genType2": "JunctionMerge",
+                        "BaseAlign": segment_id,  # Use the respective id
+                        "SketchAlign": sketch_align_value,  # Index of the group, adjust if needed
+                        "JunctionMergeCount": len(center_points)
+                    }
+                )
+                features.append(new_feature)
+
+    # print(features)  
     feature_collection = FeatureCollection(features)
+    
     base = open(Inputbasepath)
     base_data = json.load(base)
     # Create a dictionary to map "id" to base data properties
@@ -1254,18 +1152,22 @@ def spatial_transformation(routedata,sketchroutedata):
             # Merge the sketch data properties into the feature collection properties
             feature["properties"].update(base_properties)
 
-    f_out = routedirection(routedata,Inputbasepath)
+    # breakpoint()
+    # f_out = routedirection(routedata,feature_collection)
     
-    # Iterate through the features in inputbasemap and update coordinates if id matches
-    for feature in feature_collection['features']:
-        properties = feature['properties']
-        id = properties.get("BaseAlign")
-        # id = str(id_str).strip('[]')
-        gen_type = properties.get('genType')
-        if gen_type == "No generalization" and id in f_out :
-            geo = feature['geometry']
-            geo['coordinates'] = f_out[id]
-    
+    # # Iterate through the features in inputbasemap and update coordinates if id matches
+    # for feature in feature_collection['features']:
+    #     properties = feature['properties']
+    #     id = properties.get("BaseAlign")
+    #     # id = str(id_str).strip('[]')
+    #     # breakpoint()
+    #     if id is not None:
+    #     # Ensure id is a tuple if needed
+    #         id = tuple(id) if isinstance(id, list) else id
+    #         if id in f_out :
+    #             geo = feature['geometry']
+    #             geo['coordinates'] = f_out[id]
+
     for feature in feature_collection['features']:
         # Check if the geometry type is 'Point'
         type = feature['geometry']['type']
@@ -1293,18 +1195,7 @@ def spatial_transformation(routedata,sketchroutedata):
             # Update the 'geometry' key in the original feature
             feature['geometry'] = simplified_data['features'][0]['geometry']
 
-    
-    sketchroute= routedirection(sketchroutedata,Inputsketchpath)
 
-    # sketch = open(Inputsketchpath)
-    # sketchdata= json.load(sketch)
-    for feature in sketchdata['features']:
-        properties = feature['properties']
-        id = properties.get('id')
-        if id in sketchroute:
-            geo = feature['geometry']
-            geo['coordinates'] = sketchroute[id]
-            
     for feature in sketchdata['features']:
         # Check if the geometry type is 'Point'
         type = feature['geometry']['type']
@@ -1342,7 +1233,6 @@ def spatial_transformation(routedata,sketchroutedata):
             for feature in sketchdata['features']:
                 if feature['properties']['sid'] == sid:
                     s_a2e_l.append(geometry.LineString(feature['geometry']['coordinates']))
-    # breakpoint()
     
     for feature in sketchdata['features']:
         geo = feature['geometry']
@@ -1351,7 +1241,6 @@ def spatial_transformation(routedata,sketchroutedata):
         for sublist in s_a2e_ids_p:
             for y in sublist:
                 if y == sid:
-                    # breakpoint()
                     type = geo['type']
                     coor = geo['coordinates']
                     f_coor = geometry.Polygon(coor[0])
@@ -1370,13 +1259,8 @@ def spatial_transformation(routedata,sketchroutedata):
         end = start + len(sublist)
         s_a2e_p_res.append(s_a2e_p[start:end])
     
-    # features = []
-    # processed_sids = set()
-    # print(s_a2e_l_res, s_a2e_ids)
-    # breakpoint()
     for x, ids, sids in zip(s_a2e_l_res, a2e_ids, s_a2e_ids_l):
         multi_line = geometry.MultiLineString(x)
-        # breakpoint()
         if is_connected(multi_line):
             merged_line = ops.linemerge(multi_line)
             g1_a2e = geometry.shape(merged_line)
@@ -1397,7 +1281,6 @@ def spatial_transformation(routedata,sketchroutedata):
     for x, ids, sids in zip(s_a2e_p_res, a2e_ids_p, s_a2e_ids_p):
         if len(x) == 0: # Skip empty inputs
             continue
-        # breakpoint()
         mpt = geometry.MultiPolygon(x)
         res = mpt.convex_hull.wkt
         g1_a2e = shapely.wkt.loads(res)
@@ -1411,7 +1294,18 @@ def spatial_transformation(routedata,sketchroutedata):
 
         features.append(Feature(geometry=geometry.mapping(g1_a2e), properties=merged_properties))
         
-     
+    sketchroute= routedirection(sketchroutedata,sketchdata)
+
+    for feature in sketchdata['features']:
+        properties = feature['properties']
+        id = properties.get('id')
+        if id is not None:
+        # Ensure id is a tuple if needed
+            id = tuple(id) if isinstance(id, list) else id
+            if id in sketchroute:
+                geo = feature['geometry']
+                geo['coordinates'] = sketchroute[id]
+            
     # Assuming you have two feature collections, feature_collection1 and feature_collection2
     combined_feature_collection = {
         "type": "FeatureCollection",
@@ -1420,7 +1314,7 @@ def spatial_transformation(routedata,sketchroutedata):
     # Append the features from feature_collection1 to the combined feature collection
     for feature in feature_collection["features"]:
         combined_feature_collection["features"].append(feature)
-    # breakpoint() 
+        
     # Flatten s_a2e_ids to easily check if an sid is in this list
     flattened_s_a2e_ids = [sid for sublist in s_a2e_ids for sid in sublist]
     # Append the features from feature_collection2 to the combined feature collection
@@ -1428,8 +1322,7 @@ def spatial_transformation(routedata,sketchroutedata):
         if feature['properties']['sid'] not in flattened_s_a2e_ids:
             combined_feature_collection["features"].append(feature)
     
-    # breakpoint()
-    print(combined_feature_collection)
+    # print(combined_feature_collection)
     align.close()
     base.close()
     sketch.close()

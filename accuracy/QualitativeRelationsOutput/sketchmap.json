@@ -6,53 +6,183 @@
         {
             "constraints": [
                 {
-                    "obj 1": "15",
-                    "obj 2": "2",
+                    "obj 1": "35",
+                    "obj 2": "40",
+                    "relation": null
+                },
+                {
+                    "obj 1": "35",
+                    "obj 2": "24",
                     "relation": "dc"
                 },
                 {
-                    "obj 1": "15",
-                    "obj 2": "3",
+                    "obj 1": "35",
+                    "obj 2": "25",
                     "relation": "dc"
                 },
                 {
-                    "obj 1": "15",
-                    "obj 2": "4",
+                    "obj 1": "35",
+                    "obj 2": "26",
                     "relation": "dc"
                 },
                 {
-                    "obj 1": "15",
-                    "obj 2": "5",
+                    "obj 1": "35",
+                    "obj 2": "27",
                     "relation": "dc"
                 },
                 {
-                    "obj 1": "2",
-                    "obj 2": "3",
+                    "obj 1": "35",
+                    "obj 2": "28",
                     "relation": "dc"
                 },
                 {
-                    "obj 1": "2",
-                    "obj 2": "4",
+                    "obj 1": "35",
+                    "obj 2": "29",
                     "relation": "dc"
                 },
                 {
-                    "obj 1": "2",
-                    "obj 2": "5",
+                    "obj 1": "35",
+                    "obj 2": "30",
                     "relation": "dc"
                 },
                 {
-                    "obj 1": "3",
-                    "obj 2": "4",
+                    "obj 1": "40",
+                    "obj 2": "24",
                     "relation": "dc"
                 },
                 {
-                    "obj 1": "3",
-                    "obj 2": "5",
+                    "obj 1": "40",
+                    "obj 2": "25",
                     "relation": "dc"
                 },
                 {
-                    "obj 1": "4",
-                    "obj 2": "5",
+                    "obj 1": "40",
+                    "obj 2": "26",
+                    "relation": "dc"
+                },
+                {
+                    "obj 1": "40",
+                    "obj 2": "27",
+                    "relation": "dc"
+                },
+                {
+                    "obj 1": "40",
+                    "obj 2": "28",
+                    "relation": "dc"
+                },
+                {
+                    "obj 1": "40",
+                    "obj 2": "29",
+                    "relation": "dc"
+                },
+                {
+                    "obj 1": "40",
+                    "obj 2": "30",
+                    "relation": "dc"
+                },
+                {
+                    "obj 1": "24",
+                    "obj 2": "25",
+                    "relation": "dc"
+                },
+                {
+                    "obj 1": "24",
+                    "obj 2": "26",
+                    "relation": "dc"
+                },
+                {
+                    "obj 1": "24",
+                    "obj 2": "27",
+                    "relation": "dc"
+                },
+                {
+                    "obj 1": "24",
+                    "obj 2": "28",
+                    "relation": "dc"
+                },
+                {
+                    "obj 1": "24",
+                    "obj 2": "29",
+                    "relation": "dc"
+                },
+                {
+                    "obj 1": "24",
+                    "obj 2": "30",
+                    "relation": "dc"
+                },
+                {
+                    "obj 1": "25",
+                    "obj 2": "26",
+                    "relation": "dc"
+                },
+                {
+                    "obj 1": "25",
+                    "obj 2": "27",
+                    "relation": "dc"
+                },
+                {
+                    "obj 1": "25",
+                    "obj 2": "28",
+                    "relation": "dc"
+                },
+                {
+                    "obj 1": "25",
+                    "obj 2": "29",
+                    "relation": "dc"
+                },
+                {
+                    "obj 1": "25",
+                    "obj 2": "30",
+                    "relation": "dc"
+                },
+                {
+                    "obj 1": "26",
+                    "obj 2": "27",
+                    "relation": "dc"
+                },
+                {
+                    "obj 1": "26",
+                    "obj 2": "28",
+                    "relation": "dc"
+                },
+                {
+                    "obj 1": "26",
+                    "obj 2": "29",
+                    "relation": "dc"
+                },
+                {
+                    "obj 1": "26",
+                    "obj 2": "30",
+                    "relation": "dc"
+                },
+                {
+                    "obj 1": "27",
+                    "obj 2": "28",
+                    "relation": "dc"
+                },
+                {
+                    "obj 1": "27",
+                    "obj 2": "29",
+                    "relation": "dc"
+                },
+                {
+                    "obj 1": "27",
+                    "obj 2": "30",
+                    "relation": "dc"
+                },
+                {
+                    "obj 1": "28",
+                    "obj 2": "29",
+                    "relation": null
+                },
+                {
+                    "obj 1": "28",
+                    "obj 2": "30",
+                    "relation": "dc"
+                },
+                {
+                    "obj 1": "29",
+                    "obj 2": "30",
                     "relation": "dc"
                 }
             ],
@@ -62,218 +192,313 @@
         {
             "constraints": [
                 {
-                    "obj 1": "8",
-                    "obj 2": "15",
+                    "obj 1": "7",
+                    "obj 2": "35",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "8",
-                    "obj 2": "2",
+                    "obj 1": "7",
+                    "obj 2": "40",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "8",
-                    "obj 2": "3",
+                    "obj 1": "7",
+                    "obj 2": "24",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "8",
-                    "obj 2": "4",
+                    "obj 1": "7",
+                    "obj 2": "25",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "8",
-                    "obj 2": "5",
+                    "obj 1": "7",
+                    "obj 2": "26",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "15",
+                    "obj 1": "7",
+                    "obj 2": "27",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "28",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "29",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "30",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "11",
+                    "obj 2": "35",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "11",
+                    "obj 2": "40",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "11",
+                    "obj 2": "24",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "11",
+                    "obj 2": "25",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "11",
+                    "obj 2": "26",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "11",
+                    "obj 2": "27",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "11",
+                    "obj 2": "28",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "11",
+                    "obj 2": "29",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "11",
+                    "obj 2": "30",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "35",
                     "obj 2": "0",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "15",
+                    "obj 1": "35",
                     "obj 2": "1",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "15",
-                    "obj 2": "16",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "15",
-                    "obj 2": "17",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "15",
-                    "obj 2": "18",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "15",
-                    "obj 2": "19",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "15",
-                    "obj 2": "20",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "15",
-                    "obj 2": "21",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "15",
-                    "obj 2": "22",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "15",
-                    "obj 2": "23",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "15",
-                    "obj 2": "24",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "15",
-                    "obj 2": "25",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "15",
-                    "obj 2": "26",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "15",
-                    "obj 2": "27",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "15",
-                    "obj 2": "28",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "15",
-                    "obj 2": "29",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "15",
-                    "obj 2": "30",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "15",
-                    "obj 2": "31",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "15",
-                    "obj 2": "32",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "15",
-                    "obj 2": "33",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "15",
-                    "obj 2": "34",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "15",
-                    "obj 2": "35",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "0",
+                    "obj 1": "35",
                     "obj 2": "2",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "0",
-                    "obj 2": "3",
+                    "obj 1": "35",
+                    "obj 2": "8",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "0",
-                    "obj 2": "4",
+                    "obj 1": "35",
+                    "obj 2": "13",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "0",
-                    "obj 2": "5",
+                    "obj 1": "35",
+                    "obj 2": "14",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "1",
+                    "obj 1": "35",
+                    "obj 2": "15",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "35",
+                    "obj 2": "16",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "35",
+                    "obj 2": "17",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "35",
+                    "obj 2": "18",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "35",
+                    "obj 2": "19",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "35",
+                    "obj 2": "20",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "35",
+                    "obj 2": "21",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "35",
+                    "obj 2": "22",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "35",
+                    "obj 2": "23",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "40",
+                    "obj 2": "0",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "40",
+                    "obj 2": "1",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "40",
                     "obj 2": "2",
                     "relation": "disjoint"
                 },
                 {
+                    "obj 1": "40",
+                    "obj 2": "8",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "40",
+                    "obj 2": "13",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "40",
+                    "obj 2": "14",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "40",
+                    "obj 2": "15",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "40",
+                    "obj 2": "16",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "40",
+                    "obj 2": "17",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "40",
+                    "obj 2": "18",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "40",
+                    "obj 2": "19",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "40",
+                    "obj 2": "20",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "40",
+                    "obj 2": "21",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "40",
+                    "obj 2": "22",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "40",
+                    "obj 2": "23",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "0",
+                    "obj 2": "24",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "0",
+                    "obj 2": "25",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "0",
+                    "obj 2": "26",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "0",
+                    "obj 2": "27",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "0",
+                    "obj 2": "28",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "0",
+                    "obj 2": "29",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "0",
+                    "obj 2": "30",
+                    "relation": "disjoint"
+                },
+                {
                     "obj 1": "1",
-                    "obj 2": "3",
+                    "obj 2": "24",
                     "relation": "disjoint"
                 },
                 {
                     "obj 1": "1",
-                    "obj 2": "4",
+                    "obj 2": "25",
                     "relation": "disjoint"
                 },
                 {
                     "obj 1": "1",
-                    "obj 2": "5",
+                    "obj 2": "26",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "2",
-                    "obj 2": "16",
+                    "obj 1": "1",
+                    "obj 2": "27",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "2",
-                    "obj 2": "17",
+                    "obj 1": "1",
+                    "obj 2": "28",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "2",
-                    "obj 2": "18",
+                    "obj 1": "1",
+                    "obj 2": "29",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "2",
-                    "obj 2": "19",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "2",
-                    "obj 2": "20",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "2",
-                    "obj 2": "21",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "2",
-                    "obj 2": "22",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "2",
-                    "obj 2": "23",
+                    "obj 1": "1",
+                    "obj 2": "30",
                     "relation": "disjoint"
                 },
                 {
@@ -312,328 +537,423 @@
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "2",
-                    "obj 2": "31",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "2",
-                    "obj 2": "32",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "2",
-                    "obj 2": "33",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "2",
-                    "obj 2": "34",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "2",
-                    "obj 2": "35",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "3",
-                    "obj 2": "16",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "3",
-                    "obj 2": "17",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "3",
-                    "obj 2": "18",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "3",
-                    "obj 2": "19",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "3",
-                    "obj 2": "20",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "3",
-                    "obj 2": "21",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "3",
-                    "obj 2": "22",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "3",
-                    "obj 2": "23",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "3",
+                    "obj 1": "8",
                     "obj 2": "24",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "3",
+                    "obj 1": "8",
                     "obj 2": "25",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "3",
+                    "obj 1": "8",
                     "obj 2": "26",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "3",
+                    "obj 1": "8",
                     "obj 2": "27",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "3",
+                    "obj 1": "8",
                     "obj 2": "28",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "3",
+                    "obj 1": "8",
                     "obj 2": "29",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "3",
+                    "obj 1": "8",
                     "obj 2": "30",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "3",
-                    "obj 2": "31",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "3",
-                    "obj 2": "32",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "3",
-                    "obj 2": "33",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "3",
-                    "obj 2": "34",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "3",
-                    "obj 2": "35",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "4",
-                    "obj 2": "16",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "4",
-                    "obj 2": "17",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "4",
-                    "obj 2": "18",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "4",
-                    "obj 2": "19",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "4",
-                    "obj 2": "20",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "4",
-                    "obj 2": "21",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "4",
-                    "obj 2": "22",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "4",
-                    "obj 2": "23",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "4",
+                    "obj 1": "13",
                     "obj 2": "24",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "4",
+                    "obj 1": "13",
                     "obj 2": "25",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "4",
+                    "obj 1": "13",
                     "obj 2": "26",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "4",
+                    "obj 1": "13",
                     "obj 2": "27",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "4",
+                    "obj 1": "13",
                     "obj 2": "28",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "4",
+                    "obj 1": "13",
                     "obj 2": "29",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "4",
+                    "obj 1": "13",
                     "obj 2": "30",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "4",
-                    "obj 2": "31",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "4",
-                    "obj 2": "32",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "4",
-                    "obj 2": "33",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "4",
-                    "obj 2": "34",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "4",
-                    "obj 2": "35",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "5",
-                    "obj 2": "16",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "5",
-                    "obj 2": "17",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "5",
-                    "obj 2": "18",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "5",
-                    "obj 2": "19",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "5",
-                    "obj 2": "20",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "5",
-                    "obj 2": "21",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "5",
-                    "obj 2": "22",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "5",
-                    "obj 2": "23",
-                    "relation": "disjoint"
-                },
-                {
-                    "obj 1": "5",
+                    "obj 1": "14",
                     "obj 2": "24",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "5",
+                    "obj 1": "14",
                     "obj 2": "25",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "5",
+                    "obj 1": "14",
                     "obj 2": "26",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "5",
+                    "obj 1": "14",
                     "obj 2": "27",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "5",
+                    "obj 1": "14",
                     "obj 2": "28",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "5",
+                    "obj 1": "14",
                     "obj 2": "29",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "5",
+                    "obj 1": "14",
                     "obj 2": "30",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "5",
-                    "obj 2": "31",
+                    "obj 1": "15",
+                    "obj 2": "24",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "5",
-                    "obj 2": "32",
+                    "obj 1": "15",
+                    "obj 2": "25",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "5",
-                    "obj 2": "33",
+                    "obj 1": "15",
+                    "obj 2": "26",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "5",
-                    "obj 2": "34",
+                    "obj 1": "15",
+                    "obj 2": "27",
                     "relation": "disjoint"
                 },
                 {
-                    "obj 1": "5",
-                    "obj 2": "35",
+                    "obj 1": "15",
+                    "obj 2": "28",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "15",
+                    "obj 2": "29",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "15",
+                    "obj 2": "30",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "16",
+                    "obj 2": "24",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "16",
+                    "obj 2": "25",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "16",
+                    "obj 2": "26",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "16",
+                    "obj 2": "27",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "16",
+                    "obj 2": "28",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "16",
+                    "obj 2": "29",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "16",
+                    "obj 2": "30",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "17",
+                    "obj 2": "24",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "17",
+                    "obj 2": "25",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "17",
+                    "obj 2": "26",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "17",
+                    "obj 2": "27",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "17",
+                    "obj 2": "28",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "17",
+                    "obj 2": "29",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "17",
+                    "obj 2": "30",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "18",
+                    "obj 2": "24",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "18",
+                    "obj 2": "25",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "18",
+                    "obj 2": "26",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "18",
+                    "obj 2": "27",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "18",
+                    "obj 2": "28",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "18",
+                    "obj 2": "29",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "18",
+                    "obj 2": "30",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "19",
+                    "obj 2": "24",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "19",
+                    "obj 2": "25",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "19",
+                    "obj 2": "26",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "19",
+                    "obj 2": "27",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "19",
+                    "obj 2": "28",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "19",
+                    "obj 2": "29",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "19",
+                    "obj 2": "30",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "20",
+                    "obj 2": "24",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "20",
+                    "obj 2": "25",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "20",
+                    "obj 2": "26",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "20",
+                    "obj 2": "27",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "20",
+                    "obj 2": "28",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "20",
+                    "obj 2": "29",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "20",
+                    "obj 2": "30",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "21",
+                    "obj 2": "24",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "21",
+                    "obj 2": "25",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "21",
+                    "obj 2": "26",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "21",
+                    "obj 2": "27",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "21",
+                    "obj 2": "28",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "21",
+                    "obj 2": "29",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "21",
+                    "obj 2": "30",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "22",
+                    "obj 2": "24",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "22",
+                    "obj 2": "25",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "22",
+                    "obj 2": "26",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "22",
+                    "obj 2": "27",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "22",
+                    "obj 2": "28",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "22",
+                    "obj 2": "29",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "22",
+                    "obj 2": "30",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "23",
+                    "obj 2": "24",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "23",
+                    "obj 2": "25",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "23",
+                    "obj 2": "26",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "23",
+                    "obj 2": "27",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "23",
+                    "obj 2": "28",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "23",
+                    "obj 2": "29",
+                    "relation": "disjoint"
+                },
+                {
+                    "obj 1": "23",
+                    "obj 2": "30",
                     "relation": "disjoint"
                 }
             ],
@@ -644,27 +964,272 @@
             "constraints": [
                 {
                     "obj 1": "0",
-                    "obj 2": "15",
-                    "relation": "right"
-                },
-                {
-                    "obj 1": "0",
-                    "obj 2": "2",
-                    "relation": "left"
-                },
-                {
-                    "obj 1": "0",
-                    "obj 2": "3",
+                    "obj 2": "35",
                     "relation": "nonAdjacent"
                 },
                 {
                     "obj 1": "0",
-                    "obj 2": "4",
-                    "relation": "left"
+                    "obj 2": "40",
+                    "relation": "nonAdjacent"
                 },
                 {
                     "obj 1": "0",
-                    "obj 2": "5",
+                    "obj 2": "24",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "0",
+                    "obj 2": "25",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "0",
+                    "obj 2": "26",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "0",
+                    "obj 2": "27",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "0",
+                    "obj 2": "28",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "0",
+                    "obj 2": "29",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "0",
+                    "obj 2": "30",
+                    "relation": "left"
+                },
+                {
+                    "obj 1": "2",
+                    "obj 2": "35",
+                    "relation": "left"
+                },
+                {
+                    "obj 1": "2",
+                    "obj 2": "40",
+                    "relation": "left"
+                },
+                {
+                    "obj 1": "2",
+                    "obj 2": "24",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "2",
+                    "obj 2": "25",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "2",
+                    "obj 2": "26",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "2",
+                    "obj 2": "27",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "2",
+                    "obj 2": "28",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "2",
+                    "obj 2": "29",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "2",
+                    "obj 2": "30",
+                    "relation": "left"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "35",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "40",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "24",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "25",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "26",
+                    "relation": "right"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "27",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "28",
+                    "relation": "left"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "29",
+                    "relation": "left"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "30",
+                    "relation": "left"
+                },
+                {
+                    "obj 1": "16",
+                    "obj 2": "35",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "16",
+                    "obj 2": "40",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "16",
+                    "obj 2": "24",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "16",
+                    "obj 2": "25",
+                    "relation": "crosses"
+                },
+                {
+                    "obj 1": "16",
+                    "obj 2": "26",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "16",
+                    "obj 2": "27",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "16",
+                    "obj 2": "28",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "16",
+                    "obj 2": "29",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "16",
+                    "obj 2": "30",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "20",
+                    "obj 2": "35",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "20",
+                    "obj 2": "40",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "20",
+                    "obj 2": "24",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "20",
+                    "obj 2": "25",
+                    "relation": "right"
+                },
+                {
+                    "obj 1": "20",
+                    "obj 2": "26",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "20",
+                    "obj 2": "27",
+                    "relation": "right"
+                },
+                {
+                    "obj 1": "20",
+                    "obj 2": "28",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "20",
+                    "obj 2": "29",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "20",
+                    "obj 2": "30",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "23",
+                    "obj 2": "35",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "23",
+                    "obj 2": "40",
+                    "relation": "left"
+                },
+                {
+                    "obj 1": "23",
+                    "obj 2": "24",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "23",
+                    "obj 2": "25",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "23",
+                    "obj 2": "26",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "23",
+                    "obj 2": "27",
+                    "relation": "crosses"
+                },
+                {
+                    "obj 1": "23",
+                    "obj 2": "28",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "23",
+                    "obj 2": "29",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "23",
+                    "obj 2": "30",
                     "relation": "nonAdjacent"
                 }
             ],
@@ -674,118 +1239,188 @@
         {
             "constraints": [
                 {
-                    "obj 1": "8",
+                    "obj 1": "7",
+                    "obj 2": "11",
+                    "relation": "front_of"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "0",
+                    "relation": "right_of"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "1",
+                    "relation": "front_of"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "2",
+                    "relation": "right_of"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "8",
+                    "relation": "left_of"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "13",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "14",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "15",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "16",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "17",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "18",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "19",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "20",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "21",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "22",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "23",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "11",
                     "obj 2": "0",
                     "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "8",
+                    "obj 1": "11",
                     "obj 2": "1",
                     "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "8",
+                    "obj 1": "11",
+                    "obj 2": "2",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "11",
+                    "obj 2": "8",
+                    "relation": "left_of"
+                },
+                {
+                    "obj 1": "11",
+                    "obj 2": "13",
+                    "relation": "half_right"
+                },
+                {
+                    "obj 1": "11",
+                    "obj 2": "14",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "11",
+                    "obj 2": "15",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "11",
                     "obj 2": "16",
                     "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "8",
+                    "obj 1": "11",
                     "obj 2": "17",
                     "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "8",
+                    "obj 1": "11",
                     "obj 2": "18",
                     "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "8",
+                    "obj 1": "11",
                     "obj 2": "19",
                     "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "8",
+                    "obj 1": "11",
                     "obj 2": "20",
                     "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "8",
+                    "obj 1": "11",
                     "obj 2": "21",
                     "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "8",
+                    "obj 1": "11",
                     "obj 2": "22",
                     "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "8",
+                    "obj 1": "11",
                     "obj 2": "23",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "8",
-                    "obj 2": "24",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "8",
-                    "obj 2": "25",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "8",
-                    "obj 2": "26",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "8",
-                    "obj 2": "27",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "8",
-                    "obj 2": "28",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "8",
-                    "obj 2": "29",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "8",
-                    "obj 2": "30",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "8",
-                    "obj 2": "31",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "8",
-                    "obj 2": "32",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "8",
-                    "obj 2": "33",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "8",
-                    "obj 2": "34",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "8",
-                    "obj 2": "35",
                     "relation": "nonAdjacent"
                 },
                 {
                     "obj 1": "0",
                     "obj 2": "1",
+                    "relation": "left_of"
+                },
+                {
+                    "obj 1": "0",
+                    "obj 2": "2",
+                    "relation": "front_of"
+                },
+                {
+                    "obj 1": "0",
+                    "obj 2": "8",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "0",
+                    "obj 2": "13",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "0",
+                    "obj 2": "14",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "0",
+                    "obj 2": "15",
                     "relation": "nonAdjacent"
                 },
                 {
@@ -829,63 +1464,28 @@
                     "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "0",
-                    "obj 2": "24",
+                    "obj 1": "1",
+                    "obj 2": "2",
+                    "relation": "right_of"
+                },
+                {
+                    "obj 1": "1",
+                    "obj 2": "8",
                     "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "0",
-                    "obj 2": "25",
+                    "obj 1": "1",
+                    "obj 2": "13",
                     "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "0",
-                    "obj 2": "26",
+                    "obj 1": "1",
+                    "obj 2": "14",
                     "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "0",
-                    "obj 2": "27",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "0",
-                    "obj 2": "28",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "0",
-                    "obj 2": "29",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "0",
-                    "obj 2": "30",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "0",
-                    "obj 2": "31",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "0",
-                    "obj 2": "32",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "0",
-                    "obj 2": "33",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "0",
-                    "obj 2": "34",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "0",
-                    "obj 2": "35",
+                    "obj 1": "1",
+                    "obj 2": "15",
                     "relation": "nonAdjacent"
                 },
                 {
@@ -929,64 +1529,254 @@
                     "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "1",
-                    "obj 2": "24",
+                    "obj 1": "2",
+                    "obj 2": "8",
                     "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "1",
-                    "obj 2": "25",
+                    "obj 1": "2",
+                    "obj 2": "13",
                     "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "1",
-                    "obj 2": "26",
+                    "obj 1": "2",
+                    "obj 2": "14",
                     "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "1",
-                    "obj 2": "27",
+                    "obj 1": "2",
+                    "obj 2": "15",
+                    "relation": "right_of"
+                },
+                {
+                    "obj 1": "2",
+                    "obj 2": "16",
                     "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "1",
-                    "obj 2": "28",
+                    "obj 1": "2",
+                    "obj 2": "17",
                     "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "1",
-                    "obj 2": "29",
+                    "obj 1": "2",
+                    "obj 2": "18",
                     "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "1",
-                    "obj 2": "30",
+                    "obj 1": "2",
+                    "obj 2": "19",
                     "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "1",
-                    "obj 2": "31",
+                    "obj 1": "2",
+                    "obj 2": "20",
                     "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "1",
-                    "obj 2": "32",
+                    "obj 1": "2",
+                    "obj 2": "21",
                     "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "1",
-                    "obj 2": "33",
+                    "obj 1": "2",
+                    "obj 2": "22",
                     "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "1",
-                    "obj 2": "34",
+                    "obj 1": "2",
+                    "obj 2": "23",
+                    "relation": "front_of"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "13",
                     "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "1",
-                    "obj 2": "35",
+                    "obj 1": "8",
+                    "obj 2": "14",
+                    "relation": "right_of"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "15",
+                    "relation": "left_of"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "16",
+                    "relation": "front_of"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "17",
                     "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "18",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "19",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "20",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "21",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "22",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "23",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "13",
+                    "obj 2": "14",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "13",
+                    "obj 2": "15",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "13",
+                    "obj 2": "16",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "13",
+                    "obj 2": "17",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "13",
+                    "obj 2": "18",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "13",
+                    "obj 2": "19",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "13",
+                    "obj 2": "20",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "13",
+                    "obj 2": "21",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "13",
+                    "obj 2": "22",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "13",
+                    "obj 2": "23",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "14",
+                    "obj 2": "15",
+                    "relation": "right_of"
+                },
+                {
+                    "obj 1": "14",
+                    "obj 2": "16",
+                    "relation": "left_of"
+                },
+                {
+                    "obj 1": "14",
+                    "obj 2": "17",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "14",
+                    "obj 2": "18",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "14",
+                    "obj 2": "19",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "14",
+                    "obj 2": "20",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "14",
+                    "obj 2": "21",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "14",
+                    "obj 2": "22",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "14",
+                    "obj 2": "23",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "15",
+                    "obj 2": "16",
+                    "relation": "right_of"
+                },
+                {
+                    "obj 1": "15",
+                    "obj 2": "17",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "15",
+                    "obj 2": "18",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "15",
+                    "obj 2": "19",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "15",
+                    "obj 2": "20",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "15",
+                    "obj 2": "21",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "15",
+                    "obj 2": "22",
+                    "relation": "nonAdjacent"
+                },
+                {
+                    "obj 1": "15",
+                    "obj 2": "23",
+                    "relation": "left_of"
                 },
                 {
                     "obj 1": "16",
@@ -996,17 +1786,17 @@
                 {
                     "obj 1": "16",
                     "obj 2": "18",
-                    "relation": "front_of"
+                    "relation": "nonAdjacent"
                 },
                 {
                     "obj 1": "16",
                     "obj 2": "19",
-                    "relation": "left_of"
+                    "relation": "nonAdjacent"
                 },
                 {
                     "obj 1": "16",
                     "obj 2": "20",
-                    "relation": "nonAdjacent"
+                    "relation": "right_of"
                 },
                 {
                     "obj 1": "16",
@@ -1021,82 +1811,22 @@
                 {
                     "obj 1": "16",
                     "obj 2": "23",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "16",
-                    "obj 2": "24",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "16",
-                    "obj 2": "25",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "16",
-                    "obj 2": "26",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "16",
-                    "obj 2": "27",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "16",
-                    "obj 2": "28",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "16",
-                    "obj 2": "29",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "16",
-                    "obj 2": "30",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "16",
-                    "obj 2": "31",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "16",
-                    "obj 2": "32",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "16",
-                    "obj 2": "33",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "16",
-                    "obj 2": "34",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "16",
-                    "obj 2": "35",
                     "relation": "nonAdjacent"
                 },
                 {
                     "obj 1": "17",
                     "obj 2": "18",
-                    "relation": "left_of"
-                },
-                {
-                    "obj 1": "17",
-                    "obj 2": "19",
                     "relation": "right_of"
                 },
                 {
                     "obj 1": "17",
+                    "obj 2": "19",
+                    "relation": "half_left"
+                },
+                {
+                    "obj 1": "17",
                     "obj 2": "20",
-                    "relation": "nonAdjacent"
+                    "relation": "front_of"
                 },
                 {
                     "obj 1": "17",
@@ -1111,66 +1841,6 @@
                 {
                     "obj 1": "17",
                     "obj 2": "23",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "17",
-                    "obj 2": "24",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "17",
-                    "obj 2": "25",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "17",
-                    "obj 2": "26",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "17",
-                    "obj 2": "27",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "17",
-                    "obj 2": "28",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "17",
-                    "obj 2": "29",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "17",
-                    "obj 2": "30",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "17",
-                    "obj 2": "31",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "17",
-                    "obj 2": "32",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "17",
-                    "obj 2": "33",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "17",
-                    "obj 2": "34",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "17",
-                    "obj 2": "35",
                     "relation": "nonAdjacent"
                 },
                 {
@@ -1199,66 +1869,6 @@
                     "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "18",
-                    "obj 2": "24",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "18",
-                    "obj 2": "25",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "18",
-                    "obj 2": "26",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "18",
-                    "obj 2": "27",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "18",
-                    "obj 2": "28",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "18",
-                    "obj 2": "29",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "18",
-                    "obj 2": "30",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "18",
-                    "obj 2": "31",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "18",
-                    "obj 2": "32",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "18",
-                    "obj 2": "33",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "18",
-                    "obj 2": "34",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "18",
-                    "obj 2": "35",
-                    "relation": "nonAdjacent"
-                },
-                {
                     "obj 1": "19",
                     "obj 2": "20",
                     "relation": "nonAdjacent"
@@ -1279,664 +1889,34 @@
                     "relation": "nonAdjacent"
                 },
                 {
-                    "obj 1": "19",
-                    "obj 2": "24",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "19",
-                    "obj 2": "25",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "19",
-                    "obj 2": "26",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "19",
-                    "obj 2": "27",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "19",
-                    "obj 2": "28",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "19",
-                    "obj 2": "29",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "19",
-                    "obj 2": "30",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "19",
-                    "obj 2": "31",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "19",
-                    "obj 2": "32",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "19",
-                    "obj 2": "33",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "19",
-                    "obj 2": "34",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "19",
-                    "obj 2": "35",
-                    "relation": "nonAdjacent"
-                },
-                {
                     "obj 1": "20",
                     "obj 2": "21",
-                    "relation": "left_of"
+                    "relation": "right_of"
                 },
                 {
                     "obj 1": "20",
                     "obj 2": "22",
-                    "relation": "left_of"
-                },
-                {
-                    "obj 1": "20",
-                    "obj 2": "23",
                     "relation": "right_of"
                 },
                 {
                     "obj 1": "20",
-                    "obj 2": "24",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "20",
-                    "obj 2": "25",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "20",
-                    "obj 2": "26",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "20",
-                    "obj 2": "27",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "20",
-                    "obj 2": "28",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "20",
-                    "obj 2": "29",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "20",
-                    "obj 2": "30",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "20",
-                    "obj 2": "31",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "20",
-                    "obj 2": "32",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "20",
-                    "obj 2": "33",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "20",
-                    "obj 2": "34",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "20",
-                    "obj 2": "35",
-                    "relation": "nonAdjacent"
+                    "obj 2": "23",
+                    "relation": "half_right"
                 },
                 {
                     "obj 1": "21",
                     "obj 2": "22",
-                    "relation": "left_of"
-                },
-                {
-                    "obj 1": "21",
-                    "obj 2": "23",
                     "relation": "right_of"
                 },
                 {
                     "obj 1": "21",
-                    "obj 2": "24",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "21",
-                    "obj 2": "25",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "21",
-                    "obj 2": "26",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "21",
-                    "obj 2": "27",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "21",
-                    "obj 2": "28",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "21",
-                    "obj 2": "29",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "21",
-                    "obj 2": "30",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "21",
-                    "obj 2": "31",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "21",
-                    "obj 2": "32",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "21",
-                    "obj 2": "33",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "21",
-                    "obj 2": "34",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "21",
-                    "obj 2": "35",
-                    "relation": "nonAdjacent"
+                    "obj 2": "23",
+                    "relation": "front_of"
                 },
                 {
                     "obj 1": "22",
                     "obj 2": "23",
                     "relation": "left_of"
-                },
-                {
-                    "obj 1": "22",
-                    "obj 2": "24",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "22",
-                    "obj 2": "25",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "22",
-                    "obj 2": "26",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "22",
-                    "obj 2": "27",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "22",
-                    "obj 2": "28",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "22",
-                    "obj 2": "29",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "22",
-                    "obj 2": "30",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "22",
-                    "obj 2": "31",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "22",
-                    "obj 2": "32",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "22",
-                    "obj 2": "33",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "22",
-                    "obj 2": "34",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "22",
-                    "obj 2": "35",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "23",
-                    "obj 2": "24",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "23",
-                    "obj 2": "25",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "23",
-                    "obj 2": "26",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "23",
-                    "obj 2": "27",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "23",
-                    "obj 2": "28",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "23",
-                    "obj 2": "29",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "23",
-                    "obj 2": "30",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "23",
-                    "obj 2": "31",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "23",
-                    "obj 2": "32",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "23",
-                    "obj 2": "33",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "23",
-                    "obj 2": "34",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "23",
-                    "obj 2": "35",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "24",
-                    "obj 2": "25",
-                    "relation": "right_of"
-                },
-                {
-                    "obj 1": "24",
-                    "obj 2": "26",
-                    "relation": "front_of"
-                },
-                {
-                    "obj 1": "24",
-                    "obj 2": "27",
-                    "relation": "right_of"
-                },
-                {
-                    "obj 1": "24",
-                    "obj 2": "28",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "24",
-                    "obj 2": "29",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "24",
-                    "obj 2": "30",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "24",
-                    "obj 2": "31",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "24",
-                    "obj 2": "32",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "24",
-                    "obj 2": "33",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "24",
-                    "obj 2": "34",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "24",
-                    "obj 2": "35",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "25",
-                    "obj 2": "26",
-                    "relation": "left_of"
-                },
-                {
-                    "obj 1": "25",
-                    "obj 2": "27",
-                    "relation": "front_of"
-                },
-                {
-                    "obj 1": "25",
-                    "obj 2": "28",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "25",
-                    "obj 2": "29",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "25",
-                    "obj 2": "30",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "25",
-                    "obj 2": "31",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "25",
-                    "obj 2": "32",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "25",
-                    "obj 2": "33",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "25",
-                    "obj 2": "34",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "25",
-                    "obj 2": "35",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "26",
-                    "obj 2": "27",
-                    "relation": "right_of"
-                },
-                {
-                    "obj 1": "26",
-                    "obj 2": "28",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "26",
-                    "obj 2": "29",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "26",
-                    "obj 2": "30",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "26",
-                    "obj 2": "31",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "26",
-                    "obj 2": "32",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "26",
-                    "obj 2": "33",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "26",
-                    "obj 2": "34",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "26",
-                    "obj 2": "35",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "27",
-                    "obj 2": "28",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "27",
-                    "obj 2": "29",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "27",
-                    "obj 2": "30",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "27",
-                    "obj 2": "31",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "27",
-                    "obj 2": "32",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "27",
-                    "obj 2": "33",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "27",
-                    "obj 2": "34",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "27",
-                    "obj 2": "35",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "28",
-                    "obj 2": "29",
-                    "relation": "right_of"
-                },
-                {
-                    "obj 1": "28",
-                    "obj 2": "30",
-                    "relation": "right_of"
-                },
-                {
-                    "obj 1": "28",
-                    "obj 2": "31",
-                    "relation": "right_of"
-                },
-                {
-                    "obj 1": "28",
-                    "obj 2": "32",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "28",
-                    "obj 2": "33",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "28",
-                    "obj 2": "34",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "28",
-                    "obj 2": "35",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "29",
-                    "obj 2": "30",
-                    "relation": "right_of"
-                },
-                {
-                    "obj 1": "29",
-                    "obj 2": "31",
-                    "relation": "front_of"
-                },
-                {
-                    "obj 1": "29",
-                    "obj 2": "32",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "29",
-                    "obj 2": "33",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "29",
-                    "obj 2": "34",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "29",
-                    "obj 2": "35",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "30",
-                    "obj 2": "31",
-                    "relation": "left_of"
-                },
-                {
-                    "obj 1": "30",
-                    "obj 2": "32",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "30",
-                    "obj 2": "33",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "30",
-                    "obj 2": "34",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "30",
-                    "obj 2": "35",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "31",
-                    "obj 2": "32",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "31",
-                    "obj 2": "33",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "31",
-                    "obj 2": "34",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "31",
-                    "obj 2": "35",
-                    "relation": "nonAdjacent"
-                },
-                {
-                    "obj 1": "32",
-                    "obj 2": "33",
-                    "relation": "right_of"
-                },
-                {
-                    "obj 1": "32",
-                    "obj 2": "34",
-                    "relation": "front_of"
-                },
-                {
-                    "obj 1": "32",
-                    "obj 2": "35",
-                    "relation": "right_of"
-                },
-                {
-                    "obj 1": "33",
-                    "obj 2": "34",
-                    "relation": "left_of"
-                },
-                {
-                    "obj 1": "33",
-                    "obj 2": "35",
-                    "relation": "front_of"
-                },
-                {
-                    "obj 1": "34",
-                    "obj 2": "35",
-                    "relation": "right_of"
                 }
             ],
             "relation_set": "opra",
@@ -1945,118 +1925,188 @@
         {
             "constraints": [
                 {
-                    "obj 1": "8",
+                    "obj 1": "7",
+                    "obj 2": "11",
+                    "relation": "connected"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "0",
+                    "relation": "connected"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "1",
+                    "relation": "connected"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "2",
+                    "relation": "connected"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "8",
+                    "relation": "connected"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "13",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "14",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "15",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "16",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "17",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "18",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "19",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "20",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "21",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "22",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "7",
+                    "obj 2": "23",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "11",
                     "obj 2": "0",
                     "relation": "disconnected"
                 },
                 {
-                    "obj 1": "8",
+                    "obj 1": "11",
                     "obj 2": "1",
                     "relation": "disconnected"
                 },
                 {
-                    "obj 1": "8",
+                    "obj 1": "11",
+                    "obj 2": "2",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "11",
+                    "obj 2": "8",
+                    "relation": "connected"
+                },
+                {
+                    "obj 1": "11",
+                    "obj 2": "13",
+                    "relation": "connected"
+                },
+                {
+                    "obj 1": "11",
+                    "obj 2": "14",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "11",
+                    "obj 2": "15",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "11",
                     "obj 2": "16",
                     "relation": "disconnected"
                 },
                 {
-                    "obj 1": "8",
+                    "obj 1": "11",
                     "obj 2": "17",
                     "relation": "disconnected"
                 },
                 {
-                    "obj 1": "8",
+                    "obj 1": "11",
                     "obj 2": "18",
                     "relation": "disconnected"
                 },
                 {
-                    "obj 1": "8",
+                    "obj 1": "11",
                     "obj 2": "19",
                     "relation": "disconnected"
                 },
                 {
-                    "obj 1": "8",
+                    "obj 1": "11",
                     "obj 2": "20",
                     "relation": "disconnected"
                 },
                 {
-                    "obj 1": "8",
+                    "obj 1": "11",
                     "obj 2": "21",
                     "relation": "disconnected"
                 },
                 {
-                    "obj 1": "8",
+                    "obj 1": "11",
                     "obj 2": "22",
                     "relation": "disconnected"
                 },
                 {
-                    "obj 1": "8",
+                    "obj 1": "11",
                     "obj 2": "23",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "8",
-                    "obj 2": "24",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "8",
-                    "obj 2": "25",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "8",
-                    "obj 2": "26",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "8",
-                    "obj 2": "27",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "8",
-                    "obj 2": "28",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "8",
-                    "obj 2": "29",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "8",
-                    "obj 2": "30",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "8",
-                    "obj 2": "31",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "8",
-                    "obj 2": "32",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "8",
-                    "obj 2": "33",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "8",
-                    "obj 2": "34",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "8",
-                    "obj 2": "35",
                     "relation": "disconnected"
                 },
                 {
                     "obj 1": "0",
                     "obj 2": "1",
+                    "relation": "connected"
+                },
+                {
+                    "obj 1": "0",
+                    "obj 2": "2",
+                    "relation": "connected"
+                },
+                {
+                    "obj 1": "0",
+                    "obj 2": "8",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "0",
+                    "obj 2": "13",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "0",
+                    "obj 2": "14",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "0",
+                    "obj 2": "15",
                     "relation": "disconnected"
                 },
                 {
@@ -2100,63 +2150,28 @@
                     "relation": "disconnected"
                 },
                 {
-                    "obj 1": "0",
-                    "obj 2": "24",
+                    "obj 1": "1",
+                    "obj 2": "2",
+                    "relation": "connected"
+                },
+                {
+                    "obj 1": "1",
+                    "obj 2": "8",
                     "relation": "disconnected"
                 },
                 {
-                    "obj 1": "0",
-                    "obj 2": "25",
+                    "obj 1": "1",
+                    "obj 2": "13",
                     "relation": "disconnected"
                 },
                 {
-                    "obj 1": "0",
-                    "obj 2": "26",
+                    "obj 1": "1",
+                    "obj 2": "14",
                     "relation": "disconnected"
                 },
                 {
-                    "obj 1": "0",
-                    "obj 2": "27",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "0",
-                    "obj 2": "28",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "0",
-                    "obj 2": "29",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "0",
-                    "obj 2": "30",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "0",
-                    "obj 2": "31",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "0",
-                    "obj 2": "32",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "0",
-                    "obj 2": "33",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "0",
-                    "obj 2": "34",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "0",
-                    "obj 2": "35",
+                    "obj 1": "1",
+                    "obj 2": "15",
                     "relation": "disconnected"
                 },
                 {
@@ -2200,64 +2215,254 @@
                     "relation": "disconnected"
                 },
                 {
-                    "obj 1": "1",
-                    "obj 2": "24",
+                    "obj 1": "2",
+                    "obj 2": "8",
                     "relation": "disconnected"
                 },
                 {
-                    "obj 1": "1",
-                    "obj 2": "25",
+                    "obj 1": "2",
+                    "obj 2": "13",
                     "relation": "disconnected"
                 },
                 {
-                    "obj 1": "1",
-                    "obj 2": "26",
+                    "obj 1": "2",
+                    "obj 2": "14",
                     "relation": "disconnected"
                 },
                 {
-                    "obj 1": "1",
-                    "obj 2": "27",
+                    "obj 1": "2",
+                    "obj 2": "15",
+                    "relation": "connected"
+                },
+                {
+                    "obj 1": "2",
+                    "obj 2": "16",
                     "relation": "disconnected"
                 },
                 {
-                    "obj 1": "1",
-                    "obj 2": "28",
+                    "obj 1": "2",
+                    "obj 2": "17",
                     "relation": "disconnected"
                 },
                 {
-                    "obj 1": "1",
-                    "obj 2": "29",
+                    "obj 1": "2",
+                    "obj 2": "18",
                     "relation": "disconnected"
                 },
                 {
-                    "obj 1": "1",
-                    "obj 2": "30",
+                    "obj 1": "2",
+                    "obj 2": "19",
                     "relation": "disconnected"
                 },
                 {
-                    "obj 1": "1",
-                    "obj 2": "31",
+                    "obj 1": "2",
+                    "obj 2": "20",
                     "relation": "disconnected"
                 },
                 {
-                    "obj 1": "1",
-                    "obj 2": "32",
+                    "obj 1": "2",
+                    "obj 2": "21",
                     "relation": "disconnected"
                 },
                 {
-                    "obj 1": "1",
-                    "obj 2": "33",
+                    "obj 1": "2",
+                    "obj 2": "22",
                     "relation": "disconnected"
                 },
                 {
-                    "obj 1": "1",
-                    "obj 2": "34",
+                    "obj 1": "2",
+                    "obj 2": "23",
+                    "relation": "connected"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "13",
                     "relation": "disconnected"
                 },
                 {
-                    "obj 1": "1",
-                    "obj 2": "35",
+                    "obj 1": "8",
+                    "obj 2": "14",
+                    "relation": "connected"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "15",
+                    "relation": "connected"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "16",
+                    "relation": "connected"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "17",
                     "relation": "disconnected"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "18",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "19",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "20",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "21",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "22",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "8",
+                    "obj 2": "23",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "13",
+                    "obj 2": "14",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "13",
+                    "obj 2": "15",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "13",
+                    "obj 2": "16",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "13",
+                    "obj 2": "17",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "13",
+                    "obj 2": "18",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "13",
+                    "obj 2": "19",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "13",
+                    "obj 2": "20",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "13",
+                    "obj 2": "21",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "13",
+                    "obj 2": "22",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "13",
+                    "obj 2": "23",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "14",
+                    "obj 2": "15",
+                    "relation": "connected"
+                },
+                {
+                    "obj 1": "14",
+                    "obj 2": "16",
+                    "relation": "connected"
+                },
+                {
+                    "obj 1": "14",
+                    "obj 2": "17",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "14",
+                    "obj 2": "18",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "14",
+                    "obj 2": "19",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "14",
+                    "obj 2": "20",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "14",
+                    "obj 2": "21",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "14",
+                    "obj 2": "22",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "14",
+                    "obj 2": "23",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "15",
+                    "obj 2": "16",
+                    "relation": "connected"
+                },
+                {
+                    "obj 1": "15",
+                    "obj 2": "17",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "15",
+                    "obj 2": "18",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "15",
+                    "obj 2": "19",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "15",
+                    "obj 2": "20",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "15",
+                    "obj 2": "21",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "15",
+                    "obj 2": "22",
+                    "relation": "disconnected"
+                },
+                {
+                    "obj 1": "15",
+                    "obj 2": "23",
+                    "relation": "connected"
                 },
                 {
                     "obj 1": "16",
@@ -2267,17 +2472,17 @@
                 {
                     "obj 1": "16",
                     "obj 2": "18",
-                    "relation": "connected"
+                    "relation": "disconnected"
                 },
                 {
                     "obj 1": "16",
                     "obj 2": "19",
-                    "relation": "connected"
+                    "relation": "disconnected"
                 },
                 {
                     "obj 1": "16",
                     "obj 2": "20",
-                    "relation": "disconnected"
+                    "relation": "connected"
                 },
                 {
                     "obj 1": "16",
@@ -2292,66 +2497,6 @@
                 {
                     "obj 1": "16",
                     "obj 2": "23",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "16",
-                    "obj 2": "24",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "16",
-                    "obj 2": "25",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "16",
-                    "obj 2": "26",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "16",
-                    "obj 2": "27",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "16",
-                    "obj 2": "28",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "16",
-                    "obj 2": "29",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "16",
-                    "obj 2": "30",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "16",
-                    "obj 2": "31",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "16",
-                    "obj 2": "32",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "16",
-                    "obj 2": "33",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "16",
-                    "obj 2": "34",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "16",
-                    "obj 2": "35",
                     "relation": "disconnected"
                 },
                 {
@@ -2367,7 +2512,7 @@
                 {
                     "obj 1": "17",
                     "obj 2": "20",
-                    "relation": "disconnected"
+                    "relation": "connected"
                 },
                 {
                     "obj 1": "17",
@@ -2382,66 +2527,6 @@
                 {
                     "obj 1": "17",
                     "obj 2": "23",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "17",
-                    "obj 2": "24",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "17",
-                    "obj 2": "25",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "17",
-                    "obj 2": "26",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "17",
-                    "obj 2": "27",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "17",
-                    "obj 2": "28",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "17",
-                    "obj 2": "29",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "17",
-                    "obj 2": "30",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "17",
-                    "obj 2": "31",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "17",
-                    "obj 2": "32",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "17",
-                    "obj 2": "33",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "17",
-                    "obj 2": "34",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "17",
-                    "obj 2": "35",
                     "relation": "disconnected"
                 },
                 {
@@ -2470,66 +2555,6 @@
                     "relation": "disconnected"
                 },
                 {
-                    "obj 1": "18",
-                    "obj 2": "24",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "18",
-                    "obj 2": "25",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "18",
-                    "obj 2": "26",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "18",
-                    "obj 2": "27",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "18",
-                    "obj 2": "28",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "18",
-                    "obj 2": "29",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "18",
-                    "obj 2": "30",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "18",
-                    "obj 2": "31",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "18",
-                    "obj 2": "32",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "18",
-                    "obj 2": "33",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "18",
-                    "obj 2": "34",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "18",
-                    "obj 2": "35",
-                    "relation": "disconnected"
-                },
-                {
                     "obj 1": "19",
                     "obj 2": "20",
                     "relation": "disconnected"
@@ -2550,66 +2575,6 @@
                     "relation": "disconnected"
                 },
                 {
-                    "obj 1": "19",
-                    "obj 2": "24",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "19",
-                    "obj 2": "25",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "19",
-                    "obj 2": "26",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "19",
-                    "obj 2": "27",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "19",
-                    "obj 2": "28",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "19",
-                    "obj 2": "29",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "19",
-                    "obj 2": "30",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "19",
-                    "obj 2": "31",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "19",
-                    "obj 2": "32",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "19",
-                    "obj 2": "33",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "19",
-                    "obj 2": "34",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "19",
-                    "obj 2": "35",
-                    "relation": "disconnected"
-                },
-                {
                     "obj 1": "20",
                     "obj 2": "21",
                     "relation": "connected"
@@ -2625,66 +2590,6 @@
                     "relation": "connected"
                 },
                 {
-                    "obj 1": "20",
-                    "obj 2": "24",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "20",
-                    "obj 2": "25",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "20",
-                    "obj 2": "26",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "20",
-                    "obj 2": "27",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "20",
-                    "obj 2": "28",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "20",
-                    "obj 2": "29",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "20",
-                    "obj 2": "30",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "20",
-                    "obj 2": "31",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "20",
-                    "obj 2": "32",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "20",
-                    "obj 2": "33",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "20",
-                    "obj 2": "34",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "20",
-                    "obj 2": "35",
-                    "relation": "disconnected"
-                },
-                {
                     "obj 1": "21",
                     "obj 2": "22",
                     "relation": "connected"
@@ -2695,518 +2600,8 @@
                     "relation": "connected"
                 },
                 {
-                    "obj 1": "21",
-                    "obj 2": "24",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "21",
-                    "obj 2": "25",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "21",
-                    "obj 2": "26",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "21",
-                    "obj 2": "27",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "21",
-                    "obj 2": "28",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "21",
-                    "obj 2": "29",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "21",
-                    "obj 2": "30",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "21",
-                    "obj 2": "31",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "21",
-                    "obj 2": "32",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "21",
-                    "obj 2": "33",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "21",
-                    "obj 2": "34",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "21",
-                    "obj 2": "35",
-                    "relation": "disconnected"
-                },
-                {
                     "obj 1": "22",
                     "obj 2": "23",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "22",
-                    "obj 2": "24",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "22",
-                    "obj 2": "25",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "22",
-                    "obj 2": "26",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "22",
-                    "obj 2": "27",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "22",
-                    "obj 2": "28",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "22",
-                    "obj 2": "29",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "22",
-                    "obj 2": "30",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "22",
-                    "obj 2": "31",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "22",
-                    "obj 2": "32",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "22",
-                    "obj 2": "33",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "22",
-                    "obj 2": "34",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "22",
-                    "obj 2": "35",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "23",
-                    "obj 2": "24",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "23",
-                    "obj 2": "25",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "23",
-                    "obj 2": "26",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "23",
-                    "obj 2": "27",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "23",
-                    "obj 2": "28",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "23",
-                    "obj 2": "29",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "23",
-                    "obj 2": "30",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "23",
-                    "obj 2": "31",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "23",
-                    "obj 2": "32",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "23",
-                    "obj 2": "33",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "23",
-                    "obj 2": "34",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "23",
-                    "obj 2": "35",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "24",
-                    "obj 2": "25",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "24",
-                    "obj 2": "26",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "24",
-                    "obj 2": "27",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "24",
-                    "obj 2": "28",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "24",
-                    "obj 2": "29",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "24",
-                    "obj 2": "30",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "24",
-                    "obj 2": "31",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "24",
-                    "obj 2": "32",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "24",
-                    "obj 2": "33",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "24",
-                    "obj 2": "34",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "24",
-                    "obj 2": "35",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "25",
-                    "obj 2": "26",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "25",
-                    "obj 2": "27",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "25",
-                    "obj 2": "28",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "25",
-                    "obj 2": "29",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "25",
-                    "obj 2": "30",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "25",
-                    "obj 2": "31",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "25",
-                    "obj 2": "32",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "25",
-                    "obj 2": "33",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "25",
-                    "obj 2": "34",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "25",
-                    "obj 2": "35",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "26",
-                    "obj 2": "27",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "26",
-                    "obj 2": "28",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "26",
-                    "obj 2": "29",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "26",
-                    "obj 2": "30",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "26",
-                    "obj 2": "31",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "26",
-                    "obj 2": "32",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "26",
-                    "obj 2": "33",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "26",
-                    "obj 2": "34",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "26",
-                    "obj 2": "35",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "27",
-                    "obj 2": "28",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "27",
-                    "obj 2": "29",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "27",
-                    "obj 2": "30",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "27",
-                    "obj 2": "31",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "27",
-                    "obj 2": "32",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "27",
-                    "obj 2": "33",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "27",
-                    "obj 2": "34",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "27",
-                    "obj 2": "35",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "28",
-                    "obj 2": "29",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "28",
-                    "obj 2": "30",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "28",
-                    "obj 2": "31",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "28",
-                    "obj 2": "32",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "28",
-                    "obj 2": "33",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "28",
-                    "obj 2": "34",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "28",
-                    "obj 2": "35",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "29",
-                    "obj 2": "30",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "29",
-                    "obj 2": "31",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "29",
-                    "obj 2": "32",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "29",
-                    "obj 2": "33",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "29",
-                    "obj 2": "34",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "29",
-                    "obj 2": "35",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "30",
-                    "obj 2": "31",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "30",
-                    "obj 2": "32",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "30",
-                    "obj 2": "33",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "30",
-                    "obj 2": "34",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "30",
-                    "obj 2": "35",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "31",
-                    "obj 2": "32",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "31",
-                    "obj 2": "33",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "31",
-                    "obj 2": "34",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "31",
-                    "obj 2": "35",
-                    "relation": "disconnected"
-                },
-                {
-                    "obj 1": "32",
-                    "obj 2": "33",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "32",
-                    "obj 2": "34",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "32",
-                    "obj 2": "35",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "33",
-                    "obj 2": "34",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "33",
-                    "obj 2": "35",
-                    "relation": "connected"
-                },
-                {
-                    "obj 1": "34",
-                    "obj 2": "35",
                     "relation": "connected"
                 }
             ],
@@ -3216,19 +2611,144 @@
         {
             "constraints": [
                 {
-                    "obj 1": "15",
-                    "obj 2": "2",
-                    "relation": "before"
-                },
-                {
-                    "obj 1": "15",
-                    "obj 2": "4",
+                    "obj 1": "35",
+                    "obj 2": "40",
                     "relation": "overlaps"
                 },
                 {
-                    "obj 1": "2",
-                    "obj 2": "4",
+                    "obj 1": "35",
+                    "obj 2": "25",
+                    "relation": "before"
+                },
+                {
+                    "obj 1": "35",
+                    "obj 2": "26",
+                    "relation": "before"
+                },
+                {
+                    "obj 1": "35",
+                    "obj 2": "27",
+                    "relation": "before"
+                },
+                {
+                    "obj 1": "35",
+                    "obj 2": "28",
+                    "relation": "before"
+                },
+                {
+                    "obj 1": "35",
+                    "obj 2": "29",
+                    "relation": "before"
+                },
+                {
+                    "obj 1": "35",
+                    "obj 2": "30",
+                    "relation": "overlaps"
+                },
+                {
+                    "obj 1": "40",
+                    "obj 2": "25",
+                    "relation": "before"
+                },
+                {
+                    "obj 1": "40",
+                    "obj 2": "26",
+                    "relation": "before"
+                },
+                {
+                    "obj 1": "40",
+                    "obj 2": "27",
+                    "relation": "before"
+                },
+                {
+                    "obj 1": "40",
+                    "obj 2": "28",
+                    "relation": "before"
+                },
+                {
+                    "obj 1": "40",
+                    "obj 2": "29",
+                    "relation": "before"
+                },
+                {
+                    "obj 1": "40",
+                    "obj 2": "30",
+                    "relation": "overlaps"
+                },
+                {
+                    "obj 1": "25",
+                    "obj 2": "26",
+                    "relation": "before"
+                },
+                {
+                    "obj 1": "25",
+                    "obj 2": "27",
                     "relation": "after"
+                },
+                {
+                    "obj 1": "25",
+                    "obj 2": "28",
+                    "relation": "before"
+                },
+                {
+                    "obj 1": "25",
+                    "obj 2": "29",
+                    "relation": "before"
+                },
+                {
+                    "obj 1": "25",
+                    "obj 2": "30",
+                    "relation": "overlaps"
+                },
+                {
+                    "obj 1": "26",
+                    "obj 2": "27",
+                    "relation": "after"
+                },
+                {
+                    "obj 1": "26",
+                    "obj 2": "28",
+                    "relation": "overlapped_by"
+                },
+                {
+                    "obj 1": "26",
+                    "obj 2": "29",
+                    "relation": "overlaps"
+                },
+                {
+                    "obj 1": "26",
+                    "obj 2": "30",
+                    "relation": "overlaps"
+                },
+                {
+                    "obj 1": "27",
+                    "obj 2": "28",
+                    "relation": "before"
+                },
+                {
+                    "obj 1": "27",
+                    "obj 2": "29",
+                    "relation": "before"
+                },
+                {
+                    "obj 1": "27",
+                    "obj 2": "30",
+                    "relation": "overlaps"
+                },
+                {
+                    "obj 1": "28",
+                    "obj 2": "29",
+                    "relation": "overlaps"
+                },
+                {
+                    "obj 1": "28",
+                    "obj 2": "30",
+                    "relation": "overlaps"
+                },
+                {
+                    "obj 1": "29",
+                    "obj 2": "30",
+                    "relation": "overlaps"
                 }
             ],
             "relation_set": "linearOrdering",
@@ -3238,8 +2758,34 @@
     "features": [
         {
             "mapType": "Sketch",
-            "id": "8",
-            "sid": "S8",
+            "id": "7",
+            "sid": "S7",
+            "isRoute": null,
+            "feat_type": null,
+            "selected": false,
+            "aligned": true,
+            "otype": "Line",
+            "group": true,
+            "groupID": "4",
+            "geometry_type": "LineString"
+        },
+        {
+            "mapType": "Sketch",
+            "id": "6",
+            "sid": "S6",
+            "isRoute": null,
+            "feat_type": null,
+            "selected": false,
+            "aligned": true,
+            "otype": "Line",
+            "group": true,
+            "groupID": "5",
+            "geometry_type": "MultiLineString"
+        },
+        {
+            "mapType": "Sketch",
+            "id": "11",
+            "sid": "S11",
             "isRoute": null,
             "feat_type": null,
             "selected": false,
@@ -3264,15 +2810,28 @@
         },
         {
             "mapType": "Sketch",
-            "id": "15",
-            "sid": "S15",
+            "id": "35",
+            "sid": "S35",
             "isRoute": null,
             "feat_type": "Landmark",
             "selected": false,
             "aligned": true,
             "otype": "Polygon",
             "group": true,
-            "groupID": "9",
+            "groupID": "27",
+            "geometry_type": "Polygon"
+        },
+        {
+            "mapType": "Sketch",
+            "id": "40",
+            "sid": "S40",
+            "isRoute": null,
+            "feat_type": "Landmark",
+            "selected": false,
+            "aligned": true,
+            "otype": "Polygon",
+            "group": true,
+            "groupID": "28",
             "geometry_type": "Polygon"
         },
         {
@@ -3283,7 +2842,7 @@
             "selected": false,
             "aligned": true,
             "otype": "Line",
-            "SketchRouteSeqOrder": 2,
+            "SketchRouteSeqOrder": 1,
             "mapType": "Sketch",
             "geometry_type": "LineString"
         },
@@ -3301,55 +2860,69 @@
         {
             "id": "2",
             "sid": "S2",
-            "isRoute": null,
-            "feat_type": "Landmark",
+            "isRoute": "Yes",
+            "feat_type": null,
             "selected": false,
             "aligned": true,
-            "otype": "Polygon",
+            "otype": "Line",
+            "SketchRouteSeqOrder": 3,
             "mapType": "Sketch",
-            "geometry_type": "Polygon"
+            "geometry_type": "LineString"
         },
         {
-            "id": "3",
-            "sid": "S3",
-            "isRoute": null,
-            "feat_type": "Landmark",
+            "id": "8",
+            "sid": "S8",
+            "isRoute": "Yes",
+            "feat_type": null,
             "selected": false,
             "aligned": true,
-            "otype": "CircleMarker",
+            "otype": "Line",
+            "SketchRouteSeqOrder": 9,
             "mapType": "Sketch",
-            "geometry_type": "Polygon"
+            "geometry_type": "LineString"
         },
         {
-            "id": "4",
-            "sid": "S4",
-            "isRoute": null,
-            "feat_type": "Landmark",
-            "selected": false,
-            "aligned": true,
-            "otype": "Polygon",
-            "mapType": "Sketch",
-            "geometry_type": "Polygon"
-        },
-        {
-            "id": "5",
-            "sid": "S5",
-            "isRoute": null,
-            "feat_type": "Landmark",
-            "selected": false,
-            "aligned": true,
-            "otype": "Polygon",
-            "mapType": "Sketch",
-            "geometry_type": "Polygon"
-        },
-        {
-            "id": "16",
-            "sid": "S16",
+            "id": "13",
+            "sid": "S13",
             "isRoute": null,
             "feat_type": null,
             "selected": false,
             "aligned": true,
             "otype": "Line",
+            "mapType": "Sketch",
+            "geometry_type": "LineString"
+        },
+        {
+            "id": "14",
+            "sid": "S14",
+            "isRoute": null,
+            "feat_type": null,
+            "selected": false,
+            "aligned": true,
+            "otype": "Line",
+            "mapType": "Sketch",
+            "geometry_type": "LineString"
+        },
+        {
+            "id": "15",
+            "sid": "S15",
+            "isRoute": null,
+            "feat_type": null,
+            "selected": false,
+            "aligned": true,
+            "otype": "Line",
+            "mapType": "Sketch",
+            "geometry_type": "LineString"
+        },
+        {
+            "id": "16",
+            "sid": "S16",
+            "isRoute": "Yes",
+            "feat_type": null,
+            "selected": false,
+            "aligned": true,
+            "otype": "Line",
+            "SketchRouteSeqOrder": 7,
             "mapType": "Sketch",
             "geometry_type": "LineString"
         },
@@ -3389,11 +2962,12 @@
         {
             "id": "20",
             "sid": "S20",
-            "isRoute": null,
+            "isRoute": "Yes",
             "feat_type": null,
             "selected": false,
             "aligned": true,
             "otype": "Line",
+            "SketchRouteSeqOrder": 6,
             "mapType": "Sketch",
             "geometry_type": "LineString"
         },
@@ -3422,11 +2996,12 @@
         {
             "id": "23",
             "sid": "S23",
-            "isRoute": null,
+            "isRoute": "Yes",
             "feat_type": null,
             "selected": false,
             "aligned": true,
             "otype": "Line",
+            "SketchRouteSeqOrder": 5,
             "mapType": "Sketch",
             "geometry_type": "LineString"
         },
@@ -3434,133 +3009,78 @@
             "id": "24",
             "sid": "S24",
             "isRoute": null,
-            "feat_type": null,
+            "feat_type": "Landmark",
             "selected": false,
             "aligned": true,
-            "otype": "Line",
+            "otype": "Polygon",
             "mapType": "Sketch",
-            "geometry_type": "LineString"
+            "geometry_type": "Polygon"
         },
         {
             "id": "25",
             "sid": "S25",
             "isRoute": null,
-            "feat_type": null,
+            "feat_type": "Landmark",
             "selected": false,
             "aligned": true,
-            "otype": "Line",
+            "otype": "Polygon",
             "mapType": "Sketch",
-            "geometry_type": "LineString"
+            "geometry_type": "Polygon"
         },
         {
             "id": "26",
             "sid": "S26",
             "isRoute": null,
-            "feat_type": null,
+            "feat_type": "Landmark",
             "selected": false,
             "aligned": true,
-            "otype": "Line",
+            "otype": "Polygon",
             "mapType": "Sketch",
-            "geometry_type": "LineString"
+            "geometry_type": "Polygon"
         },
         {
             "id": "27",
             "sid": "S27",
             "isRoute": null,
-            "feat_type": null,
+            "feat_type": "Landmark",
             "selected": false,
             "aligned": true,
-            "otype": "Line",
+            "otype": "Polygon",
             "mapType": "Sketch",
-            "geometry_type": "LineString"
+            "geometry_type": "Polygon"
         },
         {
             "id": "28",
             "sid": "S28",
             "isRoute": null,
-            "feat_type": null,
+            "feat_type": "Landmark",
             "selected": false,
             "aligned": true,
-            "otype": "Line",
+            "otype": "Polygon",
             "mapType": "Sketch",
-            "geometry_type": "LineString"
+            "geometry_type": "Polygon"
         },
         {
             "id": "29",
             "sid": "S29",
             "isRoute": null,
-            "feat_type": null,
+            "feat_type": "Landmark",
             "selected": false,
             "aligned": true,
-            "otype": "Line",
+            "otype": "Polygon",
             "mapType": "Sketch",
-            "geometry_type": "LineString"
+            "geometry_type": "Polygon"
         },
         {
             "id": "30",
             "sid": "S30",
             "isRoute": null,
-            "feat_type": null,
+            "feat_type": "Landmark",
             "selected": false,
             "aligned": true,
-            "otype": "Line",
+            "otype": "Polygon",
             "mapType": "Sketch",
-            "geometry_type": "LineString"
-        },
-        {
-            "id": "31",
-            "sid": "S31",
-            "isRoute": null,
-            "feat_type": null,
-            "selected": false,
-            "aligned": true,
-            "otype": "Line",
-            "mapType": "Sketch",
-            "geometry_type": "LineString"
-        },
-        {
-            "id": "32",
-            "sid": "S32",
-            "isRoute": null,
-            "feat_type": null,
-            "selected": false,
-            "aligned": true,
-            "otype": "Line",
-            "mapType": "Sketch",
-            "geometry_type": "LineString"
-        },
-        {
-            "id": "33",
-            "sid": "S33",
-            "isRoute": null,
-            "feat_type": null,
-            "selected": false,
-            "aligned": true,
-            "otype": "Line",
-            "mapType": "Sketch",
-            "geometry_type": "LineString"
-        },
-        {
-            "id": "34",
-            "sid": "S34",
-            "isRoute": null,
-            "feat_type": null,
-            "selected": false,
-            "aligned": true,
-            "otype": "Line",
-            "mapType": "Sketch",
-            "geometry_type": "LineString"
-        },
-        {
-            "id": "35",
-            "sid": "S35",
-            "isRoute": null,
-            "feat_type": null,
-            "selected": false,
-            "aligned": true,
-            "otype": "Line",
-            "mapType": "Sketch",
-            "geometry_type": "LineString"
+            "geometry_type": "Polygon"
         }
     ]
 }
