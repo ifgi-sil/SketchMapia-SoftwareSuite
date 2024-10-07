@@ -297,7 +297,7 @@ function GenchangestyleOnHover(Array,BooleanGroup,GenBaseMap){
 
 
 async function analyseMultiMap () {
-
+saveSketchMap();
 
 
 const getCircularReplacer = () => {
@@ -489,8 +489,8 @@ function generalizeMap(index,currentsketchMap,alignmentArraySingleMap,routeIDArr
  roundaboutids[currentsketchMap] = [];
  junctionmergeids[currentsketchMap] = [];
 
-var url = "http://localhost:8080/fmedatastreaming/Generalization/generalizerFile.fmw?Alignment=" + encodeURIComponent(JSON.stringify(JSON.stringify(alignmentArraySingleMap))) + "&RouteSeq=" + encodeURIComponent(routeIDArray) + "&SketchRouteSeq=" + encodeURIComponent(sketchIDArray) + "&lastsegment=" + encodeURIComponent(lastBaseStreet) + "&lastsketchsegment=" + encodeURIComponent(lastSketchStreet);
-
+var url = "http://localhost:8080/fmedatastreaming/Generalization/generalizerFile.fmw"
+var params = "Alignment=" + encodeURIComponent(JSON.stringify(JSON.stringify(alignmentArraySingleMap))) + "&RouteSeq=" + encodeURIComponent(routeIDArray) + "&SketchRouteSeq=" + encodeURIComponent(sketchIDArray) + "&lastsegment=" + encodeURIComponent(lastBaseStreet) + "&lastsketchsegment=" + encodeURIComponent(lastSketchStreet);
                    var httpRequest = new XMLHttpRequest();
                     httpRequest.open("POST", url, false);
                     httpRequest.setRequestHeader("Authorization","fmetoken token=052c05a3a85fea84fb131d60281131e9ac65787b")
@@ -592,7 +592,7 @@ var url = "http://localhost:8080/fmedatastreaming/Generalization/generalizerFile
                 }
             }
             // send a request so we get a reply
-            httpRequest.send();
+            httpRequest.send(params);
             analyzeInputMap(index,currentsketchMap,GenBaseMap);
             genResultArray[currentsketchMap] = {};
             genResultArray[currentsketchMap].om = omissionmerge;
@@ -705,7 +705,12 @@ else {
 
 function setResults_in_output_div(index,resp){
    cells[index][0].innerHTML = Object.keys(genResultArray)[index];
-   cells[index][1].innerHTML = resp.overAllCompleteness;
+   sketchmap = Object.keys(genResultArray)[index];
+   var streetWithGroupMetric =  parseInt(responseArray[sketchmap].toal_mm_streets) + parseInt(genResultArray[sketchmap].abstExiStreets)
+   var landmarkWithGroupMetric = parseInt(responseArray[sketchmap].total_mm_landmarks) + parseInt(genResultArray[sketchmap].absExiBuildings)
+   var streetWithGroupSketch=  parseInt(responseArray[sketchmap].totalSketchedStreets) + parseInt(genResultArray[sketchmap].abstExiStreets)
+   var landmarkWithGroupSketch = parseInt(responseArray[sketchmap].totalSketchedLandmarks) + parseInt(genResultArray[sketchmap].absExiBuildings)
+   cells[index][1].innerHTML = (streetWithGroupSketch/streetWithGroupMetric + landmarkWithGroupSketch/landmarkWithGroupMetric )/2
    cells[index][2].innerHTML = genResultArray[Object.keys(genResultArray)[index]].overallGen;
 
 
@@ -764,13 +769,19 @@ for (var i in Object.keys(responseArray)){
         CompletenessSummaryCSV.push(sketchmap);
         CompletenessSummaryCSV.push("Completeness");
         CompletenessSummaryCSV.push("Spatial Features , Features in Original Metric map, Features in Generalized Metric map (Excluding Groups) , Drawn Features in Sketch map (Excluding Group), Completeness");
-        CompletenessSummaryCSV.push("Street segments " + "," + streetCountBeforeGen + "," + responseArray[sketchmap].toal_mm_streets + "," + responseArray[sketchmap].totalSketchedStreets + ',' + responseArray[sketchmap].streetCompleteness );
-        CompletenessSummaryCSV.push("Landmarks " + "," + lmCountBeforeGen + "," + responseArray[sketchmap].total_mm_landmarks + "," + responseArray[sketchmap].totalSketchedLandmarks + ',' + responseArray[sketchmap].landmarkCompleteness);
+        CompletenessSummaryCSV.push("Street segments (without Groups) " + "," + streetCountBeforeGen + "," + responseArray[sketchmap].toal_mm_streets + "," + responseArray[sketchmap].totalSketchedStreets + ',' + responseArray[sketchmap].streetCompleteness );
+        CompletenessSummaryCSV.push("Landmarks (without Groups) " + "," + lmCountBeforeGen + "," + responseArray[sketchmap].total_mm_landmarks + "," + responseArray[sketchmap].totalSketchedLandmarks + ',' + responseArray[sketchmap].landmarkCompleteness);
         CompletenessSummaryCSV.push("No. of groups in Streets" + "," + genResultArray[sketchmap].abstExiStreets);
         CompletenessSummaryCSV.push("No. of groups in Landmarks" + "," + genResultArray[sketchmap].absExiBuildings);
+        var streetWithGroupMetric =  parseInt(responseArray[sketchmap].toal_mm_streets) + parseInt(genResultArray[sketchmap].abstExiStreets)
+        var landmarkWithGroupMetric = parseInt(responseArray[sketchmap].total_mm_landmarks) + parseInt(genResultArray[sketchmap].absExiBuildings)
+        var streetWithGroupSketch=  parseInt(responseArray[sketchmap].totalSketchedStreets) + parseInt(genResultArray[sketchmap].abstExiStreets)
+        var landmarkWithGroupSketch = parseInt(responseArray[sketchmap].totalSketchedLandmarks) + parseInt(genResultArray[sketchmap].absExiBuildings)
+        CompletenessSummaryCSV.push("Street segments (with Groups) " + "," + streetCountBeforeGen + "," + streetWithGroupMetric + "," + streetWithGroupSketch + ',' + streetWithGroupSketch/streetWithGroupMetric);
+        CompletenessSummaryCSV.push("Landmarks (with Groups) " + "," + lmCountBeforeGen + "," + landmarkWithGroupMetric + "," + landmarkWithGroupSketch +',' + landmarkWithGroupSketch/landmarkWithGroupMetric);
         CompletenessSummaryCSV.push("Missing Features" + "," + missingFeaturesIds[i]);
         CompletenessSummaryCSV.push("ExtraFeatures" + "," + extraFeaturesIds[i]);
-        CompletenessSummaryCSV.push("OverallCompleteness" + "," + responseArray[sketchmap].overAllCompleteness )
+        CompletenessSummaryCSV.push("OverallCompleteness" + "," + (streetWithGroupSketch/streetWithGroupMetric + landmarkWithGroupSketch/landmarkWithGroupMetric )/2 )
         CompletenessSummaryCSV.push("   ");
 }
 

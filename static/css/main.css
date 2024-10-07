@@ -296,7 +296,6 @@ border-bottom-right-radius: 3px;
 }
 
 label[for^="upload"] {
-  font-weight: bold;
   margin-right: 10px;
   color: #333;
 }

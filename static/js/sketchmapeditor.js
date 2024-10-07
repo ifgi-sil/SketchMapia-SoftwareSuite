@@ -734,32 +734,7 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
 
     $('#alignbutton').click(function(){
         checkIfAlignedAlready(alignSketchID);
-        drawnItems.eachLayer(function(blayer){
-        if (alignBaseID.includes(blayer.feature.properties.id)){
-        blayer.feature.properties.aligned = true;
-        blayer.feature.properties.selected = false;
-        styleLayers();
-        if (blayer.feature.properties.isRoute == "Yes"){
-            drawnSketchItems.eachLayer(function(slayer){
-                if (alignSketchID.includes(slayer.feature.properties.sid)){
-                slayer.feature.properties.isRoute = "Yes";
-                slayer.feature.properties.SketchRouteSeqOrder = blayer.feature.properties.RouteSeqOrder;
-              }
-
-            });
-        }
-        }
-        });
-        drawnSketchItems.eachLayer(function(slayer){
-        if (alignSketchID.includes(slayer.feature.properties.sid)){
-        slayer.feature.properties.aligned = true;
-        slayer.feature.properties.selected = false;
-        styleLayers();
-        }
-        });
-
         align(alignBaseID,alignSketchID,checkAlignnum,sketchOtypearray,baseOtypearray);
-        checkAlignnum=checkAlignnum+1;
     });
 
 
@@ -774,9 +749,48 @@ sketchMap.pm.Toolbar.changeActionsOfControl('CircleMarker', sketchActions);
        degreeOfGeneralization=(BID.length - SID.length)/BID.length;
        var genType;
        (async () => {
+           drawnItems.eachLayer(function(blayer){
+                    if (BID.includes(blayer.feature.properties.id)){
+                        blayer.feature.properties.selected = false;
+                        styleLayers();
+                    }
+                });
+           drawnSketchItems.eachLayer(function(slayer){
+                    if (SID.includes(slayer.feature.properties.sid)){
+                        console.log("check check");
+                        slayer.feature.properties.selected = false;
+                        styleLayers();
+                    }
+                });
           genType = await predictGeneralization(sketchtype,basetype);
           if(genType!= "Generalization Not possible") {
           alignmentArraySingleMap[num]={BaseAlign,SketchAlign,genType,degreeOfGeneralization};
+                  drawnItems.eachLayer(function(blayer){
+                    if (BID.includes(blayer.feature.properties.id)){
+                        blayer.feature.properties.aligned = true;
+                        styleLayers();
+                        if (blayer.feature.properties.isRoute == "Yes"){
+                            drawnSketchItems.eachLayer(function(slayer){
+                            if (SID.includes(slayer.feature.properties.sid)){
+                                slayer.feature.properties.isRoute = "Yes";
+                                slayer.feature.properties.SketchRouteSeqOrder = blayer.feature.properties.RouteSeqOrder;
+                            }
+                        });
+                        }
+                    }
+                });
+                drawnSketchItems.eachLayer(function(slayer){
+                    if (SID.includes(slayer.feature.properties.sid)){
+                        slayer.feature.properties.aligned = true;
+                        styleLayers();
+                    }
+            });
+        checkAlignnum=checkAlignnum+1;
+          }
+          else
+          {
+
+
           }
           if(genType == "Abstraction to show existence"){
                 drawnItems.eachLayer(function(blayer){
