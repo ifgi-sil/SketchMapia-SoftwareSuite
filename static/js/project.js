@@ -489,14 +489,14 @@ function generalizeMap(index,currentsketchMap,alignmentArraySingleMap,routeIDArr
  roundaboutids[currentsketchMap] = [];
  junctionmergeids[currentsketchMap] = [];
 
-var url = "http://localhost:8080/fmedatastreaming/Generalization/generalizerFile.fmw"
+var url = "http://localhost:8080/fmedatastreaming/Generalization/generalizerFile.fmw";
 var params = "Alignment=" + encodeURIComponent(JSON.stringify(JSON.stringify(alignmentArraySingleMap))) + "&RouteSeq=" + encodeURIComponent(routeIDArray) + "&SketchRouteSeq=" + encodeURIComponent(sketchIDArray) + "&lastsegment=" + encodeURIComponent(lastBaseStreet) + "&lastsketchsegment=" + encodeURIComponent(lastSketchStreet);
                    var httpRequest = new XMLHttpRequest();
                     httpRequest.open("POST", url, false);
-                    httpRequest.setRequestHeader("Authorization","fmetoken token=052c05a3a85fea84fb131d60281131e9ac65787b")
+                    httpRequest.setRequestHeader("Authorization","fmetoken token=44ee03a40747143cae3452bd0283068e7e04dace")
                     httpRequest.setRequestHeader("Access-Control-Allow-Origin", "http://localhost:8080");
                     httpRequest.setRequestHeader("Accept","text/html");
-                    httpRequest.setRequestHeader("content-Type","multipart/form-data");
+                    httpRequest.setRequestHeader("content-Type","application/x-www-form-urlencoded");
             httpRequest.onreadystatechange = function()
             {
                 if (httpRequest.readyState == 4 && httpRequest.status == 200)
@@ -710,7 +710,7 @@ function setResults_in_output_div(index,resp){
    var landmarkWithGroupMetric = parseInt(responseArray[sketchmap].total_mm_landmarks) + parseInt(genResultArray[sketchmap].absExiBuildings)
    var streetWithGroupSketch=  parseInt(responseArray[sketchmap].totalSketchedStreets) + parseInt(genResultArray[sketchmap].abstExiStreets)
    var landmarkWithGroupSketch = parseInt(responseArray[sketchmap].totalSketchedLandmarks) + parseInt(genResultArray[sketchmap].absExiBuildings)
-   cells[index][1].innerHTML = (streetWithGroupSketch/streetWithGroupMetric + landmarkWithGroupSketch/landmarkWithGroupMetric )/2
+   cells[index][1].innerHTML = ((streetWithGroupSketch/streetWithGroupMetric)*100 + (landmarkWithGroupSketch/landmarkWithGroupMetric)*100 )/2
    cells[index][2].innerHTML = genResultArray[Object.keys(genResultArray)[index]].overallGen;
 
 
@@ -777,8 +777,8 @@ for (var i in Object.keys(responseArray)){
         var landmarkWithGroupMetric = parseInt(responseArray[sketchmap].total_mm_landmarks) + parseInt(genResultArray[sketchmap].absExiBuildings)
         var streetWithGroupSketch=  parseInt(responseArray[sketchmap].totalSketchedStreets) + parseInt(genResultArray[sketchmap].abstExiStreets)
         var landmarkWithGroupSketch = parseInt(responseArray[sketchmap].totalSketchedLandmarks) + parseInt(genResultArray[sketchmap].absExiBuildings)
-        CompletenessSummaryCSV.push("Street segments (with Groups) " + "," + streetCountBeforeGen + "," + streetWithGroupMetric + "," + streetWithGroupSketch + ',' + streetWithGroupSketch/streetWithGroupMetric);
-        CompletenessSummaryCSV.push("Landmarks (with Groups) " + "," + lmCountBeforeGen + "," + landmarkWithGroupMetric + "," + landmarkWithGroupSketch +',' + landmarkWithGroupSketch/landmarkWithGroupMetric);
+        CompletenessSummaryCSV.push("Street segments (with Groups) " + "," + streetCountBeforeGen + "," + streetWithGroupMetric + "," + streetWithGroupSketch + ',' + streetWithGroupSketch/streetWithGroupMetric*100);
+        CompletenessSummaryCSV.push("Landmarks (with Groups) " + "," + lmCountBeforeGen + "," + landmarkWithGroupMetric + "," + landmarkWithGroupSketch +',' + landmarkWithGroupSketch/landmarkWithGroupMetric*100);
         CompletenessSummaryCSV.push("Missing Features" + "," + missingFeaturesIds[i]);
         CompletenessSummaryCSV.push("ExtraFeatures" + "," + extraFeaturesIds[i]);
         CompletenessSummaryCSV.push("OverallCompleteness" + "," + (streetWithGroupSketch/streetWithGroupMetric + landmarkWithGroupSketch/landmarkWithGroupMetric )/2 )
